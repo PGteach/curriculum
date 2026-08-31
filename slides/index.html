@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Does a Computer Think? — Foundation Session</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#6B7688;
+  --teal:#0E7C7B;
+  --teal-pale:#E6F1F0;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --paper:#FBFAF7;
+  --line:#DFE3E8;
+  --white:#fff;
+  --wrong:#9C3B2E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"Inter",system-ui,sans-serif;
+  background:var(--ink);
+  color:var(--ink);
+  overflow:hidden;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl;
+  unicode-bidi:isolate;
+}
+code,.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- stage ---------- */
+#stage{
+  position:fixed; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  padding:0;
+}
+.slide{
+  position:absolute; inset:0;
+  background:var(--paper);
+  padding:5.5vh 6vw 9vh;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  overflow-y:auto;
+}
+.slide.on{display:flex}
+.slide.dark{background:var(--ink);color:var(--paper)}
+
+/* entrance: one orchestrated reveal per slide */
+.slide.on .rise{animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+.slide.on .rise:nth-child(2){animation-delay:.07s}
+.slide.on .rise:nth-child(3){animation-delay:.14s}
+.slide.on .rise:nth-child(4){animation-delay:.21s}
+.slide.on .rise:nth-child(5){animation-delay:.28s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- type ---------- */
+.eyebrow{
+  font-size:clamp(11px,1.15vw,15px); font-weight:600;
+  color:var(--teal); letter-spacing:.02em; margin-bottom:.9rem;
+}
+.dark .eyebrow{color:var(--gold)}
+h1{
+  font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(30px,5.2vw,68px); line-height:1.06;
+  letter-spacing:-.015em;
+}
+h2{
+  font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(24px,3.5vw,46px); line-height:1.12;
+  letter-spacing:-.01em; margin-bottom:.35em;
+}
+.sub{font-size:clamp(14px,1.5vw,21px);color:var(--soft);line-height:1.5}
+.dark .sub{color:#AAB6CC}
+.arline{
+  font-size:clamp(12px,1.25vw,17px);
+  color:var(--soft); line-height:1.65;
+  border-right:2.5px solid var(--line);
+  padding-right:.75rem; margin-top:.85rem;
+  max-width:62ch; margin-left:auto;
+}
+.dark .arline{color:#9FADC4;border-right-color:#3A4867}
+
+/* ---------- pipeline diagram ---------- */
+.pipe{display:flex;gap:clamp(8px,1.2vw,18px);align-items:stretch;margin:1.4rem 0 .5rem;flex-wrap:wrap}
+.step{
+  flex:1 1 180px; background:var(--white); border:1px solid var(--line);
+  border-radius:14px; padding:clamp(12px,1.5vw,22px); position:relative;
+  box-shadow:0 1px 2px rgba(22,35,63,.04);
+}
+.step .n{
+  width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;
+  display:grid;place-items:center;font-size:14px;font-weight:600;margin-bottom:.65rem;
+}
+.step h3{font-size:clamp(15px,1.6vw,21px);font-weight:600;margin-bottom:.3rem}
+.step p{font-size:clamp(12px,1.25vw,16px);color:var(--soft);line-height:1.5}
+.step .ex{
+  margin-top:.7rem;padding-top:.7rem;border-top:1px dashed var(--line);
+  font-size:clamp(12px,1.25vw,16px);color:var(--ink-2);
+}
+.arrow{align-self:center;color:var(--gold);font-size:26px;font-weight:600}
+@media(max-width:760px){.arrow{display:none}}
+
+/* ---------- generic table ---------- */
+table{width:100%;border-collapse:collapse;margin:1rem 0 .4rem;font-size:clamp(12px,1.35vw,18px)}
+th,td{border-bottom:1px solid var(--line);padding:clamp(7px,.9vw,14px) clamp(8px,1vw,16px);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--teal);font-size:clamp(11px,1.15vw,15px)}
+td b{font-weight:600}
+tr:last-child td{border-bottom:0}
+
+/* ---------- split compare ---------- */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.6vw,24px);margin-top:1.2rem}
+@media(max-width:700px){.vs{grid-template-columns:1fr}}
+.pane{border-radius:14px;padding:clamp(14px,1.7vw,26px)}
+.pane.a{background:var(--teal-pale)}
+.pane.b{background:var(--gold-pale)}
+.pane h3{font-size:clamp(16px,1.9vw,24px);font-weight:600;margin-bottom:.6rem}
+.pane.a h3{color:var(--teal)}
+.pane.b h3{color:#A9762A}
+.pane ul{list-style:none;font-size:clamp(12px,1.35vw,17px);line-height:1.65}
+.pane li{padding-left:1.1rem;position:relative;margin-bottom:.4rem}
+.pane li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.45}
+
+/* ---------- kitchen row ---------- */
+.kit{display:flex;gap:clamp(8px,1.2vw,18px);margin-top:1.2rem;flex-wrap:wrap}
+.kit .card{
+  flex:1 1 200px;background:var(--white);border:1px solid var(--line);
+  border-radius:14px;padding:clamp(12px,1.5vw,22px);text-align:center;
+}
+.kit .ico{font-size:clamp(28px,3.4vw,44px);line-height:1;margin-bottom:.5rem}
+.kit h3{font-size:clamp(14px,1.55vw,20px);font-weight:600;margin-bottom:.25rem}
+.kit .role{font-size:clamp(11px,1.2vw,15px);color:var(--teal);font-weight:600;margin-bottom:.4rem}
+.kit p{font-size:clamp(11.5px,1.2vw,15px);color:var(--soft);line-height:1.5}
+
+/* ---------- fields grid ---------- */
+.fields{display:flex;flex-wrap:wrap;gap:clamp(7px,.9vw,14px);margin-top:1.2rem}
+.chip{
+  background:var(--white);border:1px solid var(--line);border-radius:99px;
+  padding:clamp(8px,.9vw,14px) clamp(14px,1.5vw,24px);
+  font-size:clamp(12px,1.35vw,18px);font-weight:500;
+}
+.chip span{color:var(--soft);font-size:.82em;margin-left:.4em}
+
+/* ---------- code chip ---------- */
+.codeline{
+  display:inline-block;background:var(--ink);color:#8FE3D6;
+  padding:.35em .7em;border-radius:7px;font-size:.92em;
+}
+
+/* ---------- QR panel ---------- */
+.qrwrap{display:flex;gap:clamp(14px,2vw,32px);align-items:center;margin-top:1.4rem;flex-wrap:wrap}
+.qrwrap img{width:clamp(110px,13vw,180px);height:auto;border-radius:10px;background:#fff;padding:9px}
+.qrwrap .txt{flex:1 1 260px}
+
+/* ---------- chrome ---------- */
+#bar{position:fixed;left:0;top:0;height:3px;background:var(--teal);width:0;transition:width .3s ease;z-index:40}
+#nav{
+  position:fixed;bottom:0;left:0;right:0;height:7vh;min-height:46px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(14px,3vw,40px);
+  background:rgba(251,250,247,.92);backdrop-filter:blur(8px);
+  border-top:1px solid var(--line);z-index:30;
+}
+.slide.dark ~ #nav{}
+#nav .who{font-size:clamp(10px,1.05vw,13px);color:var(--soft)}
+#nav .mid{display:flex;gap:6px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:.2s}
+.dot.on{background:var(--teal);transform:scale(1.45)}
+#nav button{
+  font:inherit;font-size:clamp(11px,1.1vw,14px);font-weight:500;
+  background:none;border:1px solid var(--line);border-radius:7px;
+  padding:.45em .9em;cursor:pointer;color:var(--ink);
+}
+#nav button:hover{border-color:var(--teal);color:var(--teal)}
+#nav button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.hint{position:fixed;bottom:8.5vh;right:clamp(14px,3vw,40px);font-size:11px;color:var(--soft);z-index:30;opacity:.75}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+<div id="stage">
+
+  <!-- 1 TITLE -->
+  <section class="slide dark">
+    <div class="rise eyebrow">Foundation Session · Programming &amp; Artificial Intelligence</div>
+    <h1 class="rise">How does a computer think —<br>and how does a programmer think?</h1>
+    <p class="rise sub" style="margin-top:1.2rem">Your very first session. No experience needed.</p>
+    <p class="rise arline ar">أول حصة ليك. مش محتاج أي خبرة سابقة — ولا رياضيات، ولا جهاز قوي. الموبايل كفاية.</p>
+  </section>
+
+  <!-- 2 THE ONE IDEA -->
+  <section class="slide">
+    <div class="rise eyebrow">Start here</div>
+    <h2 class="rise">A computer is a <em style="font-style:normal;color:var(--wrong)">dumb</em> machine.</h2>
+    <p class="rise sub" style="max-width:24ch;font-size:clamp(18px,2.4vw,32px);color:var(--ink-2);line-height:1.35;margin-top:.4rem">
+      It does exactly what you tell it. Nothing more.
+    </p>
+    <p class="rise arline ar">الكمبيوتر جهاز "غبي" — بينفذ اللي بتقوله له حرفيًا، ولا حاجة زيادة. وده مش عيب فيه، ده بالظبط اللي بيخلي البرمجة ممكنة.</p>
+  </section>
+
+  <!-- 3 PIPELINE -->
+  <section class="slide">
+    <div class="rise eyebrow">1 · How a computer works</div>
+    <h2 class="rise">Every task has three stages</h2>
+    <div class="rise pipe">
+      <div class="step">
+        <div class="n">1</div>
+        <h3>Input</h3>
+        <p>What you give the machine</p>
+        <div class="ex">You press <b>3 + 5</b></div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <div class="n">2</div>
+        <h3>Processing</h3>
+        <p>The work inside, where you can't see it</p>
+        <div class="ex">It adds the two numbers</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <div class="n">3</div>
+        <h3>Output</h3>
+        <p>What it gives back to you</p>
+        <div class="ex">The screen shows <b>8</b></div>
+      </div>
+    </div>
+    <p class="rise arline ar">المدخلات: اللي انت بتديه للجهاز. المعالجة: الشغل اللي بيحصل جواه ومش شايفه. المخرجات: اللي بيرجعهولك.</p>
+  </section>
+
+  <!-- 4 PIPELINE EVERYWHERE -->
+  <section class="slide">
+    <div class="rise eyebrow">1 · Same pattern, everywhere</div>
+    <h2 class="rise">You already use this every day</h2>
+    <table class="rise">
+      <tr><th>Thing</th><th>Input</th><th>Processing</th><th>Output</th></tr>
+      <tr><td><b>ATM machine</b></td><td>Card and amount</td><td>Checks your balance</td><td>Cash comes out</td></tr>
+      <tr><td><b>Logging in</b></td><td>Username and password</td><td>Checks if they match</td><td>Account opens</td></tr>
+      <tr><td><b>Microwave</b></td><td>You set 2 minutes</td><td>Counts down and heats</td><td>Beeps — food is hot</td></tr>
+      <tr><td><b>Delivery app</b></td><td>You pick your order</td><td>Finds a driver near you</td><td>Food arrives</td></tr>
+    </table>
+    <p class="rise arline ar">نفس المراحل الثلاث موجودة في أي حاجة بتستخدمها يوميًا — من الصراف الآلي للمايكروويف لتطبيق الطلبات.</p>
+  </section>
+
+  <!-- 5 PROGRAMMING VS AI -->
+  <section class="slide">
+    <div class="rise eyebrow">2 · The big difference</div>
+    <h2 class="rise">Programming or AI?</h2>
+    <p class="rise sub">You want a program that knows if a photo has a cat in it.</p>
+    <div class="rise vs">
+      <div class="pane a">
+        <h3>Programming</h3>
+        <ul>
+          <li><b>You</b> write the rule</li>
+          <li>"If it has pointed ears and whiskers, say cat"</li>
+          <li>Follows your rule exactly, every time</li>
+          <li>Wrong only if your rule was wrong</li>
+        </ul>
+      </div>
+      <div class="pane b">
+        <h3>Artificial Intelligence</h3>
+        <ul>
+          <li><b>The computer</b> works out the rule</li>
+          <li>You give it thousands of photos marked cat / not cat</li>
+          <li>Makes its best guess on a new photo</li>
+          <li>Can be wrong — it is guessing</li>
+        </ul>
+      </div>
+    </div>
+    <p class="rise arline ar">في البرمجة انت اللي بتكتب القاعدة بنفسك. في الذكاء الاصطناعي الكمبيوتر بيستنتج القاعدة من آلاف الأمثلة — وعشان كده ممكن يغلط.</p>
+  </section>
+
+  <!-- 6 RECIPE ANALOGY -->
+  <section class="slide">
+    <div class="rise eyebrow">2 · Another way to see it</div>
+    <h2 class="rise">Recipe vs. watching your mum cook</h2>
+    <div class="rise vs">
+      <div class="pane a">
+        <h3>Programming = a recipe</h3>
+        <ul>
+          <li>Every step written down, in order</li>
+          <li>Follow it exactly and you get the same dish</li>
+          <li>Miss a step and it fails</li>
+        </ul>
+      </div>
+      <div class="pane b">
+        <h3>AI = learning by watching</h3>
+        <ul>
+          <li>Nobody wrote the steps for you</li>
+          <li>You watched it done 100 times</li>
+          <li>You cook by feel — sometimes it's off</li>
+        </ul>
+      </div>
+    </div>
+    <p class="rise arline ar">البرمجة زي وصفة أكل مكتوبة خطوة بخطوة. الذكاء الاصطناعي زي إنك اتعلمت الطبخ بالمشاهدة من غير وصفة — بتطلع حلوة غالبًا، بس ساعات بتغلط.</p>
+  </section>
+
+  <!-- 7 LANGUAGE VS CODE -->
+  <section class="slide">
+    <div class="rise eyebrow">3 · Two words people mix up</div>
+    <h2 class="rise">Language vs. code</h2>
+    <div class="rise vs">
+      <div class="pane a">
+        <h3>Programming language</h3>
+        <ul>
+          <li>The language itself</li>
+          <li>Like English or Arabic</li>
+          <li><b>Python</b>, JavaScript, C++</li>
+        </ul>
+      </div>
+      <div class="pane b">
+        <h3>Source code</h3>
+        <ul>
+          <li>An actual sentence written in it</li>
+          <li>The text you type</li>
+          <li><span class="codeline mono">print("hello")</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="rise arline ar">لغة البرمجة زي اللغة العربية نفسها. الكود المصدري زي جملة مكتوبة بالعربي. بايثون هي اللغة، و print("hello") هي الكود.</p>
+  </section>
+
+  <!-- 8 TOOLS / KITCHEN -->
+  <section class="slide">
+    <div class="rise eyebrow">4 · A programmer's tools</div>
+    <h2 class="rise">Think of a kitchen</h2>
+    <p class="rise sub">A computer only understands zeros and ones — so we need tools in between.</p>
+    <div class="rise kit">
+      <div class="card">
+        <div class="ico">🔪</div>
+        <div class="role">The counter</div>
+        <h3>Text editor</h3>
+        <p>Where you write the code. It cannot run it.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🔥</div>
+        <div class="role">The oven</div>
+        <h3>Compiler</h3>
+        <p>Turns your code into zeros and ones so it can actually run.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🏠</div>
+        <div class="role">The whole kitchen</div>
+        <h3>IDE</h3>
+        <p>Counter + oven + everything else, in one place.</p>
+      </div>
+    </div>
+    <p class="rise arline ar">محرر النصوص هو الطاولة اللي بتجهز عليها. المترجم هو الفرن اللي بيطبخ فعلاً. والـIDE هو المطبخ بالكامل. يعني الـIDE مش أداة رابعة — هو الأدوات دي كلها مجمّعة مع بعض.</p>
+  </section>
+
+  <!-- 9 TOOLS WALKTHROUGH -->
+  <section class="slide">
+    <div class="rise eyebrow">4 · Follow one example</div>
+    <h2 class="rise">You want to print your name</h2>
+    <table class="rise">
+      <tr><th>Tool</th><th>What it does</th><th>In this example</th></tr>
+      <tr>
+        <td><b>Text editor</b></td>
+        <td>Lets you type and save. Cannot run it.</td>
+        <td>You type <span class="codeline mono">print("Eissa")</span> and save</td>
+      </tr>
+      <tr>
+        <td><b>Compiler</b></td>
+        <td>Translates it into zeros and ones</td>
+        <td>Turns your line into something the processor reads</td>
+      </tr>
+      <tr>
+        <td><b>IDE</b></td>
+        <td>Editor + compiler + error finder, together</td>
+        <td>You press one button and see <b>Eissa</b> appear</td>
+      </tr>
+    </table>
+    <p class="rise arline ar">نفس السطر الواحد، شوف كل أداة بتعمل فيه إيه: المحرر بيكتبه ويحفظه، المترجم بيحوّله للغة الآلة، والـIDE بيعمل ده كله بضغطة زرار.</p>
+  </section>
+
+  <!-- 10 MINDSET -->
+  <section class="slide">
+    <div class="rise eyebrow">5 · How a programmer thinks</div>
+    <h2 class="rise">It is not about typing fast</h2>
+    <table class="rise">
+      <tr><th>Habit</th><th>What it looks like</th></tr>
+      <tr><td><b>Break it down</b></td><td>Cut one big problem into small easy pieces</td></tr>
+      <tr><td><b>Try another way</b></td><td>When it doesn't work, look for a different route</td></tr>
+      <tr><td><b>Keep searching</b></td><td>Nobody memorises everything. Everyone looks things up</td></tr>
+      <tr><td><b>Be patient</b></td><td>One missing semicolon can stop the whole program</td></tr>
+    </table>
+    <p class="rise arline ar">اللي بيفرّق مش سرعة الكتابة — أربع عادات: تقسيم المشكلة، تجربة طرق تانية، البحث المستمر، والصبر على التفاصيل الصغيرة.</p>
+  </section>
+
+  <!-- 11 FIELDS -->
+  <section class="slide">
+    <div class="rise eyebrow">6 · Where this can take you</div>
+    <h2 class="rise">Seven doors this opens</h2>
+    <div class="rise fields">
+      <div class="chip">Web Development <span>مواقع</span></div>
+      <div class="chip">Mobile Apps <span>تطبيقات</span></div>
+      <div class="chip">Artificial Intelligence <span>ذكاء اصطناعي</span></div>
+      <div class="chip">Cybersecurity <span>أمن سيبراني</span></div>
+      <div class="chip">Data Analysis <span>تحليل بيانات</span></div>
+      <div class="chip">Game Development <span>ألعاب</span></div>
+      <div class="chip">Networking <span>شبكات</span></div>
+    </div>
+    <p class="rise arline ar">كل مجال من دول ليه طريقه الخاص — مش لازم تختار دلوقتي، بس اعرف إن الأبواب دي كلها مفتوحة قدامك.</p>
+  </section>
+
+  <!-- 12 QUIZ -->
+  <section class="slide dark">
+    <div class="rise eyebrow">Before you go</div>
+    <h2 class="rise">Test yourself — 10 questions</h2>
+    <div class="rise qrwrap">
+      <img src="quiz_qr.png" alt="Quiz QR code">
+      <div class="txt">
+        <p class="sub">Scan with your phone camera. At the end it shows you which parts you understood and which parts to read again.</p>
+        <p class="sub mono" style="margin-top:.7rem;font-size:clamp(12px,1.3vw,17px);color:var(--gold)">eissa2002.github.io/quiz</p>
+      </div>
+    </div>
+    <p class="rise arline ar">امسح الكود بكاميرا موبايلك. الاختبار هيوضحلك في الآخر انت فاهم إيه ومحتاج تراجع إيه.</p>
+  </section>
+
+</div>
+
+<div id="nav">
+  <div class="who">Mr. Eissa Islam</div>
+  <div class="mid" id="dots"></div>
+  <div style="display:flex;gap:8px">
+    <button id="prev" aria-label="Previous slide">←</button>
+    <button id="next" aria-label="Next slide">→</button>
+  </div>
+</div>
+<div class="hint">← → or swipe</div>
+
+<script>
+const slides = Array.from(document.querySelectorAll('.slide'));
+const dotsBox = document.getElementById('dots');
+let i = 0;
+
+slides.forEach((_, k) => {
+  const d = document.createElement('button');
+  d.className = 'dot';
+  d.setAttribute('aria-label', 'Go to slide ' + (k+1));
+  d.onclick = () => go(k);
+  dotsBox.appendChild(d);
+});
+const dots = Array.from(dotsBox.children);
+
+function go(n){
+  i = Math.max(0, Math.min(slides.length - 1, n));
+  slides.forEach((s,k) => s.classList.toggle('on', k === i));
+  dots.forEach((d,k) => d.classList.toggle('on', k === i));
+  document.getElementById('bar').style.width = ((i+1)/slides.length*100) + '%';
+  document.body.style.background = slides[i].classList.contains('dark') ? '#16233F' : '#FBFAF7';
+  location.hash = i + 1;
+}
+
+document.getElementById('next').onclick = () => go(i+1);
+document.getElementById('prev').onclick = () => go(i-1);
+
+addEventListener('keydown', e => {
+  if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); go(i+1); }
+  if(e.key === 'ArrowLeft'  || e.key === 'PageUp'){ e.preventDefault(); go(i-1); }
+  if(e.key === 'Home') go(0);
+  if(e.key === 'End')  go(slides.length-1);
+});
+
+let x0 = null;
+addEventListener('touchstart', e => x0 = e.changedTouches[0].clientX, {passive:true});
+addEventListener('touchend', e => {
+  if(x0 === null) return;
+  const dx = e.changedTouches[0].clientX - x0;
+  if(Math.abs(dx) > 55) go(dx < 0 ? i+1 : i-1);
+  x0 = null;
+}, {passive:true});
+
+const start = parseInt(location.hash.slice(1), 10);
+go(Number.isFinite(start) && start > 0 ? start - 1 : 0);
+</script>
+</body>
+</html>
