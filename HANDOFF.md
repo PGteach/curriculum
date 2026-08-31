@@ -17,9 +17,11 @@ Repo: `https://github.com/PGteach/curriculum` · Pages: `main` branch, `/` root.
 ```
 lecture1/slides/index.html    12 slides
 lecture1/quiz/index.html      10 questions, 4 sections
+lecture1/handout/index.html   7-page A4 booklet, printed from the browser
 templates/slides-template.html
 templates/quiz-template.html
-scripts/new_lecture.py        scaffolds lectureN from templates/
+templates/handout-template.html
+scripts/new_lecture.py        scaffolds all three from templates/
 scripts/apps-script.gs        the Google Apps Script that records results
 README.md · HANDOFF.md · .gitignore
 ```
@@ -57,6 +59,13 @@ README.md · HANDOFF.md · .gitignore
    does nothing. Plain 2D canvas calls only — no library, nothing newer than
    `fillRect`, so old phone browsers cope. Measured at 1800x1972 px / 253 KB
    for a typical 8/10 attempt with two mistakes.
+
+9. **Printable handout** (`lectureN/handout/index.html`). The student booklet
+   used to be a Word-made PDF whose QR pointed at
+   `eissa2002.github.io/quiz` — a different account entirely, and a **404**.
+   The booklet is now an HTML page laid out in A4, printed from the browser,
+   with the QR generated from the lecture number and the footer page numbers
+   counted at runtime. Nothing on paper can go stale again.
 
 ## The anti-cheating change (item 6)
 
@@ -108,9 +117,20 @@ teacher". Verify in the sheet, or in the Apps Script editor's Executions tab.
 
 ## Open decisions
 
-- **Old QR codes are dead.** `/curriculum/slides` and `/curriculum/quiz` now
-  return 404. If printed QR codes are in circulation, add redirect stubs at
-  those two paths. Not done — waiting on whether any are out there.
+- **Old QR codes are dead, on two different domains.** `/curriculum/slides`
+  and `/curriculum/quiz` return 404 after the restructure. Separately, the
+  printed booklet's QR pointed at `https://eissa2002.github.io/quiz`, which
+  also returns 404 (that account's root still answers 200, so a redirect stub
+  could be added *there* — it is a different repo, not this one). Redirect
+  stubs were offered for both and are not done; the new handout avoids the
+  problem for anything printed from now on.
+- **The handout's Arabic needs a read-through.** The uploaded PDF's Arabic
+  could not be extracted — the font has no usable ToUnicode map, so the text
+  comes out as detached, reordered glyphs and guessing at it would produce
+  nonsense. The handout therefore reuses the *verified* Arabic lines from
+  `lecture1/slides/index.html`, which cover the same points in the same
+  dialect but are not word-for-word what the PDF said. Worth one pass before
+  printing a class set.
 - **No landing page.** `/curriculum/` currently renders `README.md` via Jekyll.
   A real root `index.html` listing lectures was offered and not yet requested.
 - Slide 12 says "10 questions" as static text; it is not derived from the

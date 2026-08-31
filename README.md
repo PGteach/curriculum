@@ -5,15 +5,16 @@ Pages. One folder per lecture, two pages per lecture.
 
 ## Live URLs
 
-| Lecture | Slides | Quiz |
-| --- | --- | --- |
-| 1 — How does a computer think? | [/lecture1/slides](https://pgteach.github.io/curriculum/lecture1/slides) | [/lecture1/quiz](https://pgteach.github.io/curriculum/lecture1/quiz) |
+| Lecture | Slides | Quiz | Printable handout |
+| --- | --- | --- | --- |
+| 1 — How does a computer think? | [/lecture1/slides](https://pgteach.github.io/curriculum/lecture1/slides) | [/lecture1/quiz](https://pgteach.github.io/curriculum/lecture1/quiz) | [/lecture1/handout](https://pgteach.github.io/curriculum/lecture1/handout) |
 
 Every lecture follows the same pattern:
 
 ```
 https://pgteach.github.io/curriculum/lectureN/slides
 https://pgteach.github.io/curriculum/lectureN/quiz
+https://pgteach.github.io/curriculum/lectureN/handout
 ```
 
 ## Structure
@@ -22,10 +23,12 @@ https://pgteach.github.io/curriculum/lectureN/quiz
 curriculum/
 ├── lecture1/
 │   ├── slides/index.html      12 slides, keyboard + swipe navigation
-│   └── quiz/index.html        10 questions, 4 sections, results recorded to a Sheet
+│   ├── quiz/index.html        10 questions, 4 sections, results recorded to a Sheet
+│   └── handout/index.html     7-page A4 student booklet, print from the browser
 ├── templates/
 │   ├── slides-template.html   skeleton deck with the shared chrome
-│   └── quiz-template.html     skeleton quiz with the shared engine
+│   ├── quiz-template.html     skeleton quiz with the shared engine
+│   └── handout-template.html  skeleton booklet with the print stylesheet
 ├── scripts/
 │   ├── new_lecture.py         scaffolds lectureN/ from the templates
 │   └── apps-script.gs         the Apps Script that records quiz results
@@ -61,7 +64,9 @@ Then fill in the content:
    `lectureN/slides/index.html`. Keep the QR slide last.
 2. **Questions** — edit `SECTIONS` and `QUESTIONS` at the top of the
    `<script>` in `lectureN/quiz/index.html`.
-3. Open both files in a browser, then commit and push to `main`.
+3. **Handout** — one `<section class="sheet">` per printed A4 page in
+   `lectureN/handout/index.html`.
+4. Open all three in a browser, then commit and push to `main`.
 
 ### Answer positions do not matter
 
@@ -101,6 +106,24 @@ Slides are plain HTML using the classes already in the deck:
 
 Navigation: arrow keys, space, PageUp/PageDown, Home/End, the dots, or swipe.
 The current slide is mirrored in the URL hash, so `#7` deep-links to slide 7.
+
+## Printing the handout
+
+Open `lectureN/handout` in a browser and press **Print this sheet**, or
+Ctrl/Cmd-P. The page is laid out in A4 with margins already set, one
+`<section class="sheet">` per sheet of paper, so what you see is what prints —
+there is no separate PDF to keep in sync.
+
+The QR code on the last page is generated from the lecture number, and the page
+numbers in the footers are counted at runtime, so copying a sheet block or
+adding a page needs no renumbering and can never leave a stale link on paper.
+If the QR image fails to load, a red warning appears next to it — never print a
+sheet that shows it.
+
+Reusable blocks: `.stages` (numbered row), `table` with `td.k` for the label
+column, `.term` (gold rule), `.fields`/`.chip` (tag row), `.write` + `.rule`
+(write-in line), `ol.qs` (numbered questions), `.summary` (highlighted box),
+`p.ar` (Arabic line, RTL).
 
 ## Quiz results
 

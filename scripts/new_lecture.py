@@ -28,6 +28,7 @@ SITE_BASE = "https://pgteach.github.io/curriculum"
 PAGES = (
     ("slides", "slides-template.html"),
     ("quiz", "quiz-template.html"),
+    ("handout", "handout-template.html"),
 )
 
 TOKEN_RE = re.compile(r"__[A-Z_]+__")
@@ -50,6 +51,7 @@ def render(template: str, num: int, title: str, topic: str) -> str:
            .replace("__LECTURE_NUM__", str(num))
            .replace("__TITLE_HTML__", esc_html(title))
            .replace("__TITLE_JS__", esc_js(title))
+           .replace("__TOPIC_HTML__", esc_html(topic))
            .replace("__TOPIC_JS__", esc_js(topic)))
     leftover = sorted(set(TOKEN_RE.findall(out)))
     if leftover:
@@ -83,6 +85,18 @@ def verify(path: Path, num: int, title: str) -> None:
             problems.append("submission payload is missing the lecture field")
         if 'href="../slides/"' not in text:
             problems.append("relative link to ../slides/ missing")
+        if "image: image" not in text:
+            problems.append("submission payload is missing the result screenshot")
+    if path.parent.name == "handout":
+        # A printed sheet cannot be corrected later, so check it hard.
+        if 'id="qr"' not in text or "create-qr-code" not in text:
+            problems.append("QR code element or generator missing")
+        if "encodeURIComponent(LECTURE.quizUrl)" not in text:
+            problems.append("QR is not built from the lecture's quiz URL")
+        if text.count('class="sheet"') < 2:
+            problems.append("handout has fewer than two printable pages")
+        if 'class="pageno"' not in text:
+            problems.append("page-number slots missing from the footers")
 
     if problems:
         sys.exit("error: %s failed verification:\n  - %s"
@@ -146,12 +160,16 @@ def main() -> None:
     print("\nLive once pushed to the main branch:")
     print("  slides  %s/lecture%d/slides" % (SITE_BASE, args.number))
     print("  quiz    %s/lecture%d/quiz" % (SITE_BASE, args.number))
+    print("  handout %s/lecture%d/handout" % (SITE_BASE, args.number))
     print("\nNext:")
-    print("  1. Write the slides   -> %s/slides/index.html" % rel)
+    print("  1. Write the slides    -> %s/slides/index.html" % rel)
     print("     (add/remove <section class=\"slide\"> blocks; counts update themselves)")
     print("  2. Write the questions -> %s/quiz/index.html" % rel)
     print("     (edit SECTIONS and QUESTIONS near the top of the <script>)")
-    print("  3. Open both files in a browser to check them, then commit.")
+    print("  3. Write the handout   -> %s/handout/index.html" % rel)
+    print("     (one <section class=\"sheet\"> per printed A4 page; the QR and the")
+    print("      page numbers fill themselves in)")
+    print("  4. Open all three in a browser to check them, then commit.")
 
 
 if __name__ == "__main__":

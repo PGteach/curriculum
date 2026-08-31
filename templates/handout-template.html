@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture __LECTURE_NUM__ Handout — __TITLE_HTML__ · PGteach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto; min-height:0;
+    padding:0; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:16mm 15mm 12mm}
+</style>
+</head>
+<body>
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div>
+
+<!-- ============================ PAGE 1 ============================ -->
+<section class="sheet">
+  <div class="brand" id="brand">__TOPIC_HTML__</div>
+
+  <h1 id="docTitle">__TITLE_HTML__</h1>
+  <div class="docsub">Student Booklet</div>
+
+  <h2>Introduction</h2>
+  <p class="lead">Two or three sentences on what this session is for, and why it is
+  worth the student's time. Keep it plain — no jargon before it is explained.</p>
+  <p class="ar">سطر المقدمة بالعربي.</p>
+
+  <h2>1 · First Section</h2>
+  <p>Explain the first idea here.</p>
+
+  <div class="stages">
+    <div class="stage">
+      <div class="n">1</div>
+      <h4>Step one</h4>
+      <p>What happens here</p>
+    </div>
+    <div class="stage">
+      <div class="n">2</div>
+      <h4>Step two</h4>
+      <p>What happens here</p>
+    </div>
+    <div class="stage">
+      <div class="n">3</div>
+      <h4>Step three</h4>
+      <p>What happens here</p>
+    </div>
+  </div>
+  <p class="ar">الشرح بالعربي.</p>
+
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<!-- ============================ CONTENT PAGES ============================ -->
+
+<!-- ------------------------------------------------------------------
+     ONE <section class="sheet"> = ONE PRINTED A4 PAGE.
+
+     Copy this block for each page you need. The footer page numbers are
+     filled in by script, so there is nothing to renumber.
+
+     Reusable blocks: .stages/.stage (numbered row), table (th/td, td.k for
+     the label column), .term (gold rule + heading + text), .fields/.chip
+     (tag row), .write + .rule (write-in line), ol.qs (numbered questions),
+     .summary (highlighted box), p.ar (Arabic line, RTL).
+     ------------------------------------------------------------------- -->
+
+<section class="sheet">
+  <h2>2 · Second Section</h2>
+  <p>Explain the idea, then show it in a table:</p>
+  <table>
+    <tr><th>Term</th><th>What it means</th></tr>
+    <tr><td class="k">First term</td><td>Its definition</td></tr>
+    <tr><td class="k">Second term</td><td>Its definition</td></tr>
+  </table>
+  <p class="ar">الشرح بالعربي.</p>
+
+  <div class="term">
+    <h4>A term worth its own block</h4>
+    <p>The explanation, one or two sentences.</p>
+  </div>
+
+  <h2>3 · Activity</h2>
+  <p>Ask the student to apply it:</p>
+  <div class="write">
+    <div class="label">My answer</div>
+    <div class="rule"></div>
+    <div class="rule"></div>
+  </div>
+
+  <h2>4 · Check Your Understanding</h2>
+  <ol class="qs">
+    <li>First question?<div class="rule tight"></div></li>
+    <li>Second question?<div class="rule tight"></div></li>
+  </ol>
+
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<!-- ========================== LAST PAGE (keep the QR) ========================== -->
+<section class="sheet">
+  <h2>Session Summary</h2>
+  <div class="summary">
+    <p>Three or four one-line takeaways from the session.</p>
+    <p>One per line, in the order they were taught.</p>
+  </div>
+
+  <h2>Test Yourself Online</h2>
+  <div class="qrbox">
+    <img id="qr" alt="QR code linking to the quiz" width="250" height="250">
+    <div class="txt">
+      <h3>Test yourself · about 5 minutes</h3>
+      <p>Scan this code with your phone camera to open the quiz. At the end it tells you,
+      section by section, which parts of this session you have understood and which parts
+      to read again.</p>
+      <p>Or open it directly:</p>
+      <div class="qrurl" id="quizUrl"></div>
+      <div id="qrWarn">The QR image did not load. Check your connection and reload
+        before printing this sheet.</div>
+    </div>
+  </div>
+  <p class="ar">امسح الكود بكاميرا موبايلك.</p>
+
+  <h2>My Notes</h2>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = __LECTURE_NUM__;
+const LECTURE_TITLE = "__TITLE_JS__";
+const LECTURE_TOPIC = "__TOPIC_JS__";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+(function(){
+  document.title = LECTURE.label + " Handout — " + LECTURE.title + " · PGteach";
+  document.getElementById('brand').textContent =
+    LECTURE.label + " · " + LECTURE_TOPIC;
+  document.getElementById('docTitle').textContent = LECTURE.title;
+  document.getElementById('quizUrl').textContent =
+    LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+  qr.onerror = () => { document.getElementById('qrWarn').style.display = 'block'; };
+  qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+         + encodeURIComponent(LECTURE.quizUrl);
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+
+  document.getElementById('printBtn').onclick = () => window.print();
+})();
+</script>
+</body>
+</html>
