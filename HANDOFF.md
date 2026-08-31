@@ -51,6 +51,12 @@ README.md · HANDOFF.md · .gitignore
    shuffled — see below.
 7. **Rewrote the Apps Script** to record `lecture` and `wrongQuestions`, use
    one tab per lecture, and stop Sheets from eating phone numbers.
+8. **Automatic result screenshots.** The result screen is redrawn onto a
+   `<canvas>` when the student finishes and sent as base64 PNG in the payload;
+   the Apps Script files it in Drive and links it from the sheet. The student
+   does nothing. Plain 2D canvas calls only — no library, nothing newer than
+   `fillRect`, so old phone browsers cope. Measured at 1800x1972 px / 253 KB
+   for a typical 8/10 attempt with two mistakes.
 
 ## The anti-cheating change (item 6)
 
@@ -90,6 +96,11 @@ What that script changes:
 - `migrateOldRows()` copies the 4 existing `Sheet1` rows into the Lecture 1 tab,
   marking Mistakes as `(not recorded)`. Run it once by hand, check, then delete
   `Sheet1` yourself
+- saves the result screenshot to Drive and links it from the Screenshot column.
+  **This adds a Drive scope, so the first run will ask for authorisation again**
+  — approve it, or every row lands with `(image failed: …)` while the rest of
+  the row still saves correctly. Run `testSubmission()` from the editor once to
+  confirm the whole path, including Drive; it sends a real 2x2 PNG
 
 Because the quiz posts with `mode:"no-cors"`, **the browser cannot read the
 response** — if the script throws, the student still sees "sent to your
@@ -134,7 +145,19 @@ What was asserted: intake rejections (one-word name, short/long phone, missing
 date), date autofill, every question rendered with its options intact, section
 tags, counters, answer highlighting, locked options after answering, score,
 section breakdown rows, review cards, retake reset, and the exact POST payload
-key-by-key. Plus: the correct answer reaches every slot over 400 renders, every
+key-by-key. The canvas is stubbed so the card code really runs, and every text
+run it draws is asserted (header, name, score, each section, the mistakes, the
+footer).
+
+The card was also rendered for real, by extracting its code into a standalone
+page with fake state and screenshotting it with headless Chrome:
+
+```bash
+"/c/Program Files/Google/Chrome/Application/chrome.exe" --headless --disable-gpu   --window-size=920,1500 --virtual-time-budget=12000   --screenshot=card.png "file:///path/to/card-test.html"
+```
+
+Worth repeating after any change to the drawing code — the stub proves the calls
+happen, not that the layout looks right. Plus: the correct answer reaches every slot over 400 renders, every
 question is asked exactly once per attempt, and 200 attempts open with all
 questions represented.
 

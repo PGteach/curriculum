@@ -474,13 +474,174 @@ function finish(){
   sendResult(got, weak);
 }
 
-function sendResult(got, weak){
+/* ============================================================
+   RESULT CARD
+   The result screen is redrawn onto a canvas and sent with the
+   submission, so the teacher gets a picture of what the student saw
+   without the student having to screenshot anything.
+   Plain 2D canvas calls only — no library, and nothing newer than
+   fillRect, so old phone browsers still manage it.
+   ============================================================ */
+const CARD = {
+  w: 900, pad: 48, dpr: 2,
+  ink: "#16233F", soft: "#5B6472", teal: "#0E7C7B",
+  gold: "#C9963B", wrong: "#9C3B2E", paper: "#FAFAF7",
+  line: "#E2E5E9", white: "#ffffff",
+  body: '"Inter","Segoe UI",system-ui,sans-serif',
+  head: '"Fraunces",Georgia,serif'
+};
+
+/* Greedy word wrap. Returns the lines, it does not draw. */
+function wrapText(ctx, text, maxW){
+  const words = String(text).split(/\s+/);
+  const lines = [];
+  let line = "";
+  for(let i = 0; i < words.length; i++){
+    const test = line ? line + " " + words[i] : words[i];
+    if(line && ctx.measureText(test).width > maxW){ lines.push(line); line = words[i]; }
+    else line = test;
+  }
+  if(line) lines.push(line);
+  return lines;
+}
+
+async function resultImage(got){
+  const probe = document.createElement("canvas");
+  if(!probe.getContext) return "";                    // very old browser
+  if(document.fonts && document.fonts.ready){
+    try { await document.fonts.ready; } catch(e){}    // else canvas uses fallbacks
+  }
+
+  const W = CARD.w, PAD = CARD.pad, inner = W - PAD * 2;
+  const tall = document.createElement("canvas");
+  tall.width = W * CARD.dpr;
+  tall.height = 4200 * CARD.dpr;
+  const c = tall.getContext("2d");
+  if(!c) return "";
+  c.scale(CARD.dpr, CARD.dpr);
+  c.textBaseline = "top";
+  c.fillStyle = CARD.paper;
+  c.fillRect(0, 0, W, 4200);
+
+  let y = 0;
+
+  /* ---- navy header strip ---- */
+  c.fillStyle = CARD.ink;
+  c.fillRect(0, 0, W, 108);
+  c.fillStyle = "#ffffff";
+  c.font = "600 30px " + CARD.head;
+  c.fillText("PGteach", PAD, 26);
+  c.fillStyle = CARD.gold;
+  c.font = "600 17px " + CARD.body;
+  const lab = LECTURE.label + " \u00b7 " + LECTURE.title;
+  c.fillText(lab, PAD, 66);
+  y = 108 + 34;
+
+  const write = (text, font, colour, lh, maxW) => {
+    c.font = font; c.fillStyle = colour;
+    const lines = wrapText(c, text, maxW || inner);
+    for(let i = 0; i < lines.length; i++){
+      c.fillText(lines[i], PAD, y);
+      y += lh;
+    }
+  };
+
+  /* ---- who ---- */
+  write(state.name, "600 27px " + CARD.head, CARD.ink, 34);
+  y += 2;
+  write(state.phone + "  \u00b7  " + state.date, "400 16px " + CARD.body, CARD.soft, 24);
+  y += 22;
+
+  /* ---- score box ---- */
+  const boxH = 118;
+  c.fillStyle = CARD.white;
+  c.fillRect(PAD, y, inner, boxH);
+  c.fillStyle = CARD.ink;
+  c.fillRect(PAD, y, 6, boxH);
+  c.font = "700 54px " + CARD.head;
+  c.fillText(got + " / " + QUESTIONS.length, PAD + 28, y + 22);
+  c.font = "400 15px " + CARD.body;
+  c.fillStyle = CARD.soft;
+  const pct = Math.round(got / QUESTIONS.length * 100);
+  c.fillText(pct + "% correct", PAD + 28, y + 84);
+  y += boxH + 34;
+
+  /* ---- section breakdown ---- */
+  write("Section breakdown", "600 20px " + CARD.head, CARD.ink, 30);
+  y += 6;
+  for(let k = 0; k < SECTIONS.length; k++){
+    const done = state.correct[k], tot = state.total[k];
+    const p = tot ? Math.round(done / tot * 100) : 0;
+    c.font = "500 16px " + CARD.body;
+    c.fillStyle = CARD.ink;
+    c.fillText(SECTIONS[k], PAD, y);
+    c.fillStyle = CARD.soft;
+    const tally = done + " of " + tot;
+    c.fillText(tally, W - PAD - c.measureText(tally).width, y);
+    y += 24;
+    c.fillStyle = CARD.line;
+    c.fillRect(PAD, y, inner, 9);
+    c.fillStyle = p === 100 ? CARD.teal : p >= 50 ? CARD.gold : CARD.wrong;
+    c.fillRect(PAD, y, inner * p / 100, 9);
+    y += 26;
+  }
+  y += 14;
+
+  /* ---- mistakes ---- */
+  if(state.wrongQuestions.length){
+    write("Questions to review", "600 20px " + CARD.head, CARD.ink, 30);
+    y += 6;
+    for(let i = 0; i < state.wrongQuestions.length; i++){
+      const w = state.wrongQuestions[i];
+      const top = y;
+      y += 16;
+      write((i + 1) + ". " + w.question, "600 16px " + CARD.body, CARD.ink, 23, inner - 40);
+      y += 4;
+      write("chose:  " + w.selected, "400 15px " + CARD.body, CARD.wrong, 22, inner - 40);
+      write("correct:  " + w.correct, "400 15px " + CARD.body, CARD.teal, 22, inner - 40);
+      y += 16;
+      c.fillStyle = CARD.wrong;              // left rule, drawn once the height is known
+      c.fillRect(PAD - 14, top, 4, y - top);
+      y += 12;
+    }
+  } else {
+    write("No mistakes — every section correct.", "400 16px " + CARD.body, CARD.teal, 24);
+    y += 10;
+  }
+
+  /* ---- footer ---- */
+  y += 10;
+  c.fillStyle = CARD.line;
+  c.fillRect(PAD, y, inner, 1);
+  y += 16;
+  write("Submitted " + new Date().toLocaleString(), "400 13px " + CARD.body, CARD.soft, 20);
+  y += PAD;
+
+  /* ---- crop to the height actually used ---- */
+  const out = document.createElement("canvas");
+  out.width = W * CARD.dpr;
+  out.height = Math.round(y) * CARD.dpr;
+  const oc = out.getContext("2d");
+  if(!oc) return "";
+  oc.drawImage(tall, 0, 0);
+
+  const url = out.toDataURL("image/png");
+  const b64 = String(url).split(",")[1] || "";
+  /* Apps Script accepts a large POST, but do not push our luck. */
+  return b64.length > 4000000 ? "" : b64;
+}
+
+async function sendResult(got, weak){
   const box = $("sendState");
   if(!RESULTS_URL){ box.className = "hide"; return; }
 
   box.className = "advice";
   box.style.borderLeftColor = "var(--gold)";
   box.textContent = "Sending your result to your teacher…";
+
+  /* A failed drawing must never cost us the submission itself. */
+  let image = "";
+  try { image = await resultImage(got); } catch(e){ image = ""; }
 
   const payload = {
     lecture: LECTURE.label,
@@ -491,7 +652,8 @@ function sendResult(got, weak){
     total:  QUESTIONS.length,
     weak:   weak.join(", ") || "none",
     sections: SECTIONS.map((s,k)=> s + ": " + state.correct[k] + "/" + state.total[k]).join(" | "),
-    wrongQuestions: state.wrongQuestions
+    wrongQuestions: state.wrongQuestions,
+    image: image        // base64 PNG, or "" if it could not be drawn
   };
 
   fetch(RESULTS_URL, {

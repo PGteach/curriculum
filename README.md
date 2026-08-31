@@ -124,13 +124,26 @@ On submission the quiz POSTs JSON to the Apps Script endpoint set as
       "correct": "Input",
       "why": "Everything starts with input — the computer receives data before it can do anything with it."
     }
-  ]
+  ],
+  "image": "iVBORw0KGgoAAAANSUhEUgAA…"
 }
 ```
 
 `wrongQuestions` is an array — one entry per mistake, in the order they were
 made. The same list is what the student sees under **Questions to review** on
 the results screen.
+
+`image` is a base64 PNG of the result card, drawn on a `<canvas>` from the same
+data at the moment the student finishes — the student does not screenshot
+anything. It is roughly 250 KB for a typical attempt. If the drawing fails for
+any reason the field is `""` and the submission still goes through; it is also
+dropped if it somehow exceeds 4 MB.
+
+The Apps Script decodes it into Drive under
+`PGteach quiz results / Lecture N /` and writes the file link in the sheet's
+Screenshot column. **Those files are deliberately left private** to the account
+that owns the script — they carry student names and phone numbers, so nothing in
+the script shares them.
 
 The request is sent with `mode: "no-cors"` (a browser cannot read a response
 from Apps Script without CORS headers, and none are needed here) and

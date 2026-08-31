@@ -29,10 +29,16 @@ var HEADERS = [
   "Out of",
   "Weak sections",
   "Section breakdown",
-  "Mistakes"
+  "Mistakes",
+  "Screenshot"
 ];
 
 var PHONE_COL = 4;   // 1-based index of "Phone" in HEADERS
+
+/* Drive folder the result cards are filed under. Left private on purpose:
+   the cards carry student names and phone numbers, so they stay visible
+   only to whoever owns this script. Do not add setSharing here. */
+var IMAGE_FOLDER = "PGteach quiz results";
 
 function doPost(e) {
   try {
@@ -40,6 +46,15 @@ function doPost(e) {
     var book = SpreadsheetApp.openById(SHEET_ID);
     var lecture = String(d.lecture || "Unknown lecture").trim();
     var sheet = getSheet_(book, lecture);
+
+    // The row matters more than the picture, so a Drive failure must not
+    // cost us the submission.
+    var shot = "";
+    try {
+      shot = saveImage_(d.image, lecture, d.name);
+    } catch (imgErr) {
+      shot = "(image failed: " + String(imgErr) + ")";
+    }
 
     sheet.appendRow([
       new Date(),
@@ -51,10 +66,11 @@ function doPost(e) {
       d.total,
       d.weak || "",
       d.sections || "",
-      formatMistakes_(d.wrongQuestions)
+      formatMistakes_(d.wrongQuestions),
+      shot
     ]);
 
-    return json_({ ok: true, tab: sheet.getName() });
+    return json_({ ok: true, tab: sheet.getName(), image: shot });
 
   } catch (err) {
     // Note: the quiz sends with mode:"no-cors", so the browser cannot read
@@ -108,6 +124,33 @@ function lectureNum_(name) {
   return m ? parseInt(m[1], 10) : 9999;   // non-lecture tabs sink to the end
 }
 
+/**
+ * Decodes the base64 PNG the quiz sends and files it in Drive.
+ * Returns the file URL, or a short note when there is no image.
+ */
+function saveImage_(b64, lecture, name) {
+  if (!b64) return "(no image)";
+
+  var bytes = Utilities.base64Decode(b64);
+  var safe = String(name || "student").replace(/[\/:*?"<>|]/g, " ").trim().slice(0, 60);
+  var stamp = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "yyyy-MM-dd HH-mm-ss");
+  var file = folder_(lecture).createFile(
+    Utilities.newBlob(bytes, "image/png", lecture + " - " + safe + " - " + stamp + ".png"));
+
+  return file.getUrl();
+}
+
+/** The per-lecture subfolder, creating both levels the first time. */
+function folder_(lecture) {
+  var root = pickOrCreate_(DriveApp.getRootFolder(), IMAGE_FOLDER);
+  return pickOrCreate_(root, lecture);
+}
+
+function pickOrCreate_(parent, name) {
+  var hits = parent.getFoldersByName(name);
+  return hits.hasNext() ? hits.next() : parent.createFolder(name);
+}
+
 /** wrongQuestions is an array of objects; flatten it into one readable cell. */
 function formatMistakes_(list) {
   if (!list || !list.length) return "none";
@@ -151,7 +194,9 @@ function testSubmission() {
       selected: "Processing",
       correct: "Input",
       why: "Everything starts with input."
-    }]
+    }],
+    // a real 2x2 PNG, so the Drive path is exercised too
+    image: "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAEElEQVR4nGPgq6kGIgYIBQAa5gQVqws3cwAAAABJRU5ErkJggg=="
   })}});
   Logger.log(out.getContent());
 }
@@ -187,7 +232,8 @@ function migrateOldRows() {
       r[5],                 // Out of
       r[6],                 // Weak sections
       r[7],                 // Section breakdown
-      "(not recorded)"      // Mistakes — column did not exist yet
+      "(not recorded)",     // Mistakes — column did not exist yet
+      "(not recorded)"      // Screenshot — ditto
     ]);
     moved++;
   }
