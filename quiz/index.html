@@ -13,6 +13,9 @@
     --paper:#FAFAF7;
     --line:#E2E5E9;
     --wrong:#9C3B2E;
+    --wrong-bg:#FDF3F2;
+    --green:#2A854E;
+    --green-bg:#EFF6F5;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
@@ -51,8 +54,8 @@
   .opt:hover:not(:disabled){border-color:var(--teal)}
   .opt:focus-visible{outline:2.5px solid var(--teal);outline-offset:2px}
   .opt:disabled{cursor:default}
-  .opt.correct{border-color:var(--teal);background:#EFF6F5;font-weight:600}
-  .opt.chosen-wrong{border-color:var(--wrong);background:#FBF0EE}
+  .opt.correct{border-color:var(--teal);background:var(--green-bg);font-weight:600}
+  .opt.chosen-wrong{border-color:var(--wrong);background:var(--wrong-bg)}
 
   .verdict{font-size:15px;margin:14px 0 4px;font-weight:600}
   .verdict.ok{color:var(--teal)}
@@ -80,9 +83,20 @@
   .row .top b{font-weight:600}
   .track{height:9px;background:var(--line);border-radius:99px;overflow:hidden}
   .track > i{display:block;height:100%;border-radius:99px}
-  .note{font-size:13px;color:var(--ink-soft);margin-top:4px}
 
   .advice{border-left:3px solid var(--gold);padding:10px 0 10px 14px;margin-top:22px;font-size:15px}
+
+  /* review block */
+  .review-wrap{margin-top:28px}
+  .review-card{
+    background:var(--wrong-bg);border:1px solid #F5C6CB;border-left:4px solid var(--wrong);
+    border-radius:8px;padding:14px;margin-bottom:12px;font-size:14px;
+  }
+  .review-card h4{font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+  .review-card .ans{margin:3px 0;font-size:13.5px}
+  .review-card .w-val{color:var(--wrong);font-weight:600}
+  .review-card .c-val{color:var(--green);font-weight:600}
+  .review-card .why-txt{margin-top:6px;color:var(--ink-soft);font-size:13px;font-style:italic}
 
   /* intake */
   .field{margin-bottom:15px}
@@ -107,9 +121,9 @@
 <body>
 
 <header>
-  <div class="kicker">Foundation Session — Programming &amp; AI</div>
+  <div class="kicker">Foundation Session — Programming &amp; AI[cite: 3]</div>
   <h1>Check what you understood</h1>
-  <div class="byline">10 questions · about 5 minutes · Mr. Eissa Islam</div>
+  <div class="byline">10 questions · about 5 minutes · Mr. Eissa Islam[cite: 3]</div>
 </header>
 
 <p class="count" id="introNote">Enter your details first, then the quiz begins.</p>
@@ -149,20 +163,21 @@
     <b id="finalScore">0/10</b>
     <span id="finalLabel"></span>
   </div>
+
   <h2>Where you stand, section by section</h2>
   <div id="breakdown"></div>
   <div class="advice" id="advice"></div>
+
+  <div id="reviewSection" class="hide review-wrap">
+    <h2>Questions to review (الأخطاء التي تحتاج مراجعة)</h2>
+    <div id="wrongList"></div>
+  </div>
+
   <div class="advice hide" id="sendState"></div>
   <button class="restart" id="restart">Take it again</button>
 </main>
 
 <script>
-/* ============================================================
-   PASTE YOUR APPS SCRIPT URL BETWEEN THE QUOTES BELOW.
-   Setup instructions are in the teacher notes.
-   Leave it empty ("") and the quiz still works —
-   results just won't be sent anywhere.
-   ============================================================ */
 const RESULTS_URL = "https://script.google.com/macros/s/AKfycbxfgPaAaOTuOhyyaRI4fWLclsYF1VsDXpkDQoURb_yUIsG35Lmf2wgg0IJ7Zff_BnHn/exec";
 
 const SECTIONS = [
@@ -175,41 +190,49 @@ const SECTIONS = [
 const QUESTIONS = [
   { s:0, q:"What is the first stage in how a computer handles any task?",
     o:["Input","Processing","Output"], a:0,
-    why:"Everything starts with input — the computer receives data before it can do anything with it." },
+    why:"Everything starts with input — the computer receives data before it can do anything with it."[cite: 3] },
   { s:0, q:"The CPU is responsible for which stage?",
     o:["Receiving data","Processing","Displaying results"], a:1,
-    why:"The CPU is where the actual work on the data happens." },
+    why:"The CPU is where the actual work on the data happens."[cite: 3] },
   { s:1, q:"Specific, ordered instructions written for a computer are called:",
     o:["Artificial intelligence","Programming","Design"], a:1,
-    why:"Programming is giving the computer exact steps to follow, one after another." },
+    why:"Programming is giving the computer exact steps to follow, one after another."[cite: 3] },
   { s:1, q:"A computer that learns from data and works out decisions itself is doing:",
     o:["Programming","Artificial intelligence","Compiling"], a:1,
-    why:"AI finds patterns in data instead of following rules someone wrote by hand." },
+    why:"AI finds patterns in data instead of following rules someone wrote by hand."[cite: 3] },
   { s:1, q:"print(\"hello world\") is an example of:",
     o:["A programming language","Source code","A compiler"], a:1,
     why:"Source code is the actual text a programmer writes. Python is the language it is written in." },
-
   { s:2, q:"The program that turns your code into machine language is the:",
     o:["Text editor","Compiler","IDE"], a:1,
-    why:"The compiler translates your code into the zeros and ones the computer understands." },
+    why:"The compiler translates your code into the zeros and ones the computer understands."[cite: 3] },
   { s:2, q:"A full workspace with an editor plus tools to run and debug is called:",
     o:["A compiler","An IDE","Source code"], a:1,
-    why:"That is the whole kitchen, not just the counter — editor, run tools and error-finding together." },
+    why:"That is the whole kitchen, not just the counter — editor, run tools and error-finding together."[cite: 3] },
   { s:2, q:"A program stops working because of one missing semicolon. This shows a programmer mostly needs:",
     o:["Fast typing","Attention to detail","Advanced maths"], a:1,
-    why:"Small details break programs, so patience and care matter more than typing speed." },
-
+    why:"Small details break programs, so patience and care matter more than typing speed."[cite: 3] },
   { s:3, q:"Studying large amounts of data to pull useful insights out of it is the field of:",
     o:["Cybersecurity","Data analysis","Networking"], a:1,
-    why:"Data analysis is about turning raw data into something meaningful." },
+    why:"Data analysis is about turning raw data into something meaningful."[cite: 3] },
   { s:3, q:"Protecting systems and accounts from being hacked is the field of:",
     o:["Data analysis","Cybersecurity","Game development"], a:1,
-    why:"Cybersecurity is the field focused on defending systems against attacks." },
+    why:"Cybersecurity is the field focused on defending systems against attacks."[cite: 3] }
 ];
 
-const state = { i:0, answered:false, correct:[], total:[], name:"", phone:"", date:"" };
-SECTIONS.forEach((_,k)=>{ state.correct[k]=0; state.total[k]=0; });
-QUESTIONS.forEach(q=> state.total[q.s]++ );
+const state = {
+  i: 0,
+  answered: false,
+  correct: [],
+  total: [],
+  name: "",
+  phone: "",
+  date: "",
+  wrongQuestions: []
+};
+
+SECTIONS.forEach((_, k) => { state.correct[k] = 0; state.total[k] = 0; });
+QUESTIONS.forEach(q => state.total[q.s]++);
 
 const $ = id => document.getElementById(id);
 
@@ -230,7 +253,7 @@ $("start").onclick = () => {
 
   const digits = phone.replace(/\D/g,"");
   let problem = "";
-  if(name.length < 3)       problem = "Please write your full name.";
+  if(name.length < 3)        problem = "Please write your full name.";
   else if(digits.length < 8) problem = "Please write a valid phone number.";
   else if(!date)             problem = "Please choose the date.";
 
@@ -287,7 +310,16 @@ function choose(idx){
   });
 
   const right = idx === q.a;
-  if(right) state.correct[q.s]++;
+  if(right) {
+    state.correct[q.s]++;
+  } else {
+    state.wrongQuestions.push({
+      question: q.q,
+      selected: q.o[idx],
+      correct: q.o[q.a],
+      why: q.why
+    });
+  }
 
   const v = $("verdict");
   v.className = "verdict " + (right ? "ok" : "no");
@@ -340,6 +372,28 @@ function finish(){
     ? "Nothing to revise — you got every section right. Bring a question of your own to the next session."
     : "Focus your review on: " + weak.join(", ") + ". These are the parts of the booklet to read again before the next session.";
 
+  // Render Mistake Review Section
+  const reviewSec = $("reviewSection");
+  const wrongList = $("wrongList");
+  wrongList.innerHTML = "";
+  
+  if (state.wrongQuestions.length > 0) {
+    reviewSec.className = "review-wrap";
+    state.wrongQuestions.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "review-card";
+      card.innerHTML = `
+        <h4>${item.question}</h4>
+        <div class="ans">❌ <b>Your answer:</b> <span class="w-val">${item.selected}</span></div>
+        <div class="ans">✅ <b>Correct answer:</b> <span class="c-val">${item.correct}</span></div>
+        <div class="why-txt">${item.why}</div>
+      `;
+      wrongList.appendChild(card);
+    });
+  } else {
+    reviewSec.className = "hide";
+  }
+
   sendResult(got, weak);
 }
 
@@ -352,19 +406,21 @@ function sendResult(got, weak){
   box.textContent = "Sending your result to your teacher…";
 
   const payload = {
-    name:  state.name,
-    phone: state.phone,
-    date:  state.date,
-    score: got,
-    total: QUESTIONS.length,
-    weak:  weak.join(", ") || "none",
-    sections: SECTIONS.map((s,k)=> s + ": " + state.correct[k] + "/" + state.total[k]).join(" | ")
+    lecture: "Lecture 1",
+    name:   state.name,
+    phone:  state.phone,
+    date:   state.date,
+    score:  got,
+    total:  QUESTIONS.length,
+    weak:   weak.join(", ") || "none",
+    sections: SECTIONS.map((s,k)=> s + ": " + state.correct[k] + "/" + state.total[k]).join(" | "),
+    wrongQuestions: state.wrongQuestions
   };
 
   fetch(RESULTS_URL, {
     method: "POST",
     mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
   }).then(() => {
     box.style.borderLeftColor = "var(--teal)";
@@ -377,6 +433,7 @@ function sendResult(got, weak){
 
 $("restart").onclick = () => {
   state.i = 0;
+  state.wrongQuestions = [];
   SECTIONS.forEach((_,k)=> state.correct[k]=0 );
   $("results").className = "hide";
   $("quiz").className = "";
