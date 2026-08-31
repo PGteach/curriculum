@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture __LECTURE_NUM__ — __TITLE_HTML__ · PGteach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#6B7688;
+  --teal:#0E7C7B;
+  --teal-pale:#E6F1F0;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --paper:#FBFAF7;
+  --line:#DFE3E8;
+  --white:#fff;
+  --wrong:#9C3B2E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"Inter",system-ui,sans-serif;
+  background:var(--ink);
+  color:var(--ink);
+  overflow:hidden;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl;
+  unicode-bidi:isolate;
+}
+code,.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- stage ---------- */
+#stage{
+  position:fixed; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  padding:0;
+}
+.slide{
+  position:absolute; inset:0;
+  background:var(--paper);
+  padding:5.5vh 6vw 9vh;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  overflow-y:auto;
+}
+.slide.on{display:flex}
+.slide.dark{background:var(--ink);color:var(--paper)}
+
+/* entrance: one orchestrated reveal per slide */
+.slide.on .rise{animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+.slide.on .rise:nth-child(2){animation-delay:.07s}
+.slide.on .rise:nth-child(3){animation-delay:.14s}
+.slide.on .rise:nth-child(4){animation-delay:.21s}
+.slide.on .rise:nth-child(5){animation-delay:.28s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- type ---------- */
+.eyebrow{
+  font-size:clamp(11px,1.15vw,15px); font-weight:600;
+  color:var(--teal); letter-spacing:.02em; margin-bottom:.9rem;
+}
+.dark .eyebrow{color:var(--gold)}
+h1{
+  font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(30px,5.2vw,68px); line-height:1.06;
+  letter-spacing:-.015em;
+}
+h2{
+  font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(24px,3.5vw,46px); line-height:1.12;
+  letter-spacing:-.01em; margin-bottom:.35em;
+}
+.sub{font-size:clamp(14px,1.5vw,21px);color:var(--soft);line-height:1.5}
+.dark .sub{color:#AAB6CC}
+.arline{
+  font-size:clamp(12px,1.25vw,17px);
+  color:var(--soft); line-height:1.65;
+  border-right:2.5px solid var(--line);
+  padding-right:.75rem; margin-top:.85rem;
+  max-width:62ch; margin-left:auto;
+}
+.dark .arline{color:#9FADC4;border-right-color:#3A4867}
+
+/* ---------- pipeline diagram ---------- */
+.pipe{display:flex;gap:clamp(8px,1.2vw,18px);align-items:stretch;margin:1.4rem 0 .5rem;flex-wrap:wrap}
+.step{
+  flex:1 1 180px; background:var(--white); border:1px solid var(--line);
+  border-radius:14px; padding:clamp(12px,1.5vw,22px); position:relative;
+  box-shadow:0 1px 2px rgba(22,35,63,.04);
+}
+.step .n{
+  width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;
+  display:grid;place-items:center;font-size:14px;font-weight:600;margin-bottom:.65rem;
+}
+.step h3{font-size:clamp(15px,1.6vw,21px);font-weight:600;margin-bottom:.3rem}
+.step p{font-size:clamp(12px,1.25vw,16px);color:var(--soft);line-height:1.5}
+.step .ex{
+  margin-top:.7rem;padding-top:.7rem;border-top:1px dashed var(--line);
+  font-size:clamp(12px,1.25vw,16px);color:var(--ink-2);
+}
+.arrow{align-self:center;color:var(--gold);font-size:26px;font-weight:600}
+@media(max-width:760px){.arrow{display:none}}
+
+/* ---------- generic table ---------- */
+table{width:100%;border-collapse:collapse;margin:1rem 0 .4rem;font-size:clamp(12px,1.35vw,18px)}
+th,td{border-bottom:1px solid var(--line);padding:clamp(7px,.9vw,14px) clamp(8px,1vw,16px);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--teal);font-size:clamp(11px,1.15vw,15px)}
+td b{font-weight:600}
+tr:last-child td{border-bottom:0}
+
+/* ---------- split compare ---------- */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.6vw,24px);margin-top:1.2rem}
+@media(max-width:700px){.vs{grid-template-columns:1fr}}
+.pane{border-radius:14px;padding:clamp(14px,1.7vw,26px)}
+.pane.a{background:var(--teal-pale)}
+.pane.b{background:var(--gold-pale)}
+.pane h3{font-size:clamp(16px,1.9vw,24px);font-weight:600;margin-bottom:.6rem}
+.pane.a h3{color:var(--teal)}
+.pane.b h3{color:#A9762A}
+.pane ul{list-style:none;font-size:clamp(12px,1.35vw,17px);line-height:1.65}
+.pane li{padding-left:1.1rem;position:relative;margin-bottom:.4rem}
+.pane li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.45}
+
+/* ---------- kitchen row ---------- */
+.kit{display:flex;gap:clamp(8px,1.2vw,18px);margin-top:1.2rem;flex-wrap:wrap}
+.kit .card{
+  flex:1 1 200px;background:var(--white);border:1px solid var(--line);
+  border-radius:14px;padding:clamp(12px,1.5vw,22px);text-align:center;
+}
+.kit .ico{font-size:clamp(28px,3.4vw,44px);line-height:1;margin-bottom:.5rem}
+.kit h3{font-size:clamp(14px,1.55vw,20px);font-weight:600;margin-bottom:.25rem}
+.kit .role{font-size:clamp(11px,1.2vw,15px);color:var(--teal);font-weight:600;margin-bottom:.4rem}
+.kit p{font-size:clamp(11.5px,1.2vw,15px);color:var(--soft);line-height:1.5}
+
+/* ---------- fields grid ---------- */
+.fields{display:flex;flex-wrap:wrap;gap:clamp(7px,.9vw,14px);margin-top:1.2rem}
+.chip{
+  background:var(--white);border:1px solid var(--line);border-radius:99px;
+  padding:clamp(8px,.9vw,14px) clamp(14px,1.5vw,24px);
+  font-size:clamp(12px,1.35vw,18px);font-weight:500;
+}
+.chip span{color:var(--soft);font-size:.82em;margin-left:.4em}
+
+/* ---------- code chip ---------- */
+.codeline{
+  display:inline-block;background:var(--ink);color:#8FE3D6;
+  padding:.35em .7em;border-radius:7px;font-size:.92em;
+}
+
+/* ---------- QR panel ---------- */
+.qrwrap{display:flex;gap:clamp(14px,2vw,32px);align-items:center;margin-top:1.4rem;flex-wrap:wrap}
+.qrwrap img{width:clamp(110px,13vw,180px);height:auto;border-radius:10px;background:#fff;padding:9px}
+.qrwrap .txt{flex:1 1 260px}
+
+/* ---------- chrome ---------- */
+#bar{position:fixed;left:0;top:0;height:3px;background:var(--teal);width:0;transition:width .3s ease;z-index:40}
+#nav{
+  position:fixed;bottom:0;left:0;right:0;height:7vh;min-height:46px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(14px,3vw,40px);
+  background:rgba(251,250,247,.92);backdrop-filter:blur(8px);
+  border-top:1px solid var(--line);z-index:30;
+}
+.slide.dark ~ #nav{}
+#nav .who{font-size:clamp(10px,1.05vw,13px);color:var(--soft)}
+#counter{font-size:clamp(10px,1.05vw,13px);color:var(--soft);font-variant-numeric:tabular-nums;margin-left:.7em}
+.qrwrap a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,150,59,.45)}
+#nav .mid{display:flex;gap:6px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:.2s}
+.dot.on{background:var(--teal);transform:scale(1.45)}
+#nav button{
+  font:inherit;font-size:clamp(11px,1.1vw,14px);font-weight:500;
+  background:none;border:1px solid var(--line);border-radius:7px;
+  padding:.45em .9em;cursor:pointer;color:var(--ink);
+}
+#nav button:hover{border-color:var(--teal);color:var(--teal)}
+#nav button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.hint{position:fixed;bottom:8.5vh;right:clamp(14px,3vw,40px);font-size:11px;color:var(--soft);z-index:30;opacity:.75}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+<div id="stage">
+
+  <!-- 1 TITLE -->
+  <section class="slide dark">
+    <div class="rise eyebrow" id="lectureBadge">Programming &amp; Artificial Intelligence</div>
+    <h1 class="rise">__TITLE_HTML__</h1>
+    <p class="rise sub" style="margin-top:1.2rem">Replace this line with the one-sentence promise of the session.</p>
+    <p class="rise arline ar">اكتب هنا سطر المقدمة بالعربي.</p>
+  </section>
+
+  <!-- ------------------------------------------------------------------
+       YOUR CONTENT SLIDES GO HERE.
+
+       Add as many "slide" sections as you need — the dots, the progress
+       bar and the "n / total" counter all count them at runtime, so there
+       is no slide total to update by hand anywhere.
+
+       Add class="dark" for an inverted slide. Wrap every child you want
+       revealed in sequence with class="rise". The reusable blocks from
+       lecture 1 are: .pipe/.step (pipeline), table, .vs/.pane (compare),
+       .kit/.card (icon row), .fields/.chip (tag cloud), .codeline (code).
+       ------------------------------------------------------------------- -->
+
+  <!-- 2 EXAMPLE: two-column compare -->
+  <section class="slide">
+    <div class="rise eyebrow">1 · Section name</div>
+    <h2 class="rise">The question this slide answers</h2>
+    <p class="rise sub">One line of framing, if it helps.</p>
+    <div class="rise vs">
+      <div class="pane a">
+        <h3>First idea</h3>
+        <ul>
+          <li>Point one</li>
+          <li>Point two</li>
+        </ul>
+      </div>
+      <div class="pane b">
+        <h3>Second idea</h3>
+        <ul>
+          <li>Point one</li>
+          <li>Point two</li>
+        </ul>
+      </div>
+    </div>
+    <p class="rise arline ar">الشرح بالعربي.</p>
+  </section>
+
+  <!-- 3 EXAMPLE: table -->
+  <section class="slide">
+    <div class="rise eyebrow">2 · Section name</div>
+    <h2 class="rise">A second slide</h2>
+    <table class="rise">
+      <tr><th>Column</th><th>Column</th></tr>
+      <tr><td><b>Row label</b></td><td>What it means</td></tr>
+      <tr><td><b>Row label</b></td><td>What it means</td></tr>
+    </table>
+    <p class="rise arline ar">الشرح بالعربي.</p>
+  </section>
+
+  <!-- LAST SLIDE: QUIZ QR (keep this one last) -->
+  <section class="slide dark">
+    <div class="rise eyebrow">Before you go</div>
+    <h2 class="rise">Test yourself</h2>
+    <div class="rise qrwrap">
+      <img id="qr" alt="QR code linking to the quiz" width="250" height="250">
+      <div class="txt">
+        <p class="sub">Scan with your phone camera. At the end it shows you which parts you understood and which parts to read again.</p>
+        <p class="sub mono" style="margin-top:.7rem;font-size:clamp(12px,1.3vw,17px)"><a id="quizLink" href="../quiz/"></a></p>
+      </div>
+    </div>
+    <p class="rise arline ar">امسح الكود بكاميرا موبايلك.</p>
+  </section>
+
+</div>
+
+<div id="nav">
+  <div class="who">Mr. Eissa Islam<span id="counter"></span></div>
+  <div class="mid" id="dots"></div>
+  <div style="display:flex;gap:8px">
+    <button type="button" id="prev" aria-label="Previous slide">←</button>
+    <button type="button" id="next" aria-label="Next slide">→</button>
+  </div>
+</div>
+<div class="hint">← → or swipe</div>
+
+<script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code, the quiz link and the slide count all derive
+   from it, so there is nothing else to keep in sync.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = __LECTURE_NUM__;
+const LECTURE_TITLE = "__TITLE_JS__";
+const LECTURE_TOPIC = "__TOPIC_JS__";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+const slides = Array.from(document.querySelectorAll('.slide'));
+const dotsBox = document.getElementById('dots');
+let i = 0;
+
+slides.forEach((_, k) => {
+  const d = document.createElement('button');
+  d.type = 'button';
+  d.className = 'dot';
+  d.setAttribute('aria-label', 'Go to slide ' + (k+1));
+  d.onclick = () => go(k);
+  dotsBox.appendChild(d);
+});
+const dots = Array.from(dotsBox.children);
+
+/* ---- stamp lecture identity + build the QR code ---- */
+(function(){
+  document.title = LECTURE.label + " \u2014 " + LECTURE.title + " \u00b7 PGteach";
+
+  const badge = document.getElementById('lectureBadge');
+  if(badge) badge.textContent = LECTURE.label + " \u00b7 " + LECTURE_TOPIC;
+
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+  }
+
+  /* Relative href keeps the deck working from disk and on Pages alike;
+     the absolute URL is what students read out and type by hand. */
+  const link = document.getElementById('quizLink');
+  if(link) link.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+})();
+
+function go(n){
+  i = Math.max(0, Math.min(slides.length - 1, n));
+  slides.forEach((s,k) => s.classList.toggle('on', k === i));
+  dots.forEach((d,k) => d.classList.toggle('on', k === i));
+  document.getElementById('bar').style.width = ((i+1)/slides.length*100) + '%';
+  document.getElementById('counter').textContent = ' \u00b7 ' + (i+1) + ' / ' + slides.length;
+  document.body.style.background = slides[i].classList.contains('dark') ? '#16233F' : '#FBFAF7';
+  location.hash = i + 1;
+}
+
+document.getElementById('next').onclick = () => go(i+1);
+document.getElementById('prev').onclick = () => go(i-1);
+
+addEventListener('keydown', e => {
+  if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); go(i+1); }
+  if(e.key === 'ArrowLeft'  || e.key === 'PageUp'){ e.preventDefault(); go(i-1); }
+  if(e.key === 'Home') go(0);
+  if(e.key === 'End')  go(slides.length-1);
+});
+
+let x0 = null;
+addEventListener('touchstart', e => x0 = e.changedTouches[0].clientX, {passive:true});
+addEventListener('touchend', e => {
+  if(x0 === null) return;
+  const dx = e.changedTouches[0].clientX - x0;
+  if(Math.abs(dx) > 55) go(dx < 0 ? i+1 : i-1);
+  x0 = null;
+}, {passive:true});
+
+const start = parseInt(location.hash.slice(1), 10);
+go(Number.isFinite(start) && start > 0 ? start - 1 : 0);
+</script>
+</body>
+</html>

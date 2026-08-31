@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How Does a Computer Think? — Foundation Session</title>
+<title>Lecture 1 — How does a computer think? · PGteach</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -171,6 +171,8 @@ tr:last-child td{border-bottom:0}
 }
 .slide.dark ~ #nav{}
 #nav .who{font-size:clamp(10px,1.05vw,13px);color:var(--soft)}
+#counter{font-size:clamp(10px,1.05vw,13px);color:var(--soft);font-variant-numeric:tabular-nums;margin-left:.7em}
+.qrwrap a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,150,59,.45)}
 #nav .mid{display:flex;gap:6px;align-items:center}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:.2s}
 .dot.on{background:var(--teal);transform:scale(1.45)}
@@ -193,7 +195,7 @@ tr:last-child td{border-bottom:0}
 
   <!-- 1 TITLE -->
   <section class="slide dark">
-    <div class="rise eyebrow">Foundation Session · Programming &amp; Artificial Intelligence</div>
+    <div class="rise eyebrow" id="lectureBadge">Programming &amp; Artificial Intelligence</div>
     <h1 class="rise">How does a computer think —<br>and how does a programmer think?</h1>
     <p class="rise sub" style="margin-top:1.2rem">Your very first session. No experience needed.</p>
     <p class="rise arline ar">أول حصة ليك. مش محتاج أي خبرة سابقة — ولا رياضيات، ولا جهاز قوي. الموبايل كفاية.</p>
@@ -418,10 +420,10 @@ tr:last-child td{border-bottom:0}
     <div class="rise eyebrow">Before you go</div>
     <h2 class="rise">Test yourself — 10 questions</h2>
     <div class="rise qrwrap">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://pgteach.github.io/lecture1/quiz" alt="Quiz QR code">
+      <img id="qr" alt="QR code linking to the Lecture 1 quiz" width="250" height="250">
       <div class="txt">
         <p class="sub">Scan with your phone camera. At the end it shows you which parts you understood and which parts to read again.</p>
-        <p class="sub mono" style="margin-top:.7rem;font-size:clamp(12px,1.3vw,17px);color:var(--gold)">pgteach.github.io/lecture1/quiz</p>
+        <p class="sub mono" style="margin-top:.7rem;font-size:clamp(12px,1.3vw,17px)"><a id="quizLink" href="../quiz/"></a></p>
       </div>
     </div>
     <p class="rise arline ar">امسح الكود بكاميرا موبايلك. الاختبار هيوضحلك في الآخر انت فاهم إيه ومحتاج تراجع إيه.</p>
@@ -430,22 +432,41 @@ tr:last-child td{border-bottom:0}
 </div>
 
 <div id="nav">
-  <div class="who">Mr. Eissa Islam</div>
+  <div class="who">Mr. Eissa Islam<span id="counter"></span></div>
   <div class="mid" id="dots"></div>
   <div style="display:flex;gap:8px">
-    <button id="prev" aria-label="Previous slide">←</button>
-    <button id="next" aria-label="Next slide">→</button>
+    <button type="button" id="prev" aria-label="Previous slide">←</button>
+    <button type="button" id="next" aria-label="Next slide">→</button>
   </div>
 </div>
 <div class="hint">← → or swipe</div>
 
 <script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code, the quiz link and the slide count all derive
+   from it, so there is nothing else to keep in sync.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 1;
+const LECTURE_TITLE = "How does a computer think?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
 const slides = Array.from(document.querySelectorAll('.slide'));
 const dotsBox = document.getElementById('dots');
 let i = 0;
 
 slides.forEach((_, k) => {
   const d = document.createElement('button');
+  d.type = 'button';
   d.className = 'dot';
   d.setAttribute('aria-label', 'Go to slide ' + (k+1));
   d.onclick = () => go(k);
@@ -453,11 +474,32 @@ slides.forEach((_, k) => {
 });
 const dots = Array.from(dotsBox.children);
 
+/* ---- stamp lecture identity + build the QR code ---- */
+(function(){
+  document.title = LECTURE.label + " \u2014 " + LECTURE.title + " \u00b7 PGteach";
+
+  const badge = document.getElementById('lectureBadge');
+  if(badge) badge.textContent = LECTURE.label + " \u00b7 " + LECTURE_TOPIC;
+
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+  }
+
+  /* Relative href keeps the deck working from disk and on Pages alike;
+     the absolute URL is what students read out and type by hand. */
+  const link = document.getElementById('quizLink');
+  if(link) link.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+})();
+
 function go(n){
   i = Math.max(0, Math.min(slides.length - 1, n));
   slides.forEach((s,k) => s.classList.toggle('on', k === i));
   dots.forEach((d,k) => d.classList.toggle('on', k === i));
   document.getElementById('bar').style.width = ((i+1)/slides.length*100) + '%';
+  document.getElementById('counter').textContent = ' \u00b7 ' + (i+1) + ' / ' + slides.length;
   document.body.style.background = slides[i].classList.contains('dark') ? '#16233F' : '#FBFAF7';
   location.hash = i + 1;
 }

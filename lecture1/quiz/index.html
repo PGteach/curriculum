@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 1 Quiz — How does a computer think? · PGteach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16233F;
+    --ink-soft:#5B6472;
+    --teal:#0E7C7B;
+    --gold:#C9963B;
+    --paper:#FAFAF7;
+    --line:#E2E5E9;
+    --wrong:#9C3B2E;
+    --wrong-bg:#FDF3F2;
+    --green:#2A854E;
+    --green-bg:#EFF6F5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{
+    font-family:"Inter","Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+    padding:22px 18px 56px;
+    max-width:620px;
+    margin:0 auto;
+  }
+
+  header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:22px}
+  .kicker{font-size:13px;color:var(--teal);font-weight:600;letter-spacing:.2px}
+  h1{font-family:"Fraunces",Georgia,serif;font-size:25px;line-height:1.2;margin-top:4px;font-weight:600;letter-spacing:-.01em}
+  .byline{font-size:13px;color:var(--ink-soft);margin-top:6px}
+
+  /* progress */
+  .bar{height:5px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:8px}
+  .bar > i{display:block;height:100%;width:0;background:var(--teal);transition:width .28s ease}
+  .count{font-size:13px;color:var(--ink-soft);margin-bottom:20px}
+
+  .section-tag{
+    display:inline-block;font-size:12px;font-weight:600;color:var(--gold);
+    border:1px solid var(--gold);border-radius:99px;padding:2px 10px;margin-bottom:12px;
+  }
+  .q{font-size:19px;font-weight:600;line-height:1.4;margin-bottom:18px}
+
+  .opt{
+    display:block;width:100%;text-align:left;font:inherit;font-size:16px;
+    background:#fff;border:1.5px solid var(--line);border-radius:9px;
+    padding:13px 15px;margin-bottom:10px;cursor:pointer;color:var(--ink);
+    transition:border-color .15s,background .15s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--teal)}
+  .opt:focus-visible{outline:2.5px solid var(--teal);outline-offset:2px}
+  .opt:disabled{cursor:default}
+  .opt.correct{border-color:var(--teal);background:var(--green-bg);font-weight:600}
+  .opt.chosen-wrong{border-color:var(--wrong);background:var(--wrong-bg)}
+
+  .verdict{font-size:15px;margin:14px 0 4px;font-weight:600}
+  .verdict.ok{color:var(--teal)}
+  .verdict.no{color:var(--wrong)}
+
+  .next{
+    font:inherit;font-size:16px;font-weight:600;margin-top:16px;
+    background:var(--ink);color:#fff;border:0;border-radius:9px;
+    padding:13px 26px;cursor:pointer;width:100%;
+  }
+  .next:focus-visible{outline:2.5px solid var(--gold);outline-offset:2px}
+  .hide{display:none}
+
+  /* results */
+  .score{
+    text-align:center;border:2px solid var(--ink);border-radius:12px;
+    padding:22px 16px;margin-bottom:26px;
+  }
+  .score b{display:block;font-size:52px;line-height:1;font-weight:700}
+  .score span{font-size:14px;color:var(--ink-soft)}
+
+  h2{font-family:"Fraunces",Georgia,serif;font-size:19px;margin-bottom:14px;font-weight:600}
+  .ar{font-family:"IBM Plex Sans Arabic","Inter",sans-serif;direction:rtl;unicode-bidi:isolate;font-weight:400}
+  .backlink{display:inline-block;margin-top:18px;font-size:14px;color:var(--teal);font-weight:600}
+  .row{margin-bottom:16px}
+  .row .top{display:flex;justify-content:space-between;font-size:14px;margin-bottom:5px;gap:10px}
+  .row .top b{font-weight:600}
+  .track{height:9px;background:var(--line);border-radius:99px;overflow:hidden}
+  .track > i{display:block;height:100%;border-radius:99px}
+
+  .advice{border-left:3px solid var(--gold);padding:10px 0 10px 14px;margin-top:22px;font-size:15px}
+
+  /* review block */
+  .review-wrap{margin-top:28px}
+  .review-card{
+    background:var(--wrong-bg);border:1px solid #F5C6CB;border-left:4px solid var(--wrong);
+    border-radius:8px;padding:14px;margin-bottom:12px;font-size:14px;
+  }
+  .review-card h4{font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+  .review-card .ans{margin:3px 0;font-size:13.5px}
+  .review-card .w-val{color:var(--wrong);font-weight:600}
+  .review-card .c-val{color:var(--green);font-weight:600}
+  .review-card .why-txt{margin-top:6px;color:var(--ink-soft);font-size:13px;font-style:italic}
+
+  /* intake */
+  .field{margin-bottom:15px}
+  .field label{display:block;font-size:14px;font-weight:600;margin-bottom:5px}
+  .field input{
+    width:100%;font:inherit;font-size:16px;padding:12px 14px;
+    border:1.5px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);
+  }
+  .field input:focus{outline:2.5px solid var(--teal);outline-offset:1px;border-color:var(--teal)}
+  .field .hint{font-size:12.5px;color:var(--ink-soft);margin-top:4px}
+  .err{color:var(--wrong);font-size:13.5px;margin-bottom:12px;font-weight:600}
+  .whoami{font-size:13px;color:var(--ink-soft);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+
+  .restart{
+    font:inherit;font-size:15px;margin-top:26px;background:none;
+    border:1.5px solid var(--ink);border-radius:9px;padding:11px 22px;
+    cursor:pointer;color:var(--ink);width:100%;font-weight:600;
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker" id="kicker">Programming &amp; AI</div>
+  <h1>Check what you understood</h1>
+  <div class="byline" id="byline">10 questions · about 5 minutes · Mr. Eissa Islam</div>
+</header>
+
+<p class="count" id="introNote">Enter your details first, then the quiz begins.</p>
+
+<main id="intake">
+  <div class="field">
+    <label for="sName">Full name</label>
+    <input id="sName" type="text" autocomplete="name" placeholder="Write your name as it appears in class">
+  </div>
+  <div class="field">
+    <label for="sPhone">Phone number</label>
+    <input id="sPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="01xxxxxxxxx">
+    <div class="hint">Used only so your teacher can match this result to you.</div>
+  </div>
+  <div class="field">
+    <label for="sDate">Date</label>
+    <input id="sDate" type="date">
+  </div>
+  <div class="err hide" id="intakeErr"></div>
+  <button type="button" class="next" id="start">Start the quiz</button>
+</main>
+
+<main id="quiz" class="hide">
+  <div class="whoami" id="whoami"></div>
+  <div class="bar"><i id="prog"></i></div>
+  <div class="count" id="count"></div>
+  <div class="section-tag" id="tag"></div>
+  <div class="q" id="question"></div>
+  <div id="options"></div>
+  <div class="verdict hide" id="verdict"></div>
+  <button type="button" class="next hide" id="next"></button>
+</main>
+
+<main id="results" class="hide">
+  <div class="whoami" id="whoamiResult"></div>
+  <div class="score">
+    <b id="finalScore">0/0</b>
+    <span id="finalLabel"></span>
+  </div>
+
+  <h2>Where you stand, section by section</h2>
+  <div id="breakdown"></div>
+  <div class="advice" id="advice"></div>
+
+  <div id="reviewSection" class="hide review-wrap">
+    <h2>Questions to review <span class="ar">(الأخطاء التي تحتاج مراجعة)</span></h2>
+    <div id="wrongList"></div>
+  </div>
+
+  <div class="advice hide" id="sendState"></div>
+  <button type="button" class="restart" id="restart">Take it again</button>
+  <a class="backlink" href="../slides/">← Back to the slides</a>
+</main>
+
+<script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   Everything else on the page derives from it.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 1;
+const LECTURE_TITLE = "How does a computer think?";
+
+const LECTURE = {
+  num:       LECTURE_NUM,
+  label:     "Lecture " + LECTURE_NUM,
+  title:     LECTURE_TITLE,
+  slidesUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/slides",
+  quizUrl:   SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+/* Google Apps Script Web App endpoint that records submissions.
+   Set to "" to disable sending; the quiz still works without it. */
+const RESULTS_URL = "https://script.google.com/macros/s/AKfycbxfgPaAaOTuOhyyaRI4fWLclsYF1VsDXpkDQoURb_yUIsG35Lmf2wgg0IJ7Zff_BnHn/exec";
+
+const SECTIONS = [
+  "How computers work",
+  "Programming & AI terms",
+  "Tools & mindset",
+  "Career fields"
+];
+
+const QUESTIONS = [
+  { s:0, q:"What is the first stage in how a computer handles any task?",
+    o:["Input","Processing","Output"], a:0,
+    why:"Everything starts with input — the computer receives data before it can do anything with it." },
+  { s:0, q:"The CPU is responsible for which stage?",
+    o:["Receiving data","Processing","Displaying results"], a:1,
+    why:"The CPU is where the actual work on the data happens." },
+  { s:1, q:"Specific, ordered instructions written for a computer are called:",
+    o:["Artificial intelligence","Programming","Design"], a:1,
+    why:"Programming is giving the computer exact steps to follow, one after another." },
+  { s:1, q:"A computer that learns from data and works out decisions itself is doing:",
+    o:["Programming","Artificial intelligence","Compiling"], a:1,
+    why:"AI finds patterns in data instead of following rules someone wrote by hand." },
+  { s:1, q:"print(\"hello world\") is an example of:",
+    o:["A programming language","Source code","A compiler"], a:1,
+    why:"Source code is the actual text a programmer writes. Python is the language it is written in." },
+  { s:2, q:"The program that turns your code into machine language is the:",
+    o:["Text editor","Compiler","IDE"], a:1,
+    why:"The compiler translates your code into the zeros and ones the computer understands." },
+  { s:2, q:"A full workspace with an editor plus tools to run and debug is called:",
+    o:["A compiler","An IDE","Source code"], a:1,
+    why:"That is the whole kitchen, not just the counter — editor, run tools and error-finding together." },
+  { s:2, q:"A program stops working because of one missing semicolon. This shows a programmer mostly needs:",
+    o:["Fast typing","Attention to detail","Advanced maths"], a:1,
+    why:"Small details break programs, so patience and care matter more than typing speed." },
+  { s:3, q:"Studying large amounts of data to pull useful insights out of it is the field of:",
+    o:["Cybersecurity","Data analysis","Networking"], a:1,
+    why:"Data analysis is about turning raw data into something meaningful." },
+  { s:3, q:"Protecting systems and accounts from being hacked is the field of:",
+    o:["Data analysis","Cybersecurity","Game development"], a:1,
+    why:"Cybersecurity is the field focused on defending systems against attacks." }
+];
+
+const state = {
+  i: 0,
+  answered: false,
+  correct: [],
+  total: [],
+  name: "",
+  phone: "",
+  date: "",
+  wrongQuestions: []
+};
+
+SECTIONS.forEach((_, k) => { state.correct[k] = 0; state.total[k] = 0; });
+QUESTIONS.forEach(q => state.total[q.s]++);
+
+const $ = id => document.getElementById(id);
+
+// stamp lecture identity from the config block
+(function(){
+  document.title = LECTURE.label + " Quiz \u2014 " + LECTURE.title;
+  $("kicker").textContent = LECTURE.label + " \u2014 " + LECTURE.title;
+  $("byline").textContent =
+    QUESTIONS.length + " questions \u00b7 about 5 minutes \u00b7 Mr. Eissa Islam";
+})();
+
+// prefill today's date
+(function(){
+  const d = new Date();
+  const iso = d.getFullYear() + "-" +
+    String(d.getMonth()+1).padStart(2,"0") + "-" +
+    String(d.getDate()).padStart(2,"0");
+  $("sDate").value = iso;
+})();
+
+$("start").onclick = () => {
+  const name  = $("sName").value.trim();
+  const phone = $("sPhone").value.trim();
+  const date  = $("sDate").value;
+  const err   = $("intakeErr");
+
+  /* A first name alone can't be matched to a register, so ask for at least
+     two words. Phone is kept permissive on format but bounded on length. */
+  const words  = name.split(/\s+/).filter(w => w.length >= 2);
+  const digits = phone.replace(/\D/g,"");
+  let problem = "";
+  if(words.length < 2)        problem = "Please write your full name — first and last name.";
+  else if(digits.length < 8)  problem = "Please write a valid phone number.";
+  else if(digits.length > 15) problem = "That phone number is too long.";
+  else if(!date)              problem = "Please choose the date.";
+
+  if(problem){
+    err.textContent = problem;
+    err.className = "err";
+    return;
+  }
+
+  state.name = name; state.phone = phone; state.date = date;
+  const line = name + " · " + phone + " · " + date;
+  $("whoami").textContent = line;
+  $("whoamiResult").textContent = line;
+
+  $("intake").className = "hide";
+  $("introNote").className = "hide";
+  $("quiz").className = "";
+  render();
+};
+
+function render(){
+  const q = QUESTIONS[state.i];
+  state.answered = false;
+
+  $("prog").style.width = (state.i / QUESTIONS.length * 100) + "%";
+  $("count").textContent = "Question " + (state.i+1) + " of " + QUESTIONS.length;
+  $("tag").textContent = SECTIONS[q.s];
+  $("question").textContent = q.q;
+
+  const box = $("options");
+  box.innerHTML = "";
+  q.o.forEach((text, idx) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "opt";
+    b.textContent = text;
+    b.onclick = () => choose(idx);
+    box.appendChild(b);
+  });
+
+  $("verdict").className = "verdict hide";
+  $("next").className = "next hide";
+}
+
+function choose(idx){
+  if(state.answered) return;
+  state.answered = true;
+
+  const q = QUESTIONS[state.i];
+  const buttons = document.querySelectorAll(".opt");
+  buttons.forEach((b,k) => {
+    b.disabled = true;
+    if(k === q.a) b.classList.add("correct");
+    else if(k === idx) b.classList.add("chosen-wrong");
+  });
+
+  const right = idx === q.a;
+  if(right) {
+    state.correct[q.s]++;
+  } else {
+    state.wrongQuestions.push({
+      question: q.q,
+      selected: q.o[idx],
+      correct: q.o[q.a],
+      why: q.why
+    });
+  }
+
+  const v = $("verdict");
+  v.className = "verdict " + (right ? "ok" : "no");
+  v.textContent = (right ? "Correct. " : "Not quite. ") + q.why;
+
+  const n = $("next");
+  n.className = "next";
+  n.textContent = state.i === QUESTIONS.length - 1 ? "See my results" : "Next question";
+  n.focus();
+}
+
+$("next").onclick = () => {
+  if(state.i === QUESTIONS.length - 1) finish();
+  else { state.i++; render(); }
+};
+
+/* small DOM helpers — keep review cards free of innerHTML interpolation */
+function el(tag, cls, text){
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  n.textContent = text;
+  return n;
+}
+function ansLine(icon, label, value, cls){
+  const row = document.createElement("div");
+  row.className = "ans";
+  row.appendChild(document.createTextNode(icon + " "));
+  row.appendChild(el("b", "", label));
+  row.appendChild(document.createTextNode(" "));
+  row.appendChild(el("span", cls, value));
+  return row;
+}
+
+function finish(){
+  const got = state.correct.reduce((a,b)=>a+b,0);
+  $("quiz").className = "hide";
+  $("results").className = "";
+
+  $("finalScore").textContent = got + "/" + QUESTIONS.length;
+  $("finalLabel").textContent =
+    got >= 9 ? "Excellent — you followed the whole session closely." :
+    got >= 7 ? "Good. A couple of spots to review." :
+    got >= 5 ? "Halfway there. Go back over the sections below." :
+               "Worth revisiting the booklet before the next session.";
+
+  const wrap = $("breakdown");
+  wrap.innerHTML = "";
+  const weak = [];
+
+  SECTIONS.forEach((name,k) => {
+    const c = state.correct[k], t = state.total[k];
+    const pct = Math.round(c/t*100);
+    const colour = pct === 100 ? "var(--teal)" : pct >= 50 ? "var(--gold)" : "var(--wrong)";
+    if(pct < 100) weak.push(name);
+
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML =
+      '<div class="top"><b></b><span></span></div>' +
+      '<div class="track"><i style="width:' + pct + '%;background:' + colour + '"></i></div>';
+    row.querySelector("b").textContent = name;
+    row.querySelector("span").textContent = c + " of " + t;
+    wrap.appendChild(row);
+  });
+
+  $("advice").textContent = weak.length === 0
+    ? "Nothing to revise — you got every section right. Bring a question of your own to the next session."
+    : "Focus your review on: " + weak.join(", ") + ". These are the parts of the booklet to read again before the next session.";
+
+  // Render Mistake Review Section
+  const reviewSec = $("reviewSection");
+  const wrongList = $("wrongList");
+  wrongList.innerHTML = "";
+  
+  if (state.wrongQuestions.length > 0) {
+    reviewSec.className = "review-wrap";
+    state.wrongQuestions.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "review-card";
+      card.appendChild(el("h4", "", item.question));
+      card.appendChild(ansLine("\u274c", "Your answer:", item.selected, "w-val"));
+      card.appendChild(ansLine("\u2705", "Correct answer:", item.correct, "c-val"));
+      card.appendChild(el("div", "why-txt", item.why));
+      wrongList.appendChild(card);
+    });
+  } else {
+    reviewSec.className = "hide";
+  }
+
+  sendResult(got, weak);
+}
+
+function sendResult(got, weak){
+  const box = $("sendState");
+  if(!RESULTS_URL){ box.className = "hide"; return; }
+
+  box.className = "advice";
+  box.style.borderLeftColor = "var(--gold)";
+  box.textContent = "Sending your result to your teacher…";
+
+  const payload = {
+    lecture: LECTURE.label,
+    name:   state.name,
+    phone:  state.phone,
+    date:   state.date,
+    score:  got,
+    total:  QUESTIONS.length,
+    weak:   weak.join(", ") || "none",
+    sections: SECTIONS.map((s,k)=> s + ": " + state.correct[k] + "/" + state.total[k]).join(" | "),
+    wrongQuestions: state.wrongQuestions
+  };
+
+  fetch(RESULTS_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload)
+  }).then(() => {
+    box.style.borderLeftColor = "var(--teal)";
+    box.textContent = "Your result has been sent to your teacher.";
+  }).catch(() => {
+    box.style.borderLeftColor = "var(--wrong)";
+    box.textContent = "Couldn't send automatically. Please screenshot this page and send it to your teacher.";
+  });
+}
+
+$("restart").onclick = () => {
+  state.i = 0;
+  state.wrongQuestions = [];
+  SECTIONS.forEach((_,k)=> state.correct[k]=0 );
+  $("results").className = "hide";
+  $("quiz").className = "";
+  render();
+};
+</script>
+</body>
+</html>
