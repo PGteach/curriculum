@@ -159,21 +159,27 @@ node --check <(sed -n '/<script>/,/<\/script>/p' lecture1/quiz/index.html | sed 
 - Placeholders are split by escaping context: `__TITLE_HTML__` is
   HTML-escaped, `__TITLE_JS__` is escaped for a JS string. Do not merge them,
   or a title containing `&` or `"` breaks one of the two.
-- Pages builds with Jekyll (`build_type: legacy`), which runs Liquid over
-  every `.md` and `.html` file **before** Markdown, so its delimiters break
-  the build even inside backticks or a fenced code block. Writing that
-  warning literally is what broke the deploy in commit `a63ed4e`; the fix
-  is a raw block:
-  {% raw %}
+- **Pages builds with Jekyll**, which runs Liquid over every `.md` and
+  `.html` file *before* Markdown. Liquid's two delimiters — a doubled
+  curly brace, and a curly brace followed by a percent sign — therefore
+  break the build even inside backticks or a fenced code block. There is
+  no way to show them literally in this file, which is exactly what broke
+  commits `a63ed4e` and `2209593`: first by writing the warning, then by
+  trying to escape it with a raw block whose closing tag ended the block
+  early. Describe them in words instead.
+- **A failed Jekyll build skips the deploy entirely**, so the whole site
+  keeps serving the previous commit — the slides and quiz included. The
+  Pages API reports this as `building`, never as an error, so check the
+  workflow instead. Before every push:
+
+  ```bash
+  grep -rnE '\{[%{]' --include='*.md' --include='*.html' .   # must print nothing
   ```
-  {% raw %} ... {% endraw %}   <- wrap any literal {{ or {% you need
+
+  ```bash
+  gh run list --repo PGteach/curriculum --limit 1   # must say success
   ```
-  {% endraw %}
-  A failed Jekyll build skips the deploy entirely, so the whole site keeps
-  serving the previous commit — check
-  `gh run list --repo PGteach/curriculum` after pushing, not just the
-  Pages API, which reports `building` rather than `errored`.
-  Also do not add paths starting with `_`.
+- Do not add paths starting with `_`; Jekyll ignores them.
 - The git identity on the original machine was `eissa2002`, but the repo
   belongs to `PGteach`; pushing needs `gh auth login` as PGteach. Commits here
   are authored as `PGteach <323123806+PGteach@users.noreply.github.com>`.
