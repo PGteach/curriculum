@@ -170,12 +170,17 @@ tr:last-child td{border-bottom:0}
   border-top:1px solid var(--line);z-index:30;
 }
 .slide.dark ~ #nav{}
-#nav .who{font-size:clamp(10px,1.05vw,13px);color:var(--soft)}
+#nav .who{font-size:clamp(10px,1.05vw,13px);color:var(--soft);white-space:nowrap;flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
 #counter{font-size:clamp(10px,1.05vw,13px);color:var(--soft);font-variant-numeric:tabular-nums;margin-left:.7em}
 .qrwrap a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,150,59,.45)}
 #nav .mid{display:flex;gap:6px;align-items:center}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:.2s}
-.dot.on{background:var(--teal);transform:scale(1.45)}
+#nav .dot{
+  width:8px;height:8px;flex:0 0 auto;
+  padding:0;border:0;border-radius:50%;
+  background:var(--line);cursor:pointer;transition:.2s;
+}
+#nav .dot.on{background:var(--teal);transform:scale(1.45)}
+#nav .dot:hover{background:var(--soft)}
 #nav button{
   font:inherit;font-size:clamp(11px,1.1vw,14px);font-weight:500;
   background:none;border:1px solid var(--line);border-radius:7px;
@@ -184,6 +189,19 @@ tr:last-child td{border-bottom:0}
 #nav button:hover{border-color:var(--teal);color:var(--teal)}
 #nav button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .hint{position:fixed;bottom:8.5vh;right:clamp(14px,3vw,40px);font-size:11px;color:var(--soft);z-index:30;opacity:.75}
+
+/* ---------- phones ---------- */
+@media(max-width:620px){
+  /* more room at the bottom so text clears the fixed nav bar */
+  .slide{padding:4.5vh 7vw 13vh}
+  #nav{height:auto;min-height:54px;padding:9px clamp(12px,4vw,22px)}
+  /* 8px dots are not a usable tap target, and 12 of them do not
+     fit a phone; the n / total counter covers the same job */
+  #nav .mid{display:none}
+  #counter{margin-left:.45em}
+  /* this sat on top of the Arabic line */
+  .hint{display:none}
+}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>

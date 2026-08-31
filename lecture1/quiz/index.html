@@ -253,8 +253,36 @@ const state = {
   name: "",
   phone: "",
   date: "",
-  wrongQuestions: []
+  wrongQuestions: [],
+  order: [],         // displayed position -> index in the question's o[]
+  qOrder: []         // step number -> index in QUESTIONS
 };
+
+/* Fisher-Yates. Two things are shuffled, both to stop copying:
+     - the options, on every render, so the correct answer is not always
+       in the same slot (a student could otherwise always pick the second)
+     - the question order, once per attempt, so two students sitting
+       together are not on the same question at the same time
+   q.a stays the source of truth; only the display order changes. */
+function shuffle(a){
+  for(let k = a.length - 1; k > 0; k--){
+    const j = Math.floor(Math.random() * (k + 1));
+    [a[k], a[j]] = [a[j], a[k]];
+  }
+  return a;
+}
+
+/* the question being shown at the current step */
+function currentQ(){
+  return QUESTIONS[state.qOrder[state.i]];
+}
+
+function newAttempt(){
+  state.i = 0;
+  state.wrongQuestions = [];
+  state.qOrder = shuffle(QUESTIONS.map((_, k) => k));
+  SECTIONS.forEach((_, k) => { state.correct[k] = 0; });
+}
 
 SECTIONS.forEach((_, k) => { state.correct[k] = 0; state.total[k] = 0; });
 QUESTIONS.forEach(q => state.total[q.s]++);
@@ -308,11 +336,12 @@ $("start").onclick = () => {
   $("intake").className = "hide";
   $("introNote").className = "hide";
   $("quiz").className = "";
+  newAttempt();
   render();
 };
 
 function render(){
-  const q = QUESTIONS[state.i];
+  const q = currentQ();
   state.answered = false;
 
   $("prog").style.width = (state.i / QUESTIONS.length * 100) + "%";
@@ -320,14 +349,17 @@ function render(){
   $("tag").textContent = SECTIONS[q.s];
   $("question").textContent = q.q;
 
+  state.order = shuffle(q.o.map((_, k) => k));
+
   const box = $("options");
   box.innerHTML = "";
-  q.o.forEach((text, idx) => {
+  state.order.forEach(orig => {
     const b = document.createElement("button");
     b.type = "button";
     b.className = "opt";
-    b.textContent = text;
-    b.onclick = () => choose(idx);
+    b.textContent = q.o[orig];
+    /* pass the original index, so q.a stays the source of truth */
+    b.onclick = () => choose(orig);
     box.appendChild(b);
   });
 
@@ -339,12 +371,13 @@ function choose(idx){
   if(state.answered) return;
   state.answered = true;
 
-  const q = QUESTIONS[state.i];
+  const q = currentQ();
   const buttons = document.querySelectorAll(".opt");
-  buttons.forEach((b,k) => {
+  buttons.forEach((b,pos) => {
     b.disabled = true;
-    if(k === q.a) b.classList.add("correct");
-    else if(k === idx) b.classList.add("chosen-wrong");
+    const orig = state.order[pos];      // buttons are in shuffled order
+    if(orig === q.a) b.classList.add("correct");
+    else if(orig === idx) b.classList.add("chosen-wrong");
   });
 
   const right = idx === q.a;
@@ -485,9 +518,7 @@ function sendResult(got, weak){
 }
 
 $("restart").onclick = () => {
-  state.i = 0;
-  state.wrongQuestions = [];
-  SECTIONS.forEach((_,k)=> state.correct[k]=0 );
+  newAttempt();                 // reshuffles questions and options
   $("results").className = "hide";
   $("quiz").className = "";
   render();

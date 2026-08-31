@@ -22,12 +22,14 @@ https://pgteach.github.io/curriculum/lectureN/quiz
 curriculum/
 ├── lecture1/
 │   ├── slides/index.html      12 slides, keyboard + swipe navigation
-│   └── quiz/index.html        10 questions, 4 sections, results emailed to a Sheet
+│   └── quiz/index.html        10 questions, 4 sections, results recorded to a Sheet
 ├── templates/
 │   ├── slides-template.html   skeleton deck with the shared chrome
 │   └── quiz-template.html     skeleton quiz with the shared engine
 ├── scripts/
-│   └── new_lecture.py         scaffolds lectureN/ from the templates
+│   ├── new_lecture.py         scaffolds lectureN/ from the templates
+│   └── apps-script.gs         the Apps Script that records quiz results
+├── HANDOFF.md                 current state, open items, gotchas
 └── README.md
 ```
 
@@ -60,6 +62,13 @@ Then fill in the content:
 2. **Questions** — edit `SECTIONS` and `QUESTIONS` at the top of the
    `<script>` in `lectureN/quiz/index.html`.
 3. Open both files in a browser, then commit and push to `main`.
+
+### Answer positions do not matter
+
+Both the options and the question order are shuffled at runtime, so you can
+write the correct answer in whatever slot reads most naturally. Options are
+reshuffled on every render; question order is reshuffled once per attempt, so
+two students sitting together are not on the same question at the same time.
 
 ### Nothing needs counting by hand
 
@@ -129,28 +138,25 @@ from Apps Script without CORS headers, and none are needed here) and
 content type a no-cors request is allowed to set. Apps Script reads the body
 from `e.postData.contents` either way.
 
-A `doPost` that appends each submission as one row:
+The receiving script lives in [scripts/apps-script.gs](scripts/apps-script.gs).
+It writes one tab per lecture (created on demand), flattens `wrongQuestions`
+into a readable Mistakes column, and forces the Phone column to text so Sheets
+does not read `01129907116` as a number and drop the leading zero.
 
-```js
-function doPost(e) {
-  const d = JSON.parse(e.postData.contents);
-  SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().appendRow([
-    new Date(), d.lecture, d.name, d.phone, d.date,
-    d.score, d.total, d.weak, d.sections,
-    (d.wrongQuestions || [])
-      .map(w => w.question + " -> chose: " + w.selected + " / correct: " + w.correct)
-      .join("\n")
-  ]);
-  return ContentService.createTextOutput("ok");
-}
-```
+To install it: open the Sheet, Extensions > Apps Script, paste the file in, then
+Deploy > New deployment > Web app, **Execute as: me**, **Who has access:
+anyone**, and paste the `/exec` URL into `RESULTS_URL`. After any later edit you
+must deploy a **new version** — saving alone does not change the live URL.
 
-Deploy it as **Execute as: me**, **Who has access: anyone**, then paste the
-`/exec` URL into `RESULTS_URL`. Set `RESULTS_URL = ""` to turn sending off —
-the quiz still runs and still shows the student their review list.
+Set `RESULTS_URL = ""` to turn sending off; the quiz still runs and still
+shows the student their review list.
 
 Intake requires a full name (two words or more), a phone number of 8–15
 digits, and a date, which is pre-filled with today.
+
+Because the request is fire-and-forget, a student always sees "sent to your
+teacher" even if the script errors. Confirm in the Sheet, or in the Apps Script
+editor's Executions tab.
 
 ## GitHub Pages
 
