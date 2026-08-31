@@ -105,6 +105,13 @@ teacher". Verify in the sheet, or in the Apps Script editor's Executions tab.
 - Slide 12 says "10 questions" as static text; it is not derived from the
   quiz's `QUESTIONS.length` (different page). Templates say just
   "Test yourself".
+- **Jekyll is a liability here.** Any Markdown file containing Liquid
+  delimiters fails the build, and a failed build blocks the deploy of the
+  slides and quiz too — a docs typo can take the teaching pages offline.
+  Adding `.nojekyll` makes the build serve files verbatim and immune to
+  this, but it also removes the auto-generated landing page at
+  `/curriculum/`, so it needs a real root `index.html` alongside it.
+  Offered, not yet decided.
 
 ## Adding a lecture
 
@@ -152,8 +159,21 @@ node --check <(sed -n '/<script>/,/<\/script>/p' lecture1/quiz/index.html | sed 
 - Placeholders are split by escaping context: `__TITLE_HTML__` is
   HTML-escaped, `__TITLE_JS__` is escaped for a JS string. Do not merge them,
   or a title containing `&` or `"` breaks one of the two.
-- Pages builds with Jekyll (`build_type: legacy`). Avoid `{{` and `{%` in any
-  file, and do not add paths starting with `_`.
+- Pages builds with Jekyll (`build_type: legacy`), which runs Liquid over
+  every `.md` and `.html` file **before** Markdown, so its delimiters break
+  the build even inside backticks or a fenced code block. Writing that
+  warning literally is what broke the deploy in commit `a63ed4e`; the fix
+  is a raw block:
+  {% raw %}
+  ```
+  {% raw %} ... {% endraw %}   <- wrap any literal {{ or {% you need
+  ```
+  {% endraw %}
+  A failed Jekyll build skips the deploy entirely, so the whole site keeps
+  serving the previous commit — check
+  `gh run list --repo PGteach/curriculum` after pushing, not just the
+  Pages API, which reports `building` rather than `errored`.
+  Also do not add paths starting with `_`.
 - The git identity on the original machine was `eissa2002`, but the repo
   belongs to `PGteach`; pushing needs `gh auth login` as PGteach. Commits here
   are authored as `PGteach <323123806+PGteach@users.noreply.github.com>`.
