@@ -60,6 +60,15 @@ var LINE = "#D8DDE4";   // grid lines
    only to whoever owns this script. Do not add setSharing here. */
 var IMAGE_FOLDER = "PGteach quiz results";
 
+/**
+ * Optional hand-styled tab. If a tab with this name exists, every new lecture
+ * tab is a copy of it, so whatever you set up there by hand — colours, widths,
+ * conditional formatting, notes, data validation — carries over without going
+ * near this code. Delete it and the script falls back to formatTab_() below.
+ * Run createTemplateTab() once to get a starting point you can then restyle.
+ */
+var TEMPLATE_TAB = "Template";
+
 
 function doPost(e) {
   try {
@@ -125,7 +134,23 @@ function getSheet_(book, lecture) {
   var sheet = book.getSheetByName(name);
 
   if (!sheet) {
-    sheet = book.insertSheet(name);
+    var tpl = book.getSheetByName(TEMPLATE_TAB);
+    if (tpl) {
+      // Duplicate the hand-styled tab, so its formatting comes along.
+      sheet = tpl.copyTo(book).setName(name);
+      sheet.showSheet();                       // a copy of a hidden tab is hidden
+      if (sheet.getMaxRows() > 1) {            // keep the header, drop any sample rows
+        sheet.getRange(2, 1, sheet.getMaxRows() - 1, sheet.getMaxColumns())
+             .clearContent();
+      }
+      if (!isResultsTab_(sheet)) {             // template drifted from COLUMNS
+        sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+      }
+    } else {
+      sheet = book.insertSheet(name);
+      sheet.appendRow(HEADERS);
+      formatTab_(sheet);
+    }
     sortTabs_(book);
   }
 
@@ -135,6 +160,47 @@ function getSheet_(book, lecture) {
   }
 
   return sheet;
+}
+
+/**
+ * Creates the hand-styled Template tab, formatted from COLUMNS as a starting
+ * point. Restyle it however you like afterwards — new lecture tabs copy it.
+ */
+function createTemplateTab() {
+  var book = SpreadsheetApp.openById(SHEET_ID);
+  if (book.getSheetByName(TEMPLATE_TAB)) {
+    Logger.log("'" + TEMPLATE_TAB + "' already exists. Style it by hand; new " +
+               "lecture tabs will copy it as it stands.");
+    return;
+  }
+  var tpl = book.insertSheet(TEMPLATE_TAB);
+  tpl.appendRow(HEADERS);
+  formatTab_(tpl);
+  tpl.hideSheet();
+  Logger.log("Created '" + TEMPLATE_TAB + "' (hidden). Unhide it, style it by " +
+             "hand, and every new lecture tab will look like it. Run " +
+             "reformatAllTabs() to push the same look onto the tabs you " +
+             "already have.");
+}
+
+/**
+ * Copies the Template's look onto an existing tab. Widths, frozen panes, row
+ * height and cell formats transfer; banding and conditional-formatting rules
+ * do not — those only come across when a tab is created as a copy.
+ */
+function applyTemplateFormat_(tpl, sheet) {
+  var n = HEADERS.length;
+  var rows = Math.max(sheet.getMaxRows(), 2);
+
+  for (var c = 1; c <= n; c++) sheet.setColumnWidth(c, tpl.getColumnWidth(c));
+  sheet.setFrozenRows(tpl.getFrozenRows());
+  sheet.setFrozenColumns(tpl.getFrozenColumns());
+  sheet.setRowHeight(1, tpl.getRowHeight(1));
+
+  tpl.getRange(1, 1, 1, n).copyTo(sheet.getRange(1, 1, 1, n), {formatOnly: true});
+  // a one-row source tiles down the destination
+  tpl.getRange(2, 1, 1, n).copyTo(sheet.getRange(2, 1, rows - 1, n),
+                                  {formatOnly: true});
 }
 
 /**
@@ -280,11 +346,16 @@ function isResultsTab_(sheet) {
 /** Re-applies widths, wrapping, borders and striping to every results tab. */
 function reformatAllTabs() {
   var book = SpreadsheetApp.openById(SHEET_ID);
+  var tpl = book.getSheetByName(TEMPLATE_TAB);
   var done = [], skipped = [];
   book.getSheets().forEach(function (sheet) {
-    if (isResultsTab_(sheet)) { formatTab_(sheet); done.push(sheet.getName()); }
-    else skipped.push(sheet.getName());
+    if (sheet.getName() === TEMPLATE_TAB) return;
+    if (!isResultsTab_(sheet)) { skipped.push(sheet.getName()); return; }
+    if (tpl) applyTemplateFormat_(tpl, sheet);
+    else formatTab_(sheet);
+    done.push(sheet.getName());
   });
+  if (tpl) Logger.log("Used the '" + TEMPLATE_TAB + "' tab as the source of the look.");
   Logger.log("Reformatted: " + (done.join(", ") || "nothing"));
   if (skipped.length) {
     Logger.log("Left alone (header row does not match this table): " +

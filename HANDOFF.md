@@ -125,6 +125,14 @@ What that script changes:
 - `migrateOldRows()` copies the 4 existing `Sheet1` rows into the Lecture 1 tab,
   marking Mistakes as `(not recorded)`. Run it once by hand, check, then delete
   `Sheet1` yourself
+- **an optional hand-styled `Template` tab.** If it exists, every new lecture
+  tab is a copy of it, so colours, widths, conditional formatting and notes set
+  by hand in Sheets carry over without touching code. `createTemplateTab()`
+  makes one; delete it and the script falls back to `formatTab_()`.
+  `reformatAllTabs()` pushes the Template's look onto tabs that already exist
+  (formats yes; banding and conditional-format rules only travel with a fresh
+  copy). Two sources of truth is the trade — `getSheet_` re-stamps the header
+  row if the Template has drifted from `COLUMNS`
 - saves the result screenshot to Drive and links it from the Screenshot column.
   **This adds a Drive scope, so the first run will ask for authorisation again**
   — approve it, or every row lands with `(image failed: …)` while the rest of
