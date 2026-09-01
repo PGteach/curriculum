@@ -8,6 +8,9 @@
  * IMPORTANT: after editing this file you must create a NEW deployment (or
  * "Manage deployments" > edit > Version: New version). Saving alone does not
  * update the live /exec URL.
+ *
+ * After pasting a new version, run reformatAllTabs() once from the editor to
+ * apply the column widths and formatting to tabs that already exist.
  */
 
 var SHEET_ID = "1Y3jeo_5e2Q5r7fYEuTr79Pr8dPEtjmp8pVeqTJabXss";
@@ -15,30 +18,48 @@ var SHEET_ID = "1Y3jeo_5e2Q5r7fYEuTr79Pr8dPEtjmp8pVeqTJabXss";
 /**
  * true  -> one tab per lecture ("Lecture 1", "Lecture 2", …), created on demand
  * false -> everything in a single "All results" tab, with a Lecture column
- * Either way a Lecture column is written, so nothing is lost if you switch.
+ *
+ * USING APPSHEET? Set this to false. AppSheet binds one table to one
+ * worksheet and does not discover new tabs by itself, so a tab per lecture
+ * means adding a new AppSheet table every single lecture. With one tab you
+ * add the table once and filter on the Lecture column. Run mergeTabsIntoOne()
+ * after flipping this, to bring the existing per-lecture rows across.
  */
 var ONE_TAB_PER_LECTURE = true;
 
-var HEADERS = [
-  "Submitted at",
-  "Lecture",
-  "Name",
-  "Phone",
-  "Date",
-  "Score",
-  "Out of",
-  "Weak sections",
-  "Section breakdown",
-  "Mistakes",
-  "Screenshot"
+/**
+ * The table, in order. Headers, widths, wrapping, alignment and the phone
+ * text format are all derived from this, so adding a column is a one-line
+ * change and nothing else needs updating.
+ *   wrap:  true to wrap long text, false to clip it to the column
+ *   align: left | center | right
+ *   text:  true to force text format (stops Sheets eating leading zeros)
+ */
+var COLUMNS = [
+  { header: "Submitted at",      width: 150, align: "left"   },
+  { header: "Lecture",           width:  95, align: "left"   },
+  { header: "Name",              width: 200, align: "left"   },
+  { header: "Phone",             width: 130, align: "left",   text: true },
+  { header: "Date",              width: 100, align: "center" },
+  { header: "Score",             width:  65, align: "center" },
+  { header: "Out of",            width:  65, align: "center" },
+  { header: "Weak sections",     width: 210, align: "left",   wrap: true },
+  { header: "Section breakdown", width: 300, align: "left",   wrap: true },
+  { header: "Mistakes",          width: 460, align: "left",   wrap: true },
+  { header: "Screenshot",        width: 120, align: "center" }
 ];
 
-var PHONE_COL = 4;   // 1-based index of "Phone" in HEADERS
+var HEADERS   = COLUMNS.map(function (c) { return c.header; });
+var PHONE_COL = HEADERS.indexOf("Phone") + 1;   // 1-based
+
+var INK  = "#16233F";   // header background
+var LINE = "#D8DDE4";   // grid lines
 
 /* Drive folder the result cards are filed under. Left private on purpose:
    the cards carry student names and phone numbers, so they stay visible
    only to whoever owns this script. Do not add setSharing here. */
 var IMAGE_FOLDER = "PGteach quiz results";
+
 
 function doPost(e) {
   try {
@@ -60,7 +81,7 @@ function doPost(e) {
       new Date(),
       lecture,
       d.name || "",
-      String(d.phone || ""),
+      "",                       // phone is written below, as text
       d.date || "",
       d.score,
       d.total,
@@ -70,7 +91,17 @@ function doPost(e) {
       shot
     ]);
 
-    return json_({ ok: true, tab: sheet.getName(), image: shot });
+    var row = sheet.getLastRow();
+
+    // Written separately with the cell forced to text first. Through
+    // appendRow, Sheets reads "01129907116" as a number and drops the zero.
+    sheet.getRange(row, PHONE_COL)
+         .setNumberFormat("@")
+         .setValue(String(d.phone || ""));
+
+    sheet.getRange(row, 1, 1, COLUMNS.length).setVerticalAlignment("top");
+
+    return json_({ ok: true, tab: sheet.getName(), row: row, image: shot });
 
   } catch (err) {
     // Note: the quiz sends with mode:"no-cors", so the browser cannot read
@@ -82,6 +113,11 @@ function doPost(e) {
 function doGet() {
   return ContentService.createTextOutput("Quiz results endpoint is running.");
 }
+
+
+/* ------------------------------------------------------------------ */
+/* Sheet plumbing                                                      */
+/* ------------------------------------------------------------------ */
 
 /** Returns the target tab, creating and formatting it the first time. */
 function getSheet_(book, lecture) {
@@ -95,17 +131,65 @@ function getSheet_(book, lecture) {
 
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADERS);
-    sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight("bold");
-    sheet.setFrozenRows(1);
-    // Phone must be text, or Sheets reads "01129907116" as a number and
-    // silently drops the leading zero.
-    sheet.getRange(1, PHONE_COL, sheet.getMaxRows(), 1).setNumberFormat("@");
-    sheet.setColumnWidth(1, 130);   // Submitted at
-    sheet.setColumnWidth(3, 170);   // Name
-    sheet.setColumnWidth(10, 420);  // Mistakes
+    formatTab_(sheet);
   }
 
   return sheet;
+}
+
+/**
+ * The whole visual treatment for a results tab. Safe to run repeatedly, and
+ * safe on a tab that already holds data — it only touches formatting.
+ */
+function formatTab_(sheet) {
+  var nCols = COLUMNS.length;
+  var maxRows = sheet.getMaxRows();
+
+  // Trim stray columns so the table ends where the data ends. AppSheet reads
+  // the header row, and trailing blank headers can stop it cold.
+  if (sheet.getMaxColumns() > nCols) {
+    sheet.deleteColumns(nCols + 1, sheet.getMaxColumns() - nCols);
+  }
+
+  // Header
+  var head = sheet.getRange(1, 1, 1, nCols);
+  head.setValues([HEADERS])
+      .setFontWeight("bold")
+      .setFontColor("#ffffff")
+      .setBackground(INK)
+      .setVerticalAlignment("middle")
+      .setHorizontalAlignment("left")
+      .setWrap(false);
+  sheet.setRowHeight(1, 34);
+  sheet.setFrozenRows(1);
+  sheet.setFrozenColumns(3);        // keep time, lecture and name in view
+
+  // Per-column width, alignment, wrapping, number format
+  COLUMNS.forEach(function (c, i) {
+    var col = i + 1;
+    sheet.setColumnWidth(col, c.width);
+
+    var body = sheet.getRange(2, col, Math.max(maxRows - 1, 1), 1);
+    body.setHorizontalAlignment(c.align)
+        .setVerticalAlignment("top")
+        .setWrap(!!c.wrap);
+    if (c.text) body.setNumberFormat("@");
+  });
+
+  // Grid + zebra striping over the used range only
+  var lastRow = Math.max(sheet.getLastRow(), 1);
+  var used = sheet.getRange(1, 1, lastRow, nCols);
+  used.setBorder(true, true, true, true, true, true, LINE,
+                 SpreadsheetApp.BorderStyle.SOLID);
+  used.setFontFamily("Inter").setFontSize(10);
+
+  // applyRowBanding throws if a banding already covers the range
+  sheet.getBandings().forEach(function (b) { b.remove(); });
+  if (lastRow > 1) {
+    used.applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY, true, false);
+    // banding repaints the header, so restore it
+    head.setFontWeight("bold").setFontColor("#ffffff").setBackground(INK);
+  }
 }
 
 /** Keeps lecture tabs in numeric order: Lecture 1, Lecture 2, Lecture 10. */
@@ -124,6 +208,11 @@ function lectureNum_(name) {
   return m ? parseInt(m[1], 10) : 9999;   // non-lecture tabs sink to the end
 }
 
+
+/* ------------------------------------------------------------------ */
+/* Result screenshots                                                  */
+/* ------------------------------------------------------------------ */
+
 /**
  * Decodes the base64 PNG the quiz sends and files it in Drive.
  * Returns the file URL, or a short note when there is no image.
@@ -132,7 +221,7 @@ function saveImage_(b64, lecture, name) {
   if (!b64) return "(no image)";
 
   var bytes = Utilities.base64Decode(b64);
-  var safe = String(name || "student").replace(/[\/:*?"<>|]/g, " ").trim().slice(0, 60);
+  var safe = String(name || "student").replace(/[\/:*?"<>|\\]/g, " ").trim().slice(0, 60);
   var stamp = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "yyyy-MM-dd HH-mm-ss");
   var file = folder_(lecture).createFile(
     Utilities.newBlob(bytes, "image/png", lecture + " - " + safe + " - " + stamp + ".png"));
@@ -167,9 +256,23 @@ function json_(obj) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+
 /* ------------------------------------------------------------------ */
 /* Run these by hand from the editor, not from the web app.           */
 /* ------------------------------------------------------------------ */
+
+/** Re-applies widths, wrapping, borders and striping to every results tab. */
+function reformatAllTabs() {
+  var book = SpreadsheetApp.openById(SHEET_ID);
+  var done = [];
+  book.getSheets().forEach(function (sheet) {
+    if (sheet.getRange(1, 1).getValue() !== HEADERS[0]) return;  // not ours
+    formatTab_(sheet);
+    done.push(sheet.getName());
+  });
+  Logger.log(done.length ? "Reformatted: " + done.join(", ")
+                         : "No results tabs found (is the header row intact?)");
+}
 
 /** Check the script can reach the spreadsheet. */
 function testSheetAccess() {
@@ -184,7 +287,7 @@ function testSubmission() {
     lecture: "Lecture 1",
     name: "TEST ROW — delete me",
     phone: "01129907116",
-    date: "2026-08-31",
+    date: "2026-09-01",
     score: 8,
     total: 10,
     weak: "How computers work",
@@ -203,8 +306,8 @@ function testSubmission() {
 
 /**
  * One-off: copies the old 8-column rows from "Sheet1" into the Lecture 1 tab.
- * Those rows predate the Lecture and Mistakes columns, so both are filled in
- * as "Lecture 1" and "(not recorded)". Phone digits already lost their leading
+ * Those rows predate the Lecture, Mistakes and Screenshot columns, so those
+ * are filled in as "(not recorded)". Phone digits already lost their leading
  * zero when Sheets stored them as numbers and cannot be recovered.
  * Run once, check the result, then delete Sheet1 yourself.
  */
@@ -237,5 +340,41 @@ function migrateOldRows() {
     ]);
     moved++;
   }
+  formatTab_(target);
   Logger.log("Migrated " + moved + " row(s) into " + target.getName());
+}
+
+/**
+ * One-off, for switching to ONE_TAB_PER_LECTURE = false (the AppSheet-friendly
+ * layout): copies every "Lecture N" tab into a single "All results" tab.
+ * The originals are left untouched — check the merge, then delete them.
+ */
+function mergeTabsIntoOne() {
+  var book = SpreadsheetApp.openById(SHEET_ID);
+  var target = book.getSheetByName("All results");
+  if (!target) {
+    target = book.insertSheet("All results");
+    target.appendRow(HEADERS);
+    formatTab_(target);
+  }
+
+  var moved = 0;
+  book.getSheets().forEach(function (sheet) {
+    var name = sheet.getName();
+    if (name === "All results") return;
+    if (!/^Lecture\s+\d+$/.test(name)) return;
+    if (sheet.getRange(1, 1).getValue() !== HEADERS[0]) return;
+
+    var rows = sheet.getDataRange().getValues().slice(1);
+    rows.forEach(function (r) {
+      if (!r[2] && !r[3]) return;              // no name and no phone: blank
+      target.appendRow(r);
+      moved++;
+    });
+  });
+
+  formatTab_(target);
+  Logger.log("Merged " + moved + " row(s) into 'All results'. The per-lecture " +
+             "tabs were left in place — delete them once you have checked the " +
+             "result, and set ONE_TAB_PER_LECTURE = false.");
 }

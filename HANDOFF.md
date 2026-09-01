@@ -98,7 +98,15 @@ What that script changes:
 - adds a **Lecture** column and a **Mistakes** column (`wrongQuestions`
   flattened into readable text) — both were being silently discarded
 - **one tab per lecture**, created on demand and kept in numeric order. Set
-  `ONE_TAB_PER_LECTURE = false` for a single "All results" tab instead
+  `ONE_TAB_PER_LECTURE = false` for a single "All results" tab instead —
+  **do this if AppSheet is in the picture.** AppSheet binds one table to one
+  worksheet and does not discover new tabs by itself, so a tab per lecture
+  means adding a new AppSheet table every lecture. `mergeTabsIntoOne()` moves
+  existing per-lecture rows into the single tab
+- `formatTab_()` sets every column's width, alignment and wrapping from the
+  `COLUMNS` table, plus a dark header row, frozen panes, borders and zebra
+  striping. `reformatAllTabs()` applies it to tabs that already exist — run it
+  once after pasting a new version
 - forces the Phone column to text format. Sheets was reading `01129907116` as
   a number and dropping the leading zero (visible in the old `Sheet1`:
   `12436494`). Already-stored numbers cannot be recovered
@@ -124,13 +132,12 @@ teacher". Verify in the sheet, or in the Apps Script editor's Executions tab.
   could be added *there* — it is a different repo, not this one). Redirect
   stubs were offered for both and are not done; the new handout avoids the
   problem for anything printed from now on.
-- **The handout's Arabic needs a read-through.** The uploaded PDF's Arabic
-  could not be extracted — the font has no usable ToUnicode map, so the text
-  comes out as detached, reordered glyphs and guessing at it would produce
-  nonsense. The handout therefore reuses the *verified* Arabic lines from
-  `lecture1/slides/index.html`, which cover the same points in the same
-  dialect but are not word-for-word what the PDF said. Worth one pass before
-  printing a class set.
+- ~~The handout's Arabic needs a read-through.~~ **Resolved.** The first
+  PDF's Arabic could not be extracted (no usable ToUnicode map — it came out
+  as detached, reordered glyphs). A second PDF was supplied whose fonts embed
+  correctly, and its Arabic is now in the handout verbatim, including the
+  per-stage, per-term and per-habit lines. Also restored: the "quickest way to
+  keep them apart" paragraph, which the first HTML pass had dropped.
 - **No landing page.** `/curriculum/` currently renders `README.md` via Jekyll.
   A real root `index.html` listing lectures was offered and not yet requested.
 - Slide 12 says "10 questions" as static text; it is not derived from the

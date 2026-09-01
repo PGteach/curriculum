@@ -112,6 +112,10 @@ td.k{width:30%; font-weight:600}
 /* ---------- write-in areas ---------- */
 .write{margin:3mm 0 5mm}
 .write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.stage p.ar, .term p.ar, td p.ar{
+  font-size:9pt; line-height:1.7; margin:1.5mm 0 0;
+  padding-right:2mm; border-right:2px solid var(--line);
+}
 .rule{border-bottom:1px solid var(--rule); height:8mm}
 .rule.tight{height:7mm}
 ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
@@ -191,7 +195,7 @@ ol.qs .rule{margin-top:1.5mm}
   powerful computer; a phone or tablet is fine to start with. The goal is to build a strong
   foundation together, so you can choose your path (computer science, artificial
   intelligence…) with confidence.</p>
-  <p class="ar">أول حصة ليك. مش محتاج أي خبرة سابقة — ولا رياضيات، ولا جهاز قوي. الموبايل كفاية.</p>
+  <p class="ar">الكورس ده مناسب ليك حتى لو مستواك تحت الصفر. مش محتاج رياضيات أو إنجليزي متقدم، ومش محتاج جهاز قوي — الموبايل كفاية للبداية.</p>
 
   <h2>1 · How Does a Computer Work?</h2>
   <p>A computer is a "dumb" machine — it does exactly what you tell it, nothing more and
@@ -203,20 +207,22 @@ ol.qs .rule{margin-top:1.5mm}
       <div class="n">1</div>
       <h4>Input</h4>
       <p>Receiving data from the user, such as typing on a keyboard</p>
+      <p class="ar">المدخلات: استقبال البيانات من المستخدم، زي الكتابة على لوحة المفاتيح</p>
     </div>
     <div class="stage">
       <div class="n">2</div>
       <h4>Processing</h4>
       <p>Processing that data using the Central Processing Unit (CPU)</p>
+      <p class="ar">المعالجة: معالجة البيانات دي عن طريق وحدة المعالجة المركزية</p>
     </div>
     <div class="stage">
       <div class="n">3</div>
       <h4>Output</h4>
       <p>Showing the final result to the user</p>
+      <p class="ar">المخرجات: إظهار النتيجة النهائية للمستخدم</p>
     </div>
   </div>
-  <p class="ar">الكمبيوتر جهاز "غبي" — بينفذ اللي بتقوله له حرفيًا، ولا حاجة زيادة. وده مش عيب فيه، ده بالظبط اللي بيخلي البرمجة ممكنة.</p>
-  <p class="ar">المدخلات: اللي انت بتديه للجهاز. المعالجة: الشغل اللي بيحصل جواه ومش شايفه. المخرجات: اللي بيرجعهولك.</p>
+  <p class="ar">الكمبيوتر جهاز "غبي" — بينفذ اللي بتقوله له حرفيًا. وبيمر بثلاث مراحل أساسية.</p>
 
   <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
 </section>
@@ -242,7 +248,7 @@ ol.qs .rule{margin-top:1.5mm}
   <p>A quick way to tell them apart: <b>input</b> is what you hand the machine,
   <b>processing</b> is the work happening inside where you cannot see it, and
   <b>output</b> is what it hands back to you.</p>
-  <p class="ar">نفس المراحل الثلاث موجودة في أي حاجة بتستخدمها يوميًا — من الصراف الآلي للمايكروويف لتطبيق الطلبات.</p>
+  <p class="ar">طريقة سريعة تعرف بيها أي مرحلة: المدخلات هي اللي انت بتديها للجهاز، والمعالجة هي الشغل اللي بيحصل جواه ومش شايفه، والمخرجات هي اللي بيرجعهولك.</p>
 
   <h2>2 · Key Programming Terms</h2>
   <p>Four terms often get mixed up — here's the difference:</p>
@@ -251,21 +257,25 @@ ol.qs .rule{margin-top:1.5mm}
     <h4>Programming</h4>
     <p>The art of thinking and solving problems step by step, giving the computer
     specific, ordered instructions to carry out a task.</p>
+    <p class="ar">البرمجة: فن التفكير وحل المشكلات خطوة بخطوة، وإعطاء الكمبيوتر تعليمات محددة ومرتبة</p>
   </div>
   <div class="term">
     <h4>Artificial Intelligence (AI)</h4>
     <p>Making the computer learn from data so it can work out solutions or make
     decisions itself by recognising patterns (like weather prediction, or ChatGPT).</p>
+    <p class="ar">الذكاء الاصطناعي: جعل الكمبيوتر يتعلم من البيانات ويستنتج الحلول بنفسه من خلال التعرف على الأنماط</p>
   </div>
   <div class="term">
     <h4>Programming Language</h4>
     <p>The "medium" we use to write the steps for the computer
     (such as Python, C++, JavaScript).</p>
+    <p class="ar">لغة البرمجة: الوسيط اللي بنستخدمه عشان نكتب الخطوات للكمبيوتر</p>
   </div>
   <div class="term">
     <h4>Source Code</h4>
     <p>The actual text a programmer writes in a programming language
     (for example: <span class="mono">print("hello world")</span>).</p>
+    <p class="ar">الكود المصدري: النص الفعلي اللي بيكتبه المبرمج بلغة البرمجة</p>
   </div>
 
   <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
@@ -300,14 +310,13 @@ ol.qs .rule{margin-top:1.5mm}
       <td>Yes — it guesses, so it sometimes misses</td>
     </tr>
   </table>
-  <p class="ar">في البرمجة انت اللي بتكتب القاعدة بنفسك. في الذكاء الاصطناعي الكمبيوتر بيستنتج القاعدة من آلاف الأمثلة — وعشان كده ممكن يغلط.</p>
-  <p class="ar">البرمجة زي وصفة أكل مكتوبة خطوة بخطوة. الذكاء الاصطناعي زي إنك اتعلمت الطبخ بالمشاهدة من غير وصفة — بتطلع حلوة غالبًا، بس ساعات بتغلط.</p>
+  <p class="ar">نفس المهمة بطريقتين: في البرمجة انت اللي بتكتب القاعدة بنفسك، وفي الذكاء الاصطناعي الكمبيوتر بيستنتج القاعدة من آلاف الأمثلة — عشان كده الذكاء الاصطناعي ممكن يغلط، والبرمجة بتنفذ قاعدتك حرفيًا.</p>
 
   <h2>Language vs. Code — the Short Version</h2>
   <p>A programming language is like English or Arabic. Source code is like an actual
   sentence written in it. <b>Python</b> is the language;
   <span class="mono">print("hello")</span> is the code.</p>
-  <p class="ar">لغة البرمجة زي اللغة العربية نفسها. الكود المصدري زي جملة مكتوبة بالعربي. بايثون هي اللغة، والكود هو السطر اللي بتكتبه.</p>
+  <p class="ar">لغة البرمجة زي اللغة العربية نفسها، والكود المصدري زي جملة مكتوبة بيها. بايثون هي اللغة، و print("hello") هي الكود.</p>
 
   <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
 </section>
@@ -322,19 +331,22 @@ ol.qs .rule{margin-top:1.5mm}
     <h4>Text Editor <span style="font-weight:400;color:var(--soft)">— the kitchen counter</span></h4>
     <p>A simple program for writing code only (such as Notepad or Sublime Text) — like the
     counter where you prepare the ingredients. It cannot run anything.</p>
+    <p class="ar">محرر النصوص: برنامج بسيط لكتابة الأكواد بس — زي طاولة المطبخ اللي بنجهز عليها المكونات</p>
   </div>
   <div class="term">
     <h4>Compiler <span style="font-weight:400;color:var(--soft)">— the oven</span></h4>
     <p>A program that converts the code we wrote into "machine language" (made of zeros
     and ones) so the computer can understand it.</p>
+    <p class="ar">المترجم: برنامج بيحوّل الكود اللي كتبناه إلى "لغة الآلة" (أصفار وواحدات) عشان يفهمها الكمبيوتر</p>
   </div>
   <div class="term">
     <h4>IDE — Integrated Development Environment
       <span style="font-weight:400;color:var(--soft)">— the whole kitchen</span></h4>
     <p>A complete workshop for the programmer, containing a text editor, tools to run the
     program, and tools to find and fix errors — counter, fridge and oven included.</p>
+    <p class="ar">بيئة التطوير المتكاملة: ورشة عمل كاملة فيها محرر نصوص وأدوات تشغيل واكتشاف أخطاء — زي المطبخ بالكامل</p>
   </div>
-  <p class="ar">محرر النصوص هو الطاولة اللي بتجهز عليها. المترجم هو الفرن اللي بيطبخ فعلاً. والـIDE هو المطبخ بالكامل. يعني الـIDE مش أداة رابعة — هو الأدوات دي كلها مجمّعة مع بعض.</p>
+
 
   <h2>Text Editor vs. Compiler vs. IDE — in One Example</h2>
   <p>You want to write a program that prints your name. Follow what each tool does:</p>
@@ -356,30 +368,42 @@ ol.qs .rule{margin-top:1.5mm}
       <td>You type, press one button, and see <b>Eissa</b> appear — all in the same window</td>
     </tr>
   </table>
-  <p class="ar">نفس السطر الواحد، شوف كل أداة بتعمل فيه إيه: المحرر بيكتبه ويحفظه، المترجم بيحوّله للغة الآلة، والـIDE بيعمل ده كله بضغطة زرار.</p>
+  <p class="ar">محرر النصوص بيكتب الكود بس ومش بيشغّله. المترجم بيحوّل الكود للغة الآلة. وبيئة التطوير (IDE) بتجمع الاتنين مع أدوات كشف الأخطاء في برنامج واحد.</p>
 
   <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
 </section>
 
 <!-- ============================ PAGE 5 ============================ -->
 <section class="sheet">
+  <div class="summary">
+    <p><b>The quickest way to keep them apart:</b> a text editor writes, a compiler
+    translates, an IDE does both plus finds your mistakes. An IDE is not a fourth kind
+    of tool — it is the other tools packaged together.</p>
+    <p class="ar">أسرع طريقة تفرّق بينهم: محرر النصوص بيكتب، والمترجم بيترجم، والـIDE بيعمل الاتنين
+    وكمان بيكشفلك الأخطاء. الـIDE مش أداة رابعة، هو الأدوات دي كلها مجمّعة مع بعض.</p>
+  </div>
+
   <h2>4 · The Programmer Mindset</h2>
   <p>The difference between a professional programmer and everyone else isn't typing
   speed — it's how they think about solving problems:</p>
   <table>
     <tr><th>Habit</th><th>What it looks like</th></tr>
     <tr><td class="k">Analysing the problem</td>
-        <td>Breaking a big problem down into small parts</td></tr>
+        <td>Breaking a big problem down into small parts
+        <p class="ar">تحليل المشكلة: تقسيم المشكلة الكبيرة إلى أجزاء صغيرة</p></td></tr>
     <tr><td class="k">Logical thinking</td>
-        <td>Looking for alternative solutions when the code doesn't work the first time</td></tr>
+        <td>Looking for alternative solutions when the code doesn't work the first time
+        <p class="ar">التفكير المنطقي: البحث عن حلول بديلة لما الكود ميشتغلش من أول مرة</p></td></tr>
     <tr><td class="k">Research and continuous learning</td>
         <td>Programming isn't learned in two months — it needs constant searching
-        (like looking up fixes for errors)</td></tr>
+        (like looking up fixes for errors)
+        <p class="ar">البحث والتعلم المستمر: البرمجة مش بتتعلم في شهرين، محتاجة بحث دايم</p></td></tr>
     <tr><td class="k">Patience and attention to detail</td>
         <td>A tiny mistake like a missing semicolon <span class="mono">(;)</span> can stop
-        the whole program, so you need patience and multiple attempts</td></tr>
+        the whole program, so you need patience and multiple attempts
+        <p class="ar">الصبر والاهتمام بالتفاصيل: خطأ بسيط زي فاصلة منقوطة ناقصة ممكن يوقف البرنامج كله</p></td></tr>
   </table>
-  <p class="ar">اللي بيفرّق مش سرعة الكتابة — أربع عادات: تقسيم المشكلة، تجربة طرق تانية، البحث المستمر، والصبر على التفاصيل الصغيرة.</p>
+
 
   <h2>5 · Career Fields After Learning to Program</h2>
   <div class="fields">
@@ -449,6 +473,7 @@ ol.qs .rule{margin-top:1.5mm}
     programmer writes.</p>
     <p>A <b>text editor</b> is a simple tool, while an <b>IDE</b> is a full workshop.</p>
     <p>And the programmer mindset = analysis + logic + continuous research + patience.</p>
+    <p class="ar">الخلاصة: الكمبيوتر بيشتغل بـ3 مراحل (مدخلات ← معالجة ← مخرجات). البرمجة تعليمات محددة خطوة بخطوة، والذكاء الاصطناعي تعلّم من البيانات. محرر النصوص أداة بسيطة، وبيئة التطوير ورشة كاملة. وعقلية المبرمج = تحليل + منطق + بحث مستمر + صبر.</p>
   </div>
 
   <h2>Test Yourself Online</h2>
