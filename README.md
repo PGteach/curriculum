@@ -29,8 +29,10 @@ curriculum/
 │   ├── slides-template.html   skeleton deck with the shared chrome
 │   ├── quiz-template.html     skeleton quiz with the shared engine
 │   └── handout-template.html  skeleton booklet with the print stylesheet
+├── templates/blocks.html      gallery: every slide layout, one per slide
 ├── scripts/
 │   ├── new_lecture.py         scaffolds lectureN/ from the templates
+│   ├── check_lecture.py       validates a lecture before you publish it
 │   └── apps-script.gs         the Apps Script that records quiz results
 ├── HANDOFF.md                 current state, open items, gotchas
 └── README.md
@@ -67,7 +69,18 @@ Then fill in the content:
    `<script>` in `lectureN/quiz/index.html`.
 3. **Handout** — one `<section class="sheet">` per printed A4 page in
    `lectureN/handout/index.html`.
-4. Open all three in a browser, then commit and push to `main`.
+4. Check it before publishing:
+
+   ```bash
+   python scripts/check_lecture.py 2
+   ```
+
+   It fails on template text left in place, a QR pointing at the wrong
+   lecture, an answer index off the end of its options, a section with no
+   questions, JavaScript that will not parse, and a Liquid delimiter that
+   would take the whole site down. Exit code is non-zero when anything is
+   wrong, so it can gate a commit.
+5. Open all three in a browser, then commit and push to `main`.
 
 ### Answer positions do not matter
 
@@ -89,9 +102,27 @@ green, amber) or takes `--accent "#RRGGBB"`. **The quiz keeps the standard
 palette** — green and red mean right and wrong there, and that must not drift
 lecture to lecture.
 
-For more variety than colour, vary the *layout blocks* rather than the design:
-each deck mixes `.pipe`, `.vs`, `table`, `.kit` and `.fields` differently, and
-`class="slide dark"` turns any slide into an inverted one.
+For more variety than colour, vary the *layout blocks* rather than the design.
+Open **[templates/blocks.html](templates/blocks.html)** in a browser: it is a
+real deck with one slide per available layout, so you can see them all and copy
+the markup straight out of its source.
+
+| Block | Use it when |
+| --- | --- |
+| `.pipe` + `.step` | a flow, read across |
+| `.timeline` + `.tl` | a sequence, read down — better for four or more steps |
+| `.vs` + `.pane` | two things, side by side |
+| `.scale` | a spectrum, when the answer is "somewhere between" |
+| `.statement` | one line, nothing else — the point you want to land |
+| `.stats` + `.stat` | the figure is the point |
+| `.check` | do this, not that |
+| `.quote` | someone else's words |
+| `.kit` + `.card` | a small set of things, with icons |
+| `table` | many rows, same shape |
+| `.fields` + `.chip` | a list with no order |
+
+`class="slide dark"` inverts any slide to navy — worth doing on the one or two
+slides you most want remembered.
 
 ### Nothing needs counting by hand
 

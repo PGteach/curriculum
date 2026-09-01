@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lecture __LECTURE_NUM__ — __TITLE_HTML__ · PGteach</title>
+<title>Slide block gallery · PGteach</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -280,61 +280,138 @@ tr:last-child td{border-bottom:0}
 <div id="bar"></div>
 <div id="stage">
 
-  <!-- 1 TITLE -->
+  <!-- ================= BLOCK GALLERY =================
+       Every layout the deck knows about, one per slide. Open this file in a
+       browser to see them, then copy the markup straight out of this source
+       into your own lectureN/slides/index.html.
+       ================================================== -->
+
   <section class="slide dark">
-    <div class="rise eyebrow" id="lectureBadge">Programming &amp; Artificial Intelligence</div>
-    <h1 class="rise">__TITLE_HTML__</h1>
-    <p class="rise sub" style="margin-top:1.2rem">Replace this line with the one-sentence promise of the session.</p>
-    <p class="rise arline ar">اكتب هنا سطر المقدمة بالعربي.</p>
+    <div class="rise eyebrow" id="lectureBadge">Block gallery</div>
+    <h1 class="rise">Every layout, one per slide</h1>
+    <p class="rise sub" style="margin-top:1.2rem">
+      Arrow keys or swipe. Copy the markup out of this file's source.</p>
+    <p class="rise arline ar">كل الأشكال المتاحة، واحد في كل سلايد. انسخ الكود من الملف ده.</p>
   </section>
 
-  <!-- ------------------------------------------------------------------
-       YOUR CONTENT SLIDES GO HERE.
-
-       Add as many "slide" sections as you need — the dots, the progress
-       bar and the "n / total" counter all count them at runtime, so there
-       is no slide total to update by hand anywhere.
-
-       Add class="dark" for an inverted slide. Wrap every child you want
-       revealed in sequence with class="rise". The reusable blocks from
-       lecture 1 are: .pipe/.step (pipeline), table, .vs/.pane (compare),
-       .kit/.card (icon row), .fields/.chip (tag cloud), .codeline (code).
-       ------------------------------------------------------------------- -->
-
-  <!-- 2 EXAMPLE: two-column compare -->
   <section class="slide">
-    <div class="rise eyebrow">1 · Section name</div>
-    <h2 class="rise">The question this slide answers</h2>
-    <p class="rise sub">One line of framing, if it helps.</p>
+    <div class="rise eyebrow">.pipe + .step</div>
+    <h2 class="rise">Pipeline — a flow, read across</h2>
+    <div class="rise pipe">
+      <div class="step"><div class="n">1</div><h3>Input</h3><p>What goes in</p>
+        <div class="ex">You press <b>3 + 5</b></div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="step"><div class="n">2</div><h3>Processing</h3><p>The work inside</p>
+        <div class="ex">It adds them</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="step"><div class="n">3</div><h3>Output</h3><p>What comes back</p>
+        <div class="ex">It shows <b>8</b></div></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">.timeline + .tl</div>
+    <h2 class="rise">Timeline — a sequence, read down</h2>
+    <div class="rise timeline">
+      <div class="tl"><h3>You write the code</h3><p>In a text editor, and save it</p></div>
+      <div class="tl"><h3>The compiler translates it</h3><p>Into zeros and ones</p></div>
+      <div class="tl"><h3>The processor runs it</h3><p>And the screen shows the result</p></div>
+    </div>
+    <p class="rise arline ar">نفس فكرة الخطوات، بس رأسية — بتنفع لما الخطوات كتيرة أو طويلة.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">.vs + .pane</div>
+    <h2 class="rise">Compare — two things, side by side</h2>
     <div class="rise vs">
-      <div class="pane a">
-        <h3>First idea</h3>
-        <ul>
-          <li>Point one</li>
-          <li>Point two</li>
-        </ul>
-      </div>
-      <div class="pane b">
-        <h3>Second idea</h3>
-        <ul>
-          <li>Point one</li>
-          <li>Point two</li>
-        </ul>
+      <div class="pane a"><h3>Programming</h3><ul>
+        <li>You write the rule</li><li>Follows it exactly</li></ul></div>
+      <div class="pane b"><h3>Artificial Intelligence</h3><ul>
+        <li>It works out the rule</li><li>Can be wrong</li></ul></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">.scale</div>
+    <h2 class="rise">Scale — a spectrum, not two boxes</h2>
+    <p class="rise sub">Use it when the answer is "somewhere between".</p>
+    <div class="rise scale">
+      <div class="bar"></div>
+      <div class="ends">
+        <span>Follows rules you wrote<br><small style="color:var(--soft);font-weight:400">Programming</small></span>
+        <span>Works the rules out itself<br><small style="color:var(--soft);font-weight:400">Artificial Intelligence</small></span>
       </div>
     </div>
-    <p class="rise arline ar">الشرح بالعربي.</p>
   </section>
 
-  <!-- 3 EXAMPLE: table -->
+  <section class="slide dark">
+    <div class="rise eyebrow">.statement</div>
+    <p class="rise statement">A computer does exactly what you tell it. <em>Nothing more.</em></p>
+    <p class="rise arline ar">سلايد الجملة الواحدة — للنقطة اللي عايز تقف عندها.</p>
+  </section>
+
   <section class="slide">
-    <div class="rise eyebrow">2 · Section name</div>
-    <h2 class="rise">A second slide</h2>
+    <div class="rise eyebrow">.stats + .stat</div>
+    <h2 class="rise">Numbers — when the figure is the point</h2>
+    <div class="rise stats">
+      <div class="stat"><b>3</b><span>stages in every task</span></div>
+      <div class="stat"><b>10,000</b><span>photos to teach a model "cat"</span></div>
+      <div class="stat"><b>1</b><span>missing semicolon stops it all</span></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">.check</div>
+    <h2 class="rise">Checklist — do this, not that</h2>
+    <ul class="rise check">
+      <li>Break the problem into small pieces</li>
+      <li>Look things up — everyone does</li>
+      <li class="no">Memorise every command</li>
+      <li class="no">Type fast and hope</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">.quote</div>
+    <h2 class="rise">Quote — someone else's words</h2>
+    <blockquote class="rise quote">
+      <p>The computer is a bicycle for the mind.</p>
+      <cite>Steve Jobs</cite>
+    </blockquote>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">.kit + .card</div>
+    <h2 class="rise">Cards — a small set of things</h2>
+    <div class="rise kit">
+      <div class="card"><div class="ico">&#128298;</div><div class="role">The counter</div>
+        <h3>Text editor</h3><p>Where you write it</p></div>
+      <div class="card"><div class="ico">&#128293;</div><div class="role">The oven</div>
+        <h3>Compiler</h3><p>Turns it into machine code</p></div>
+      <div class="card"><div class="ico">&#127968;</div><div class="role">The kitchen</div>
+        <h3>IDE</h3><p>All of it at once</p></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">table</div>
+    <h2 class="rise">Table — many rows, same shape</h2>
     <table class="rise">
-      <tr><th>Column</th><th>Column</th></tr>
-      <tr><td><b>Row label</b></td><td>What it means</td></tr>
-      <tr><td><b>Row label</b></td><td>What it means</td></tr>
+      <tr><th>Thing</th><th>Input</th><th>Output</th></tr>
+      <tr><td><b>ATM</b></td><td>Card and amount</td><td>Cash</td></tr>
+      <tr><td><b>Login</b></td><td>Name and password</td><td>Account opens</td></tr>
     </table>
-    <p class="rise arline ar">الشرح بالعربي.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">.fields + .chip</div>
+    <h2 class="rise">Chips — a list with no order</h2>
+    <div class="rise fields">
+      <div class="chip">Web <span>مواقع</span></div>
+      <div class="chip">Mobile <span>تطبيقات</span></div>
+      <div class="chip">AI <span>ذكاء اصطناعي</span></div>
+      <div class="chip">Security <span>أمن</span></div>
+    </div>
   </section>
 
   <!-- LAST SLIDE: QUIZ QR (keep this one last) -->
@@ -371,14 +448,14 @@ tr:last-child td{border-bottom:0}
    from it, so there is nothing else to keep in sync.
    ============================================================ */
 const SITE_BASE     = "https://pgteach.github.io/curriculum";
-const LECTURE_NUM   = __LECTURE_NUM__;
-const LECTURE_TITLE = "__TITLE_JS__";
-const LECTURE_TOPIC = "__TOPIC_JS__";
+const LECTURE_NUM   = 1;
+const LECTURE_TITLE = "Block gallery";
+const LECTURE_TOPIC = "Slide layouts";
 /* One knob for this lecture's colour: every teal accent on the page follows
    it, so lecture 2 does not have to look identical to lecture 1. The quiz is
    deliberately left on the standard palette, where green and red mean right
    and wrong and must not drift. */
-const LECTURE_ACCENT = "__ACCENT__";
+const LECTURE_ACCENT = "#0E7C7B";
 
 const LECTURE = {
   num:     LECTURE_NUM,

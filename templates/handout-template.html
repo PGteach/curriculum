@@ -160,7 +160,11 @@ ol.qs .rule{margin-top:1.5mm}
   body{background:#fff}
   #printbar,#pagesTop{display:none}
   .sheet{
-    margin:0; box-shadow:none; width:auto; min-height:0;
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
     /* the page margin is 0 so Chrome cannot print its own header and
        footer; the sheet pads itself instead */
     padding:16mm 15mm 12mm; page-break-after:always;

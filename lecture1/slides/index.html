@@ -160,6 +160,75 @@ tr:last-child td{border-bottom:0}
 .qrwrap img{width:clamp(110px,13vw,180px);height:auto;border-radius:10px;background:#fff;padding:9px}
 .qrwrap .txt{flex:1 1 260px}
 
+/* ---------- statement: one line, nothing else ---------- */
+.statement{
+  font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(28px,6vw,80px); line-height:1.05;
+  letter-spacing:-.02em; max-width:20ch;
+}
+.statement em{font-style:normal;color:var(--gold)}
+
+/* ---------- stat row: the numbers are the point ---------- */
+.stats{display:flex;gap:clamp(12px,2.5vw,40px);flex-wrap:wrap;margin:1.4rem 0 .5rem}
+.stat{flex:1 1 170px}
+.stat b{
+  display:block; font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(34px,5.5vw,76px); line-height:1;
+  color:var(--teal); letter-spacing:-.02em;
+}
+.dark .stat b{color:var(--gold)}
+.stat span{
+  display:block; margin-top:.4rem; line-height:1.45;
+  font-size:clamp(12px,1.3vw,17px); color:var(--soft);
+}
+
+/* ---------- timeline: a sequence, read downwards ---------- */
+.timeline{position:relative;margin:1.3rem 0 .4rem;padding-left:clamp(26px,3vw,42px)}
+.timeline::before{
+  content:""; position:absolute; left:clamp(10px,1.2vw,16px);
+  top:8px; bottom:8px; width:2px; background:var(--line);
+}
+.tl{position:relative;margin-bottom:clamp(10px,1.5vw,22px)}
+.tl::before{
+  content:""; position:absolute; top:.35em;
+  left:calc(clamp(5px,.7vw,10px) - clamp(26px,3vw,42px));
+  width:12px; height:12px; border-radius:50%;
+  background:var(--teal); box-shadow:0 0 0 4px var(--paper);
+}
+.dark .tl::before{box-shadow:0 0 0 4px var(--ink)}
+.tl h3{font-size:clamp(15px,1.7vw,22px);font-weight:600;margin-bottom:.15rem}
+.tl p{font-size:clamp(12px,1.3vw,17px);color:var(--soft);line-height:1.5}
+
+/* ---------- checklist: do this, not that ---------- */
+.check{list-style:none;margin:1.2rem 0 .4rem;font-size:clamp(13px,1.5vw,20px)}
+.check li{position:relative;padding-left:1.9em;margin-bottom:.55rem;line-height:1.5}
+.check li::before{content:"\2713";position:absolute;left:0;color:var(--teal);font-weight:700}
+.check li.no::before{content:"\2715";color:var(--wrong)}
+
+/* ---------- pull quote ---------- */
+.quote{
+  border-left:4px solid var(--gold);
+  padding-left:clamp(14px,1.8vw,26px);
+  margin:1.3rem 0 .4rem; max-width:34ch;
+}
+.quote p{
+  font-family:"Fraunces",serif; font-weight:400;
+  font-size:clamp(19px,2.8vw,40px); line-height:1.2;
+}
+.quote cite{
+  display:block; margin-top:.7rem; font-style:normal;
+  font-size:clamp(11px,1.2vw,15px); color:var(--soft);
+}
+
+/* ---------- labelled scale: a spectrum, not two boxes ---------- */
+.scale{margin:1.7rem 0 .5rem}
+.scale .bar{height:10px;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--gold))}
+.scale .ends{
+  display:flex; justify-content:space-between; gap:1rem; margin-top:.7rem;
+  font-size:clamp(12px,1.3vw,17px); font-weight:500;
+}
+.scale .ends span:last-child{text-align:right}
+
 /* ---------- chrome ---------- */
 #bar{position:fixed;left:0;top:0;height:3px;background:var(--teal);width:0;transition:width .3s ease;z-index:40}
 #nav{

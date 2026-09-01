@@ -261,17 +261,83 @@ function json_(obj) {
 /* Run these by hand from the editor, not from the web app.           */
 /* ------------------------------------------------------------------ */
 
+/**
+ * True only if row 1 is exactly this table's header row.
+ *
+ * Checking just A1 is not enough: the legacy "Sheet1" also begins with
+ * "Submitted at" but has only the old 8 columns, and formatting it would
+ * stamp the 11 new headers over data that does not match them.
+ */
+function isResultsTab_(sheet) {
+  if (sheet.getLastColumn() < HEADERS.length) return false;
+  var row = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
+  for (var i = 0; i < HEADERS.length; i++) {
+    if (String(row[i]).trim() !== HEADERS[i]) return false;
+  }
+  return true;
+}
+
 /** Re-applies widths, wrapping, borders and striping to every results tab. */
 function reformatAllTabs() {
   var book = SpreadsheetApp.openById(SHEET_ID);
-  var done = [];
+  var done = [], skipped = [];
   book.getSheets().forEach(function (sheet) {
-    if (sheet.getRange(1, 1).getValue() !== HEADERS[0]) return;  // not ours
-    formatTab_(sheet);
-    done.push(sheet.getName());
+    if (isResultsTab_(sheet)) { formatTab_(sheet); done.push(sheet.getName()); }
+    else skipped.push(sheet.getName());
   });
-  Logger.log(done.length ? "Reformatted: " + done.join(", ")
-                         : "No results tabs found (is the header row intact?)");
+  Logger.log("Reformatted: " + (done.join(", ") || "nothing"));
+  if (skipped.length) {
+    Logger.log("Left alone (header row does not match this table): " +
+               skipped.join(", ") + ". For the old 8-column Sheet1, run " +
+               "migrateOldRows() instead.");
+  }
+}
+
+/**
+ * One-off repair: phones that were stored as numbers before the text format
+ * was in place lost their leading zero, so "01129907116" reads "1129907116".
+ * Only touches cells that are numeric and match an Egyptian mobile with the
+ * zero missing (10 digits, starting 10/11/12/15). Everything else is listed
+ * and left alone for you to look at. Run it, read the log, check the sheet.
+ */
+function repairPhones() {
+  var book = SpreadsheetApp.openById(SHEET_ID);
+  var fixed = [], odd = [];
+
+  book.getSheets().forEach(function (sheet) {
+    if (!isResultsTab_(sheet)) return;
+    var last = sheet.getLastRow();
+    if (last < 2) return;
+
+    var range = sheet.getRange(2, PHONE_COL, last - 1, 1);
+    var vals = range.getValues();
+    range.setNumberFormat("@");
+
+    for (var i = 0; i < vals.length; i++) {
+      var v = vals[i][0];
+      if (v === "" || v === null) continue;
+      var digits = String(v).replace(/\D/g, "");
+      if (typeof v === "number" && /^1[0125]\d{8}$/.test(digits)) {
+        vals[i][0] = "0" + digits;
+        fixed.push(sheet.getName() + " row " + (i + 2) + ": " + digits +
+                   " -> 0" + digits);
+      } else {
+        vals[i][0] = String(v);
+        if (digits.length !== 11 || digits.charAt(0) !== "0") {
+          odd.push(sheet.getName() + " row " + (i + 2) + ": " + digits +
+                   " (left as is)");
+        }
+      }
+    }
+    range.setValues(vals);
+  });
+
+  Logger.log("Repaired " + fixed.length + " phone number(s).");
+  fixed.forEach(function (l) { Logger.log("  " + l); });
+  if (odd.length) {
+    Logger.log("Not an Egyptian mobile with a missing zero, so untouched:");
+    odd.forEach(function (l) { Logger.log("  " + l); });
+  }
 }
 
 /** Check the script can reach the spreadsheet. */
