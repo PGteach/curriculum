@@ -32,6 +32,19 @@ PAGES = (
 )
 
 TOKEN_RE = re.compile(r"__[A-Z_]+__")
+HEX_RE = re.compile(r"^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$")
+
+# A different accent per lecture, so the decks are not all the same colour.
+# Cycled by lecture number when --accent is not given. All picked dark enough
+# to hold white text in the slide chrome and the handout header.
+ACCENTS = [
+    "#0E7C7B",   # teal      (lecture 1)
+    "#6A4C93",   # violet
+    "#1D6FA5",   # blue
+    "#A63D5B",   # rose
+    "#3F7D3A",   # green
+    "#B4622A",   # amber
+]
 
 
 def esc_html(text: str) -> str:
@@ -46,8 +59,9 @@ def esc_js(text: str) -> str:
                 .replace("</", "<\\/"))
 
 
-def render(template: str, num: int, title: str, topic: str) -> str:
+def render(template: str, num: int, title: str, topic: str, accent: str) -> str:
     out = (template
+           .replace("__ACCENT__", accent)
            .replace("__LECTURE_NUM__", str(num))
            .replace("__TITLE_HTML__", esc_html(title))
            .replace("__TITLE_JS__", esc_js(title))
@@ -87,6 +101,8 @@ def verify(path: Path, num: int, title: str) -> None:
             problems.append("relative link to ../slides/ missing")
         if "image: image" not in text:
             problems.append("submission payload is missing the result screenshot")
+    if "--teal" not in text and path.parent.name in ("slides", "handout"):
+        problems.append("accent colour is never applied")
     if path.parent.name == "handout":
         # A printed sheet cannot be corrected later, so check it hard.
         if 'id="qr"' not in text or "create-qr-code" not in text:
@@ -111,6 +127,9 @@ def main() -> None:
     ap.add_argument("title", help='lecture title, e.g. "Variables & Data Types"')
     ap.add_argument("-t", "--topic", default="Programming & Artificial Intelligence",
                     help="course line shown on slide 1 (default: %(default)s)")
+    ap.add_argument("-a", "--accent", default=None,
+                    help="hex accent colour for the slides and handout, "
+                         "e.g. \"#6A4C93\" (default: cycles by lecture number)")
     ap.add_argument("-f", "--force", action="store_true",
                     help="overwrite lectureN if it already exists")
     ap.add_argument("-n", "--dry-run", action="store_true",
@@ -122,6 +141,10 @@ def main() -> None:
     title = args.title.strip()
     if not title:
         sys.exit("error: lecture title must not be empty.")
+
+    accent = args.accent or ACCENTS[(args.number - 1) % len(ACCENTS)]
+    if not HEX_RE.match(accent):
+        sys.exit("error: --accent must be a hex colour like #6A4C93, got %r" % accent)
 
     dest = ROOT / ("lecture%d" % args.number)
     if dest.exists() and not (args.force or args.dry_run):
@@ -135,7 +158,7 @@ def main() -> None:
     written = []
     for folder, tpl_name in PAGES:
         template = (TEMPLATES / tpl_name).read_text(encoding="utf-8")
-        page = render(template, args.number, title, args.topic.strip())
+        page = render(template, args.number, title, args.topic.strip(), accent)
         out = dest / folder / "index.html"
 
         if args.dry_run:
@@ -161,6 +184,8 @@ def main() -> None:
     print("  slides  %s/lecture%d/slides" % (SITE_BASE, args.number))
     print("  quiz    %s/lecture%d/quiz" % (SITE_BASE, args.number))
     print("  handout %s/lecture%d/handout" % (SITE_BASE, args.number))
+    print("\nAccent colour: %s  (change LECTURE_ACCENT in either file, "
+          "or re-run with --accent)" % accent)
     print("\nNext:")
     print("  1. Write the slides    -> %s/slides/index.html" % rel)
     print("     (add/remove <section class=\"slide\"> blocks; counts update themselves)")

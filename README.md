@@ -55,6 +55,7 @@ Useful flags:
 | Flag | Effect |
 | --- | --- |
 | `-t, --topic "…"` | course line on slide 1 (default: *Programming & Artificial Intelligence*) |
+| `-a, --accent "#6A4C93"` | accent colour for the deck and handout (default: cycles by lecture number) |
 | `-n, --dry-run` | report what would be written, write nothing |
 | `-f, --force` | overwrite an existing `lectureN/` |
 
@@ -74,6 +75,23 @@ Both the options and the question order are shuffled at runtime, so you can
 write the correct answer in whatever slot reads most naturally. Options are
 reshuffled on every render; question order is reshuffled once per attempt, so
 two students sitting together are not on the same question at the same time.
+
+### Every lecture is the same shape, not the same colour
+
+Structure, typography and behaviour are shared on purpose — students should
+not have to relearn where things are each week. What changes per lecture is
+the **accent colour**, set once in `LECTURE_ACCENT` and picked up by the deck
+and the handout: the progress bar, the eyebrow labels, the numbered steps, the
+nav dots, the compare panels, the table headers and the handout's header rule.
+
+`new_lecture.py` cycles a palette by lecture number (teal, violet, blue, rose,
+green, amber) or takes `--accent "#RRGGBB"`. **The quiz keeps the standard
+palette** — green and red mean right and wrong there, and that must not drift
+lecture to lecture.
+
+For more variety than colour, vary the *layout blocks* rather than the design:
+each deck mixes `.pipe`, `.vs`, `table`, `.kit` and `.fields` differently, and
+`class="slide dark"` turns any slide into an inverted one.
 
 ### Nothing needs counting by hand
 
@@ -113,6 +131,12 @@ Open `lectureN/handout` in a browser and press **Print this sheet**, or
 Ctrl/Cmd-P. The page is laid out in A4 with margins already set, one
 `<section class="sheet">` per sheet of paper, so what you see is what prints —
 there is no separate PDF to keep in sync.
+
+The page margin is deliberately `0`, with the margins supplied by each sheet's
+own padding. Browsers can only draw their date / title / file-path / page-number
+furniture inside the page margin, so with none there they print nothing of their
+own. If a browser still adds them, switch off **Headers and footers** in the
+print dialog.
 
 The QR code on the last page is generated from the lecture number, and the page
 numbers in the footers are counted at runtime, so copying a sheet block or

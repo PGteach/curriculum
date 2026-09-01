@@ -470,6 +470,11 @@ const SITE_BASE     = "https://pgteach.github.io/curriculum";
 const LECTURE_NUM   = 1;
 const LECTURE_TITLE = "How does a computer think?";
 const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#0E7C7B";
 
 const LECTURE = {
   num:     LECTURE_NUM,
@@ -492,8 +497,25 @@ slides.forEach((_, k) => {
 });
 const dots = Array.from(dotsBox.children);
 
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
 /* ---- stamp lecture identity + build the QR code ---- */
 (function(){
+  applyAccent();
   document.title = LECTURE.label + " \u2014 " + LECTURE.title + " \u00b7 PGteach";
 
   const badge = document.getElementById('lectureBadge');

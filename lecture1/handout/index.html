@@ -165,19 +165,21 @@ ol.qs .rule{margin-top:1.5mm}
   #printbar,#pagesTop{display:none}
   .sheet{
     margin:0; box-shadow:none; width:auto; min-height:0;
-    padding:0; page-break-after:always;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
   }
   .sheet:last-child{page-break-after:auto}
   h2,h3{break-after:avoid}
   table,.stages,.qrbox,.term{break-inside:avoid}
 }
-@page{size:A4; margin:16mm 15mm 12mm}
+@page{size:A4; margin:0}
 </style>
 </head>
 <body>
 
 <div id="printbar">
-  <span>Print or save as PDF — A4, margins already set.</span>
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
   <button type="button" id="printBtn">Print this sheet</button>
 </div>
 <div id="pagesTop"></div>
@@ -514,6 +516,11 @@ const SITE_BASE     = "https://pgteach.github.io/curriculum";
 const LECTURE_NUM   = 1;
 const LECTURE_TITLE = "How Does a Computer Think… and How Does a Programmer Think?";
 const LECTURE_TOPIC = "Introduction to Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#0E7C7B";
 
 const LECTURE = {
   num:     LECTURE_NUM,
@@ -522,7 +529,24 @@ const LECTURE = {
   quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
 };
 
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
 (function(){
+  applyAccent();
   document.title = LECTURE.label + " Handout — " + LECTURE.title + " · PGteach";
   document.getElementById('brand').textContent =
     LECTURE.label + " · " + LECTURE_TOPIC;

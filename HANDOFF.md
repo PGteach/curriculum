@@ -67,6 +67,18 @@ README.md · HANDOFF.md · .gitignore
    with the QR generated from the lecture number and the footer page numbers
    counted at runtime. Nothing on paper can go stale again.
 
+10. **Accent colour per lecture.** `LECTURE_ACCENT` in the deck and the
+    handout overrides `--teal` and a tinted `--teal-pale` at runtime, so each
+    lecture reads as its own without touching structure or typography.
+    `new_lecture.py` cycles a six-colour palette by lecture number, or takes
+    `--accent`. The quiz is deliberately excluded — its green and red carry
+    meaning.
+11. **The browser stopped printing its own header and footer** on the handout.
+    Chrome was stamping the date, the page title and the `file:///…` path onto
+    every page. Those are only ever drawn inside the `@page` margin, so the
+    margin is now `0` and each sheet pads itself instead — same layout, no
+    furniture, and no reliance on the user unticking anything.
+
 ## The anti-cheating change (item 6)
 
 The original questions had the correct answer at index `1` in **9 of 10
