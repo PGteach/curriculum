@@ -1,0 +1,30 @@
+# Runs scripts/check_lecture.py on every push, so a broken lecture is caught
+# without anyone remembering to check. Goes red in the Actions tab and emails
+# you; it cannot block the push itself unless you turn on branch protection
+# for main and make this check required.
+name: check lectures
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # node is what validates the quiz: it parses each page's <script> and
+      # evaluates SECTIONS / QUESTIONS for real
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate every lecture
+        run: python scripts/check_lecture.py

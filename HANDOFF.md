@@ -125,7 +125,14 @@ What that script changes:
 - `migrateOldRows()` copies the 4 existing `Sheet1` rows into the Lecture 1 tab,
   marking Mistakes as `(not recorded)`. Run it once by hand, check, then delete
   `Sheet1` yourself
-- **an optional hand-styled `Template` tab.** If it exists, every new lecture
+- **a `DESIGN_VERSION` stamp.** Every tab records the version it was last
+  formatted at, and the next submission reformats any tab that is behind. So
+  the look is a rule the script enforces, not something anyone styles by hand,
+  and existing tabs catch up on their own — bump `DESIGN_VERSION` after
+  changing `COLUMNS` or `formatTab_()` and that is the whole job. The check is
+  one property read per submission, wrapped in try/catch: formatting is
+  cosmetic and must never cost a submission
+- **an optional hand-styled `Template` tab**, off unless you create it. If it exists, every new lecture
   tab is a copy of it, so colours, widths, conditional formatting and notes set
   by hand in Sheets carry over without touching code. `createTemplateTab()`
   makes one; delete it and the script falls back to `formatTab_()`.

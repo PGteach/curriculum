@@ -61,11 +61,20 @@ var LINE = "#D8DDE4";   // grid lines
 var IMAGE_FOLDER = "PGteach quiz results";
 
 /**
- * Optional hand-styled tab. If a tab with this name exists, every new lecture
- * tab is a copy of it, so whatever you set up there by hand — colours, widths,
- * conditional formatting, notes, data validation — carries over without going
- * near this code. Delete it and the script falls back to formatTab_() below.
- * Run createTemplateTab() once to get a starting point you can then restyle.
+ * Bump this whenever COLUMNS or formatTab_() changes. Every tab records the
+ * version it was last formatted at, and the next submission reformats any tab
+ * that is behind. That is what keeps the design a rule rather than a chore:
+ * nothing in the sheet is ever styled by hand, and existing tabs catch up on
+ * their own without anyone running anything.
+ */
+var DESIGN_VERSION = 3;
+
+/**
+ * OPTIONAL, and off unless you create it. If a tab with this name exists, new
+ * lecture tabs are copies of it, so anything you set up there by hand carries
+ * over. Leave it alone — which is the default — and formatTab_() below is the
+ * single source of the design. createTemplateTab() makes one if you ever want
+ * to hand-style instead.
  */
 var TEMPLATE_TAB = "Template";
 
@@ -157,9 +166,35 @@ function getSheet_(book, lecture) {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADERS);
     formatTab_(sheet);
+    stampDesign_(sheet);
   }
 
+  ensureDesign_(sheet);
   return sheet;
+}
+
+/**
+ * Reformats a tab if it has not been formatted at the current DESIGN_VERSION.
+ * One tiny property read per submission; the reformat itself happens once per
+ * tab per version bump. This is what makes the look self-healing.
+ */
+function ensureDesign_(sheet) {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var key = "design:" + sheet.getSheetId();
+    if (props.getProperty(key) === String(DESIGN_VERSION)) return;
+    formatTab_(sheet);
+    props.setProperty(key, String(DESIGN_VERSION));
+  } catch (e) {
+    // Formatting is cosmetic; never let it cost us a submission.
+  }
+}
+
+function stampDesign_(sheet) {
+  try {
+    PropertiesService.getScriptProperties()
+      .setProperty("design:" + sheet.getSheetId(), String(DESIGN_VERSION));
+  } catch (e) {}
 }
 
 /**
@@ -353,6 +388,7 @@ function reformatAllTabs() {
     if (!isResultsTab_(sheet)) { skipped.push(sheet.getName()); return; }
     if (tpl) applyTemplateFormat_(tpl, sheet);
     else formatTab_(sheet);
+    stampDesign_(sheet);
     done.push(sheet.getName());
   });
   if (tpl) Logger.log("Used the '" + TEMPLATE_TAB + "' tab as the source of the look.");
