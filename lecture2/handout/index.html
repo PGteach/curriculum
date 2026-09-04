@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 2 Handout — How did we get here? · PGteach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+/* ---------- exercises ---------- */
+.namebox{display:flex; gap:5mm; margin:0 0 6mm}
+.namebox > div{flex:1; display:flex; align-items:flex-end; gap:2mm}
+.namebox span{font-size:9pt; color:var(--soft); font-weight:600; white-space:nowrap}
+.namebox i{flex:1; border-bottom:1px solid var(--rule); height:6mm}
+.ex{margin:0 0 5mm; break-inside:avoid}
+.exhead{display:flex; gap:3mm; align-items:baseline; margin-bottom:1.5mm}
+.exn{
+  flex:0 0 auto; width:6.5mm; height:6.5mm; border-radius:50%;
+  background:var(--teal); color:#fff; font-size:9pt; font-weight:600;
+  display:flex; align-items:center; justify-content:center;
+}
+.exq{font-size:10.5pt; font-weight:600}
+.src{font-size:8pt; color:var(--soft); font-style:italic; margin:0 0 1.5mm 9.5mm}
+.srcinline{font-size:8pt; color:var(--soft); font-style:italic; margin-left:2mm}
+.passage{
+  font-size:10pt; line-height:1.9; background:#FCFCFA;
+  border:1px solid var(--line); border-radius:2mm; padding:3.5mm; margin:2mm 0 3mm;
+}
+td.blank{background:#FCFCFA}
+td.sortcell{height:26mm; background:#FCFCFA; vertical-align:top}
+ol.qs.lettered{list-style:none; margin-left:0}
+.marks{font-size:9pt; font-weight:600; color:var(--gold); margin-bottom:2mm}
+.matchtbl td,.ordtbl td,.tftbl td,.cattbl td{vertical-align:middle}
+.tiny{font-size:8pt; color:var(--soft); font-weight:400}
+.summary.hw{background:var(--teal-pale)}
+
+/* ---------- teacher key ---------- */
+.keysheet{min-height:auto}
+.teacherwarn{
+  background:#FBF0EE; border-left:3px solid #9C3B2E; color:#9C3B2E;
+  font-size:9.5pt; font-weight:600; padding:2.5mm 3.5mm; margin-bottom:6mm;
+}
+.keygroup{font-size:9.5pt; color:var(--soft); font-weight:600;
+  text-transform:uppercase; letter-spacing:.04em; margin:5mm 0 2mm}
+.key{margin-left:9.5mm; font-size:10pt}
+.key ul{margin-left:4mm}
+.key li{margin-bottom:1mm}
+.key .note{font-size:9.5pt; color:var(--soft); font-style:italic; margin-top:1.5mm}
+</style>
+</head>
+<body>
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div>
+
+<section class="sheet">
+<div class="brand" id="brand">Programming &amp; Artificial Intelligence</div>
+<h1 id="docTitle">How did we get here?</h1>
+<div class="docsub">Student Booklet &middot; Lecture 2</div>
+<div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div>
+<h2>Before we start</h2>
+<p class="lead">Last time we said three things. Today's lesson stands on them.</p>
+<div class="stages"><div class="stage"><div class="n">1</div><h4>A computer is dumb</h4><p>Input &rarr; processing &rarr; output. Nothing more.</p></div><div class="stage"><div class="n">2</div><h4>Programming vs. AI</h4><p>You write the rule, or the computer works it out from examples.</p></div><div class="stage"><div class="n">3</div><h4>The tools</h4><p>An editor writes, a compiler translates, an IDE does both.</p></div></div>
+<p class="ar">مراجعة سريعة لمحاضرة 1. والنهارده هنشوف الجهاز ده أخد تمانين سنة عشان يصغّر لدرجة إنه يبقى في جيبك.</p>
+<h2>Part A &middot; What is actually inside the box?</h2>
+<p>Before we talk about how computers changed the world, let us open one. Every computer you have ever touched &mdash; your phone, a laptop, the server running YouTube &mdash; has the same four kinds of part.</p>
+<table>
+<tr><th>Part</th><th>What it does</th></tr>
+<tr><td class="k">CPU</td><td>Does the thinking. Follows instructions one after another.</td></tr>
+<tr><td class="k">RAM</td><td>Holds only what you are using right now.</td></tr>
+<tr><td class="k">Storage</td><td>Keeps your files even when the power is off.</td></tr>
+<tr><td class="k">Input / Output</td><td>How you talk to it, and how it answers.</td></tr>
+</table>
+<p class="ar">أي كمبيوتر لمسته في حياتك فيه نفس الأربع أنواع دي — موبايل، لابتوب، أو سيرفر. المعالج بيفكر، الرام بتشيل اللي بتشتغل عليه دلوقتي، وحدة التخزين بتحفظ للأبد، والإدخال والإخراج هما طريقتك تتكلم مع الجهاز.</p>
+<div class="term"><h4>The CPU &mdash; Central Processing Unit</h4><p>This is where the <b>processing</b> stage from Lecture 1 actually happens. It follows your instructions one after another, extremely fast. More transistors inside it means more work per second &mdash; remember that, it comes back later in this lesson.</p></div>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+<h2>RAM is not storage</h2>
+<p>This is the one students mix up most, and it is worth getting right now. Watch what happens when the power goes off.</p>
+<table>
+<tr><th></th><th>RAM &mdash; the desk you work on</th><th>Storage &mdash; the cupboard</th></tr>
+<tr><td class="k">Speed</td><td>Fast</td><td>Slower</td></tr>
+<tr><td class="k">Power off</td><td>Wiped clean</td><td>Still all there</td></tr>
+<tr><td class="k">Holds</td><td>Your open apps and tabs</td><td>Your photos and files</td></tr>
+<tr><td class="k">Lasts</td><td>Only while the power is on</td><td>Permanently</td></tr>
+</table>
+<div class="summary"><p><b>If you never saved it, it was only ever in RAM.</b> That is why an hour of unsaved work disappears when the battery dies.</p></div>
+<p class="ar">دي أكتر حاجة الطلبة بيلخبطوا فيها. لو محفظتش الملف، يبقى كان في الرام بس — وضاع. الرام مؤقتة وسريعة وبتتمسح لما الجهاز يتقفل. وحدة التخزين أبطأ بس بتحتفظ بكل حاجة.</p>
+<h2>Input and output devices</h2>
+<table>
+<tr><th>Input &mdash; you &rarr; machine</th><th>Output &mdash; machine &rarr; you</th></tr>
+<tr><td class="k">Keyboard, mouse</td><td>Screen</td></tr>
+<tr><td class="k">Microphone, camera</td><td>Speakers, headphones</td></tr>
+<tr><td class="k">Fingerprint sensor</td><td>Printer, vibration</td></tr>
+</table>
+<div class="summary"><p>A <b>touchscreen is both</b> &mdash; it takes your finger in and shows the picture out. This is a very common exam question.</p></div>
+<p class="ar">الشاشة اللي بتلمس هي إدخال وإخراج في نفس الوقت — بتاخد لمستك وبتوريك الصورة. ودي بتيجي في الامتحان كتير.</p>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+<h2>Class work &middot; Part A</h2>
+<div class="ex">
+<div class="exhead"><span class="exn">1</span><span class="exq">Match each part to what it does.</span></div>
+<p class="ar">صِل كل جزء باللي بيعمله.</p>
+<table class="matchtbl"><tr><th style="width:6%">#</th><th>Item</th><th style="width:10%">Answer</th><th style="width:6%">&nbsp;</th><th>Options</th></tr>
+<tr><td>1</td><td>CPU</td><td class="blank"></td><td>A</td><td>Keeps your files even when the power is off</td></tr>
+<tr><td>2</td><td>RAM</td><td class="blank"></td><td>B</td><td>Does the thinking — follows instructions one by one</td></tr>
+<tr><td>3</td><td>Storage</td><td class="blank"></td><td>C</td><td>Both takes input and shows output</td></tr>
+<tr><td>4</td><td>Touchscreen</td><td class="blank"></td><td>D</td><td>Holds only what you are using right now</td></tr>
+</table>
+</div>
+<div class="ex">
+<div class="exhead"><span class="exn">2</span><span class="exq">Complete the table. Write RAM or Storage in each empty cell.</span></div>
+<p class="ar">أكمل الجدول. اكتب RAM أو Storage في كل خانة فاضية.</p>
+<table>
+<tr><th></th><th>RAM</th><th>Storage</th></tr>
+<tr><td class="k">Speed</td><td>faster</td><td class="blank"></td></tr>
+<tr><td class="k">When the power goes off</td><td class="blank"></td><td>keeps everything</td></tr>
+<tr><td class="k">Which is bigger on a phone</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td class="k">Where an unsaved file sits</td><td class="blank"></td><td class="blank"></td></tr>
+</table>
+</div>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+<h2>Part B &middot; How information technology developed</h2>
+<p>Those same four parts, eighty years ago, filled a whole room. Information technology developed in five stages. At each one it introduced a new technology or service <b>and</b> changed how society communicates, works, learns and pays.</p>
+<table>
+<tr><th>Period</th><th>Major technologies and events</th><th>Impact on society</th></tr>
+<tr><td class="k">1940s&ndash;60s</td><td>Birth of the computer (ENIAC, vacuum tubes)</td><td>Mainly military and scientific computation</td></tr>
+<tr><td class="k">1970s&ndash;80s</td><td>Spread of personal computers (PCs)</td><td>Beginning of personal computer use</td></tr>
+<tr><td class="k">1990s</td><td>Commercialization of the Internet; the Web</td><td>Globalization of information; spread of email</td></tr>
+<tr><td class="k">2000s</td><td>Rise of smartphones</td><td>Explosive spread of mobile Internet</td></tr>
+<tr><td class="k">2010s onward</td><td>Spread of cloud computing</td><td>Large-scale data analysis and AI; &ldquo;IT as a service&rdquo;</td></tr>
+</table>
+<p class="ar">الجدول ده حرفيًا من الكتاب. خلي بالك من الترتيب — بييجي في الامتحان كسؤال ترتيب زمني. نفس الوظيفة، بس الجهاز بيصغر في كل مرحلة.</p>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+<h2>Moore&rsquo;s Law</h2>
+<p>A <b>transistor</b> is a tiny switch inside a chip. More switches means more computing power. Moore noticed that the number of them <b>doubles about every two years</b>.</p>
+<table>
+<tr><th>After</th><th>Transistors</th></tr>
+<tr><td class="k">Year 0</td><td>1</td></tr>
+<tr><td class="k">2 years</td><td>2</td></tr>
+<tr><td class="k">4 years</td><td>4</td></tr>
+<tr><td class="k">6 years</td><td>8</td></tr>
+<tr><td class="k">20 years</td><td>&times;1,024 more than you started with</td></tr>
+</table>
+<div class="summary"><p>Doubling looks small at first, then gets enormous fast. That is why a phone caught up with machines that once filled a room.</p><p>Moore never said it <i>must</i> happen &mdash; he just noticed that it kept happening. It is an <b>observation</b>, not a physical law. That distinction is examined.</p></div>
+<p class="ar">الترانزستور مفتاح صغير جوه الشريحة — مفاتيح أكتر معناها قدرة أكبر. وقانون مور ملاحظة إن عددهم بيتضاعف كل سنتين تقريبًا. خلي بالك: دي ملاحظة مش قانون فيزيائي، وده اللي بيتسأل عليه في الامتحان.</p>
+<h2>Why shrinking is getting hard</h2>
+<table>
+<tr><th>The problems</th><th>The responses</th></tr>
+<tr><td class="k"><b>Quantum tunneling</b> &mdash; electrons slip straight through a barrier once it is made too thin</td><td><b>Parallel processing</b> using multiple processor cores</td></tr>
+<tr><td class="k"><b>Leakage current</b> &mdash; current escapes unintentionally</td><td><b>Quantum computers</b> based on the principles of quantum mechanics</td></tr>
+<tr><td class="k">Hard to get higher performance and lower power at the same time</td><td></td></tr>
+</table>
+<p class="ar">لما الترانزستورات تصغر أوي بتحصل مشكلتين: النفق الكمومي (الإلكترونات بتتسرب من الحواجز) وتسرب التيار. والحلول: المعالجة المتوازية بأنوية متعددة، والحواسيب الكمومية.</p>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+<h2>Five things IT changed about daily life</h2>
+<table>
+<tr><th>Change</th><th>What it means</th></tr>
+<tr><td class="k">SNS<br><span class='tiny'>Social Networking Service</span></td><td>Services that let users connect, post and share information. Highly effective at spreading information rapidly.</td></tr>
+<tr><td class="k">E-commerce<br><span class='tiny'>EC</span></td><td>Buying and selling goods and services <b>through the Internet</b>. For example Amazon, eBay.</td></tr>
+<tr><td class="k">Remote work</td><td>Work performed from home or other remote locations using the Internet.</td></tr>
+<tr><td class="k">Online learning</td><td>Classes and study materials delivered using the Internet.</td></tr>
+<tr><td class="k">Cashless payment</td><td>Payment using electronic money, QR codes and similar, without cash.</td></tr>
+</table>
+<p class="ar">الخمس تغييرات بتعريفاتها من الكتاب. أشهر غلطة: إن التجارة الإلكترونية تتعرّف على إنها شراء من محل بالكاش — ده عكس التعريف بالظبط.</p>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+<h2>Emerging technologies</h2>
+<div class="term"><h4>Autonomous driving</h4><p>Uses AI to drive a vehicle <b>without human operation</b>. Cameras and sensors recognise the surroundings, it makes driving decisions, and it controls the vehicle. A delay of even <b>0.1 seconds</b> can cause an accident, so it uses <b>edge computing</b> &mdash; the decision is made instantly on the vehicle itself, not sent to the cloud for judgment.</p></div>
+<div class="term"><h4>AR &mdash; Augmented Reality</h4><p>Overlays digital information on real-world images. The real world is still there; you add to it.</p></div>
+<div class="term"><h4>VR &mdash; Virtual Reality</h4><p>Lets users immerse themselves in a virtual space generated by a computer. The real world is replaced.</p></div>
+<div class="term"><h4>Quantum computing</h4><p>Expected to dramatically speed up computations that are difficult or impossible for traditional computers, by using the principles of quantum mechanics. A normal bit is 0 <i>or</i> 1; a qubit uses <b>superposition</b> and can hold both at once.</p></div>
+<p class="ar">الواقع المعزز بيضيف معلومات رقمية فوق صور العالم الحقيقي. الواقع الافتراضي بيحط المستخدم جوه فضاء افتراضي. والقيادة الذاتية بتعتمد على الحوسبة الطرفية عشان عُشر ثانية كفاية تعمل حادثة.</p>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+<h2>Exam warning &middot; two sentences that look right but are wrong</h2>
+<p>Both of these appear in the textbook exercises, and students pick them every year.</p>
+<table>
+<tr><th>The wrong sentence</th><th>Why it is wrong</th></tr>
+<tr><td class="k">&#10007; &ldquo;VR speeds up a computer&rdquo;</td><td>VR has nothing to do with speed. It puts you inside a space the computer generates. The thing that speeds computation up is <b>quantum computing</b>.</td></tr>
+<tr><td class="k">&#10007; &ldquo;E-commerce is paying cash in a shop&rdquo;</td><td>That is just ordinary shopping. E-commerce is buying and selling <b>over the Internet</b>. No Internet, no e-commerce.</td></tr>
+</table>
+<p class="ar">الجملتين دول موجودين في تمارين الكتاب والطلبة بيختاروهم غلط كل سنة. الأولى: VR ملهاش علاقة بالسرعة — اللي بيسرّع هو الحوسبة الكمومية. الثانية: التجارة الإلكترونية لازم تكون عبر الإنترنت.</p>
+<h2>Key takeaway</h2>
+<div class="summary"><p>IT developed in stages &mdash; computers, the Internet, smartphones, cloud computing.</p><p>At each stage it introduced a new technology or service <b>and</b> changed how society communicates, works, learns and pays.</p><p>The same four parts &mdash; CPU, RAM, storage, input/output &mdash; filled a room eighty years ago and are in your pocket now.</p></div>
+<p class="ar">الخلاصة: تكنولوجيا المعلومات اتطورت على مراحل — كمبيوتر، إنترنت، موبايل، سحابة. وكل مرحلة ضافت تقنية جديدة وغيّرت طريقة تواصل المجتمع وشغله وتعلّمه ودفعه.</p>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+<h2>Class work &middot; Part B</h2>
+<div class="ex">
+<div class="exhead"><span class="exn">7</span><span class="exq">Put these four stages in the correct chronological order, writing 1 to 4.</span></div>
+<p class="ar">رتّب المراحل الأربعة ترتيبًا زمنيًا صحيحًا من 1 إلى 4.</p>
+<div class="src">p.9 — Worked Example (1)</div>
+<table class="ordtbl"><tr><th style="width:14%">Order</th><th>Stage</th></tr>
+<tr><td class="blank"></td><td>Rise of smartphones</td></tr>
+<tr><td class="blank"></td><td>Spread of cloud computing</td></tr>
+<tr><td class="blank"></td><td>Birth of the computer</td></tr>
+<tr><td class="blank"></td><td>Commercialization of the Internet</td></tr>
+</table>
+</div>
+<div class="ex">
+<div class="exhead"><span class="exn">8</span><span class="exq">Write ✓ if the statement is true or ✗ if it is false.</span></div>
+<p class="ar">اكتب ✓ لو الجملة صح أو ✗ لو غلط.</p>
+<div class="src">p.9 — Worked Example (2) A–D; p.10 — Try 2(2) C</div>
+<table class="tftbl"><tr><th style="width:8%">&#10003; / &#10007;</th><th>Statement</th></tr>
+<tr><td class="blank"></td><td>Moore&#x27;s Law is the empirical observation that the number of transistors on an integrated circuit doubles approximately every two years.</td></tr>
+<tr><td class="blank"></td><td>Moore&#x27;s Law has been said to be approaching a physical limit in recent years.</td></tr>
+<tr><td class="blank"></td><td>SNS is highly effective at spreading information rapidly.</td></tr>
+<tr><td class="blank"></td><td>E-commerce refers to purchasing goods at physical stores using cash.</td></tr>
+<tr><td class="blank"></td><td>VR is a technology that dramatically improves the processing speed of a computer.</td></tr>
+</table>
+</div>
+<div class="summary hw"><p><b>Homework</b> is on a separate sheet &mdash; nine exercises, including two written answers. Bring it to the next session.</p><p class="ar">الواجب في ورقة منفصلة — تسع تمارين، منهم سؤالين إجابة مكتوبة. هاتها معاك المرة الجاية.</p></div>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+  <h2>Test yourself online</h2>
+  
+
+  <h2>Test Yourself Online</h2>
+  <div class="qrbox">
+    <img id="qr" alt="QR code linking to the quiz" width="250" height="250">
+    <div class="txt">
+      <h3>Exam &middot; Lectures 1 and 2 &middot; about 10 minutes</h3>
+      <p>Scan this code with your phone camera to open the quiz. At the end it tells you,
+      section by section, which parts of the two sessions you have understood and which parts
+      to read again.</p>
+      <p>Or open it directly:</p>
+      <div class="qrurl" id="quizUrl"></div>
+      <div id="qrWarn">The QR image did not load. Check your connection and reload
+        before printing this sheet.</div>
+    </div>
+  </div>
+  <p class="ar">امسح الكود بكاميرا موبايلك.</p>
+
+  <h2>My notes</h2>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 2;
+const LECTURE_TITLE = "How did we get here?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#6A4C93";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  applyAccent();
+  document.title = LECTURE.label + " Handout — " + LECTURE.title + " · PGteach";
+  document.getElementById('brand').textContent =
+    LECTURE.label + " · " + LECTURE_TOPIC;
+  document.getElementById('docTitle').textContent = LECTURE.title;
+  document.getElementById('quizUrl').textContent =
+    LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+  qr.onerror = () => { document.getElementById('qrWarn').style.display = 'block'; };
+  qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+         + encodeURIComponent(LECTURE.quizUrl);
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+
+  document.getElementById('printBtn').onclick = () => window.print();
+})();
+</script>
+</body>
+</html>

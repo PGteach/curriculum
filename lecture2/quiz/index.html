@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 2 Quiz — How did we get here? · PGteach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16233F;
+    --ink-soft:#5B6472;
+    --teal:#0E7C7B;
+    --gold:#C9963B;
+    --paper:#FAFAF7;
+    --line:#E2E5E9;
+    --wrong:#9C3B2E;
+    --wrong-bg:#FDF3F2;
+    --green:#2A854E;
+    --green-bg:#EFF6F5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{
+    font-family:"Inter","Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+    padding:22px 18px 56px;
+    max-width:620px;
+    margin:0 auto;
+  }
+
+  header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:22px}
+  .kicker{font-size:13px;color:var(--teal);font-weight:600;letter-spacing:.2px}
+  h1{font-family:"Fraunces",Georgia,serif;font-size:25px;line-height:1.2;margin-top:4px;font-weight:600;letter-spacing:-.01em}
+  .byline{font-size:13px;color:var(--ink-soft);margin-top:6px}
+
+  /* progress */
+  .bar{height:5px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:8px}
+  .bar > i{display:block;height:100%;width:0;background:var(--teal);transition:width .28s ease}
+  .count{font-size:13px;color:var(--ink-soft);margin-bottom:20px}
+
+  .section-tag{
+    display:inline-block;font-size:12px;font-weight:600;color:var(--gold);
+    border:1px solid var(--gold);border-radius:99px;padding:2px 10px;margin-bottom:12px;
+  }
+  .q{font-size:19px;font-weight:600;line-height:1.4;margin-bottom:18px}
+
+  .opt{
+    display:block;width:100%;text-align:left;font:inherit;font-size:16px;
+    background:#fff;border:1.5px solid var(--line);border-radius:9px;
+    padding:13px 15px;margin-bottom:10px;cursor:pointer;color:var(--ink);
+    transition:border-color .15s,background .15s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--teal)}
+  .opt:focus-visible{outline:2.5px solid var(--teal);outline-offset:2px}
+  .opt:disabled{cursor:default}
+  .opt.correct{border-color:var(--teal);background:var(--green-bg);font-weight:600}
+  .opt.chosen-wrong{border-color:var(--wrong);background:var(--wrong-bg)}
+
+  .verdict{font-size:15px;margin:14px 0 4px;font-weight:600}
+  .verdict.ok{color:var(--teal)}
+  .verdict.no{color:var(--wrong)}
+
+  .next{
+    font:inherit;font-size:16px;font-weight:600;margin-top:16px;
+    background:var(--ink);color:#fff;border:0;border-radius:9px;
+    padding:13px 26px;cursor:pointer;width:100%;
+  }
+  .next:focus-visible{outline:2.5px solid var(--gold);outline-offset:2px}
+  .hide{display:none}
+
+  /* results */
+  .score{
+    text-align:center;border:2px solid var(--ink);border-radius:12px;
+    padding:22px 16px;margin-bottom:26px;
+  }
+  .score b{display:block;font-size:52px;line-height:1;font-weight:700}
+  .score span{font-size:14px;color:var(--ink-soft)}
+
+  h2{font-family:"Fraunces",Georgia,serif;font-size:19px;margin-bottom:14px;font-weight:600}
+  .ar{font-family:"IBM Plex Sans Arabic","Inter",sans-serif;direction:rtl;unicode-bidi:isolate;font-weight:400}
+  .backlink{display:inline-block;margin-top:18px;font-size:14px;color:var(--teal);font-weight:600}
+  .row{margin-bottom:16px}
+  .row .top{display:flex;justify-content:space-between;font-size:14px;margin-bottom:5px;gap:10px}
+  .row .top b{font-weight:600}
+  .track{height:9px;background:var(--line);border-radius:99px;overflow:hidden}
+  .track > i{display:block;height:100%;border-radius:99px}
+
+  .advice{border-left:3px solid var(--gold);padding:10px 0 10px 14px;margin-top:22px;font-size:15px}
+
+  /* review block */
+  .review-wrap{margin-top:28px}
+  .review-card{
+    background:var(--wrong-bg);border:1px solid #F5C6CB;border-left:4px solid var(--wrong);
+    border-radius:8px;padding:14px;margin-bottom:12px;font-size:14px;
+  }
+  .review-card h4{font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+  .review-card .ans{margin:3px 0;font-size:13.5px}
+  .review-card .w-val{color:var(--wrong);font-weight:600}
+  .review-card .c-val{color:var(--green);font-weight:600}
+  .review-card .why-txt{margin-top:6px;color:var(--ink-soft);font-size:13px;font-style:italic}
+
+  /* intake */
+  .field{margin-bottom:15px}
+  .field label{display:block;font-size:14px;font-weight:600;margin-bottom:5px}
+  .field input{
+    width:100%;font:inherit;font-size:16px;padding:12px 14px;
+    border:1.5px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);
+  }
+  .field input:focus{outline:2.5px solid var(--teal);outline-offset:1px;border-color:var(--teal)}
+  .field .hint{font-size:12.5px;color:var(--ink-soft);margin-top:4px}
+  .err{color:var(--wrong);font-size:13.5px;margin-bottom:12px;font-weight:600}
+  .whoami{font-size:13px;color:var(--ink-soft);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+
+  .restart{
+    font:inherit;font-size:15px;margin-top:26px;background:none;
+    border:1.5px solid var(--ink);border-radius:9px;padding:11px 22px;
+    cursor:pointer;color:var(--ink);width:100%;font-weight:600;
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker" id="kicker">Programming &amp; AI</div>
+  <h1>Check what you understood</h1>
+  <div class="byline" id="byline">10 questions · about 5 minutes · Mr. Eissa Islam</div>
+</header>
+
+<p class="count" id="introNote">Enter your details first, then the quiz begins.</p>
+
+<main id="intake">
+  <div class="field">
+    <label for="sName">Full name</label>
+    <input id="sName" type="text" autocomplete="name" placeholder="Write your name as it appears in class">
+  </div>
+  <div class="field">
+    <label for="sPhone">Phone number</label>
+    <input id="sPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="01xxxxxxxxx">
+    <div class="hint">Used only so your teacher can match this result to you.</div>
+  </div>
+  <div class="field">
+    <label for="sDate">Date</label>
+    <input id="sDate" type="date">
+  </div>
+  <div class="err hide" id="intakeErr"></div>
+  <button type="button" class="next" id="start">Start the quiz</button>
+</main>
+
+<main id="quiz" class="hide">
+  <div class="whoami" id="whoami"></div>
+  <div class="bar"><i id="prog"></i></div>
+  <div class="count" id="count"></div>
+  <div class="section-tag" id="tag"></div>
+  <div class="q" id="question"></div>
+  <div id="options"></div>
+  <div class="verdict hide" id="verdict"></div>
+  <button type="button" class="next hide" id="next"></button>
+</main>
+
+<main id="results" class="hide">
+  <div class="whoami" id="whoamiResult"></div>
+  <div class="score">
+    <b id="finalScore">0/0</b>
+    <span id="finalLabel"></span>
+  </div>
+
+  <h2>Where you stand, section by section</h2>
+  <div id="breakdown"></div>
+  <div class="advice" id="advice"></div>
+
+  <div id="reviewSection" class="hide review-wrap">
+    <h2>Questions to review <span class="ar">(الأخطاء التي تحتاج مراجعة)</span></h2>
+    <div id="wrongList"></div>
+  </div>
+
+  <div class="advice hide" id="sendState"></div>
+  <button type="button" class="restart" id="restart">Take it again</button>
+  <a class="backlink" href="../slides/">← Back to the slides</a>
+</main>
+
+<script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   Everything else on the page derives from it.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 2;
+const LECTURE_TITLE = "How did we get here?";
+
+const LECTURE = {
+  num:       LECTURE_NUM,
+  label:     "Lecture " + LECTURE_NUM,
+  title:     LECTURE_TITLE,
+  slidesUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/slides",
+  quizUrl:   SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+/* Google Apps Script Web App endpoint that records submissions.
+   Set to "" to disable sending; the quiz still works without it. */
+const RESULTS_URL = "https://script.google.com/macros/s/AKfycbxfgPaAaOTuOhyyaRI4fWLclsYF1VsDXpkDQoURb_yUIsG35Lmf2wgg0IJ7Zff_BnHn/exec";
+
+/* Section names shown on the progress breakdown, in order.
+   A question's `s` field is an index into this list. */
+const SECTIONS = [
+  "Review · How computers work",      // 0
+  "Review · Programming, AI & tools", // 1
+  "Stages of IT development",         // 2
+  "Social changes from IT",           // 3
+  "Emerging technologies"             // 4
+];
+
+/* One object per question:
+     s   section index (into SECTIONS above)
+     q   the question text
+     o   the options, in display order
+     a   index of the correct option in `o`
+     why the explanation shown after answering, and in the review list
+   The question total, the progress bar and the per-section tracks are all
+   derived from this array — nothing else needs updating when you add one. */
+const QUESTIONS = [
+
+  /* ===== SECTION 0 · Lecture 1 re-tested, scenario-first ===== */
+
+  {
+    s: 0,
+    q: "You type your password into a login page. Which stage of the computer's work is that?",
+    o: ["Input", "Processing", "Output"],
+    a: 0,
+    why: "Anything you hand to the machine is input. What it does with your password afterwards is processing."
+  },
+  {
+    s: 0,
+    q: "A calculator shows 8 after you press 3 + 5. Where did the adding itself actually happen?",
+    o: ["In the input stage", "In the processing stage", "In the output stage"],
+    a: 1,
+    why: "The adding is the hidden work in the middle. The 8 on screen is only the output that reports it."
+  },
+  {
+    s: 0,
+    q: "Which of these is an OUTPUT?",
+    o: [
+      "Choosing a film in a streaming app",
+      "The app deciding which films to suggest",
+      "The list of suggested films appearing on screen"
+    ],
+    a: 2,
+    why: "Output is what comes back to you. Choosing is input, and deciding is processing."
+  },
+
+  /* ===== SECTION 1 · Lecture 1 re-tested, reversed direction ===== */
+
+  {
+    s: 1,
+    q: "A teacher writes out every rule a spam filter must follow, line by line. Which approach is this?",
+    o: ["Programming", "Artificial intelligence", "Neither"],
+    a: 0,
+    why: "When a person writes the rules and the machine follows them exactly, that is programming."
+  },
+  {
+    s: 1,
+    q: "An app learns to recognise your voice after you record fifty samples. Nobody wrote the rules for your voice. What is this?",
+    o: ["Programming", "Artificial intelligence", "Compiling"],
+    a: 1,
+    why: "The computer worked the pattern out from examples instead of following rules someone wrote. That is AI."
+  },
+  {
+    s: 1,
+    q: "Python is to a language as ______ is to a sentence written in it.",
+    o: ["A compiler", "Source code", "An IDE"],
+    a: 1,
+    why: "The language is the system; the source code is the actual text you write in it."
+  },
+  {
+    s: 1,
+    q: "Your code is readable text, but the processor only reads zeros and ones. What closes that gap?",
+    o: ["The text editor", "The compiler", "The IDE"],
+    a: 1,
+    why: "Translating your code into machine language is exactly the compiler's job."
+  },
+  {
+    s: 1,
+    q: "You want ONE program where you can write code, run it, and be shown your errors. What are you describing?",
+    o: ["A text editor", "A compiler", "An IDE"],
+    a: 2,
+    why: "An IDE bundles the editor, the tools that run the program, and error finding into a single program."
+  },
+  {
+    s: 1,
+    q: "Your program fails, so you copy the error message and search for it online. Which programmer habit is that?",
+    o: ["Breaking the problem down", "Continuous research", "Typing quickly"],
+    a: 1,
+    why: "Nobody memorises everything. Looking things up is a normal part of the job, not a weakness."
+  },
+
+  /* ===== SECTION 2 · Stages of IT development (new) ===== */
+
+  {
+    s: 2,
+    q: "Put these four stages in the correct chronological order.",
+    o: [
+      "Birth of the computer → Rise of smartphones → Commercialization of the Internet → Spread of cloud computing",
+      "Birth of the computer → Commercialization of the Internet → Rise of smartphones → Spread of cloud computing",
+      "Commercialization of the Internet → Birth of the computer → Spread of cloud computing → Rise of smartphones"
+    ],
+    a: 1,
+    why: "Birth of the computer in the 1940s-60s, the Internet commercialized in the 1990s, smartphones in the 2000s, and cloud computing from the 2010s onward.",
+    src: "p.9 — Worked Example (1), answer B"
+  },
+  {
+    s: 2,
+    q: "What was the computer mainly used for in the 1940s to 1960s?",
+    o: ["Personal use at home", "Military and scientific computation", "Online shopping"],
+    a: 1,
+    why: "ENIAC and the vacuum-tube machines of that era were used mainly for military and scientific computation. Personal use only began with PCs in the 1970s-80s.",
+    src: "p.6 — stages table"
+  },
+  {
+    s: 2,
+    q: "According to Moore's Law, roughly how often does the number of transistors on an integrated circuit double?",
+    o: ["Every six months", "Every two years", "Every ten years"],
+    a: 1,
+    why: "Moore's Law is the empirical observation that the number of transistors on an integrated circuit doubles approximately every two years.",
+    src: "p.6 — Moore's Law definition"
+  },
+  {
+    s: 2,
+    q: "As transistors are made smaller and smaller, which problem appears?",
+    o: [
+      "The quantum tunneling effect, where electrons slip through barriers",
+      "The chip becomes too heavy to fit in a phone",
+      "The chip can no longer store any data"
+    ],
+    a: 0,
+    why: "Two problems arise near the physical limit: the quantum tunneling effect, where electrons slip through barriers, and leakage current, where current escapes unintentionally.",
+    src: "p.7 — physical limit paragraph"
+  },
+
+  /* ===== SECTION 3 · Social changes (new) ===== */
+
+  {
+    s: 3,
+    q: "Which statement about e-commerce is FALSE?",
+    o: [
+      "It means buying and selling goods and services through the Internet",
+      "Amazon and eBay are examples of it",
+      "It means purchasing goods at physical stores using cash"
+    ],
+    a: 2,
+    why: "E-commerce is buying and selling through the Internet — the opposite of paying cash in a physical shop.",
+    src: "p.9 — Worked Example (2) D"
+  },
+  {
+    s: 3,
+    q: "A company lets its staff work from home using the Internet. What is this called?",
+    o: ["Online learning", "Remote work", "Cashless payment"],
+    a: 1,
+    why: "Remote work is a working style in which work is performed from home or other remote locations using the Internet.",
+    src: "p.7 — section 2 (3)"
+  },
+  {
+    s: 3,
+    q: "Paying with a QR code or a mobile payment app instead of notes and coins is:",
+    o: ["Cashless payment", "E-commerce", "Edge computing"],
+    a: 0,
+    why: "Cashless payment is a system for making payments using electronic money, QR codes and similar, without using cash.",
+    src: "p.7 — section 2 (5)"
+  },
+  {
+    s: 3,
+    q: "Which technology, spreading from the 2010s onward, supports large-scale data analysis and the use of AI?",
+    o: ["Personal computers", "Cloud computing", "Email"],
+    a: 1,
+    why: "The spread of cloud computing brought large-scale data analysis and AI, and made \"IT as a service\" widespread.",
+    src: "p.6 — stages table; p.12 — Exercise question 2"
+  },
+
+  /* ===== SECTION 4 · Emerging technologies (new) ===== */
+
+  {
+    s: 4,
+    q: "Why does a self-driving car process data on the vehicle itself instead of sending it to the cloud?",
+    o: [
+      "Because the cloud cannot store that much data",
+      "Because a delay of even 0.1 seconds can lead to an accident",
+      "Because cars are not allowed to connect to the Internet"
+    ],
+    a: 1,
+    why: "A delay of even 0.1 seconds can cause an accident, so edge computing is used and the decision is made instantly on board.",
+    src: "p.8 — section 3 (1)"
+  },
+  {
+    s: 4,
+    q: "Which one describes AR rather than VR?",
+    o: [
+      "Overlays digital information on real-world images",
+      "Immerses the user in a virtual space generated by a computer",
+      "Speeds up difficult computations using quantum mechanics"
+    ],
+    a: 0,
+    why: "AR adds a digital layer on top of the real world. VR replaces the real world with a computer-generated space.",
+    src: "p.8 — section 3 (2)"
+  },
+  {
+    s: 4,
+    q: "Which of these statements is NOT an appropriate description of an emerging technology?",
+    o: [
+      "Autonomous driving uses AI to drive a vehicle without human operation",
+      "VR is a technology that dramatically improves the processing speed of a computer",
+      "Quantum computing is expected to speed up computations that are difficult for traditional computers"
+    ],
+    a: 1,
+    why: "Speeding up difficult computations describes quantum computing, not VR. VR is about immersing the user in a virtual space.",
+    src: "p.10 — Try, question 2 (2)"
+  }
+];
+
+/* One line per section, shown on the results screen when that section was not
+   perfect. Keyed by section index; a section with no entry falls back to its
+   name alone, so this can stay partial. */
+const ADVICE = {
+  0: "Go back to the input → processing → output diagram in Lecture 1.",
+  1: "Re-read the four terms and the kitchen comparison in Lecture 1.",
+  2: "Re-read the five-stage table and Moore's Law (textbook pp. 6-7).",
+  3: "Re-read the five social changes and their definitions (textbook p. 7).",
+  4: "Re-read autonomous driving, AR/VR and quantum computing (textbook p. 8)."
+};
+
+const state = {
+  i: 0,
+  answered: false,
+  correct: [],
+  total: [],
+  name: "",
+  phone: "",
+  date: "",
+  wrongQuestions: [],
+  order: [],         // displayed position -> index in the question's o[]
+  qOrder: []         // step number -> index in QUESTIONS
+};
+
+/* Fisher-Yates. Two things are shuffled, both to stop copying:
+     - the options, on every render, so the correct answer is not always
+       in the same slot (a student could otherwise always pick the second)
+     - the question order, once per attempt, so two students sitting
+       together are not on the same question at the same time
+   q.a stays the source of truth; only the display order changes. */
+function shuffle(a){
+  for(let k = a.length - 1; k > 0; k--){
+    const j = Math.floor(Math.random() * (k + 1));
+    [a[k], a[j]] = [a[j], a[k]];
+  }
+  return a;
+}
+
+/* the question being shown at the current step */
+function currentQ(){
+  return QUESTIONS[state.qOrder[state.i]];
+}
+
+function newAttempt(){
+  state.i = 0;
+  state.wrongQuestions = [];
+  state.qOrder = shuffle(QUESTIONS.map((_, k) => k));
+  SECTIONS.forEach((_, k) => { state.correct[k] = 0; });
+}
+
+SECTIONS.forEach((_, k) => { state.correct[k] = 0; state.total[k] = 0; });
+QUESTIONS.forEach(q => state.total[q.s]++);
+
+const $ = id => document.getElementById(id);
+
+// stamp lecture identity from the config block
+(function(){
+  document.title = LECTURE.label + " Quiz \u2014 " + LECTURE.title;
+  $("kicker").textContent = LECTURE.label + " \u2014 " + LECTURE.title;
+  $("byline").textContent =
+    QUESTIONS.length + " questions \u00b7 about 5 minutes \u00b7 Mr. Eissa Islam";
+})();
+
+// prefill today's date
+(function(){
+  const d = new Date();
+  const iso = d.getFullYear() + "-" +
+    String(d.getMonth()+1).padStart(2,"0") + "-" +
+    String(d.getDate()).padStart(2,"0");
+  $("sDate").value = iso;
+})();
+
+$("start").onclick = () => {
+  const name  = $("sName").value.trim();
+  const phone = $("sPhone").value.trim();
+  const date  = $("sDate").value;
+  const err   = $("intakeErr");
+
+  /* A first name alone can't be matched to a register, so ask for at least
+     two words. Phone is kept permissive on format but bounded on length. */
+  const words  = name.split(/\s+/).filter(w => w.length >= 2);
+  const digits = phone.replace(/\D/g,"");
+  let problem = "";
+  if(words.length < 2)        problem = "Please write your full name — first and last name.";
+  else if(digits.length < 8)  problem = "Please write a valid phone number.";
+  else if(digits.length > 15) problem = "That phone number is too long.";
+  else if(!date)              problem = "Please choose the date.";
+
+  if(problem){
+    err.textContent = problem;
+    err.className = "err";
+    return;
+  }
+
+  state.name = name; state.phone = phone; state.date = date;
+  const line = name + " · " + phone + " · " + date;
+  $("whoami").textContent = line;
+  $("whoamiResult").textContent = line;
+
+  $("intake").className = "hide";
+  $("introNote").className = "hide";
+  $("quiz").className = "";
+  newAttempt();
+  render();
+};
+
+function render(){
+  const q = currentQ();
+  state.answered = false;
+
+  $("prog").style.width = (state.i / QUESTIONS.length * 100) + "%";
+  $("count").textContent = "Question " + (state.i+1) + " of " + QUESTIONS.length;
+  $("tag").textContent = SECTIONS[q.s];
+  $("question").textContent = q.q;
+
+  state.order = shuffle(q.o.map((_, k) => k));
+
+  const box = $("options");
+  box.innerHTML = "";
+  state.order.forEach(orig => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "opt";
+    b.textContent = q.o[orig];
+    /* pass the original index, so q.a stays the source of truth */
+    b.onclick = () => choose(orig);
+    box.appendChild(b);
+  });
+
+  $("verdict").className = "verdict hide";
+  $("next").className = "next hide";
+}
+
+function choose(idx){
+  if(state.answered) return;
+  state.answered = true;
+
+  const q = currentQ();
+  const buttons = document.querySelectorAll(".opt");
+  buttons.forEach((b,pos) => {
+    b.disabled = true;
+    const orig = state.order[pos];      // buttons are in shuffled order
+    if(orig === q.a) b.classList.add("correct");
+    else if(orig === idx) b.classList.add("chosen-wrong");
+  });
+
+  const right = idx === q.a;
+  if(right) {
+    state.correct[q.s]++;
+  } else {
+    state.wrongQuestions.push({
+      question: q.q,
+      selected: q.o[idx],
+      correct: q.o[q.a],
+      why: q.why
+    });
+  }
+
+  const v = $("verdict");
+  v.className = "verdict " + (right ? "ok" : "no");
+  v.textContent = (right ? "Correct. " : "Not quite. ") + q.why;
+
+  const n = $("next");
+  n.className = "next";
+  n.textContent = state.i === QUESTIONS.length - 1 ? "See my results" : "Next question";
+  n.focus();
+}
+
+$("next").onclick = () => {
+  if(state.i === QUESTIONS.length - 1) finish();
+  else { state.i++; render(); }
+};
+
+/* small DOM helpers — keep review cards free of innerHTML interpolation */
+function el(tag, cls, text){
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  n.textContent = text;
+  return n;
+}
+function ansLine(icon, label, value, cls){
+  const row = document.createElement("div");
+  row.className = "ans";
+  row.appendChild(document.createTextNode(icon + " "));
+  row.appendChild(el("b", "", label));
+  row.appendChild(document.createTextNode(" "));
+  row.appendChild(el("span", cls, value));
+  return row;
+}
+
+function finish(){
+  const got = state.correct.reduce((a,b)=>a+b,0);
+  $("quiz").className = "hide";
+  $("results").className = "";
+
+  $("finalScore").textContent = got + "/" + QUESTIONS.length;
+  /* Proportional, not absolute: this quiz has 20 questions where lecture 1
+     had 10, and fixed thresholds would have called 9/20 "excellent". */
+  const share = got / QUESTIONS.length;
+  $("finalLabel").textContent =
+    share >= 0.9 ? "Excellent — you followed the whole session closely." :
+    share >= 0.7 ? "Good. A couple of spots to review." :
+    share >= 0.5 ? "Halfway there. Go back over the sections below." :
+                   "Worth revisiting the booklet before the next session.";
+
+  const wrap = $("breakdown");
+  wrap.innerHTML = "";
+  const weak = [];
+
+  SECTIONS.forEach((name,k) => {
+    const c = state.correct[k], t = state.total[k];
+    const pct = Math.round(c/t*100);
+    const colour = pct === 100 ? "var(--teal)" : pct >= 50 ? "var(--gold)" : "var(--wrong)";
+    if(pct < 100) weak.push(k);
+
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML =
+      '<div class="top"><b></b><span></span></div>' +
+      '<div class="track"><i style="width:' + pct + '%;background:' + colour + '"></i></div>';
+    row.querySelector("b").textContent = name;
+    row.querySelector("span").textContent = c + " of " + t;
+    wrap.appendChild(row);
+  });
+
+  const adviceBox = $("advice");
+  adviceBox.innerHTML = "";
+  if(weak.length === 0){
+    adviceBox.textContent = "Nothing to revise — you got every section right. "
+      + "Bring a question of your own to the next session.";
+  } else {
+    adviceBox.appendChild(el("div", "", "What to read again before the next session:"));
+    weak.forEach(k => {
+      /* ADVICE may be partial; fall back to the section's own name. */
+      const line = (typeof ADVICE !== "undefined" && ADVICE[k])
+        ? ADVICE[k] : SECTIONS[k];
+      const row = document.createElement("div");
+      row.style.marginTop = ".45em";
+      row.appendChild(el("b", "", SECTIONS[k] + " — "));
+      row.appendChild(document.createTextNode(line));
+      adviceBox.appendChild(row);
+    });
+  }
+
+  // Render Mistake Review Section
+  const reviewSec = $("reviewSection");
+  const wrongList = $("wrongList");
+  wrongList.innerHTML = "";
+  
+  if (state.wrongQuestions.length > 0) {
+    reviewSec.className = "review-wrap";
+    state.wrongQuestions.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "review-card";
+      card.appendChild(el("h4", "", item.question));
+      card.appendChild(ansLine("\u274c", "Your answer:", item.selected, "w-val"));
+      card.appendChild(ansLine("\u2705", "Correct answer:", item.correct, "c-val"));
+      card.appendChild(el("div", "why-txt", item.why));
+      wrongList.appendChild(card);
+    });
+  } else {
+    reviewSec.className = "hide";
+  }
+
+  sendResult(got, weak);
+}
+
+/* ============================================================
+   RESULT CARD
+   The result screen is redrawn onto a canvas and sent with the
+   submission, so the teacher gets a picture of what the student saw
+   without the student having to screenshot anything.
+   Plain 2D canvas calls only — no library, and nothing newer than
+   fillRect, so old phone browsers still manage it.
+   ============================================================ */
+const CARD = {
+  w: 900, pad: 48, dpr: 2,
+  ink: "#16233F", soft: "#5B6472", teal: "#0E7C7B",
+  gold: "#C9963B", wrong: "#9C3B2E", paper: "#FAFAF7",
+  line: "#E2E5E9", white: "#ffffff",
+  body: '"Inter","Segoe UI",system-ui,sans-serif',
+  head: '"Fraunces",Georgia,serif'
+};
+
+/* Greedy word wrap. Returns the lines, it does not draw. */
+function wrapText(ctx, text, maxW){
+  const words = String(text).split(/\s+/);
+  const lines = [];
+  let line = "";
+  for(let i = 0; i < words.length; i++){
+    const test = line ? line + " " + words[i] : words[i];
+    if(line && ctx.measureText(test).width > maxW){ lines.push(line); line = words[i]; }
+    else line = test;
+  }
+  if(line) lines.push(line);
+  return lines;
+}
+
+async function resultImage(got){
+  const probe = document.createElement("canvas");
+  if(!probe.getContext) return "";                    // very old browser
+  if(document.fonts && document.fonts.ready){
+    try { await document.fonts.ready; } catch(e){}    // else canvas uses fallbacks
+  }
+
+  const W = CARD.w, PAD = CARD.pad, inner = W - PAD * 2;
+  const tall = document.createElement("canvas");
+  tall.width = W * CARD.dpr;
+  tall.height = 4200 * CARD.dpr;
+  const c = tall.getContext("2d");
+  if(!c) return "";
+  c.scale(CARD.dpr, CARD.dpr);
+  c.textBaseline = "top";
+  c.fillStyle = CARD.paper;
+  c.fillRect(0, 0, W, 4200);
+
+  let y = 0;
+
+  /* ---- navy header strip ---- */
+  c.fillStyle = CARD.ink;
+  c.fillRect(0, 0, W, 108);
+  c.fillStyle = "#ffffff";
+  c.font = "600 30px " + CARD.head;
+  c.fillText("PGteach", PAD, 26);
+  c.fillStyle = CARD.gold;
+  c.font = "600 17px " + CARD.body;
+  const lab = LECTURE.label + " \u00b7 " + LECTURE.title;
+  c.fillText(lab, PAD, 66);
+  y = 108 + 34;
+
+  const write = (text, font, colour, lh, maxW) => {
+    c.font = font; c.fillStyle = colour;
+    const lines = wrapText(c, text, maxW || inner);
+    for(let i = 0; i < lines.length; i++){
+      c.fillText(lines[i], PAD, y);
+      y += lh;
+    }
+  };
+
+  /* ---- who ---- */
+  write(state.name, "600 27px " + CARD.head, CARD.ink, 34);
+  y += 2;
+  write(state.phone + "  \u00b7  " + state.date, "400 16px " + CARD.body, CARD.soft, 24);
+  y += 22;
+
+  /* ---- score box ---- */
+  const boxH = 118;
+  c.fillStyle = CARD.white;
+  c.fillRect(PAD, y, inner, boxH);
+  c.fillStyle = CARD.ink;
+  c.fillRect(PAD, y, 6, boxH);
+  c.font = "700 54px " + CARD.head;
+  c.fillText(got + " / " + QUESTIONS.length, PAD + 28, y + 22);
+  c.font = "400 15px " + CARD.body;
+  c.fillStyle = CARD.soft;
+  const pct = Math.round(got / QUESTIONS.length * 100);
+  c.fillText(pct + "% correct", PAD + 28, y + 84);
+  y += boxH + 34;
+
+  /* ---- section breakdown ---- */
+  write("Section breakdown", "600 20px " + CARD.head, CARD.ink, 30);
+  y += 6;
+  for(let k = 0; k < SECTIONS.length; k++){
+    const done = state.correct[k], tot = state.total[k];
+    const p = tot ? Math.round(done / tot * 100) : 0;
+    c.font = "500 16px " + CARD.body;
+    c.fillStyle = CARD.ink;
+    c.fillText(SECTIONS[k], PAD, y);
+    c.fillStyle = CARD.soft;
+    const tally = done + " of " + tot;
+    c.fillText(tally, W - PAD - c.measureText(tally).width, y);
+    y += 24;
+    c.fillStyle = CARD.line;
+    c.fillRect(PAD, y, inner, 9);
+    c.fillStyle = p === 100 ? CARD.teal : p >= 50 ? CARD.gold : CARD.wrong;
+    c.fillRect(PAD, y, inner * p / 100, 9);
+    y += 26;
+  }
+  y += 14;
+
+  /* ---- mistakes ---- */
+  if(state.wrongQuestions.length){
+    write("Questions to review", "600 20px " + CARD.head, CARD.ink, 30);
+    y += 6;
+    for(let i = 0; i < state.wrongQuestions.length; i++){
+      const w = state.wrongQuestions[i];
+      const top = y;
+      y += 16;
+      write((i + 1) + ". " + w.question, "600 16px " + CARD.body, CARD.ink, 23, inner - 40);
+      y += 4;
+      write("chose:  " + w.selected, "400 15px " + CARD.body, CARD.wrong, 22, inner - 40);
+      write("correct:  " + w.correct, "400 15px " + CARD.body, CARD.teal, 22, inner - 40);
+      y += 16;
+      c.fillStyle = CARD.wrong;              // left rule, drawn once the height is known
+      c.fillRect(PAD - 14, top, 4, y - top);
+      y += 12;
+    }
+  } else {
+    write("No mistakes — every section correct.", "400 16px " + CARD.body, CARD.teal, 24);
+    y += 10;
+  }
+
+  /* ---- footer ---- */
+  y += 10;
+  c.fillStyle = CARD.line;
+  c.fillRect(PAD, y, inner, 1);
+  y += 16;
+  write("Submitted " + new Date().toLocaleString(), "400 13px " + CARD.body, CARD.soft, 20);
+  y += PAD;
+
+  /* ---- crop to the height actually used ---- */
+  const out = document.createElement("canvas");
+  out.width = W * CARD.dpr;
+  out.height = Math.round(y) * CARD.dpr;
+  const oc = out.getContext("2d");
+  if(!oc) return "";
+  oc.drawImage(tall, 0, 0);
+
+  const url = out.toDataURL("image/png");
+  const b64 = String(url).split(",")[1] || "";
+  /* Apps Script accepts a large POST, but do not push our luck. */
+  return b64.length > 4000000 ? "" : b64;
+}
+
+async function sendResult(got, weak){
+  const box = $("sendState");
+  if(!RESULTS_URL){ box.className = "hide"; return; }
+
+  box.className = "advice";
+  box.style.borderLeftColor = "var(--gold)";
+  box.textContent = "Sending your result to your teacher…";
+
+  /* A failed drawing must never cost us the submission itself. */
+  let image = "";
+  try { image = await resultImage(got); } catch(e){ image = ""; }
+
+  const payload = {
+    lecture: LECTURE.label,
+    name:   state.name,
+    phone:  state.phone,
+    date:   state.date,
+    score:  got,
+    total:  QUESTIONS.length,
+    /* `weak` carries section indices; the sheet wants readable names. */
+    weak:   weak.map(k => SECTIONS[k]).join(", ") || "none",
+    sections: SECTIONS.map((s,k)=> s + ": " + state.correct[k] + "/" + state.total[k]).join(" | "),
+    wrongQuestions: state.wrongQuestions,
+    image: image        // base64 PNG, or "" if it could not be drawn
+  };
+
+  fetch(RESULTS_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload)
+  }).then(() => {
+    box.style.borderLeftColor = "var(--teal)";
+    box.textContent = "Your result has been sent to your teacher.";
+  }).catch(() => {
+    box.style.borderLeftColor = "var(--wrong)";
+    box.textContent = "Couldn't send automatically. Please screenshot this page and send it to your teacher.";
+  });
+}
+
+$("restart").onclick = () => {
+  newAttempt();                 // reshuffles questions and options
+  $("results").className = "hide";
+  $("quiz").className = "";
+  render();
+};
+</script>
+</body>
+</html>

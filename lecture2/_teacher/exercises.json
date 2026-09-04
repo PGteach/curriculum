@@ -1,0 +1,324 @@
+{
+ "SHEET": {
+  "lecture": 2,
+  "title": "How did we get here?",
+  "subtitle": "Student Sheet",
+  "parts": [
+   {
+    "part": "A",
+    "heading": "Inside the computer",
+    "headingAr": "جوه الكمبيوتر",
+    "exercises": [
+     {
+      "n": 1,
+      "type": "match",
+      "prompt": "Match each part to what it does.",
+      "promptAr": "صِل كل جزء باللي بيعمله.",
+      "left": [
+       "CPU",
+       "RAM",
+       "Storage",
+       "Touchscreen"
+      ],
+      "right": [
+       "Keeps your files even when the power is off",
+       "Does the thinking — follows instructions one by one",
+       "Both takes input and shows output",
+       "Holds only what you are using right now"
+      ]
+     },
+     {
+      "n": 2,
+      "type": "table",
+      "prompt": "Complete the table. Write RAM or Storage in each empty cell.",
+      "promptAr": "أكمل الجدول. اكتب RAM أو Storage في كل خانة فاضية.",
+      "head": [
+       "",
+       "RAM",
+       "Storage"
+      ],
+      "rows": [
+       [
+        "Speed",
+        "faster",
+        "__________"
+       ],
+       [
+        "When the power goes off",
+        "__________",
+        "keeps everything"
+       ],
+       [
+        "Which is bigger on a phone",
+        "__________",
+        "__________"
+       ],
+       [
+        "Where an unsaved file sits",
+        "__________",
+        "__________"
+       ]
+      ]
+     },
+     {
+      "n": 3,
+      "type": "short",
+      "prompt": "You were writing on your laptop for an hour. The battery died before you pressed Save, and your work was gone.",
+      "promptAr": "كنت بتكتب على اللابتوب ساعة، والبطارية فصلت قبل ما تحفظ، والشغل ضاع.",
+      "questions": [
+       {
+        "q": "Which part was your work sitting in?",
+        "lines": 1
+       },
+       {
+        "q": "Explain, in one sentence, why it disappeared.",
+        "lines": 2
+       }
+      ]
+     },
+     {
+      "n": 4,
+      "type": "sort",
+      "prompt": "Sort these into Input, Output, or Both.",
+      "promptAr": "قسّم دي إلى إدخال، إخراج، أو الاتنين.",
+      "items": [
+       "Microphone",
+       "Printer",
+       "Touchscreen",
+       "Mouse",
+       "Speakers",
+       "Camera"
+      ],
+      "columns": [
+       "Input",
+       "Output",
+       "Both"
+      ]
+     }
+    ]
+   },
+   {
+    "part": "B",
+    "heading": "Development of information technology",
+    "headingAr": "تطور تكنولوجيا المعلومات",
+    "exercises": [
+     {
+      "n": 5,
+      "type": "fill",
+      "prompt": "Fill in the blanks (a) to (c).",
+      "promptAr": "أكمل الفراغات (أ) إلى (ج).",
+      "passage": "Computers were invented in the 1940s and were initially used mainly for military and scientific computation. Later, in the 1970s and 1980s, ( a ) became widespread, allowing individuals to use computers. In the 1990s, ( b ) was commercialized, advancing the globalization of information. In the 2000s, ( c ) emerged, leading to the explosive spread of mobile Internet.",
+      "src": "p.12 — Exercise 2, question 1 (textbook wording)"
+     },
+     {
+      "n": 6,
+      "type": "short",
+      "prompt": "Answer briefly.",
+      "promptAr": "أجب بإيجاز.",
+      "questions": [
+       {
+        "q": "What technology, which spread from the 2010s onward, supports large-scale data analysis and the use of AI?",
+        "lines": 1,
+        "src": "p.12 — Exercise 2, question 2"
+       },
+       {
+        "q": "According to Moore's Law, about how often does the number of transistors on an integrated circuit double?",
+        "lines": 1,
+        "src": "p.12 — Exercise 2, question 3"
+       },
+       {
+        "q": "What is the term for the working style in which one works from home or other remote locations using the Internet?",
+        "lines": 1,
+        "src": "p.10 — Try 1, question 3"
+       },
+       {
+        "q": "What is the term for the technology that uses AI to drive a vehicle without human operation?",
+        "lines": 1,
+        "src": "p.10 — Try 1, question 5"
+       }
+      ]
+     },
+     {
+      "n": 7,
+      "type": "order",
+      "prompt": "Put these four stages in the correct chronological order, writing 1 to 4.",
+      "promptAr": "رتّب المراحل الأربعة ترتيبًا زمنيًا صحيحًا من 1 إلى 4.",
+      "items": [
+       "Rise of smartphones",
+       "Spread of cloud computing",
+       "Birth of the computer",
+       "Commercialization of the Internet"
+      ],
+      "src": "p.9 — Worked Example (1)"
+     },
+     {
+      "n": 8,
+      "type": "truefalse",
+      "prompt": "Write ✓ if the statement is true or ✗ if it is false.",
+      "promptAr": "اكتب ✓ لو الجملة صح أو ✗ لو غلط.",
+      "statements": [
+       "Moore's Law is the empirical observation that the number of transistors on an integrated circuit doubles approximately every two years.",
+       "Moore's Law has been said to be approaching a physical limit in recent years.",
+       "SNS is highly effective at spreading information rapidly.",
+       "E-commerce refers to purchasing goods at physical stores using cash.",
+       "VR is a technology that dramatically improves the processing speed of a computer."
+      ],
+      "src": "p.9 — Worked Example (2) A–D; p.10 — Try 2(2) C"
+     },
+     {
+      "n": 9,
+      "type": "match",
+      "prompt": "Match each description to the right technology.",
+      "promptAr": "صِل كل وصف بالتقنية الصحيحة.",
+      "left": [
+       "Overlays digital information on real-world images",
+       "Uses AI to drive a vehicle without human operation",
+       "Lets users immerse themselves in a computer-generated virtual space",
+       "Expected to speed up computations that are difficult for traditional computers"
+      ],
+      "right": [
+       "AR",
+       "VR",
+       "Autonomous driving",
+       "Quantum computing"
+      ],
+      "src": "p.9 — Worked Example (3), extended with quantum computing from p.8"
+     },
+     {
+      "n": 10,
+      "type": "short",
+      "prompt": "In autonomous driving, why is it necessary to process data instantly on the vehicle side using edge computing, rather than sending the data to the cloud for judgment? Explain your answer.",
+      "promptAr": "في القيادة الذاتية، ليه لازم البيانات تتعالج فورًا على العربية نفسها بالحوسبة الطرفية بدل ما تتبعت للسحابة؟ اشرح إجابتك.",
+      "questions": [
+       {
+        "q": "",
+        "lines": 3
+       }
+      ],
+      "src": "p.8 — Pause & Think prompt (textbook wording)"
+     },
+     {
+      "n": 11,
+      "type": "category",
+      "prompt": "For each item, write A, B or C.  A = Changes in daily life.  B = Changes in industry and the economy.  C = Changes in healthcare and education.",
+      "promptAr": "لكل بند اكتب A أو B أو C. A = تغيّرات في الحياة اليومية. B = تغيّرات في الصناعة والاقتصاد. C = تغيّرات في الصحة والتعليم.",
+      "items": [
+       "Taking classes through online learning.",
+       "Paying for purchases using a mobile payment app on a smartphone.",
+       "Sharing photos with friends on SNS.",
+       "A company introducing a work-from-home system."
+      ],
+      "src": "p.10 — Try 2, question 1"
+     },
+     {
+      "n": 12,
+      "type": "extended",
+      "prompt": "Analyse how the spread of cloud computing (from the 2010s onward) has changed the way information technology is used. In your answer, refer to: large-scale data analysis, AI, and \"IT as a service\".",
+      "promptAr": "حلّل إزاي انتشار الحوسبة السحابية (من العقد الثاني فأكثر) غيّر طريقة استخدام تكنولوجيا المعلومات. أشر في إجابتك إلى: تحليل البيانات على نطاق واسع، الذكاء الاصطناعي، و\"تكنولوجيا المعلومات كخدمة\".",
+      "marks": 6,
+      "lines": 8,
+      "src": "p.10 — Exam-style question, [6] marks, textbook wording"
+     },
+     {
+      "n": 13,
+      "type": "extended",
+      "prompt": "Choose one emerging technology from this lesson (autonomous driving, AR, VR, or quantum computing). Suggest one way it could help solve a real problem, and state one risk.",
+      "promptAr": "اختر تقنية ناشئة واحدة من الدرس (القيادة الذاتية، AR، VR، أو الحوسبة الكمومية). اقترح طريقة تساعد بيها في حل مشكلة حقيقية، واذكر خطر واحد.",
+      "lines": 5,
+      "src": "p.12 — Reflect & Challenge"
+     }
+    ]
+   }
+  ]
+ },
+ "ANSWERS": {
+  "1": [
+   "CPU → Does the thinking — follows instructions one by one",
+   "RAM → Holds only what you are using right now",
+   "Storage → Keeps your files even when the power is off",
+   "Touchscreen → Both takes input and shows output"
+  ],
+  "2": [
+   "Speed: RAM faster, Storage slower",
+   "Power off: RAM loses everything, Storage keeps everything",
+   "Bigger on a phone: Storage (much bigger)",
+   "Unsaved file sits in: RAM"
+  ],
+  "3": [
+   "It was in RAM.",
+   "RAM only holds data while the power is on, so when the battery died the unsaved work was wiped. Saving copies it to storage, which keeps it."
+  ],
+  "4": {
+   "Input": [
+    "Microphone",
+    "Mouse",
+    "Camera"
+   ],
+   "Output": [
+    "Printer",
+    "Speakers"
+   ],
+   "Both": [
+    "Touchscreen"
+   ],
+   "note": "Accept 'camera' as input only. A touchscreen is the key one — it must be in Both."
+  },
+  "5": {
+   "a": "personal computers (PCs)",
+   "b": "the Internet",
+   "c": "smartphones",
+   "src": "p.6 — stages table"
+  },
+  "6": [
+   "Cloud computing.",
+   "Approximately every two years.",
+   "Remote work.",
+   "Autonomous driving."
+  ],
+  "7": [
+   "1 — Birth of the computer (1940s–60s)",
+   "2 — Commercialization of the Internet (1990s)",
+   "3 — Rise of smartphones (2000s)",
+   "4 — Spread of cloud computing (2010s onward)"
+  ],
+  "8": [
+   "✓ — correct definition of Moore's Law",
+   "✓ — it has been said to be approaching a physical limit",
+   "✓ — SNS spreads information rapidly",
+   "✗ — e-commerce is buying and selling through the Internet, not cash in a physical store",
+   "✗ — that describes quantum computing; VR immerses the user in a virtual space"
+  ],
+  "9": [
+   "Overlays digital information on real-world images → AR",
+   "Uses AI to drive without human operation → Autonomous driving",
+   "Immerses users in a computer-generated space → VR",
+   "Speeds up difficult computations → Quantum computing"
+  ],
+  "10": {
+   "model": "Because a delay of even 0.1 seconds can lead to an accident. Sending the data to the cloud and waiting for an answer takes too long, so the decision must be made instantly on the vehicle itself using edge computing.",
+   "marking": "Full marks need the timing point (a fraction of a second matters) AND the conclusion that the round trip to the cloud is too slow. Half marks for only saying 'it is faster'."
+  },
+  "11": [
+   "Taking classes through online learning → C",
+   "Paying with a mobile payment app → A",
+   "Sharing photos on SNS → A",
+   "A company introducing work-from-home → B"
+  ],
+  "12": {
+   "marks": 6,
+   "points": [
+    "Cloud computing spread from the 2010s onward.",
+    "It made large-scale data analysis possible, because storage and processing power can be rented rather than owned.",
+    "That data and power in turn support AI.",
+    "IT became something delivered as a service over the Internet, rather than hardware each organisation buys and maintains.",
+    "Effect: smaller organisations and individuals can now use computing power that previously needed a large investment."
+   ],
+   "marking": "2 marks per required term (large-scale data analysis, AI, IT as a service) when it is explained rather than just named."
+  },
+  "13": {
+   "open": true,
+   "marking": "Accept any of the four technologies. Look for three things: the technology named correctly, a realistic problem it addresses, and a risk that genuinely follows from that technology.",
+   "example": "Autonomous driving could help elderly or disabled people travel independently. The risk is that the system may misjudge a situation it was never trained on, so some human oversight is still needed."
+  }
+ }
+}

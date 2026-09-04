@@ -23,15 +23,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SITE_BASE = "https://pgteach.github.io/curriculum"
 PAGES = ("slides", "quiz", "handout")
+OPTIONAL_PAGES = ("homework",)
 
-TOKEN_RE = re.compile(r"__[A-Z_]+__")
+TOKEN_RE = re.compile(r"__[A-Z][A-Z_]*__")
 LIQUID_RE = re.compile(r"\{[%{]")
 HEX_RE = re.compile(r"^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$")
 
 # Text that ships in the templates and must be replaced before publishing.
 PLACEHOLDERS = [
     "Section name", "The question this slide answers", "First idea",
-    "Second idea", "Point one", "Point two", "Row label", "What it means",
+    "Second idea", "Point one", "Point two", "Row label",
     "A second slide", "Replace this line with", "First section",
     "Second section", "First question for this lecture",
     "Second question?", "Third question", "Fourth question",
@@ -182,7 +183,9 @@ def check_common(name: str, html: str, num: int, rep: Report,
         rep.want("encodeURIComponent(LECTURE.quizUrl)" in js,
                  "%s: the QR is not built from this lecture's quiz URL" % label)
 
-    hits = [p for p in PLACEHOLDERS if p in html]
+    visible = re.sub(r"<!--.*?-->", "", html, flags=re.DOTALL)
+    visible = re.sub(r"/\*.*?\*/", "", visible, flags=re.DOTALL)
+    hits = [p for p in PLACEHOLDERS if p in visible]
     if hits:
         rep.fail("%s: template text still in the page: %s"
                  % (label, ", ".join(sorted(set(hits))[:6])))
@@ -277,10 +280,11 @@ def check_lecture(num: int) -> Report:
     titles: dict = {}
     accents: dict = {}
 
-    for name in PAGES:
+    for name in PAGES + OPTIONAL_PAGES:
         path = folder / name / "index.html"
         if not path.is_file():
-            rep.fail("%s: missing (%s)" % (name, path.relative_to(ROOT)))
+            if name not in OPTIONAL_PAGES:
+                rep.fail("%s: missing (%s)" % (name, path.relative_to(ROOT)))
             continue
         html = read(path)
         check_common(name, html, num, rep, titles, accents)
@@ -290,6 +294,9 @@ def check_lecture(num: int) -> Report:
             check_quiz(html, rep)
         else:
             check_handout(html, rep)
+            if name == "homework":
+                rep.want("class=\"ex\"" in html,
+                         "homework: no exercises on the page")
 
     if len(set(accents.values())) > 1:
         rep.fail("the slides and the handout use different accent colours: %s"

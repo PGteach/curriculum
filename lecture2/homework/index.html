@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 2 Homework — How did we get here? · PGteach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+/* ---------- exercises ---------- */
+.namebox{display:flex; gap:5mm; margin:0 0 6mm}
+.namebox > div{flex:1; display:flex; align-items:flex-end; gap:2mm}
+.namebox span{font-size:9pt; color:var(--soft); font-weight:600; white-space:nowrap}
+.namebox i{flex:1; border-bottom:1px solid var(--rule); height:6mm}
+.ex{margin:0 0 5mm; break-inside:avoid}
+.exhead{display:flex; gap:3mm; align-items:baseline; margin-bottom:1.5mm}
+.exn{
+  flex:0 0 auto; width:6.5mm; height:6.5mm; border-radius:50%;
+  background:var(--teal); color:#fff; font-size:9pt; font-weight:600;
+  display:flex; align-items:center; justify-content:center;
+}
+.exq{font-size:10.5pt; font-weight:600}
+.src{font-size:8pt; color:var(--soft); font-style:italic; margin:0 0 1.5mm 9.5mm}
+.srcinline{font-size:8pt; color:var(--soft); font-style:italic; margin-left:2mm}
+.passage{
+  font-size:10pt; line-height:1.9; background:#FCFCFA;
+  border:1px solid var(--line); border-radius:2mm; padding:3.5mm; margin:2mm 0 3mm;
+}
+td.blank{background:#FCFCFA}
+td.sortcell{height:26mm; background:#FCFCFA; vertical-align:top}
+ol.qs.lettered{list-style:none; margin-left:0}
+.marks{font-size:9pt; font-weight:600; color:var(--gold); margin-bottom:2mm}
+.matchtbl td,.ordtbl td,.tftbl td,.cattbl td{vertical-align:middle}
+.tiny{font-size:8pt; color:var(--soft); font-weight:400}
+.summary.hw{background:var(--teal-pale)}
+
+/* ---------- teacher key ---------- */
+.keysheet{min-height:auto}
+.teacherwarn{
+  background:#FBF0EE; border-left:3px solid #9C3B2E; color:#9C3B2E;
+  font-size:9.5pt; font-weight:600; padding:2.5mm 3.5mm; margin-bottom:6mm;
+}
+.keygroup{font-size:9.5pt; color:var(--soft); font-weight:600;
+  text-transform:uppercase; letter-spacing:.04em; margin:5mm 0 2mm}
+.key{margin-left:9.5mm; font-size:10pt}
+.key ul{margin-left:4mm}
+.key li{margin-bottom:1mm}
+.key .note{font-size:9.5pt; color:var(--soft); font-style:italic; margin-top:1.5mm}
+</style>
+</head>
+<body>
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div>
+
+<section class="sheet">
+<div class="brand" id="brand">Programming &amp; Artificial Intelligence</div>
+<h1 id="docTitle">How did we get here?</h1>
+<div class="docsub">Homework &middot; Lecture 2</div>
+<div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div>
+<div class="summary"><p>Nine exercises. Everything here was taught in the session &mdash; the booklet has the notes if you need them. Bring this to the next class.</p><p class="ar">تسع تمارين. كل حاجة هنا اتشرحت في الحصة، والكتيّب معاك لو محتاج ترجعله. هات الورقة دي المرة الجاية.</p></div>
+<div class="ex">
+<div class="exhead"><span class="exn">3</span><span class="exq">You were writing on your laptop for an hour. The battery died before you pressed Save, and your work was gone.</span></div>
+<p class="ar">كنت بتكتب على اللابتوب ساعة، والبطارية فصلت قبل ما تحفظ، والشغل ضاع.</p>
+<ol class="qs">
+<li>Which part was your work sitting in?<div class="rule tight"></div></li>
+<li>Explain, in one sentence, why it disappeared.<div class="rule tight"></div><div class="rule tight"></div></li>
+</ol>
+</div>
+<div class="ex">
+<div class="exhead"><span class="exn">4</span><span class="exq">Sort these into Input, Output, or Both.</span></div>
+<p class="ar">قسّم دي إلى إدخال، إخراج، أو الاتنين.</p>
+<div class="fields"><span class="chip">Microphone</span><span class="chip">Printer</span><span class="chip">Touchscreen</span><span class="chip">Mouse</span><span class="chip">Speakers</span><span class="chip">Camera</span></div>
+<table><tr><th>Input</th><th>Output</th><th>Both</th></tr><tr><td class="sortcell"></td><td class="sortcell"></td><td class="sortcell"></td></tr></table>
+</div>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+<div class="ex">
+<div class="exhead"><span class="exn">5</span><span class="exq">Fill in the blanks (a) to (c).</span></div>
+<p class="ar">أكمل الفراغات (أ) إلى (ج).</p>
+<div class="src">p.12 — Exercise 2, question 1 (textbook wording)</div>
+<p class="passage">Computers were invented in the 1940s and were initially used mainly for military and scientific computation. Later, in the 1970s and 1980s, ( a ) became widespread, allowing individuals to use computers. In the 1990s, ( b ) was commercialized, advancing the globalization of information. In the 2000s, ( c ) emerged, leading to the explosive spread of mobile Internet.</p>
+<ol class="qs lettered">
+<li><b>( a )</b><div class="rule tight"></div></li>
+<li><b>( b )</b><div class="rule tight"></div></li>
+<li><b>( c )</b><div class="rule tight"></div></li>
+</ol>
+</div>
+<div class="ex">
+<div class="exhead"><span class="exn">6</span><span class="exq">Answer briefly.</span></div>
+<p class="ar">أجب بإيجاز.</p>
+<ol class="qs">
+<li>What technology, which spread from the 2010s onward, supports large-scale data analysis and the use of AI?<span class="srcinline">p.12 — Exercise 2, question 2</span><div class="rule tight"></div></li>
+<li>According to Moore&#x27;s Law, about how often does the number of transistors on an integrated circuit double?<span class="srcinline">p.12 — Exercise 2, question 3</span><div class="rule tight"></div></li>
+<li>What is the term for the working style in which one works from home or other remote locations using the Internet?<span class="srcinline">p.10 — Try 1, question 3</span><div class="rule tight"></div></li>
+<li>What is the term for the technology that uses AI to drive a vehicle without human operation?<span class="srcinline">p.10 — Try 1, question 5</span><div class="rule tight"></div></li>
+</ol>
+</div>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+<div class="ex">
+<div class="exhead"><span class="exn">9</span><span class="exq">Match each description to the right technology.</span></div>
+<p class="ar">صِل كل وصف بالتقنية الصحيحة.</p>
+<div class="src">p.9 — Worked Example (3), extended with quantum computing from p.8</div>
+<table class="matchtbl"><tr><th style="width:6%">#</th><th>Item</th><th style="width:10%">Answer</th><th style="width:6%">&nbsp;</th><th>Options</th></tr>
+<tr><td>1</td><td>Overlays digital information on real-world images</td><td class="blank"></td><td>A</td><td>AR</td></tr>
+<tr><td>2</td><td>Uses AI to drive a vehicle without human operation</td><td class="blank"></td><td>B</td><td>VR</td></tr>
+<tr><td>3</td><td>Lets users immerse themselves in a computer-generated virtual space</td><td class="blank"></td><td>C</td><td>Autonomous driving</td></tr>
+<tr><td>4</td><td>Expected to speed up computations that are difficult for traditional computers</td><td class="blank"></td><td>D</td><td>Quantum computing</td></tr>
+</table>
+</div>
+<div class="ex">
+<div class="exhead"><span class="exn">10</span><span class="exq">In autonomous driving, why is it necessary to process data instantly on the vehicle side using edge computing, rather than sending the data to the cloud for judgment? Explain your answer.</span></div>
+<p class="ar">في القيادة الذاتية، ليه لازم البيانات تتعالج فورًا على العربية نفسها بالحوسبة الطرفية بدل ما تتبعت للسحابة؟ اشرح إجابتك.</p>
+<div class="src">p.8 — Pause &amp; Think prompt (textbook wording)</div>
+<div class="rule"></div><div class="rule"></div><div class="rule"></div>
+</div>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+<div class="ex">
+<div class="exhead"><span class="exn">11</span><span class="exq">For each item, write A, B or C.  A = Changes in daily life.  B = Changes in industry and the economy.  C = Changes in healthcare and education.</span></div>
+<p class="ar">لكل بند اكتب A أو B أو C. A = تغيّرات في الحياة اليومية. B = تغيّرات في الصناعة والاقتصاد. C = تغيّرات في الصحة والتعليم.</p>
+<div class="src">p.10 — Try 2, question 1</div>
+<table class="cattbl"><tr><th style="width:12%">A / B / C</th><th>Item</th></tr>
+<tr><td class="blank"></td><td>Taking classes through online learning.</td></tr>
+<tr><td class="blank"></td><td>Paying for purchases using a mobile payment app on a smartphone.</td></tr>
+<tr><td class="blank"></td><td>Sharing photos with friends on SNS.</td></tr>
+<tr><td class="blank"></td><td>A company introducing a work-from-home system.</td></tr>
+</table>
+</div>
+<div class="ex">
+<div class="exhead"><span class="exn">12</span><span class="exq">Analyse how the spread of cloud computing (from the 2010s onward) has changed the way information technology is used. In your answer, refer to: large-scale data analysis, AI, and &quot;IT as a service&quot;.</span></div>
+<p class="ar">حلّل إزاي انتشار الحوسبة السحابية (من العقد الثاني فأكثر) غيّر طريقة استخدام تكنولوجيا المعلومات. أشر في إجابتك إلى: تحليل البيانات على نطاق واسع، الذكاء الاصطناعي، و&quot;تكنولوجيا المعلومات كخدمة&quot;.</p>
+<div class="src">p.10 — Exam-style question, [6] marks, textbook wording</div>
+<div class="marks">[6 marks]</div>
+<div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div>
+</div>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+<div class="ex">
+<div class="exhead"><span class="exn">13</span><span class="exq">Choose one emerging technology from this lesson (autonomous driving, AR, VR, or quantum computing). Suggest one way it could help solve a real problem, and state one risk.</span></div>
+<p class="ar">اختر تقنية ناشئة واحدة من الدرس (القيادة الذاتية، AR، VR، أو الحوسبة الكمومية). اقترح طريقة تساعد بيها في حل مشكلة حقيقية، واذكر خطر واحد.</p>
+<div class="src">p.12 — Reflect &amp; Challenge</div>
+<div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div>
+</div>
+<div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+  <h2>Test yourself online</h2>
+  
+
+  <h2>Test Yourself Online</h2>
+  <div class="qrbox">
+    <img id="qr" alt="QR code linking to the quiz" width="250" height="250">
+    <div class="txt">
+      <h3>Exam &middot; Lectures 1 and 2 &middot; about 10 minutes</h3>
+      <p>Scan this code with your phone camera to open the quiz. At the end it tells you,
+      section by section, which parts of the two sessions you have understood and which parts
+      to read again.</p>
+      <p>Or open it directly:</p>
+      <div class="qrurl" id="quizUrl"></div>
+      <div id="qrWarn">The QR image did not load. Check your connection and reload
+        before printing this sheet.</div>
+    </div>
+  </div>
+  <p class="ar">امسح الكود بكاميرا موبايلك.</p>
+
+  <h2>My notes</h2>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 2;
+const LECTURE_TITLE = "How did we get here?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#6A4C93";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  applyAccent();
+  document.title = LECTURE.label + " Handout — " + LECTURE.title + " · PGteach";
+  document.getElementById('brand').textContent =
+    LECTURE.label + " · " + LECTURE_TOPIC;
+  document.getElementById('docTitle').textContent = LECTURE.title;
+  document.getElementById('quizUrl').textContent =
+    LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+  qr.onerror = () => { document.getElementById('qrWarn').style.display = 'block'; };
+  qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+         + encodeURIComponent(LECTURE.quizUrl);
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+
+  document.getElementById('printBtn').onclick = () => window.print();
+})();
+</script>
+</body>
+</html>
