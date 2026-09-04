@@ -553,15 +553,40 @@ def key_entry(ex):
     if isinstance(a, list):
         out.append("<ul>%s</ul>" % "".join("<li>%s</li>" % esc(str(x)) for x in a))
     elif isinstance(a, dict):
-        items = []
-        for k, v in a.items():
-            if k in ("note", "src"):
-                continue
-            val = ", ".join(v) if isinstance(v, list) else str(v)
-            items.append("<li><b>%s</b> &mdash; %s</li>" % (esc(k), esc(val)))
-        out.append("<ul>%s</ul>" % "".join(items))
-        if a.get("note"):
-            out.append('<p class="note">%s</p>' % esc(a["note"]))
+        # Some keys carry meaning and must not be printed as raw "key — value"
+        # bullets: `marks` is a badge, `open` is a flag, `points` is a list,
+        # and the marking guidance reads as a note under the answer.
+        if a.get("marks"):
+            out.append('<div class="marks">[%d marks]</div>' % a["marks"])
+        if a.get("open"):
+            out.append('<p class="note">Open response &mdash; any reasonable '
+                       'answer, marked on the points below.</p>')
+        if a.get("model"):
+            out.append('<p><b>Model answer.</b> %s</p>' % esc(a["model"]))
+        if a.get("points"):
+            out.append("<p><b>The answer must cover:</b></p>")
+            out.append("<ul>%s</ul>"
+                       % "".join("<li>%s</li>" % esc(p) for p in a["points"]))
+        if a.get("example"):
+            out.append('<p><b>Example of a good answer.</b> %s</p>'
+                       % esc(a["example"]))
+
+        # anything else is a plain answer keyed by its label: the letters of a
+        # fill-in-the-blank, the columns of a sort
+        rest = [(k, v) for k, v in a.items()
+                if k not in ("note", "src", "marks", "open", "model",
+                             "points", "example", "marking")]
+        if rest:
+            out.append("<ul>%s</ul>" % "".join(
+                "<li><b>%s</b> &mdash; %s</li>"
+                % (esc(k), esc(", ".join(v) if isinstance(v, list) else str(v)))
+                for k, v in rest))
+
+        for key in ("marking", "note"):
+            if a.get(key):
+                out.append('<p class="note"><b>Marking.</b> %s</p>' % esc(a[key])
+                           if key == "marking"
+                           else '<p class="note">%s</p>' % esc(a[key]))
         if a.get("src"):
             out.append('<div class="src">%s</div>' % esc(a["src"]))
     elif a is not None:
