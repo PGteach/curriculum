@@ -1,6 +1,6 @@
 # Handoff — state of this repo
 
-Last updated: 2026-08-31. Written so a new session (or another machine) can pick
+Last updated: 2026-09-04. Written so a new session (or another machine) can pick
 this up with no prior context. Read this first, then [README.md](README.md) for
 how the pages actually work.
 
@@ -18,13 +18,26 @@ Repo: `https://github.com/PGteach/curriculum` · Pages: `main` branch, `/` root.
 lecture1/slides/index.html    12 slides
 lecture1/quiz/index.html      10 questions, 4 sections
 lecture1/handout/index.html   7-page A4 booklet, printed from the browser
+
+lecture2/slides/index.html    31 slides, 14 photos in slides/media/
+lecture2/quiz/index.html      20 questions, 5 sections, cumulative over L1+L2
+lecture2/handout/index.html   10-page booklet: the lesson + 4 class exercises
+lecture2/homework/index.html  6-page take-home sheet, 9 exercises
+lecture2/_teacher/            answer key + exercise source (Jekyll ignores _*)
+scripts/build_lecture2.py     builds those three from _teacher/exercises.json
+
 templates/slides-template.html
 templates/quiz-template.html
 templates/handout-template.html
-scripts/new_lecture.py        scaffolds all three from templates/
+scripts/new_lecture.py        scaffolds slides/quiz/handout from templates/
+scripts/check_lecture.py      pre-publish gate; run it before every commit
 scripts/apps-script.gs        the Google Apps Script that records results
 README.md · HANDOFF.md · .gitignore
 ```
+
+`homework/` is an **optional** fourth page. `check_lecture.py` validates it
+with the handout's rules when the folder exists and says nothing when it does
+not, so lecture 1 is unaffected. `new_lecture.py` does not scaffold one yet.
 
 ## What was done, in order
 
@@ -78,6 +91,40 @@ README.md · HANDOFF.md · .gitignore
     every page. Those are only ever drawn inside the `@page` margin, so the
     margin is now `0` and each sheet pads itself instead — same layout, no
     furniture, and no reliance on the user unticking anything.
+
+## Lecture 2 — what is different about it
+
+Written outside the repo and wired in afterwards, so it needed the things the
+templates give you for free. Worth knowing before touching it:
+
+- **The deck is not scaffolded from the template.** It was merged: the deck's
+  own CSS and 31 slides were kept, and the template's `LECTURE CONFIG`,
+  fixed nav chrome and phone media query were merged in. A change meant for
+  every lecture still has to be applied here by hand.
+- **It arrived with two regressions that this repo had already fixed** — a
+  checked-in `quiz_qr.png` (the stale-QR problem that 404'd the old booklet)
+  and the `.dot` vs `#nav button` specificity bug from item 5, which with 31
+  dots is worse than the 12 that prompted the fix. Both are corrected; do not
+  reintroduce them by copying the original file back.
+- **Photos are local.** `slides/media/` holds all 14, because hot-linking
+  meant no photos on a slow school connection. `media/SOURCES.md` records
+  where each came from. The `localise-photos.sh` that shipped with the deck
+  calls `python3`, which is not installed on the teaching machine.
+- **The printed material is generated, not hand-written.**
+  `scripts/build_lecture2.py` holds the lesson prose and reads the exercises
+  from `lecture2/_teacher/exercises.json`. Edit those and re-run it; do not
+  edit the three HTML files directly, they are overwritten.
+- **The class/homework split is one line** in that script: `IN_CLASS` and
+  `HOMEWORK`. Class work is deliberately short — the session is 90-120
+  minutes and most of it is teaching.
+- **Page breaks are verified, not guessed.** One `section.sheet` must print
+  as exactly one A4 page. Render each sheet on its own and count the PDF's
+  pages after changing any exercise; several tighter packings were tried and
+  overflowed.
+- **Answers are in `_teacher/`,** which Jekyll does not serve, so the key is
+  versioned without being published next to the homework it answers. Adding
+  `.nojekyll` — discussed under Open decisions — would publish it. Move it
+  out of the repo first if that ever happens.
 
 ## The anti-cheating change (item 6)
 
