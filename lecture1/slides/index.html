@@ -229,6 +229,12 @@ tr:last-child td{border-bottom:0}
 }
 .scale .ends span:last-child{text-align:right}
 
+/* ---------- auto-fit ---------- */
+/* Wrapper the script puts around a slide's children so it can be scaled as
+   one piece. Transform does not affect layout, so the script also sets an
+   explicit height, which is what stops the slide scrolling. */
+.fitbox{width:100%}
+
 /* ---------- chrome ---------- */
 #bar{position:fixed;left:0;top:0;height:3px;background:var(--teal);width:0;transition:width .3s ease;z-index:40}
 #nav{
@@ -603,12 +609,72 @@ function applyAccent(){
   if(link) link.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
 })();
 
+/* ---- fit a slide that is taller than the screen ---------------------
+   Slides are written into a fixed frame, so a dense one runs off the bottom.
+   On a projector nobody scrolls: the last line is simply gone. Seven slides
+   in lecture 2 were losing 32-90px that way.
+
+   Shrinking the figures was tried first and measured: it did not clear it,
+   and one of the seven has no figure at all. The volume of content is the
+   problem, so the content is what gets scaled.
+
+   The floor matters more than the fit. Below about 0.72 the type stops being
+   readable from the back of a room, so a slide that dense is left to scroll
+   and the checker's overflow report is the place to fix it — by splitting the
+   slide, not by shrinking it further.
+   ------------------------------------------------------------------- */
+const FIT_FLOOR = 0.72;
+
+function fitbox(s){
+  let box = s.firstElementChild;
+  if(!box || !box.classList.contains('fitbox')){
+    box = document.createElement('div');
+    box.className = 'fitbox';
+    while(s.firstChild) box.appendChild(s.firstChild);
+    s.appendChild(box);
+  }
+  return box;
+}
+
+function fit(s){
+  if(!s) return 1;
+  const box = fitbox(s);
+  box.style.transform = '';           /* measure unscaled */
+  box.style.height = '';
+  const cs = getComputedStyle(s);
+  const avail = s.clientHeight
+              - parseFloat(cs.paddingTop || 0)
+              - parseFloat(cs.paddingBottom || 0);
+  const nat = box.scrollHeight;
+  if(!avail || nat <= avail + 1) return 1;
+
+  const k = Math.max(avail / nat, FIT_FLOOR);
+  box.style.transformOrigin = 'top center';
+  box.style.transform = 'scale(' + k + ')';
+  box.style.height = (nat * k) + 'px';
+  return k;
+}
+
+/* Anything that changes how tall the content is has to re-measure. */
+function refit(){ fit(slides[i]); }
+addEventListener('resize', refit);
+addEventListener('orientationchange', refit);
+addEventListener('load', refit);
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(refit).catch(function(){});
+}
+/* images arrive after first paint and change the height under us */
+Array.from(document.images).forEach(function(img){
+  if(!img.complete) img.addEventListener('load', refit);
+});
+
 function go(n){
   i = Math.max(0, Math.min(slides.length - 1, n));
   slides.forEach((s,k) => s.classList.toggle('on', k === i));
   dots.forEach((d,k) => d.classList.toggle('on', k === i));
   document.getElementById('bar').style.width = ((i+1)/slides.length*100) + '%';
   document.getElementById('counter').textContent = ' \u00b7 ' + (i+1) + ' / ' + slides.length;
+  fit(slides[i]);
   document.body.style.background = slides[i].classList.contains('dark') ? '#16233F' : '#FBFAF7';
   location.hash = i + 1;
 }

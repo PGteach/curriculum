@@ -142,6 +142,20 @@ the markup straight out of its source.
 `class="slide dark"` inverts any slide to navy — worth doing on the one or two
 slides you most want remembered.
 
+### A slide that is too tall shrinks itself
+
+Slides are written into a fixed frame, so a dense one runs off the bottom —
+and nobody scrolls a projector, so the last lines are simply gone. Seven
+slides in lecture 2 were losing 32–90px that way.
+
+Each slide is now measured when it opens and scaled down just enough to fit,
+down to a floor of `FIT_FLOOR = 0.72`. Below that, type stops being readable
+from the back of a room, so a slide that dense is left alone — that is a slide
+to **split**, not to shrink. It re-measures on resize, on rotation, and after
+fonts and images arrive.
+
+Lecture 1 renders pixel-for-pixel identically: nothing there needed it.
+
 ### Nothing needs counting by hand
 
 The slide total, the nav dots, the progress bar, the `n / total` counter, the

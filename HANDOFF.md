@@ -235,6 +235,32 @@ Then write the slides (`<section class="slide">` blocks, QR slide stays last)
 and the questions (`SECTIONS` / `QUESTIONS` at the top of the quiz `<script>`).
 Answer positions do not matter any more — they get shuffled.
 
+## Slides fit themselves
+
+`fit()` in each deck measures the active slide and scales its content to the
+space available, with `FIT_FLOOR = 0.72` as the limit. The script wraps a
+slide's children in a `.fitbox` at runtime, so no slide markup changed and
+every future lecture gets it from the template. `transform` does not affect
+layout, so the box's height is pinned to the scaled height — that is what
+stops the slide scrolling, and it is easy to leave out.
+
+Measured, not guessed: seven slides in lecture 2 overflowed by 32–90px at
+1280x720; after this they overflow by 0, at scales between 0.761 and 0.898.
+Lecture 1 is byte- and pixel-identical, because nothing in it needed scaling.
+
+Shrinking the figures was tried first and rejected on the numbers: at
+`max-height:24vh` the slides still overflowed by 27–59px, and one of the seven
+has no figure at all. The content volume was the problem.
+
+Two traps found while building it. `.rise` entrance delays use
+`:nth-child(n)`, which still works after wrapping because the children keep
+their order inside the fitbox. And in the harness, a stubbed `appendChild`
+that does not detach the node from its old parent turns
+`while (s.firstChild)` into an infinite loop.
+
+A slide that hits the floor is a slide to split. There is no check for that
+yet — the overflow sweep was run by hand with headless Chrome.
+
 ## Delivery is confirmed, and retries are deduplicated
 
 The old `mode:"no-cors"` made the reply unreadable, so "sent" was a guess.

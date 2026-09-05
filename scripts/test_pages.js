@@ -56,7 +56,19 @@ class El {
   set innerHTML(v) { this._html = v; this.children = []; this._text = ""; }
   get innerHTML() { return this._html; }
   setAttribute(k, v) { this[k] = v; }
-  appendChild(c) { this.children.push(c); return c; }
+  get firstElementChild() { return this.children[0] || null; }
+  get firstChild() { return this.children[0] || null; }
+  appendChild(c) {
+    /* A real appendChild MOVES the node: it detaches from the old parent
+       first. Without that, fitbox()'s `while (s.firstChild)` never ends. */
+    if (c && c._parent) {
+      const at = c._parent.children.indexOf(c);
+      if (at !== -1) c._parent.children.splice(at, 1);
+    }
+    this.children.push(c);
+    if (c) c._parent = this;
+    return c;
+  }
   querySelector() { return new El("stub"); }
   focus() {}
 }
@@ -102,6 +114,7 @@ function runPage(js, opts) {
     body: { style: {} },
     documentElement: { style: { setProperty: (k, v) => { cssVars[k] = v; } } },
     fonts: { ready: Promise.resolve() },
+    images: [],
   };
 
   /* Default: the endpoint accepts everything and replies like Apps Script.
@@ -134,6 +147,7 @@ function runPage(js, opts) {
     /* abort never matters here: the stubbed fetch settles immediately */
     AbortController: function () { this.signal = {}; this.abort = function () {}; },
     /* collapse the retry back-off so a retry test does not take 20 seconds */
+    getComputedStyle: () => ({ paddingTop: "0", paddingBottom: "0" }),
     setTimeout: (fn, ms) => setTimeout(fn, ms >= 1000 ? 1 : ms),
     clearTimeout, console, Math, Date, JSON, Promise, Image: function () {},
   };
@@ -186,7 +200,7 @@ function testSlides(num, file) {
   const total = countSlides(html);
   check(total >= 2, tag + ": only " + total + " slide(s)");
 
-  const p = runPage(js, { slideCount: total });
+  const p = runPage(js, { slideCount: total, expose: ["fit", "FIT_FLOOR"] });
 
   const want = SITE_BASE + "/lecture" + num + "/quiz";
   const qr = p.byId("qr");
@@ -213,6 +227,46 @@ function testSlides(num, file) {
   p.byId("next").onclick();
   check(p.byId("counter").textContent === " · " + total + " / " + total,
         tag + ": did not clamp at the last slide");
+
+  /* --- the auto-fit maths, on synthetic heights ---
+     A dense slide used to run off the bottom of the screen and nobody
+     scrolls a projector, so the last lines were simply lost. fit() scales
+     the content down to the space available, with a floor below which type
+     stops being readable from the back of a room. */
+  const fit = p.exported.fit, FLOOR = p.exported.FIT_FLOOR;
+  check(typeof fit === "function", tag + ": fit() is missing");
+  if (typeof fit !== "function") return;
+  check(typeof FLOOR === "number" && FLOOR > 0.5 && FLOOR < 1,
+        tag + ": FIT_FLOOR is " + FLOOR + ", which is not a sane floor");
+
+  const fake = (avail, nat) => {
+    const s = new El("section");
+    s.clientHeight = avail;
+    const inner = new El("div");
+    inner.scrollHeight = nat;
+    inner.classList.add("fitbox");
+    s.appendChild(inner);
+    return { s, inner, k: fit(s) };
+  };
+
+  let r = fake(600, 500);                       /* already fits */
+  check(r.k === 1 && !r.inner.style.transform,
+        tag + ": scaled a slide that already fitted (k=" + r.k + ")");
+
+  r = fake(600, 720);                           /* 20% too tall */
+  check(Math.abs(r.k - 600 / 720) < 0.001,
+        tag + ": a 20%-too-tall slide scaled to " + r.k + ", expected " +
+        (600 / 720).toFixed(3));
+  check(/scale\(/.test(r.inner.style.transform || ""),
+        tag + ": no transform applied to an overflowing slide");
+  check(Math.round(parseFloat(r.inner.style.height)) === Math.round(720 * r.k),
+        tag + ": height was not pinned to the scaled size, so the slide " +
+        "would still scroll");
+
+  r = fake(600, 1400);                          /* far too tall */
+  check(r.k === FLOOR,
+        tag + ": a very dense slide scaled to " + r.k +
+        " instead of stopping at the " + FLOOR + " floor");
 }
 
 /* ------------------------------------------------------------------ */
