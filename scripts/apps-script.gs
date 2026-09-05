@@ -46,11 +46,14 @@ var COLUMNS = [
   { header: "Weak sections",     width: 210, align: "left",   wrap: true },
   { header: "Section breakdown", width: 300, align: "left",   wrap: true },
   { header: "Mistakes",          width: 460, align: "left",   wrap: true },
-  { header: "Screenshot",        width: 120, align: "center" }
+  { header: "Screenshot",        width: 120, align: "center" },
+  { header: "Submission id",     width: 150, align: "left",   text: true }
 ];
 
 var HEADERS   = COLUMNS.map(function (c) { return c.header; });
-var PHONE_COL = HEADERS.indexOf("Phone") + 1;   // 1-based
+var PHONE_COL = HEADERS.indexOf("Phone") + 1;         // 1-based
+var SHOT_COL  = HEADERS.indexOf("Screenshot") + 1;
+var ID_COL    = HEADERS.indexOf("Submission id") + 1;
 
 var INK  = "#16233F";   // header background
 var LINE = "#D8DDE4";   // grid lines
@@ -67,7 +70,7 @@ var IMAGE_FOLDER = "PGteach quiz results";
  * nothing in the sheet is ever styled by hand, and existing tabs catch up on
  * their own without anyone running anything.
  */
-var DESIGN_VERSION = 3;
+var DESIGN_VERSION = 4;
 
 /**
  * OPTIONAL, and off unless you create it. If a tab with this name exists, new
@@ -85,6 +88,25 @@ function doPost(e) {
     var book = SpreadsheetApp.openById(SHEET_ID);
     var lecture = String(d.lecture || "Unknown lecture").trim();
     var sheet = getSheet_(book, lecture);
+
+    // The page retries a submission it could not confirm, and fires a beacon
+    // if it is closing mid-flight, so the same id can arrive more than once.
+    // One student must still be one row.
+    var seen = findById_(sheet, d.id);
+    if (seen) {
+      // If this copy carries the screenshot and the stored row does not
+      // (a beacon strips it to fit), fill it in rather than losing it.
+      if (d.image) {
+        var have = String(sheet.getRange(seen, SHOT_COL).getValue() || "");
+        if (!have || have.charAt(0) === "(") {
+          try {
+            sheet.getRange(seen, SHOT_COL)
+                 .setValue(saveImage_(d.image, lecture, d.name));
+          } catch (e) { /* the row is what matters */ }
+        }
+      }
+      return json_({ ok: true, duplicate: true, tab: sheet.getName(), row: seen });
+    }
 
     // The row matters more than the picture, so a Drive failure must not
     // cost us the submission.
@@ -106,7 +128,8 @@ function doPost(e) {
       d.weak || "",
       d.sections || "",
       formatMistakes_(d.wrongQuestions),
-      shot
+      shot,
+      String(d.id || "")
     ]);
 
     var row = sheet.getLastRow();
@@ -246,9 +269,13 @@ function formatTab_(sheet) {
   var nCols = COLUMNS.length;
   var maxRows = sheet.getMaxRows();
 
-  // Trim stray columns so the table ends where the data ends. AppSheet reads
-  // the header row, and trailing blank headers can stop it cold.
-  if (sheet.getMaxColumns() > nCols) {
+  // Make the sheet exactly as wide as the table. Growing matters as much as
+  // trimming: adding a column to COLUMNS would otherwise make setValues()
+  // write past the end of an existing tab and throw.
+  if (sheet.getMaxColumns() < nCols) {
+    sheet.insertColumnsAfter(sheet.getMaxColumns(), nCols - sheet.getMaxColumns());
+  } else if (sheet.getMaxColumns() > nCols) {
+    // AppSheet reads the header row, and trailing blank headers stop it cold.
     sheet.deleteColumns(nCols + 1, sheet.getMaxColumns() - nCols);
   }
 
@@ -291,6 +318,18 @@ function formatTab_(sheet) {
     // banding repaints the header, so restore it
     head.setFontWeight("bold").setFontColor("#ffffff").setBackground(INK);
   }
+}
+
+/** Row number holding this submission id, or 0 if it has not arrived yet. */
+function findById_(sheet, id) {
+  if (!id) return 0;
+  var last = sheet.getLastRow();
+  if (last < 2 || ID_COL > sheet.getLastColumn()) return 0;
+  var vals = sheet.getRange(2, ID_COL, last - 1, 1).getValues();
+  for (var i = 0; i < vals.length; i++) {
+    if (String(vals[i][0]) === String(id)) return i + 2;
+  }
+  return 0;
 }
 
 /** Keeps lecture tabs in numeric order: Lecture 1, Lecture 2, Lecture 10. */
@@ -370,9 +409,14 @@ function json_(obj) {
  * stamp the 11 new headers over data that does not match them.
  */
 function isResultsTab_(sheet) {
-  if (sheet.getLastColumn() < HEADERS.length) return false;
-  var row = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
-  for (var i = 0; i < HEADERS.length; i++) {
+  var have = sheet.getLastColumn();
+  if (have < 3) return false;
+  // Compare only the columns that exist, so a tab written before a column was
+  // added still counts as ours — formatTab_ will widen it. The legacy Sheet1
+  // still fails, because its second column is Name where ours is Lecture.
+  var n = Math.min(have, HEADERS.length);
+  var row = sheet.getRange(1, 1, 1, n).getValues()[0];
+  for (var i = 0; i < n; i++) {
     if (String(row[i]).trim() !== HEADERS[i]) return false;
   }
   return true;
@@ -472,7 +516,8 @@ function testSubmission() {
       why: "Everything starts with input."
     }],
     // a real 2x2 PNG, so the Drive path is exercised too
-    image: "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAEElEQVR4nGPgq6kGIgYIBQAa5gQVqws3cwAAAABJRU5ErkJggg=="
+    image: "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAEElEQVR4nGPgq6kGIgYIBQAa5gQVqws3cwAAAABJRU5ErkJggg==",
+    id: "test-" + Date.now()
   })}});
   Logger.log(out.getContent());
 }
@@ -509,7 +554,8 @@ function migrateOldRows() {
       r[6],                 // Weak sections
       r[7],                 // Section breakdown
       "(not recorded)",     // Mistakes — column did not exist yet
-      "(not recorded)"      // Screenshot — ditto
+      "(not recorded)",     // Screenshot — ditto
+      ""                    // Submission id — ditto
     ]);
     moved++;
   }

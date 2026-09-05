@@ -85,7 +85,10 @@ function runPage(js, opts) {
 
   const cssVars = {};
   const canvasText = [];
-  let sent = null;
+  const sends = [];                 /* every request, in order */
+  const beacons = [];
+  const handlers = {};              /* so a test can fire "pagehide" */
+  const store = Object.assign({}, opts.storage || {});
 
   const document = {
     getElementById: byId,
@@ -101,15 +104,38 @@ function runPage(js, opts) {
     fonts: { ready: Promise.resolve() },
   };
 
+  /* Default: the endpoint accepts everything and replies like Apps Script.
+     A test can pass its own to make attempts fail. */
+  const reply = opts.reply || (() => ({ ok: true, tab: "T", row: 2 }));
+
   const sandbox = {
     document,
-    addEventListener: () => {},
+    addEventListener: (type, fn) => { (handlers[type] = handlers[type] || []).push(fn); },
     location: { hash: "" },
     fetch: (url, o) => {
-      sent = { url, opts: o, payload: JSON.parse(o.body) };
-      return Promise.resolve({ ok: true });
+      const body = JSON.parse(o.body);
+      sends.push({ url, opts: o, payload: body });
+      const r = reply(sends.length, body);
+      if (r === null) return Promise.reject(new Error("network down"));
+      return Promise.resolve({
+        ok: true,
+        text: () => Promise.resolve(JSON.stringify(r)),
+      });
     },
-    setTimeout, clearTimeout, console, Math, Date, JSON, Promise, Image: function () {},
+    localStorage: {
+      getItem: (k) => (k in store ? store[k] : null),
+      setItem: (k, v) => { store[k] = String(v); },
+      removeItem: (k) => { delete store[k]; },
+    },
+    navigator: {
+      sendBeacon: (url, blob) => { beacons.push({ url, body: blob && blob._text }); return true; },
+    },
+    Blob: function (parts) { this._text = (parts || []).join(""); },
+    /* abort never matters here: the stubbed fetch settles immediately */
+    AbortController: function () { this.signal = {}; this.abort = function () {}; },
+    /* collapse the retry back-off so a retry test does not take 20 seconds */
+    setTimeout: (fn, ms) => setTimeout(fn, ms >= 1000 ? 1 : ms),
+    clearTimeout, console, Math, Date, JSON, Promise, Image: function () {},
   };
   sandbox.window = sandbox;
   sandbox.globalThis = sandbox;
@@ -120,7 +146,12 @@ function runPage(js, opts) {
   const fn = new Function(...names, js + expose);
   const exported = fn(...names.map((n) => sandbox[n]));
 
-  return { byId, slides, cssVars, canvasText, get sent() { return sent; }, exported };
+  return {
+    byId, slides, cssVars, canvasText, exported,
+    sends, beacons, handlers, store,
+    get sent() { return sends.length ? sends[sends.length - 1] : null; },
+    fire: (type) => (handlers[type] || []).forEach((fn) => fn()),
+  };
 }
 
 /* ------------------------------------------------------------------ */
@@ -294,7 +325,7 @@ async function checkSubmission(ctx, num) {
         tag + ": endpoint is " + sent.url);
 
   const want = ["lecture", "name", "phone", "date", "score", "total",
-                "weak", "sections", "wrongQuestions", "image"];
+                "weak", "sections", "wrongQuestions", "image", "id"];
   want.forEach((k) => check(k in d, tag + ": payload is missing " + k));
   Object.keys(d).forEach((k) =>
     check(want.includes(k), tag + ": payload has an unexpected key " + k));
@@ -315,6 +346,8 @@ async function checkSubmission(ctx, num) {
         tag + ": sections summary is " + d.sections);
   check(typeof d.image === "string" && d.image.length > 0,
         tag + ": no result screenshot in the payload");
+  check(typeof d.id === "string" && d.id.length > 4,
+        tag + ": no submission id, so a retry would make a second row");
 
   // the card must actually have been drawn
   check(p.canvasText.includes("PGteach"), tag + ": result card has no header");
@@ -359,6 +392,119 @@ function testShuffle(num, file) {
 }
 
 /* ------------------------------------------------------------------ */
+/* delivery: confirmed sends, retries, the queue, the closing beacon    */
+/* ------------------------------------------------------------------ */
+
+/** Runs a full attempt and returns the page handle, for delivery tests. */
+async function attempt(file, opts) {
+  const { js } = scriptOf(file);
+  const p = runPage(js, Object.assign({
+    expose: ["QUESTIONS", "currentQ", "ansOf", "state"] }, opts));
+  const Q = p.exported.QUESTIONS;
+
+  p.byId("sName").value = "Ali Hassan Mohamed";
+  p.byId("sPhone").value = "01001234567";
+  p.byId("sDate").value = "2026-09-02";
+  p.byId("start").onclick();
+
+  for (let n = 0; n < Q.length; n++) {
+    const q = p.exported.currentQ();
+    const right = q.o[p.exported.ansOf(q)];
+    p.byId("options").children.find((o) => o.textContent === right).onclick();
+    p.byId("next").onclick();
+  }
+  /* let the retry chain settle; the back-off is collapsed to ~1ms */
+  await new Promise((r) => setTimeout(r, 120));
+  return p;
+}
+
+async function testDelivery(num, file) {
+  const tag = "L" + num + " delivery";
+  const QKEY = "pgteach:unsent";
+
+  /* 1. the happy path confirms, and clears the queue */
+  let p = await attempt(file, {});
+  check(p.sends.length === 1, tag + ": " + p.sends.length + " request(s) for a clean send");
+  check(/^Saved\./.test(p.byId("sendState").textContent),
+        tag + ": status after success reads " +
+        JSON.stringify(p.byId("sendState").textContent));
+  check(!p.store[QKEY] || JSON.parse(p.store[QKEY]).length === 0,
+        tag + ": a confirmed submission was left in the queue");
+
+  /* 2. a duplicate reply is reported as such, not as a fresh save */
+  p = await attempt(file, { reply: () => ({ ok: true, duplicate: true, row: 5 }) });
+  check(/already had/.test(p.byId("sendState").textContent),
+        tag + ": a duplicate reply reads " +
+        JSON.stringify(p.byId("sendState").textContent));
+
+  /* 3. THE case the old code got wrong: the endpoint answers, but with an
+        error. A dropped connection is obvious; a script that ran and failed
+        looks exactly like success unless the reply is actually read. */
+  p = await attempt(file, { reply: () => ({ ok: false, error: "Drive denied" }) });
+  check(/^Not saved/.test(p.byId("sendState").textContent),
+        tag + ": the endpoint replied ok:false and the page still said " +
+        JSON.stringify(p.byId("sendState").textContent));
+  check(JSON.parse(p.store[QKEY] || "[]").length === 1,
+        tag + ": an error reply did not leave the payload queued for retry");
+
+  /* 3b. and it recovers if a later attempt succeeds */
+  p = await attempt(file, {
+    reply: (n) => (n < 3 ? { ok: false, error: "busy" } : { ok: true, row: 4 }) });
+  check(/^Saved\./.test(p.byId("sendState").textContent),
+        tag + ": did not recover after two error replies");
+
+  /* 4. two dropped connections then a success */
+  p = await attempt(file, { reply: (n) => (n < 3 ? null : { ok: true, row: 9 }) });
+  check(p.sends.length === 3, tag + ": " + p.sends.length + " attempts, expected 3");
+  check(/^Saved\./.test(p.byId("sendState").textContent),
+        tag + ": did not recover after two failures — " +
+        JSON.stringify(p.byId("sendState").textContent));
+  const ids = new Set(p.sends.map((x) => x.payload.id));
+  check(ids.size === 1, tag + ": retries used " + ids.size +
+        " different ids, so the sheet would get duplicate rows");
+
+  /* 5. an endpoint that is down: honest message, and the payload is kept */
+  p = await attempt(file, { reply: () => null });
+  check(p.sends.length === 3, tag + ": " + p.sends.length + " attempts before giving up");
+  check(/^Not saved/.test(p.byId("sendState").textContent),
+        tag + ": claimed success while failing — " +
+        JSON.stringify(p.byId("sendState").textContent));
+  const queued = JSON.parse(p.store[QKEY] || "[]");
+  check(queued.length === 1, tag + ": " + queued.length + " item(s) kept for a later retry");
+  check(queued[0] && queued[0].image === "",
+        tag + ": the queued copy still carries the 340KB screenshot");
+
+  /* 6. the page closes mid-flight: a beacon carries a slim copy */
+  p.fire("pagehide");
+  check(p.beacons.length === 1, tag + ": no beacon when the page closed unsent");
+  if (p.beacons.length) {
+    const b = JSON.parse(p.beacons[0].body);
+    check(b.image === "", tag + ": the beacon body includes the screenshot, " +
+          "which is past the 64KB beacon limit");
+    check(b.id === p.sends[0].payload.id,
+          tag + ": the beacon used a different id from the request");
+  }
+
+  /* 7. nothing is beaconed once a send is confirmed */
+  p = await attempt(file, {});
+  p.fire("pagehide");
+  check(p.beacons.length === 0,
+        tag + ": beaconed a submission that was already confirmed");
+
+  /* 8. something left over from a previous visit goes out on load */
+  const old = { id: "s-old-1", lecture: "Lecture " + num, name: "Older Attempt",
+                phone: "01000000000", date: "2026-09-01", score: 1, total: 1,
+                weak: "none", sections: "x: 1/1", wrongQuestions: [], image: "" };
+  const { js } = scriptOf(file);
+  const q = runPage(js, { storage: { [QKEY]: JSON.stringify([old]) } });
+  await new Promise((r) => setTimeout(r, 60));
+  check(q.sends.length === 1 && q.sends[0].payload.id === "s-old-1",
+        tag + ": a queued submission from an earlier visit was not retried on load");
+  check(JSON.parse(q.store[QKEY] || "[]").length === 0,
+        tag + ": the queue was not cleared after a successful retry");
+}
+
+/* ------------------------------------------------------------------ */
 
 async function main() {
   const only = process.argv[2];
@@ -383,6 +529,7 @@ async function main() {
       const ctx = testQuiz(num, quiz);
       await checkSubmission(ctx, num);
       testShuffle(num, quiz);
+      await testDelivery(num, quiz);
     }
     console.log("  lecture" + num + " exercised");
   }

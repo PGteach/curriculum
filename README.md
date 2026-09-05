@@ -263,9 +263,27 @@ shows the student their review list.
 Intake requires a full name (two words or more), a phone number of 8–15
 digits, and a date, which is pre-filled with today.
 
-Because the request is fire-and-forget, a student always sees "sent to your
-teacher" even if the script errors. Confirm in the Sheet, or in the Apps Script
-editor's Executions tab.
+### The submission is confirmed, not assumed
+
+It used to be fire-and-forget: `mode:"no-cors"` meant the browser could not
+read the reply, so the page said "sent" the moment the request left — true or
+not. Thirty phones on one classroom network is exactly when that lies.
+
+Apps Script does return CORS headers, so the reply is readable. Now:
+
+1. it POSTs with the screenshot and **reads the reply**
+2. on failure it retries — at 0s, 5s and 15s — and the student is told
+   "the connection is slow, trying again", never "sent"
+3. anything still unsent is kept in `localStorage` and retried on the next
+   visit, without the screenshot so it stays small
+4. if the page is closing mid-flight, `navigator.sendBeacon` carries a slim
+   copy; a row with no picture beats no row
+
+Every attempt sends the same `id`, and the script ignores an id it has already
+stored, so retrying cannot produce two rows for one student. If a later copy
+carries the screenshot and the stored row does not, it fills it in.
+
+The student only ever sees **Saved** when the script has said so.
 
 ## GitHub Pages
 

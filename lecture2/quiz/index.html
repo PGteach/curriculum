@@ -881,6 +881,137 @@ async function resultImage(got){
   return b64.length > 4000000 ? "" : b64;
 }
 
+/* ============================================================
+   DELIVERY
+
+   Submitting used to be fire-and-forget: mode:"no-cors" meant the browser
+   could not read the reply, so the page said "sent" the moment the request
+   left its hand — true or not. Thirty phones on one classroom network is
+   exactly the moment that lies, and the row never appears.
+
+   Apps Script does return CORS headers, so the reply IS readable. That is the
+   difference between "sent" and "saved", and it is what lets a retry be a
+   decision instead of a guess.
+
+   Four lines of defence:
+     1. POST with the screenshot, and read the reply
+     2. retry on failure, telling the student the truth while it happens
+     3. keep anything still unsent on the phone, and retry on the next visit
+     4. if the page is closing mid-flight, a beacon carries a slim copy
+
+   Every attempt carries the same `id`, and the Apps Script ignores an id it
+   has already stored, so retrying can never make two rows for one student.
+   ============================================================ */
+const QUEUE_KEY = "pgteach:unsent";
+const TRY_AFTER = [0, 5000, 15000];   /* ms before each attempt */
+const TRY_LIMIT = 12000;              /* abandon a single attempt after this */
+
+let pendingSend = null;               /* in flight, for the pagehide beacon */
+
+function newId(){
+  return "s" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+/* The screenshot is ~340KB — far past what a beacon (64KB) or localStorage
+   should carry. Both fall back to a copy without it: a row with no picture
+   beats no row at all. */
+function slim(p){
+  const c = {};
+  for(const k in p) c[k] = p[k];
+  c.image = "";
+  return c;
+}
+
+function queueRead(){
+  try { return JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]"); }
+  catch(e){ return []; }
+}
+function queueWrite(list){
+  try { localStorage.setItem(QUEUE_KEY, JSON.stringify(list.slice(-5))); }
+  catch(e){}                          /* private mode, quota — never fatal */
+}
+function queueAdd(p){
+  queueWrite(queueRead().filter(x => x.id !== p.id).concat([slim(p)]));
+}
+function queueDrop(id){
+  queueWrite(queueRead().filter(x => x.id !== id));
+}
+
+/* One attempt. Resolves with the parsed reply, throws on anything else. */
+async function postOnce(payload){
+  const ctl = typeof AbortController === "function" ? new AbortController() : null;
+  const timer = setTimeout(function(){ if(ctl) ctl.abort(); }, TRY_LIMIT);
+  try {
+    const res = await fetch(RESULTS_URL, {
+      method: "POST",
+      /* text/plain is CORS-safelisted, so there is no preflight to fail and
+         the reply comes back readable. Do not set application/json here. */
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      signal: ctl ? ctl.signal : undefined
+    });
+    let reply = null;
+    try { reply = JSON.parse(await res.text()); } catch(e){}
+    if(!reply || reply.ok !== true){
+      throw new Error(reply && reply.error ? reply.error : "unreadable reply");
+    }
+    return reply;
+  } finally { clearTimeout(timer); }
+}
+
+function say(box, colour, text){
+  box.className = "advice";
+  box.style.borderLeftColor = "var(--" + colour + ")";
+  box.textContent = text;
+}
+
+/* Tries, retries, and never claims more than it knows. */
+async function deliver(payload, box){
+  queueAdd(payload);                  /* survives a closed tab */
+  pendingSend = payload;
+
+  for(let i = 0; i < TRY_AFTER.length; i++){
+    if(TRY_AFTER[i]) await new Promise(r => setTimeout(r, TRY_AFTER[i]));
+    say(box, "gold", i === 0 ? "Saving your result\u2026"
+                             : "The connection is slow \u2014 trying again\u2026");
+    try {
+      const reply = await postOnce(payload);
+      queueDrop(payload.id);
+      pendingSend = null;
+      say(box, "teal", reply.duplicate
+        ? "Saved. Your teacher already had this one."
+        : "Saved. Your teacher has your result.");
+      return reply;
+    } catch(e){ /* try again, or fall out of the loop */ }
+  }
+
+  say(box, "wrong", "Not saved \u2014 the connection would not hold. "
+    + "Screenshot this page and send it to your teacher. It will also try "
+    + "again by itself the next time you open this page.");
+  return null;
+}
+
+/* Last-ditch: the page is closing while a submission is still in flight.
+   A beacon is delivered by the browser after the page is gone. */
+addEventListener("pagehide", function(){
+  if(!pendingSend || !RESULTS_URL) return;
+  try {
+    if(navigator.sendBeacon){
+      navigator.sendBeacon(RESULTS_URL, new Blob(
+        [JSON.stringify(slim(pendingSend))],
+        { type: "text/plain;charset=utf-8" }));
+    }
+  } catch(e){}
+});
+
+/* Anything left from an earlier visit goes out quietly on load. */
+(function retryUnsent(){
+  if(!RESULTS_URL) return;
+  queueRead().forEach(function(p){
+    postOnce(p).then(function(){ queueDrop(p.id); }).catch(function(){});
+  });
+})();
+
 async function sendResult(got, weak){
   const box = $("sendState");
   if(!RESULTS_URL){ box.className = "hide"; return; }
@@ -907,18 +1038,8 @@ async function sendResult(got, weak){
     image: image        // base64 PNG, or "" if it could not be drawn
   };
 
-  fetch(RESULTS_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify(payload)
-  }).then(() => {
-    box.style.borderLeftColor = "var(--teal)";
-    box.textContent = "Your result has been sent to your teacher.";
-  }).catch(() => {
-    box.style.borderLeftColor = "var(--wrong)";
-    box.textContent = "Couldn't send automatically. Please screenshot this page and send it to your teacher.";
-  });
+    payload.id = newId();     /* one row per submission, however many attempts */
+    await deliver(payload, box);
 }
 
 $("restart").onclick = () => {

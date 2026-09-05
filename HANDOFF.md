@@ -235,6 +235,36 @@ Then write the slides (`<section class="slide">` blocks, QR slide stays last)
 and the questions (`SECTIONS` / `QUESTIONS` at the top of the quiz `<script>`).
 Answer positions do not matter any more — they get shuffled.
 
+## Delivery is confirmed, and retries are deduplicated
+
+The old `mode:"no-cors"` made the reply unreadable, so "sent" was a guess.
+Apps Script does send `Access-Control-Allow-Origin: *` — tested, on both the
+302 and the redirected response — so the reply can be read, and that is what
+makes a retry a decision rather than a hope.
+
+Page side: `deliver()` tries at 0s / 5s / 15s, tells the student the truth
+between attempts, keeps unsent payloads in `localStorage` (stripped of the
+~340KB screenshot), retries them on the next page load, and fires a
+`sendBeacon` on `pagehide` if one is still in flight. The beacon and the queue
+both drop the image because a beacon is capped near 64KB and the payload is
+340KB.
+
+Script side: a `Submission id` column, and `findById_()` refuses to append a
+row for an id already present. A duplicate that carries the screenshot when
+the stored row has none fills it in instead of being discarded.
+
+Two traps worth remembering. `formatTab_` now has to *grow* a tab, not only
+trim it — adding a column would otherwise make `setValues()` write past the
+end of an existing sheet and throw. And `isResultsTab_` compares only the
+columns that exist, so a tab written before a column was added still counts as
+ours; the legacy `Sheet1` still fails it, because its second column is Name
+where ours is Lecture.
+
+The test that matters most here is the one that was missing at first: an
+endpoint that *answers* with `ok:false`. A dropped connection is obvious, but
+a script that ran and failed looks exactly like success unless the reply is
+actually read — which is precisely the bug this replaced.
+
 ## Answers are fingerprinted, not hidden
 
 `QUESTIONS` used to carry `a: 1`, so View Source handed a student every
