@@ -235,6 +235,33 @@ Then write the slides (`<section class="slide">` blocks, QR slide stays last)
 and the questions (`SECTIONS` / `QUESTIONS` at the top of the quiz `<script>`).
 Answer positions do not matter any more — they get shuffled.
 
+## Why "trying again" appeared on a submission that had landed
+
+A row was in the sheet, complete with its screenshot, while the student's
+page still read "the connection is slow — trying again". Nothing was broken:
+the page had simply stopped waiting before the server stopped working.
+
+Measured against the live endpoint, using an id already in the sheet so no
+row is written and no image uploaded — the cheapest path there is:
+
+```
+{"ok":true,"duplicate":true,"tab":"Lecture 2","row":2}   2.0-2.7s
+```
+
+A real submission adds a ~340KB base64 screenshot decoded and written to
+Drive, and the first one after a deploy also runs the whole sheet reformat
+inside `doPost` because `DESIGN_VERSION` changed. The client gave up at 12s
+while the server carried on and finished the write.
+
+Two changes. `TRY_LIMIT` is 30s, chosen from that measurement rather than
+guessed. And `formatTab_` now styles the rows in use plus a 200-row margin
+instead of all 1000 — about 2.6k cells instead of 13k — with each new row
+inheriting the formatting of the row above, so the margin never runs out.
+
+The dedupe is what made this safe to leave alone in the meantime: every
+retry carried the same id, so the worst case was a student reading a
+pessimistic message, never a duplicate row.
+
 ## Slides fit themselves
 
 `fit()` in each deck measures the active slide and scales its content to the

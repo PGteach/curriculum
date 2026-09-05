@@ -146,6 +146,12 @@ function doPost(e) {
          .setNumberFormat("@")
          .setValue(String(d.phone || ""));
 
+    /* Inherit the formatting of the row above, so rows past the formatted
+       margin still come out styled without another full pass. */
+    if (row > 2) {
+      sheet.getRange(row - 1, 1, 1, COLUMNS.length)
+           .copyTo(sheet.getRange(row, 1, 1, COLUMNS.length), {formatOnly: true});
+    }
     sheet.getRange(row, 1, 1, COLUMNS.length).setVerticalAlignment("top");
 
     return json_({ ok: true, tab: sheet.getName(), row: row, image: shot });
@@ -273,7 +279,13 @@ function applyTemplateFormat_(tpl, sheet) {
  */
 function formatTab_(sheet) {
   var nCols = COLUMNS.length;
-  var maxRows = sheet.getMaxRows();
+  /* Format the rows in use plus a margin, not all 1000. At 13 columns that
+     is ~2.6k cells instead of ~13k, and this runs inside a submission when
+     DESIGN_VERSION changes — a student should not wait for a thousand empty
+     rows to be styled. reformatAllTabs() re-extends the margin whenever it
+     runs, and doPost styles each new row as it arrives. */
+  var maxRows = Math.min(sheet.getMaxRows(),
+                         Math.max(sheet.getLastRow(), 1) + 200);
 
   // Make the sheet exactly as wide as the table. Growing matters as much as
   // trimming: adding a column to COLUMNS would otherwise make setValues()

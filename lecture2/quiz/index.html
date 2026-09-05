@@ -923,7 +923,13 @@ async function resultImage(got){
    ============================================================ */
 const QUEUE_KEY = "pgteach:unsent";
 const TRY_AFTER = [0, 5000, 15000];   /* ms before each attempt */
-const TRY_LIMIT = 12000;              /* abandon a single attempt after this */
+/* Measured, not guessed. The cheapest possible round trip to Apps Script —
+   a duplicate id, so no row written and no image uploaded — already takes
+   2.0-2.7s. A real submission adds a ~340KB screenshot upload to Drive, and
+   the first one after a deploy also pays for the sheet reformat. At 12s the
+   page was giving up while the server was still working: the row landed and
+   the student was told the connection was slow. */
+const TRY_LIMIT = 30000;              /* abandon a single attempt after this */
 
 let pendingSend = null;               /* in flight, for the pagehide beacon */
 
