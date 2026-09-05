@@ -517,6 +517,66 @@ tr:last-child td{border-bottom:0}
     <p class="rise arline ar">الرام مؤقتة وسريعة وبتتمسح لما الجهاز يتقفل. وحدة التخزين أبطأ بس بتحتفظ بكل حاجة. عشان كده لما الكهرباء تقطع وانت مش حافظ، الشغل بيضيع.</p>
   </section>
 
+  <!-- A4b BITS AND BYTES -->
+  <section class="slide">
+    <div class="rise eyebrow">Part A &#183; The language underneath</div>
+    <h2 class="rise">Everything is a 0 or a 1</h2>
+    <p class="rise sub" style="max-width:54ch;font-size:clamp(16px,1.9vw,25px);color:var(--ink);line-height:1.4">
+      Inside the chip there are only <b>switches</b>. A switch is <b>off</b> or
+      <b>on</b> &#8212; there is nothing in between. We write those two states
+      as <b>0</b> and <b>1</b>.
+    </p>
+<figure class="rise fig">
+<svg viewBox="0 0 820 200" role="img" aria-label="Eight switches, some on and some off, spell the letter A">
+  <!-- 8 switches: 0 1 0 0 0 0 0 1 -->
+  <g stroke="var(--teal)" stroke-width="2.5">
+    <rect x="40"  y="34" width="52" height="52" rx="6" fill="none"/>
+    <rect x="104" y="34" width="52" height="52" rx="6" fill="var(--teal)"/>
+    <rect x="168" y="34" width="52" height="52" rx="6" fill="none"/>
+    <rect x="232" y="34" width="52" height="52" rx="6" fill="none"/>
+    <rect x="296" y="34" width="52" height="52" rx="6" fill="none"/>
+    <rect x="360" y="34" width="52" height="52" rx="6" fill="none"/>
+    <rect x="424" y="34" width="52" height="52" rx="6" fill="none"/>
+    <rect x="488" y="34" width="52" height="52" rx="6" fill="var(--teal)"/>
+  </g>
+  <g text-anchor="middle" font-size="24" font-weight="700" fill="var(--ink)">
+    <text x="66"  y="122">0</text><text x="130" y="122">1</text>
+    <text x="194" y="122">0</text><text x="258" y="122">0</text>
+    <text x="322" y="122">0</text><text x="386" y="122">0</text>
+    <text x="450" y="122">0</text><text x="514" y="122">1</text>
+  </g>
+  <!-- the brace that names the group -->
+  <path d="M40 140 L40 150 L540 150 L540 140" fill="none" stroke="var(--soft)" stroke-width="2"/>
+  <text x="290" y="176" text-anchor="middle" font-size="18" font-weight="600" fill="var(--gold)">8 bits = 1 byte</text>
+
+  <text x="580" y="70" font-size="26" fill="var(--soft)">&#8594;</text>
+  <text x="680" y="82" text-anchor="middle" font-size="52" font-weight="700" fill="var(--ink)">A</text>
+  <text x="680" y="114" text-anchor="middle" font-size="17" fill="var(--soft)">one letter</text>
+</svg>
+<figcaption>One switch is a <b>bit</b>. Eight of them together are a <b>byte</b> &#8212; and a byte is enough to hold one letter.
+<span class="ar">المفتاح الواحد اسمه bit. تمانية مع بعض اسمهم byte — والـ byte يكفي يخزّن حرف واحد.</span></figcaption>
+</figure>
+    <p class="rise arline ar">جوّه الشريحة مفيش غير مفاتيح، والمفتاح يا مقفول يا مفتوح — بنكتبهم 0 و 1. ومن الاتنين دول بيتبني كل حاجة: الصور، الأغاني، الفيديو، الكود بتاعك. وخد بالك من كلمة bit دي — هترجعلنا في آخر الدرس مع الحوسبة الكمومية.</p>
+  </section>
+
+  <!-- A4c SIZES -->
+  <section class="slide">
+    <div class="rise eyebrow">Part A &#183; Sizes you already use</div>
+    <h2 class="rise">So how big is a gigabyte?</h2>
+    <table class="rise">
+      <tr><th>Unit</th><th>How much</th><th>Something that size</th></tr>
+      <tr><td><b>1 byte</b></td><td>8 bits</td><td>one letter</td></tr>
+      <tr><td><b>1 kilobyte</b> (KB)</td><td>about 1,000 bytes</td><td>a short message</td></tr>
+      <tr><td><b>1 megabyte</b> (MB)</td><td>about 1,000 KB</td><td>one photo</td></tr>
+      <tr><td><b>1 gigabyte</b> (GB)</td><td>about 1,000 MB</td><td>about an hour of video</td></tr>
+      <tr><td><b>1 terabyte</b> (TB)</td><td>about 1,000 GB</td><td>a whole laptop disk</td></tr>
+    </table>
+    <div class="rise" style="margin-top:1rem;padding:clamp(12px,1.5vw,22px);background:var(--teal-pale);border-radius:12px;max-width:66ch">
+      <p style="font-size:clamp(13px,1.45vw,19px)">Each step up is really <b>&#215;1024</b>, not &#215;1000 &#8212; a computer counts in twos, not tens. Use 1,000 to picture it; write <b>1024</b> in the exam.</p>
+    </div>
+    <p class="rise arline ar">كل خطوة فوق بتضرب في 1024 بالظبط، مش في ألف — لأن الكمبيوتر بيعدّ بالاتنين مش بالعشرة. استخدم الألف عشان تتخيل الحجم، بس اكتب 1024 في الامتحان. يعني موبايل 128 جيجا فيه مكان حوالي أربعين ألف صورة.</p>
+  </section>
+
   <!-- A5 INPUT / OUTPUT DEVICES -->
   <section class="slide">
     <div class="rise eyebrow">Part A &#183; Talking to the machine</div>
@@ -1121,19 +1181,19 @@ tr:last-child td{border-bottom:0}
     <h2 class="rise">Quantum computing</h2>
     <p class="rise sub" style="max-width:52ch">Expected to <b>dramatically speed up computations</b> that are difficult or impossible for traditional computers, by using the principles of <b>quantum mechanics</b>.</p>
     <div class="rise" style="margin-top:1.2rem;padding:clamp(12px,1.6vw,24px);background:var(--gold-pale);border-radius:12px;max-width:56ch">
-      <p style="font-size:clamp(14px,1.55vw,20px)">A classical <b>bit</b> holds one state. A <b>qubit</b> uses superposition.</p>
+      <p style="font-size:clamp(14px,1.55vw,20px)">A classical <b>bit</b> holds one state &#8212; the switch from Part A, off or on. A <b>qubit</b> uses superposition.</p>
     </div>
 <figure class="rise fig">
 <svg viewBox="0 0 680 200" role="img" aria-label="A bit is 0 or 1, a qubit can be both at once">
   <g>
-    <text x="155" y="24" text-anchor="middle" font-size="13.5" font-weight="600" fill="var(--ink)">A normal bit</text>
+    <text x="155" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="var(--ink)">A normal bit</text>
     <circle cx="100" cy="92" r="31" fill="var(--ink)" opacity=".12" stroke="var(--ink)" stroke-width="2"/>
     <text x="100" y="101" text-anchor="middle" font-size="23" font-weight="600" fill="var(--ink)">0</text>
-    <text x="155" y="98" text-anchor="middle" font-size="14" fill="var(--soft)">or</text>
+    <text x="155" y="98" text-anchor="middle" font-size="16" fill="var(--soft)">or</text>
     <circle cx="210" cy="92" r="31" fill="none" stroke="var(--line)" stroke-width="2"/>
     <text x="210" y="101" text-anchor="middle" font-size="23" font-weight="600" fill="var(--soft)">1</text>
-    <text x="155" y="152" text-anchor="middle" font-size="12.5" fill="var(--soft)">a light switch: on or off</text>
-    <text x="155" y="174" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">one answer at a time</text>
+    <text x="155" y="152" text-anchor="middle" font-size="15" fill="var(--soft)">a light switch: on or off</text>
+    <text x="155" y="174" text-anchor="middle" font-size="15" font-weight="600" fill="var(--ink)">one answer at a time</text>
   </g>
 
   <line x1="350" y1="24" x2="350" y2="184" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 5"/>

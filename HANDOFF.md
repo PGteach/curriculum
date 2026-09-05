@@ -19,7 +19,7 @@ lecture1/slides/index.html    12 slides
 lecture1/quiz/index.html      10 questions, 4 sections
 lecture1/handout/index.html   7-page A4 booklet, printed from the browser
 
-lecture2/slides/index.html    31 slides, 14 photos in slides/media/
+lecture2/slides/index.html    34 slides, 14 photos in slides/media/
 lecture2/quiz/index.html      20 questions, 5 sections, cumulative over L1+L2
 lecture2/handout/index.html   10-page booklet: the lesson + 4 class exercises
 lecture2/homework/index.html  6-page take-home sheet, 9 exercises
