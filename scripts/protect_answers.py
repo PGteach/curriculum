@@ -16,6 +16,19 @@ browser console still returns every answer. For a class that has not learned
 programming yet that is a real barrier. For anyone who codes it is nothing.
 Do not treat it as exam security.
 
+EDITING AN OPTION AFTER CONVERTING
+Once `a: N` has become `k: "..."` the index is gone, so this script cannot
+re-derive it. Unlock first, edit, then run it again:
+
+    python scripts/protect_answers.py 2 --unlock    # k: "..."  ->  a: N
+    ...edit the questions...
+    python scripts/protect_answers.py 2             # a: N  ->  k: "..."
+
+--unlock finds which option still matches each fingerprint, so it has to run
+BEFORE the edit. If an option's text has already changed and nothing matches,
+it names the question and leaves it for you to set `a:` by hand. It will not
+guess.
+
 RUN IT AGAIN AFTER EDITING ANY OPTION TEXT. If an option changes and its
 fingerprint does not, no option matches and every answer counts as wrong.
 check_lecture.py fails on exactly that, and CI runs it on every push, so the
@@ -79,6 +92,42 @@ def unescape_js(s: str) -> str:
              .replace("\\n", "\n").replace("\\t", "\t"))
 
 
+K_RE = re.compile(r'(o:\s*\[)(.*?)(\]\s*,\s*)k:"([a-z0-9]+)"\s*,', re.DOTALL)
+
+
+def unlock(path: Path) -> tuple[int, list[str]]:
+    """Turns each k:"..." back into a: N, so the questions can be edited."""
+    text = path.read_text(encoding="utf-8")
+    problems: list[str] = []
+
+    m = SALT_RE.search(text)
+    if not m:
+        return 0, ["no ANSWER_SALT in the page"]
+    salt = int(m.group(1))
+    seen = [0]
+    done = [0]
+
+    def repl(match: re.Match) -> str:
+        head, raw, tail, key = match.groups()
+        seen[0] += 1
+        opts = [unescape_js(o) for o in split_options(raw)]
+        hits = [i for i, o in enumerate(opts) if fingerprint(o, salt) == key]
+        if len(hits) != 1:
+            problems.append(
+                "question %d: %d option(s) match its fingerprint, so the "
+                "answer cannot be recovered. Set `a:` by hand — that option's "
+                "text was edited after it was fingerprinted."
+                % (seen[0], len(hits)))
+            return match.group(0)
+        done[0] += 1
+        return "%s%s%sa:%d," % (head, raw, tail, hits[0])
+
+    out = K_RE.sub(repl, text)
+    if not problems and done[0]:
+        path.write_text(out, encoding="utf-8", newline="\n")
+    return done[0], problems
+
+
 def process(path: Path) -> tuple[int, list[str]]:
     text = path.read_text(encoding="utf-8")
     problems: list[str] = []
@@ -119,6 +168,8 @@ def process(path: Path) -> tuple[int, list[str]]:
 
 def main() -> None:
     args = sys.argv[1:]
+    unlocking = "--unlock" in args
+    args = [a for a in args if a != "--unlock"]
     if args and not args[0].isdigit():
         sys.exit(__doc__)
 
@@ -134,14 +185,17 @@ def main() -> None:
         if not path.is_file():
             print("Lecture %d — no quiz page, skipped" % num)
             continue
-        n, problems = process(path)
+        n, problems = (unlock(path) if unlocking else process(path))
         if problems:
             bad += 1
             print("Lecture %d — NOT changed:" % num)
             for p in problems:
                 print("  FAIL  %s" % p)
         elif n:
-            print("Lecture %d — fingerprinted %d answer(s)" % (num, n))
+            print("Lecture %d — %s %d answer(s)"
+                  % (num, "unlocked" if unlocking else "fingerprinted", n))
+        elif unlocking:
+            print("Lecture %d — nothing fingerprinted to unlock" % num)
         else:
             print("Lecture %d — already fingerprinted, nothing to do" % num)
 

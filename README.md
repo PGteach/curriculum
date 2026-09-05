@@ -274,6 +274,25 @@ must deploy a **new version** — saving alone does not change the live URL.
 Set `RESULTS_URL = ""` to turn sending off; the quiz still runs and still
 shows the student their review list.
 
+### Keep the English at the students' level, not the topic's
+
+Technical terms stay — they are the syllabus and the exam asks for them:
+*autonomous driving*, *quantum mechanics*, *quantum tunneling*, *integrated
+circuit*. What comes out is the incidental hard English around them:
+*chronological*, *approximately*, *unintentionally*, *dramatically*,
+*immerses*, *overlays*, *appropriate*. A student should fail a question for
+not knowing the topic, never for not knowing the word "chronological".
+
+Editing an option's text means re-running the answer protection:
+
+```bash
+python scripts/protect_answers.py 2 --unlock   # before you edit
+...edit...
+python scripts/protect_answers.py 2            # after
+```
+
+## Quiz results
+
 Intake requires a full name (two words or more), a **class or group**, and a
 date, which is pre-filled with today. The **phone is optional** — a student
 who would rather not give it is not blocked — but a phone that is typed still

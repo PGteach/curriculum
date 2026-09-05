@@ -971,27 +971,24 @@ tr:last-child td{border-bottom:0}
   <section class="slide">
     <div class="rise eyebrow">1 · The engine behind it</div>
     <h2 class="rise">Moore's Law</h2>
-    <p class="rise sub" style="max-width:44ch;font-size:clamp(16px,2vw,26px);color:var(--ink-2);line-height:1.4">
-      A <b>transistor</b> is a tiny switch inside a chip. More switches means more computing power.
-    </p>
-    <p class="rise sub" style="max-width:44ch;font-size:clamp(16px,2vw,26px);color:var(--ink);line-height:1.4;margin-top:.5rem">
-      Moore noticed the number of them <b>doubles about every two years</b>.
+    <p class="rise sub" style="max-width:54ch;font-size:clamp(16px,1.9vw,25px);color:var(--ink);line-height:1.4">
+      A <b>transistor</b> is a tiny switch inside a chip — more switches, more
+      computing power. Moore noticed the number <b>doubles about every two years</b>.
     </p>
 <figure class="rise fig">
-<svg viewBox="0 0 900 250" role="img" aria-label="One transistor becomes two, then four, then eight, doubling every two years">
-  <text x="20" y="24" font-size="13.5" font-weight="600" fill="var(--ink)">Start with 1 transistor. Every 2 years, the number doubles.</text>
+<svg viewBox="0 0 900 210" role="img" aria-label="One transistor becomes two, then four, then eight, doubling every two years">
 
   <!-- step 1 -->
   <g><rect x="30" y="120" width="16" height="16" rx="2" fill="var(--teal)"/>
      <text x="38" y="160" text-anchor="middle" font-size="19" font-weight="600" fill="var(--ink)">1</text>
-     <text x="38" y="182" text-anchor="middle" font-size="11.5" fill="var(--soft)">year 0</text></g>
+     <text x="38" y="182" text-anchor="middle" font-size="15" fill="var(--soft)">year 0</text></g>
   <text x="82" y="132" text-anchor="middle" font-size="17" fill="var(--gold)">&#215;2</text>
 
   <!-- step 2 -->
   <g><rect x="114" y="120" width="16" height="16" rx="2" fill="var(--teal)"/>
      <rect x="132" y="120" width="16" height="16" rx="2" fill="var(--teal)"/>
      <text x="131" y="160" text-anchor="middle" font-size="19" font-weight="600" fill="var(--ink)">2</text>
-     <text x="131" y="182" text-anchor="middle" font-size="11.5" fill="var(--soft)">2 years</text></g>
+     <text x="131" y="182" text-anchor="middle" font-size="15" fill="var(--soft)">2 years</text></g>
   <text x="176" y="132" text-anchor="middle" font-size="17" fill="var(--gold)">&#215;2</text>
 
   <!-- step 3 -->
@@ -1000,7 +997,7 @@ tr:last-child td{border-bottom:0}
      <rect x="208" y="102" width="16" height="16" rx="2" fill="var(--teal)"/>
      <rect x="226" y="102" width="16" height="16" rx="2" fill="var(--teal)"/>
      <text x="225" y="160" text-anchor="middle" font-size="19" font-weight="600" fill="var(--ink)">4</text>
-     <text x="225" y="182" text-anchor="middle" font-size="11.5" fill="var(--soft)">4 years</text></g>
+     <text x="225" y="182" text-anchor="middle" font-size="15" fill="var(--soft)">4 years</text></g>
   <text x="270" y="132" text-anchor="middle" font-size="17" fill="var(--gold)">&#215;2</text>
 
   <!-- step 4 -->
@@ -1011,25 +1008,27 @@ tr:last-child td{border-bottom:0}
     <rect x="302" y="66" width="16" height="16" rx="2"/><rect x="320" y="66" width="16" height="16" rx="2"/>
   </g>
   <text x="319" y="160" text-anchor="middle" font-size="19" font-weight="600" fill="var(--ink)">8</text>
-  <text x="319" y="182" text-anchor="middle" font-size="11.5" fill="var(--soft)">6 years</text>
+  <text x="319" y="182" text-anchor="middle" font-size="15" fill="var(--soft)">6 years</text>
 
   <text x="372" y="132" text-anchor="middle" font-size="17" fill="var(--gold)">&#215;2</text>
-  <text x="420" y="128" font-size="15" fill="var(--soft)">... and so on</text>
+  <text x="420" y="128" font-size="18" fill="var(--soft)">... and so on</text>
 
   <!-- the payoff -->
   <g>
     <rect x="560" y="52" width="320" height="112" rx="12" fill="var(--gold)" opacity=".14"/>
-    <text x="720" y="82" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">After 20 years of doubling:</text>
+    <text x="720" y="82" text-anchor="middle" font-size="16" font-weight="600" fill="var(--ink)">After 20 years of doubling:</text>
     <text x="720" y="122" text-anchor="middle" font-size="34" font-weight="700" fill="var(--gold)">&#215;1,024</text>
-    <text x="720" y="148" text-anchor="middle" font-size="12.5" fill="var(--soft)">more transistors than you started with</text>
+    <text x="720" y="148" text-anchor="middle" font-size="15" fill="var(--soft)">more transistors than you started with</text>
   </g>
 
-  <text x="20" y="222" font-size="12.5" fill="var(--soft)">Doubling looks small at first, then gets enormous fast. That is why phones caught up with room-sized machines.</text>
-  <text x="20" y="242" font-size="12.5" font-style="italic" fill="var(--soft)">Moore never said it must happen — he just noticed it kept happening.</text>
 </svg>
-<figcaption>More transistors means more computing power. Doubling every two years is why computers improved so quickly.
-<span class="ar">التضاعف بيبدأ صغير وبعدين بيكبر بسرعة رهيبة. ترانزستورات أكتر معناها قدرة حوسبة أكبر — وده سبب إن الموبايل بقى أقوى من أجهزة كانت بتملأ أوضة.</span></figcaption>
+<figcaption>Start with 1 transistor. Every 2 years, the number doubles.</figcaption>
 </figure>
+    <p class="rise sub" style="max-width:60ch;font-size:clamp(14px,1.5vw,20px);line-height:1.45;margin-top:.4rem">
+      Doubling looks small at first, then gets enormous — that is how a phone
+      caught up with machines that filled a room. And Moore never said it
+      <b>must</b> happen; he only noticed that it kept happening.
+    </p>
     <p class="rise arline ar">الترانزستور مفتاح صغير جوه الشريحة — مفاتيح أكتر معناها قدرة أكبر. وقانون مور ملاحظة إن عددهم بيتضاعف كل سنتين تقريبًا. خلي بالك: دي <b>ملاحظة</b> مش قانون فيزيائي، وده اللي بيتسأل عليه في الامتحان.</p>
   </section>
 
@@ -1037,20 +1036,22 @@ tr:last-child td{border-bottom:0}
   <section class="slide">
     <div class="rise eyebrow">1 · But not forever</div>
     <h2 class="rise">Why shrinking is getting hard</h2>
+    <p class="rise sub" style="max-width:56ch;font-size:clamp(15px,1.7vw,22px);line-height:1.4">
+      Make a transistor small enough and physics starts working against you.
+    </p>
     <div class="rise vs">
       <div class="pane b">
-        <h3>The problems</h3>
+        <h3>Problem 1 &#183; Quantum tunneling</h3>
         <ul>
-          <li><b>Quantum tunneling effect</b> — electrons slip through barriers</li>
-          <li><b>Leakage current</b> — current escapes unintentionally</li>
-          <li>Hard to get higher performance <i>and</i> lower power at once</li>
+          <li>The barrier gets so thin that <b>electrons slip straight through it</b></li>
+          <li>A switch that cannot stay off is not a switch</li>
         </ul>
       </div>
-      <div class="pane a">
-        <h3>The responses</h3>
+      <div class="pane b">
+        <h3>Problem 2 &#183; Leakage current</h3>
         <ul>
-          <li><b>Parallel processing</b> using multiple processor cores</li>
-          <li><b>Quantum computers</b> based on the principles of quantum mechanics</li>
+          <li>Current <b>leaks out on its own</b>, even when nothing is switching</li>
+          <li>So you cannot have more speed <i>and</i> less power at the same time</li>
         </ul>
       </div>
     </div>
@@ -1081,10 +1082,78 @@ tr:last-child td{border-bottom:0}
     <text x="550" y="188" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--wrong)">it slips straight through</text>
   </g>
 </svg>
-<figcaption>This is the quantum tunneling effect. It is why chips cannot simply keep getting smaller for ever.
-<span class="ar">ده النفق الكمومي. وده السبب إن الشرائح مش ممكن تفضل تصغر للأبد.</span></figcaption>
 </figure>
-    <p class="rise arline ar">لما الترانزستورات تصغر أوي بتحصل مشكلتين: النفق الكمومي (الإلكترونات بتتسرب من الحواجز) وتسرب التيار. والحلول: المعالجة المتوازية بأنوية متعددة، والحواسيب الكمومية.</p>
+    <p class="rise sub" style="max-width:60ch;font-size:clamp(14px,1.5vw,20px);line-height:1.45;margin-top:.4rem">
+      That is the <b>quantum tunneling effect</b>, and it is why chips cannot
+      simply keep getting smaller for ever. So what do we do instead? Next slide.
+    </p>
+    <p class="rise arline ar">لما الترانزستورات تصغر أوي بتحصل مشكلتين: النفق الكمومي (الإلكترونات بتتسرب من الحواجز) وتسرب التيار. والحل مش إننا نكمّل تصغير — الحل في السلايد الجاية.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">1 · The answer &#183; also one of the emerging technologies</div>
+    <h2 class="rise">So what do we do instead?</h2>
+    <p class="rise sub" style="max-width:56ch">
+      If we cannot keep shrinking, there are two answers.
+    </p>
+    <div class="rise vs">
+      <div class="pane a">
+        <h3>1 &#183; Parallel processing</h3>
+        <ul>
+          <li>Put <b>several processor cores</b> in one chip and share the work</li>
+          <li>Same size transistors, just more of them working at once</li>
+        </ul>
+      </div>
+      <div class="pane a">
+        <h3>2 &#183; Quantum computers</h3>
+        <ul>
+          <li>Stop shrinking the same machine — build a <b>different kind</b></li>
+          <li>Built on the principles of <b>quantum mechanics</b></li>
+        </ul>
+      </div>
+    </div>
+    <p class="rise arline ar">الحل الأول: نحط أنوية أكتر في الشريحة وتتقاسم الشغل. الحل التاني: نبني نوع مختلف خالص من الكمبيوتر — وده اللي جاي.</p>
+  </section>
+
+  <!-- QUANTUM COMPUTING -->
+  <section class="slide">
+    <div class="rise eyebrow">1 · The second answer &#183; also one of the emerging technologies</div>
+    <h2 class="rise">Quantum computing</h2>
+    <p class="rise sub" style="max-width:52ch">It should be <b>much faster</b> at calculations that are hard or impossible for a normal computer, because it uses the principles of <b>quantum mechanics</b>.</p>
+    <div class="rise" style="margin-top:1.2rem;padding:clamp(12px,1.6vw,24px);background:var(--gold-pale);border-radius:12px;max-width:56ch">
+      <p style="font-size:clamp(14px,1.55vw,20px)">A classical <b>bit</b> holds one state. A <b>qubit</b> uses superposition.</p>
+    </div>
+<figure class="rise fig">
+<svg viewBox="0 0 680 200" role="img" aria-label="A bit is 0 or 1, a qubit can be both at once">
+  <g>
+    <text x="155" y="24" text-anchor="middle" font-size="13.5" font-weight="600" fill="var(--ink)">A normal bit</text>
+    <circle cx="100" cy="92" r="31" fill="var(--ink)" opacity=".12" stroke="var(--ink)" stroke-width="2"/>
+    <text x="100" y="101" text-anchor="middle" font-size="23" font-weight="600" fill="var(--ink)">0</text>
+    <text x="155" y="98" text-anchor="middle" font-size="14" fill="var(--soft)">or</text>
+    <circle cx="210" cy="92" r="31" fill="none" stroke="var(--line)" stroke-width="2"/>
+    <text x="210" y="101" text-anchor="middle" font-size="23" font-weight="600" fill="var(--soft)">1</text>
+    <text x="155" y="152" text-anchor="middle" font-size="12.5" fill="var(--soft)">a light switch: on or off</text>
+    <text x="155" y="174" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">one answer at a time</text>
+  </g>
+
+  <line x1="350" y1="24" x2="350" y2="184" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 5"/>
+
+  <g>
+    <text x="510" y="24" text-anchor="middle" font-size="13.5" font-weight="600" fill="var(--teal)">A qubit</text>
+    <circle cx="510" cy="92" r="31" fill="var(--teal)" opacity=".16" stroke="var(--teal)" stroke-width="2"/>
+    <ellipse cx="510" cy="92" rx="12" ry="31" fill="none" stroke="var(--teal)" stroke-width="1.6">
+      <animate attributeName="rx" values="12;30;12" dur="2.4s" repeatCount="indefinite"/>
+    </ellipse>
+    <text x="486" y="101" text-anchor="middle" font-size="20" font-weight="600" fill="var(--teal)">0</text>
+    <text x="534" y="101" text-anchor="middle" font-size="20" font-weight="600" fill="var(--teal)">1</text>
+    <text x="510" y="152" text-anchor="middle" font-size="12.5" fill="var(--soft)">a spinning coin, still in the air</text>
+    <text x="510" y="174" text-anchor="middle" font-size="12" font-weight="600" fill="var(--teal)">both at once &#8212; superposition</text>
+  </g>
+</svg>
+<figcaption>Because a qubit can hold both at once, a quantum computer can work through many possibilities together.
+<span class="ar">بما إن الكيوبِت بيحمل الاتنين في نفس الوقت، الكمبيوتر الكمومي يقدر يجرب احتمالات كتير مع بعض.</span></figcaption>
+</figure>
+    <p class="rise arline ar">الحوسبة الكمومية متوقع إنها تسرّع بشكل كبير الحسابات الصعبة أو المستحيلة على الكمبيوتر التقليدي، باستخدام مبادئ ميكانيكا الكم.</p>
   </section>
 
   <!-- 11 FIVE SOCIAL CHANGES -->
@@ -1136,7 +1205,7 @@ tr:last-child td{border-bottom:0}
     </circle>
     <rect x="126" y="170" width="66" height="26" rx="7" fill="none" stroke="var(--ink)" stroke-width="2"/>
     <circle cx="142" cy="200" r="6" fill="var(--ink)"/><circle cx="176" cy="200" r="6" fill="var(--ink)"/>
-    <text x="159" y="228" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--wrong)">too slow to brake in time</text>
+    <text x="159" y="228" text-anchor="middle" font-size="15" font-weight="600" fill="var(--wrong)">too slow to brake in time</text>
   </g>
 
   <line x1="400" y1="30" x2="400" y2="212" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 5"/>
@@ -1222,46 +1291,6 @@ tr:last-child td{border-bottom:0}
     <p class="rise arline ar">الواقع المعزز بيضيف معلومات رقمية فوق صور العالم الحقيقي. الواقع الافتراضي بيحط المستخدم جوه فضاء افتراضي الكمبيوتر عامله. الفرق ده بييجي كسؤال مطابقة.</p>
   </section>
 
-  <!-- 15 QUANTUM -->
-  <section class="slide">
-    <div class="rise eyebrow">3 · Emerging technologies</div>
-    <h2 class="rise">Quantum computing</h2>
-    <p class="rise sub" style="max-width:52ch">Expected to dramatically speed up computations that are difficult or impossible for traditional computers, by using the principles of quantum mechanics.</p>
-    <div class="rise" style="margin-top:1.2rem;padding:clamp(12px,1.6vw,24px);background:var(--gold-pale);border-radius:12px;max-width:56ch">
-      <p style="font-size:clamp(14px,1.55vw,20px)">A classical <b>bit</b> holds one state. A <b>qubit</b> uses superposition.</p>
-    </div>
-<figure class="rise fig">
-<svg viewBox="0 0 680 200" role="img" aria-label="A bit is 0 or 1, a qubit can be both at once">
-  <g>
-    <text x="155" y="24" text-anchor="middle" font-size="13.5" font-weight="600" fill="var(--ink)">A normal bit</text>
-    <circle cx="100" cy="92" r="31" fill="var(--ink)" opacity=".12" stroke="var(--ink)" stroke-width="2"/>
-    <text x="100" y="101" text-anchor="middle" font-size="23" font-weight="600" fill="var(--ink)">0</text>
-    <text x="155" y="98" text-anchor="middle" font-size="14" fill="var(--soft)">or</text>
-    <circle cx="210" cy="92" r="31" fill="none" stroke="var(--line)" stroke-width="2"/>
-    <text x="210" y="101" text-anchor="middle" font-size="23" font-weight="600" fill="var(--soft)">1</text>
-    <text x="155" y="152" text-anchor="middle" font-size="12.5" fill="var(--soft)">a light switch: on or off</text>
-    <text x="155" y="174" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">one answer at a time</text>
-  </g>
-
-  <line x1="350" y1="24" x2="350" y2="184" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 5"/>
-
-  <g>
-    <text x="510" y="24" text-anchor="middle" font-size="13.5" font-weight="600" fill="var(--teal)">A qubit</text>
-    <circle cx="510" cy="92" r="31" fill="var(--teal)" opacity=".16" stroke="var(--teal)" stroke-width="2"/>
-    <ellipse cx="510" cy="92" rx="12" ry="31" fill="none" stroke="var(--teal)" stroke-width="1.6">
-      <animate attributeName="rx" values="12;30;12" dur="2.4s" repeatCount="indefinite"/>
-    </ellipse>
-    <text x="486" y="101" text-anchor="middle" font-size="20" font-weight="600" fill="var(--teal)">0</text>
-    <text x="534" y="101" text-anchor="middle" font-size="20" font-weight="600" fill="var(--teal)">1</text>
-    <text x="510" y="152" text-anchor="middle" font-size="12.5" fill="var(--soft)">a spinning coin, still in the air</text>
-    <text x="510" y="174" text-anchor="middle" font-size="12" font-weight="600" fill="var(--teal)">both at once &#8212; superposition</text>
-  </g>
-</svg>
-<figcaption>Because a qubit can hold both at once, a quantum computer can work through many possibilities together.
-<span class="ar">بما إن الكيوبِت بيحمل الاتنين في نفس الوقت، الكمبيوتر الكمومي يقدر يجرب احتمالات كتير مع بعض.</span></figcaption>
-</figure>
-    <p class="rise arline ar">الحوسبة الكمومية متوقع إنها تسرّع بشكل كبير الحسابات الصعبة أو المستحيلة على الكمبيوتر التقليدي، باستخدام مبادئ ميكانيكا الكم.</p>
-  </section>
 
   <!-- 15b EXAMPLES · emerging tech photographed -->
   <section class="slide">

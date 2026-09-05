@@ -262,6 +262,31 @@ The dedupe is what made this safe to leave alone in the meantime: every
 retry carried the same id, so the worst case was a student reading a
 pessimistic message, never a duplicate row.
 
+## Explanatory text does not belong inside an SVG
+
+Measured at 1280x720: the smallest text inside lecture 2's diagrams rendered
+at **8.7px** while ordinary HTML on the same slide was 25px. Two shrinks
+stack — the figure is capped at `max-height:34vh`, and auto-fit then scales
+the slide to about 0.78 — so a sentence set at 12.5 SVG units ends up
+unreadable from the back of a room.
+
+The rule now: **a diagram may carry labels, never the sentence that explains
+it.** Sentences live in HTML where `clamp()` keeps them readable; labels left
+inside an SVG get a floor of 15 units. On the Moore's Law slide that took the
+explanation from 8.7px to 15.5px and the diagram's own numbers to 12.5px.
+
+That is also why `.fig figcaption` is the wrong home for anything load-bearing:
+its own `clamp()` tops out at 15px, which auto-fit then shrinks again.
+
+## A slide at the 0.72 floor wants splitting
+
+Improving slides 20 and 21 pushed both to the auto-fit floor, and 21 still
+overflowed by 62px. That is the floor doing its job: it is a signal, not a
+budget. Slide 21 was split into "So what do we do instead?" (the two answers)
+and "Quantum computing" (the definition and the qubit diagram), and the
+redundant caption came off slide 20. Lecture 2 is 32 slides now, nothing
+overflows, and nothing sits at the floor.
+
 ## Slides fit themselves
 
 `fit()` in each deck measures the active slide and scales its content to the
@@ -317,6 +342,19 @@ The test that matters most here is the one that was missing at first: an
 endpoint that *answers* with `ok:false`. A dropped connection is obvious, but
 a script that ran and failed looks exactly like success unless the reply is
 actually read — which is precisely the bug this replaced.
+
+## Editing a question after it is fingerprinted
+
+`protect_answers.py --unlock` turns each `k: "..."` back into `a: N` by
+finding which option still matches, so questions can be edited and then
+re-fingerprinted. It has to run **before** the edit: once an option's text has
+changed, nothing matches and the index is unrecoverable. In that case it names
+the question and refuses rather than guessing.
+
+This gap was found the hard way. Simplifying lecture 2's English changed the
+text of three correct options, and the tool could not re-derive their indices
+— they had to be recovered by resolving the fingerprints in the committed
+version from git. `--unlock` exists so that is never necessary again.
 
 ## Answers are fingerprinted, not hidden
 
