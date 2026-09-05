@@ -287,15 +287,41 @@ Rewriting them into easier English was tried and reverted. It made the quiz
 easier to read and worse at its job: a student who only ever meets
 "order, earliest first" is ambushed by "chronological order" in the exam.
 
-So the question stays in the exam's English, and an optional `ar:` field on a
-question adds an Arabic gloss under the explanation — shown after answering,
-where the teaching happens rather than the testing:
+So the question stays in the exam's English, and two optional fields carry the
+Arabic. They are not interchangeable, and the difference is *when* they show.
+
+`v:` translates the hard **words**, and it renders above the options, **before**
+the student answers. That timing is the whole point: a word a student cannot
+read stops them answering a question they actually know, so help that waits
+for the explanation has already failed. `ar:` carries the **reasoning**, and it
+renders with the explanation, after the answer is locked in.
 
 ```js
-{ s:2, q:"...", o:[...], a:1,
+{ s:2, q:"According to Moore's Law, roughly how often does the number of "
+        + "transistors on an integrated circuit double?",
+  o:[...], a:1,
+  v:[["roughly","تقريبًا"],
+     ["integrated circuit","الدائرة المتكاملة — الشريحة"],
+     ["double","يتضاعف — يبقى الضعف"]],
   why:"Moore's Law is the empirical observation that ...",
-  ar:"empirical observation = ملاحظة من الواقع، مش قانون فيزيائي" }
+  ar:"كل سنتين تقريبًا. وخد بالك: empirical observation = ملاحظة من الواقع" }
 ```
+
+Three rules on `v:`, all enforced by `check_lecture.py` so they cannot be
+broken quietly:
+
+- **Every term must appear in `q` or one of `o`.** A gloss for wording the
+  student cannot see is dead weight at best, and a hint at worst. It also
+  means editing a question's text and forgetting its gloss fails the build
+  rather than shipping.
+- **If you translate the correct option in full, translate every option.**
+  Otherwise the right answer is the only one the student can read, and they
+  pick what they understand. Glossing the distractors alone is fine.
+- **At most six terms**, or the block pushes the options off a phone screen.
+
+And never put reasoning in `v:`. It renders while the options are still live,
+so "the right order is computer, then internet" there is an answer key printed
+above the answers. That belongs in `ar:`.
 
 Editing an option's text means re-running the answer protection:
 

@@ -335,6 +335,30 @@ function testQuiz(num, file) {
     check(p.byId("tag").textContent === S[q.s],
           tag + " q" + (n + 1) + ": wrong section label");
 
+    /* The word help has to be on screen BEFORE the student picks, or it is
+       not help. Checked here, while the options are still live. */
+    const gl = p.byId("gloss");
+    const glText = gl.textContent;
+    if (q.v && q.v.length) {
+      check(!/\bhide\b/.test(gl.className),
+            tag + " q" + (n + 1) + ": the question has word help but #gloss is hidden");
+      q.v.forEach(([en, ar]) => {
+        check(glText.includes(en),
+              tag + " q" + (n + 1) + ": gloss is missing the term " + JSON.stringify(en));
+        check(glText.includes(ar),
+              tag + " q" + (n + 1) + ": gloss is missing the Arabic for " + JSON.stringify(en));
+      });
+    } else {
+      check(/\bhide\b/.test(gl.className) && glText === "",
+            tag + " q" + (n + 1) + ": #gloss left over from the previous question");
+    }
+    /* q.ar reasons towards the answer, so it must NOT be in the pre-answer
+       block — that would be an answer key printed above the options. */
+    if (q.ar) {
+      check(!glText.includes(q.ar),
+            tag + " q" + (n + 1) + ": q.ar leaked into the pre-answer gloss");
+    }
+
     // find the button by text, never by position — the options are shuffled
     const target = wrongAt.has(n)
       ? opts.find((o) => o.textContent !== right)

@@ -1,6 +1,6 @@
 # Handoff — state of this repo
 
-Last updated: 2026-09-04. Written so a new session (or another machine) can pick
+Last updated: 2026-09-05. Written so a new session (or another machine) can pick
 this up with no prior context. Read this first, then [README.md](README.md) for
 how the pages actually work.
 
@@ -358,14 +358,39 @@ So the simplification was reverted. A student who only ever meets "order,
 earliest first" is ambushed by "chronological order" in the exam. The quiz's
 job is to rehearse the exam's language, not to be comfortable.
 
-What replaced it: an optional `ar:` field per question, rendered under the
-English explanation after the student answers, glossing the hard words in
-Arabic. The question stays exactly as the exam words it; the teaching happens
-in the language the student thinks in. Five questions in lecture 2 have one.
+What replaced it, in two steps. The first was an `ar:` field glossing the
+hard words in Arabic under the explanation, after the student answers. That
+was still wrong, and the teacher said so immediately: *"م4 مفروض يترجم قبل ما
+يجاوب"* — shouldn't it translate before he answers? He was right. A word the
+student cannot read stops them answering at all, so a translation that waits
+for the explanation arrives after the mark is already lost. He also pointed
+out that a word like `emerging` had no gloss at all.
+
+So the help split in two, by timing:
+
+| field | carries | renders |
+| --- | --- | --- |
+| `v:` | the hard **words**, as `[["english","العربي"], ...]` | above the options, **before** answering |
+| `ar:` | the **reasoning** in Arabic | with the explanation, after answering |
+
+Nineteen of lecture 2's twenty questions have a `v:` now, and nine of lecture
+1's ten. The reasoning was stripped back out of the five `ar:` fields, because
+`v:` renders while the options are still live — leaving "the right order is
+computer, then internet" in there would have printed an answer key above the
+answers.
+
+`check_lecture.py` enforces the three rules that keep the two apart: every
+glossed term must appear in the question or an option; translating the correct
+option in full obliges you to translate every option (or the right answer is
+the only readable one); and at most six terms, or the block pushes the options
+off a phone screen. `test_pages.js` drives a full attempt and asserts the
+gloss is on screen *before* the pick, that it clears between questions, and
+that `ar:` never leaks into it.
 
 The general rule this settles: **check the source material before deciding
 the wording is too hard.** Lecture 1, which is not textbook-derived, was
-already at a plain level and needed nothing.
+already at a plain level — but it still got glosses, because plain English is
+not the same as English an Arabic-speaking student reads without friction.
 
 ## Editing a question after it is fingerprinted
 

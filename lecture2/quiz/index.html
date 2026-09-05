@@ -102,6 +102,24 @@
   .review-card .w-val{color:var(--wrong);font-weight:600}
   .review-card .c-val{color:var(--green);font-weight:600}
   .review-card .why-txt{margin-top:6px;color:var(--ink-soft);font-size:13px;font-style:italic}
+  /* Hard words are glossed BEFORE the options, because a word the student
+     cannot read stops them answering at all — help that arrives with the
+     explanation arrives too late. This block carries vocabulary only; the
+     reasoning stays in .why-ar, after the answer. */
+  .gloss{
+    border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:0 8px 8px 0;background:#FCFBF7;
+    padding:9px 12px;margin:0 0 16px;
+  }
+  .gloss-h{
+    font-size:12px;font-weight:600;color:var(--ink-soft);
+    margin-bottom:5px;text-align:left;
+  }
+  .gloss-list{display:flex;flex-wrap:wrap;gap:3px 18px}
+  .gl{font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+  .gl b{font-weight:600;color:var(--ink)}
+  .gl .eq{margin:0 5px;color:#B9BEC6}
+
   /* The question stays in the exam's own English. The explanation is
      where teaching happens, so it may also come in Arabic. */
   .why-ar{
@@ -175,6 +193,7 @@
   <div class="count" id="count"></div>
   <div class="section-tag" id="tag"></div>
   <div class="q" id="question"></div>
+  <div class="gloss hide" id="gloss"></div>
   <div id="options"></div>
   <div class="verdict hide" id="verdict"></div>
   <button type="button" class="next hide" id="next"></button>
@@ -248,6 +267,12 @@ const QUESTIONS = [
   {
     s: 0,
     q: "You type your password into a login page. Which stage of the computer's work is that?",
+    v: [
+      ["stage", "مرحلة"],
+      ["Input", "مدخلات"],
+      ["Processing", "معالجة"],
+      ["Output", "مخرجات"],
+    ],
     o: ["Input", "Processing", "Output"],
     k:"ag1m4zcunt",
     why: "Anything you hand to the machine is input. What it does with your password afterwards is processing."
@@ -262,6 +287,10 @@ const QUESTIONS = [
   {
     s: 0,
     q: "Which of these is an OUTPUT?",
+    v: [
+      ["streaming app", "تطبيق بث زي نتفليكس"],
+      ["suggest", "يقترح"],
+    ],
     o: [
       "Choosing a film in a streaming app",
       "The app deciding which films to suggest",
@@ -276,6 +305,10 @@ const QUESTIONS = [
   {
     s: 1,
     q: "A teacher writes out every rule a spam filter must follow, line by line. Which approach is this?",
+    v: [
+      ["spam filter", "فلتر الرسائل المزعجة"],
+      ["line by line", "سطر بسطر"],
+    ],
     o: ["Programming", "Artificial intelligence", "Neither"],
     k:"1aqc31i8l8j",
     why: "When a person writes the rules and the machine follows them exactly, that is programming."
@@ -283,6 +316,11 @@ const QUESTIONS = [
   {
     s: 1,
     q: "An app learns to recognise your voice after you record fifty samples. Nobody wrote the rules for your voice. What is this?",
+    v: [
+      ["recognise", "يتعرّف على"],
+      ["samples", "عيّنات — تسجيلات قصيرة"],
+      ["Compiling", "ترجمة الكود للغة الآلة"],
+    ],
     o: ["Programming", "Artificial intelligence", "Compiling"],
     k:"s5wl2d4v80",
     why: "The computer worked the pattern out from examples instead of following rules someone wrote. That is AI."
@@ -290,6 +328,9 @@ const QUESTIONS = [
   {
     s: 1,
     q: "Python is to a language as ______ is to a sentence written in it.",
+    v: [
+      ["is to a language as", "صيغة تناسب: املا الفراغ بحيث تبقى العلاقة الأولى زي التانية"],
+    ],
     o: ["A compiler", "Source code", "An IDE"],
     k:"i0wisins78",
     why: "The language is the system; the source code is the actual text you write in it."
@@ -297,6 +338,10 @@ const QUESTIONS = [
   {
     s: 1,
     q: "Your code is readable text, but the processor only reads zeros and ones. What closes that gap?",
+    v: [
+      ["processor", "المعالج"],
+      ["closes that gap", "يسدّ الفرق ده"],
+    ],
     o: ["The text editor", "The compiler", "The IDE"],
     k:"1xmk06jddwf",
     why: "Translating your code into machine language is exactly the compiler's job."
@@ -304,6 +349,10 @@ const QUESTIONS = [
   {
     s: 1,
     q: "You want ONE program where you can write code, run it, and be shown your errors. What are you describing?",
+    v: [
+      ["be shown your errors", "توريك غلطاتك"],
+      ["What are you describing", "بتوصف إيه؟"],
+    ],
     o: ["A text editor", "A compiler", "An IDE"],
     k:"1ja4n02tzhr",
     why: "An IDE bundles the editor, the tools that run the program, and error finding into a single program."
@@ -311,6 +360,10 @@ const QUESTIONS = [
   {
     s: 1,
     q: "Your program fails, so you copy the error message and search for it online. Which programmer habit is that?",
+    v: [
+      ["habit", "عادة من عادات المبرمج"],
+      ["Breaking the problem down", "تقسيم المشكلة لأجزاء صغيرة"],
+    ],
     o: ["Breaking the problem down", "Continuous research", "Typing quickly"],
     k:"xilsp7s98r",
     why: "Nobody memorises everything. Looking things up is a normal part of the job, not a weakness."
@@ -321,6 +374,13 @@ const QUESTIONS = [
   {
     s: 2,
     q: "Put these four stages in the correct chronological order.",
+    v: [
+      ["chronological order", "الترتيب الزمني — الأقدم الأول"],
+      ["Birth of", "مولد / بداية"],
+      ["Commercialization", "التحوّل لخدمة تجارية بتتباع"],
+      ["Rise of", "انتشار / صعود"],
+      ["Spread of", "انتشار"],
+    ],
     o: [
       "Birth of the computer → Rise of smartphones → Commercialization of the Internet → Spread of cloud computing",
       "Birth of the computer → Commercialization of the Internet → Rise of smartphones → Spread of cloud computing",
@@ -328,12 +388,17 @@ const QUESTIONS = [
     ],
     k:"xh50ilbppj",
     why: "Birth of the computer in the 1940s-60s, the Internet commercialized in the 1990s, smartphones in the 2000s, and cloud computing from the 2010s onward.",
-      ar: "chronological order = الترتيب الزمني، الأقدم الأول. commercialization of the Internet = تحويل الإنترنت لخدمة تجارية في التسعينات. الترتيب: كمبيوتر ← إنترنت ← موبايلات ← سحابة.",
+    ar: "الترتيب الصح: الكمبيوتر (الأربعينات–الستينات) ← الإنترنت بقى تجاري (التسعينات) ← الموبايلات (الألفينات) ← الحوسبة السحابية (من 2010).",
     src: "p.9 — Worked Example (1), answer B"
   },
   {
     s: 2,
     q: "What was the computer mainly used for in the 1940s to 1960s?",
+    v: [
+      ["mainly", "بشكل أساسي"],
+      ["Military", "عسكري"],
+      ["scientific computation", "حسابات علمية"],
+    ],
     o: ["Personal use at home", "Military and scientific computation", "Online shopping"],
     k:"1li8wm2vt9m",
     why: "ENIAC and the vacuum-tube machines of that era were used mainly for military and scientific computation. Personal use only began with PCs in the 1970s-80s.",
@@ -342,15 +407,26 @@ const QUESTIONS = [
   {
     s: 2,
     q: "According to Moore's Law, roughly how often does the number of transistors on an integrated circuit double?",
+    v: [
+      ["roughly", "تقريبًا"],
+      ["transistors", "ترانزستورات — المفاتيح الصغيرة جوّه الشريحة"],
+      ["integrated circuit", "الدائرة المتكاملة — الشريحة"],
+      ["double", "يتضاعف — يبقى الضعف"],
+    ],
     o: ["Every six months", "Every two years", "Every ten years"],
     k:"3x4j9odvvg",
     why: "Moore's Law is the empirical observation that the number of transistors on an integrated circuit doubles approximately every two years.",
-      ar: "empirical observation = ملاحظة من الواقع، مش قانون فيزيائي — ودي نقطة امتحان. integrated circuit = الشريحة. approximately = تقريبًا.",
+    ar: "كل سنتين تقريبًا. وخد بالك: empirical observation = ملاحظة من الواقع، مش قانون فيزيائي — والامتحان بيسأل على النقطة دي.",
     src: "p.6 — Moore's Law definition"
   },
   {
     s: 2,
     q: "As transistors are made smaller and smaller, which problem appears?",
+    v: [
+      ["quantum tunneling effect", "تأثير النفق الكمومي"],
+      ["electrons", "الإلكترونات"],
+      ["slip through barriers", "بتعدّي من الحواجز"],
+    ],
     o: [
       "The quantum tunneling effect, where electrons slip through barriers",
       "The chip becomes too heavy to fit in a phone",
@@ -358,7 +434,7 @@ const QUESTIONS = [
     ],
     k:"q5ystk5qj1",
     why: "Two problems arise near the physical limit: the quantum tunneling effect, where electrons slip through barriers, and leakage current, where current escapes unintentionally.",
-      ar: "escapes unintentionally = التيار بيتسرب من نفسه من غير قصد. quantum tunneling = النفق الكمومي: الإلكترون بيعدّي من الحاجز نفسه.",
+    ar: "مشكلتين بيحصلو عند الحد الفيزيائي: النفق الكمومي (الإلكترون بيعدّي من الحاجز)، وتسرّب التيار (escapes unintentionally = بيتسرّب من نفسه).",
     src: "p.7 — physical limit paragraph"
   },
 
@@ -367,6 +443,12 @@ const QUESTIONS = [
   {
     s: 3,
     q: "Which statement about e-commerce is FALSE?",
+    v: [
+      ["FALSE", "الغلط / غير الصحيح"],
+      ["goods and services", "سلع وخدمات"],
+      ["purchasing", "شراء"],
+      ["physical stores", "محلات حقيقية على الأرض"],
+    ],
     o: [
       "It means buying and selling goods and services through the Internet",
       "Amazon and eBay are examples of it",
@@ -379,6 +461,10 @@ const QUESTIONS = [
   {
     s: 3,
     q: "A company lets its staff work from home using the Internet. What is this called?",
+    v: [
+      ["staff", "الموظفين"],
+      ["Cashless payment", "الدفع من غير نقود ورقية"],
+    ],
     o: ["Online learning", "Remote work", "Cashless payment"],
     k:"21wonivbvrn",
     why: "Remote work is a working style in which work is performed from home or other remote locations using the Internet.",
@@ -387,6 +473,10 @@ const QUESTIONS = [
   {
     s: 3,
     q: "Paying with a QR code or a mobile payment app instead of notes and coins is:",
+    v: [
+      ["notes and coins", "ورق وفكة — الكاش"],
+      ["Edge computing", "الحوسبة الطرفية — المعالجة على الجهاز نفسه"],
+    ],
     o: ["Cashless payment", "E-commerce", "Edge computing"],
     k:"1q9aql2a17",
     why: "Cashless payment is a system for making payments using electronic money, QR codes and similar, without using cash.",
@@ -395,6 +485,11 @@ const QUESTIONS = [
   {
     s: 3,
     q: "Which technology, spreading from the 2010s onward, supports large-scale data analysis and the use of AI?",
+    v: [
+      ["onward", "وما بعدها"],
+      ["large-scale", "على نطاق ضخم"],
+      ["data analysis", "تحليل البيانات"],
+    ],
     o: ["Personal computers", "Cloud computing", "Email"],
     k:"1sqh2dpaxa0",
     why: "The spread of cloud computing brought large-scale data analysis and AI, and made \"IT as a service\" widespread.",
@@ -406,6 +501,11 @@ const QUESTIONS = [
   {
     s: 4,
     q: "Why does a self-driving car process data on the vehicle itself instead of sending it to the cloud?",
+    v: [
+      ["vehicle", "العربية / المركبة"],
+      ["delay", "تأخير"],
+      ["lead to", "يؤدّي إلى"],
+    ],
     o: [
       "Because the cloud cannot store that much data",
       "Because a delay of even 0.1 seconds can lead to an accident",
@@ -418,6 +518,13 @@ const QUESTIONS = [
   {
     s: 4,
     q: "Which one describes AR rather than VR?",
+    v: [
+      ["Overlays", "بيحُطّ فوق — يضيف طبقة"],
+      ["Immerses", "يغمرك — يدخّلك جوّه"],
+      ["virtual", "افتراضي — من صنع الكمبيوتر"],
+      ["computations", "عمليات حسابية"],
+      ["quantum mechanics", "ميكانيكا الكم"],
+    ],
     o: [
       "Overlays digital information on real-world images",
       "Immerses the user in a virtual space generated by a computer",
@@ -425,12 +532,20 @@ const QUESTIONS = [
     ],
     k:"mm10cyxb2h",
     why: "AR adds a digital layer on top of the real world. VR replaces the real world with a computer-generated space.",
-      ar: "overlays = بيحُطّ فوق. immerse = يغمر ويدخّلك جوه. فـ AR بيضيف طبقة على الواقع، و VR بيستبدل الواقع بعالم من صنع الكمبيوتر.",
+    ar: "AR بيضيف طبقة رقمية فوق الواقع. VR بيستبدل الواقع كله بعالم من صنع الكمبيوتر.",
     src: "p.8 — section 3 (2)"
   },
   {
     s: 4,
     q: "Which of these statements is NOT an appropriate description of an emerging technology?",
+    v: [
+      ["appropriate", "مناسب / صحيح"],
+      ["emerging technology", "تكنولوجيا ناشئة — جديدة وبتنتشر"],
+      ["Autonomous driving", "القيادة الذاتية"],
+      ["without human operation", "من غير إنسان بيشغّلها"],
+      ["dramatically", "بشكل كبير جدًا"],
+      ["computations", "عمليات حسابية"],
+    ],
     o: [
       "Autonomous driving uses AI to drive a vehicle without human operation",
       "VR is a technology that dramatically improves the processing speed of a computer",
@@ -438,7 +553,7 @@ const QUESTIONS = [
     ],
     k:"139r9fb2swv",
     why: "Speeding up difficult computations describes quantum computing, not VR. VR is about immersing the user in a virtual space.",
-      ar: "appropriate description = وصف صحيح. dramatically = بشكل كبير جدًا. computations = عمليات حسابية. الجملة الغلط هي بتاعة VR.",
+    ar: "تسريع العمليات الحسابية الصعبة ده وصف الحوسبة الكمومية، مش VR. الـ VR بيدخّلك جوّه عالم افتراضي.",
     src: "p.10 — Try, question 2 (2)"
   }
 ];
@@ -601,6 +716,7 @@ function render(){
   $("count").textContent = "Question " + (state.i+1) + " of " + QUESTIONS.length;
   $("tag").textContent = SECTIONS[q.s];
   $("question").textContent = q.q;
+  glossary(q);
 
   state.order = shuffle(q.o.map((_, k) => k));
 
@@ -618,6 +734,29 @@ function render(){
 
   $("verdict").className = "verdict hide";
   $("next").className = "next hide";
+}
+
+/* Vocabulary help, shown with the question and before the options.
+   Rule: q.v explains WORDS, never the answer. Anything that reasons towards
+   the right option belongs in q.ar, which only appears once the student has
+   committed. check_lecture.py refuses a glossed term that is not visible in
+   the question or an option, which keeps the two apart. */
+function glossary(q){
+  const box = $("gloss");
+  box.textContent = "";
+  if(!q.v || !q.v.length){ box.className = "gloss hide"; return; }
+  box.className = "gloss";
+  box.appendChild(el("div", "gloss-h ar", "معاني الكلمات"));
+  const list = el("div", "gloss-list", "");
+  q.v.forEach(function(pair){
+    const item = el("span", "gl", "");
+    item.appendChild(el("b", "", pair[0]));
+    /* each direction isolated, or a trailing bracket jumps sides */
+    item.appendChild(el("bdi", "eq", "="));
+    item.appendChild(el("bdi", "ar", pair[1]));
+    list.appendChild(item);
+  });
+  box.appendChild(list);
 }
 
 function choose(idx){

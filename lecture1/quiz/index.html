@@ -102,6 +102,24 @@
   .review-card .w-val{color:var(--wrong);font-weight:600}
   .review-card .c-val{color:var(--green);font-weight:600}
   .review-card .why-txt{margin-top:6px;color:var(--ink-soft);font-size:13px;font-style:italic}
+  /* Hard words are glossed BEFORE the options, because a word the student
+     cannot read stops them answering at all — help that arrives with the
+     explanation arrives too late. This block carries vocabulary only; the
+     reasoning stays in .why-ar, after the answer. */
+  .gloss{
+    border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:0 8px 8px 0;background:#FCFBF7;
+    padding:9px 12px;margin:0 0 16px;
+  }
+  .gloss-h{
+    font-size:12px;font-weight:600;color:var(--ink-soft);
+    margin-bottom:5px;text-align:left;
+  }
+  .gloss-list{display:flex;flex-wrap:wrap;gap:3px 18px}
+  .gl{font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+  .gl b{font-weight:600;color:var(--ink)}
+  .gl .eq{margin:0 5px;color:#B9BEC6}
+
   /* The question stays in the exam's own English. The explanation is
      where teaching happens, so it may also come in Arabic. */
   .why-ar{
@@ -175,6 +193,7 @@
   <div class="count" id="count"></div>
   <div class="section-tag" id="tag"></div>
   <div class="q" id="question"></div>
+  <div class="gloss hide" id="gloss"></div>
   <div id="options"></div>
   <div class="verdict hide" id="verdict"></div>
   <button type="button" class="next hide" id="next"></button>
@@ -232,33 +251,77 @@ const SECTIONS = [
 
 const QUESTIONS = [
   { s:0, q:"What is the first stage in how a computer handles any task?",
+    v: [
+      ["stage", "مرحلة"],
+      ["handles", "بيتعامل مع / بينفّذ"],
+      ["Input", "مدخلات"],
+      ["Processing", "معالجة"],
+      ["Output", "مخرجات"],
+    ],
     o:["Input","Processing","Output"], k:"ag1m4zcunt",
     why:"Everything starts with input — the computer receives data before it can do anything with it." },
   { s:0, q:"The CPU is responsible for which stage?",
+    v: [
+      ["responsible for", "مسؤول عن"],
+      ["Receiving", "استقبال"],
+      ["Displaying", "عرض / إظهار"],
+    ],
     o:["Receiving data","Processing","Displaying results"], k:"fffadp0vde",
     why:"The CPU is where the actual work on the data happens." },
   { s:1, q:"Specific, ordered instructions written for a computer are called:",
+    v: [
+      ["Specific", "محدّدة بدقة"],
+      ["ordered instructions", "تعليمات مرتّبة بالترتيب"],
+    ],
     o:["Artificial intelligence","Programming","Design"], k:"1aqc31i8l8j",
     why:"Programming is giving the computer exact steps to follow, one after another." },
   { s:1, q:"A computer that learns from data and works out decisions itself is doing:",
+    v: [
+      ["works out", "بيستنتج / بيوصل لـ"],
+      ["Compiling", "ترجمة الكود للغة الآلة"],
+    ],
     o:["Programming","Artificial intelligence","Compiling"], k:"s5wl2d4v80",
     why:"AI finds patterns in data instead of following rules someone wrote by hand." },
   { s:1, q:"print(\"hello world\") is an example of:",
     o:["A programming language","Source code","A compiler"], k:"i0wisins78",
     why:"Source code is the actual text a programmer writes. Python is the language it is written in." },
   { s:2, q:"The program that turns your code into machine language is the:",
+    v: [
+      ["machine language", "لغة الآلة — الأصفار والواحدات"],
+    ],
     o:["Text editor","Compiler","IDE"], k:"iq7gghunqz",
     why:"The compiler translates your code into the zeros and ones the computer understands." },
   { s:2, q:"A full workspace with an editor plus tools to run and debug is called:",
+    v: [
+      ["workspace", "مساحة العمل"],
+      ["debug", "تصحيح الأخطاء"],
+    ],
     o:["A compiler","An IDE","Source code"], k:"1ja4n02tzhr",
     why:"That is the whole kitchen, not just the counter — editor, run tools and error-finding together." },
   { s:2, q:"A program stops working because of one missing semicolon. This shows a programmer mostly needs:",
+    v: [
+      ["semicolon", "الفاصلة المنقوطة ;"],
+      ["Fast typing", "الكتابة بسرعة على الكيبورد"],
+      ["Attention to detail", "الاهتمام بالتفاصيل الصغيرة"],
+      ["Advanced maths", "رياضيات متقدمة"],
+    ],
     o:["Fast typing","Attention to detail","Advanced maths"], k:"15fuwfh6jre",
     why:"Small details break programs, so patience and care matter more than typing speed." },
   { s:3, q:"Studying large amounts of data to pull useful insights out of it is the field of:",
+    v: [
+      ["insights", "استنتاجات مفيدة"],
+      ["the field of", "مجال الـ"],
+      ["Networking", "الشبكات"],
+    ],
     o:["Cybersecurity","Data analysis","Networking"], k:"tfgse2todk",
     why:"Data analysis is about turning raw data into something meaningful." },
   { s:3, q:"Protecting systems and accounts from being hacked is the field of:",
+    v: [
+      ["hacked", "يتم اختراقها"],
+      ["Data analysis", "تحليل البيانات"],
+      ["Cybersecurity", "الأمن السيبراني"],
+      ["Game development", "تطوير الألعاب"],
+    ],
     o:["Data analysis","Cybersecurity","Game development"], k:"1zucr2v3jt9",
     why:"Cybersecurity is the field focused on defending systems against attacks." }
 ];
@@ -410,6 +473,7 @@ function render(){
   $("count").textContent = "Question " + (state.i+1) + " of " + QUESTIONS.length;
   $("tag").textContent = SECTIONS[q.s];
   $("question").textContent = q.q;
+  glossary(q);
 
   state.order = shuffle(q.o.map((_, k) => k));
 
@@ -427,6 +491,29 @@ function render(){
 
   $("verdict").className = "verdict hide";
   $("next").className = "next hide";
+}
+
+/* Vocabulary help, shown with the question and before the options.
+   Rule: q.v explains WORDS, never the answer. Anything that reasons towards
+   the right option belongs in q.ar, which only appears once the student has
+   committed. check_lecture.py refuses a glossed term that is not visible in
+   the question or an option, which keeps the two apart. */
+function glossary(q){
+  const box = $("gloss");
+  box.textContent = "";
+  if(!q.v || !q.v.length){ box.className = "gloss hide"; return; }
+  box.className = "gloss";
+  box.appendChild(el("div", "gloss-h ar", "معاني الكلمات"));
+  const list = el("div", "gloss-list", "");
+  q.v.forEach(function(pair){
+    const item = el("span", "gl", "");
+    item.appendChild(el("b", "", pair[0]));
+    /* each direction isolated, or a trailing bracket jumps sides */
+    item.appendChild(el("bdi", "eq", "="));
+    item.appendChild(el("bdi", "ar", pair[1]));
+    list.appendChild(item);
+  });
+  box.appendChild(list);
 }
 
 function choose(idx){

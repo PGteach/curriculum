@@ -213,8 +213,84 @@ def check_slides(html: str, rep: Report) -> None:
              "slides: no Arabic lines at all — is that intended?")
 
 
+ARABIC = re.compile(r"[؀-ۿ]")
+GLOSS_MAX = 6
+
+
+def check_gloss(q: dict, opts: list, ans: int | None,
+                where: str, rep: Report) -> None:
+    """The word glosses shown before the student answers.
+
+    q.v is help with English, and it appears while the options are still
+    live — so it has two hard constraints.
+
+    Every term must be a term the student can see on screen. A gloss for a
+    word that is not in the question or an option is either dead weight or,
+    worse, a hint about wording the student was never shown. Reasoning
+    belongs in q.ar, which only renders after an answer is locked in.
+
+    And if a whole option is translated, every option has to be. Translating
+    the right answer while a distractor stays in English makes the right
+    answer the only one the student can read, and they will pick what they
+    understand. Translating the distractors alone is fine — that removes
+    guess-by-unfamiliarity without pointing anywhere.
+    """
+    if "v" not in q:
+        return
+    v = q["v"]
+    if not isinstance(v, list) or not v:
+        rep.fail("%s: v is not a non-empty list of [english, arabic] pairs"
+                 % where)
+        return
+
+    rep.want(len(v) <= GLOSS_MAX,
+             "%s glosses %d words. More than %d and the block pushes the "
+             "options off a phone screen — cut it to the words that really "
+             "block an answer." % (where, len(v), GLOSS_MAX))
+
+    haystack = (str(q.get("q", "")) + " " + " ".join(str(o) for o in opts)).lower()
+    seen = set()
+    for pair in v:
+        if not (isinstance(pair, list) and len(pair) == 2
+                and all(isinstance(x, str) and x.strip() for x in pair)):
+            rep.fail("%s: %r is not an [english, arabic] pair of two "
+                     "non-empty strings" % (where, pair))
+            continue
+        en, ar = pair[0].strip(), pair[1].strip()
+
+        rep.want(en.lower() in haystack,
+                 "%s glosses %r, which does not appear in the question or any "
+                 "option. Either the wording was edited after the gloss was "
+                 "written, or the gloss is explaining something the student "
+                 "cannot see." % (where, en))
+        rep.want(bool(ARABIC.search(ar)),
+                 "%s: the gloss for %r has no Arabic in it — the pair is "
+                 "[english, arabic] in that order." % (where, en))
+        rep.want(en.lower() not in seen,
+                 "%s glosses %r twice" % (where, en))
+        seen.add(en.lower())
+
+    if ans is None or not (0 <= ans < len(opts)):
+        return
+    lowered = [str(o).strip().lower() for o in opts]
+    if lowered[ans] in seen:
+        bare = [opts[i] for i, o in enumerate(lowered) if o not in seen]
+        rep.want(not bare,
+                 "%s translates the correct option in full but leaves %s in "
+                 "English. The right answer becomes the only readable one, so "
+                 "gloss every option or none of them."
+                 % (where, ", ".join(repr(str(b)) for b in bare)))
+
+
 def check_quiz(html: str, rep: Report) -> None:
     js = js_of(html)
+    rep.want("function glossary(q)" in js,
+             "quiz: glossary() is missing, so q.v word help will never render")
+    rep.want('id="gloss"' in html,
+             "quiz: the #gloss slot is missing from the page body")
+    rep.want('glossary(q);' in js,
+             "quiz: render() never calls glossary(), so the word help would "
+             "only appear on the first question or not at all")
     rep.want("lecture: LECTURE.label" in js,
              "quiz: the submission payload is missing the lecture field")
     rep.want("image: image" in js,
@@ -258,9 +334,12 @@ def check_quiz(html: str, rep: Report) -> None:
         rep.want(len(opts) == len(set(opts)), "%s repeats an option" % where)
         rep.want(all(str(o).strip() for o in opts), "%s has a blank option" % where)
 
+        ans: int | None = None
         if "k" in q:
             # fingerprinted by protect_answers.py: exactly one option must match
             hits = [o for o in opts if fingerprint(str(o), salt) == q["k"]]
+            if len(hits) == 1:
+                ans = opts.index(hits[0])
             rep.want(len(hits) == 1,
                      "%s: %d option(s) match the stored answer fingerprint. An "
                      "option's text was almost certainly edited without "
@@ -268,6 +347,8 @@ def check_quiz(html: str, rep: Report) -> None:
                      "every answer count as wrong." % (where, len(hits)))
         else:
             a = q.get("a")
+            if isinstance(a, int) and 0 <= a < len(opts):
+                ans = a
             rep.want(isinstance(a, int) and 0 <= a < len(opts),
                      "%s: answer index %r is outside its %d options"
                      % (where, a, len(opts)))
@@ -281,6 +362,8 @@ def check_quiz(html: str, rep: Report) -> None:
 
         rep.want(bool(str(q.get("why", "")).strip()),
                  "%s has no explanation, so the review list will be blank" % where)
+
+        check_gloss(q, opts, ans, where, rep)
 
     empty = [secs[k] for k in range(len(secs)) if k not in used]
     rep.want(not empty,

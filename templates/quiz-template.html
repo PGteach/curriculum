@@ -102,6 +102,24 @@
   .review-card .w-val{color:var(--wrong);font-weight:600}
   .review-card .c-val{color:var(--green);font-weight:600}
   .review-card .why-txt{margin-top:6px;color:var(--ink-soft);font-size:13px;font-style:italic}
+  /* Hard words are glossed BEFORE the options, because a word the student
+     cannot read stops them answering at all — help that arrives with the
+     explanation arrives too late. This block carries vocabulary only; the
+     reasoning stays in .why-ar, after the answer. */
+  .gloss{
+    border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:0 8px 8px 0;background:#FCFBF7;
+    padding:9px 12px;margin:0 0 16px;
+  }
+  .gloss-h{
+    font-size:12px;font-weight:600;color:var(--ink-soft);
+    margin-bottom:5px;text-align:left;
+  }
+  .gloss-list{display:flex;flex-wrap:wrap;gap:3px 18px}
+  .gl{font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+  .gl b{font-weight:600;color:var(--ink)}
+  .gl .eq{margin:0 5px;color:#B9BEC6}
+
   /* The question stays in the exam's own English. The explanation is
      where teaching happens, so it may also come in Arabic. */
   .why-ar{
@@ -175,6 +193,7 @@
   <div class="count" id="count"></div>
   <div class="section-tag" id="tag"></div>
   <div class="q" id="question"></div>
+  <div class="gloss hide" id="gloss"></div>
   <div id="options"></div>
   <div class="verdict hide" id="verdict"></div>
   <button type="button" class="next hide" id="next"></button>
@@ -236,12 +255,36 @@ const SECTIONS = [
      o   the options, in display order
      a   index of the correct option in `o`
      why the explanation shown after answering, and in the review list
+     v   OPTIONAL word help: [["english term","العربي"], ...]
+     ar  OPTIONAL Arabic explanation, shown with `why` after answering
    The question total, the progress bar and the per-section tracks are all
-   derived from this array — nothing else needs updating when you add one. */
+   derived from this array — nothing else needs updating when you add one.
+
+   ON `v` AND `ar` — the two of them are not interchangeable.
+
+   Keep the question in the exam's own English. That is the English the
+   students will sit, and the ministry textbook uses it, so rewriting it
+   into easier words trains them for a paper that does not exist.
+
+   `v` fixes the real problem instead: it translates the hard WORDS, and it
+   shows above the options, before the student answers. Help that arrives
+   after the answer is not help. Rules, both enforced by check_lecture.py:
+     - every term must appear in `q` or one of `o` — no glossing wording
+       the student cannot see;
+     - if you translate the correct option in full, translate every option,
+       or the right answer becomes the only readable one;
+     - at most six terms, or the block pushes the options off a phone.
+
+   `ar` is for reasoning — "the right order is computer, then internet" —
+   and it renders only once the answer is locked in. Never put reasoning
+   in `v`; that is an answer key printed above the options. */
 const QUESTIONS = [
   { s:0, q:"First question for this lecture?",
     o:["A wrong answer","The right answer","Another wrong answer"], a:1,
-    why:"Explain in one sentence why that is the answer." },
+    /* delete `v` if nothing in the question needs translating */
+    v:[["question","سؤال"]],
+    why:"Explain in one sentence why that is the answer.",
+    ar:"الشرح بالعربي بعد ما يجاوب." },
   { s:0, q:"Second question?",
     o:["The right answer","A wrong answer"], a:0,
     why:"Explain in one sentence why that is the answer." },
@@ -364,6 +407,7 @@ function render(){
   $("count").textContent = "Question " + (state.i+1) + " of " + QUESTIONS.length;
   $("tag").textContent = SECTIONS[q.s];
   $("question").textContent = q.q;
+  glossary(q);
 
   state.order = shuffle(q.o.map((_, k) => k));
 
@@ -381,6 +425,29 @@ function render(){
 
   $("verdict").className = "verdict hide";
   $("next").className = "next hide";
+}
+
+/* Vocabulary help, shown with the question and before the options.
+   Rule: q.v explains WORDS, never the answer. Anything that reasons towards
+   the right option belongs in q.ar, which only appears once the student has
+   committed. check_lecture.py refuses a glossed term that is not visible in
+   the question or an option, which keeps the two apart. */
+function glossary(q){
+  const box = $("gloss");
+  box.textContent = "";
+  if(!q.v || !q.v.length){ box.className = "gloss hide"; return; }
+  box.className = "gloss";
+  box.appendChild(el("div", "gloss-h ar", "معاني الكلمات"));
+  const list = el("div", "gloss-list", "");
+  q.v.forEach(function(pair){
+    const item = el("span", "gl", "");
+    item.appendChild(el("b", "", pair[0]));
+    /* each direction isolated, or a trailing bracket jumps sides */
+    item.appendChild(el("bdi", "eq", "="));
+    item.appendChild(el("bdi", "ar", pair[1]));
+    list.appendChild(item);
+  });
+  box.appendChild(list);
 }
 
 function choose(idx){
