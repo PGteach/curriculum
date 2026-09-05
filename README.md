@@ -33,6 +33,8 @@ curriculum/
 ├── scripts/
 │   ├── new_lecture.py         scaffolds lectureN/ from the templates
 │   ├── check_lecture.py       validates a lecture before you publish it
+│   ├── test_pages.js          runs every page in a fake browser
+│   ├── protect_answers.py     turns `a: 1` into an answer fingerprint
 │   └── apps-script.gs         the Apps Script that records quiz results
 ├── HANDOFF.md                 current state, open items, gotchas
 └── README.md
@@ -80,7 +82,23 @@ Then fill in the content:
    questions, JavaScript that will not parse, and a Liquid delimiter that
    would take the whole site down. Exit code is non-zero when anything is
    wrong, so it can gate a commit.
-5. Open all three in a browser, then commit and push to `main`.
+5. Hide the answers from the page source:
+
+   ```bash
+   python scripts/protect_answers.py 2
+   ```
+
+   Each `a: 1` becomes `k: "<fingerprint>"`. **Re-run it after editing any
+   option's text** — if an option changes and its fingerprint does not, no
+   option matches and every answer counts as wrong. Both checks fail on
+   exactly that, and both run in CI, so it cannot reach students.
+
+   This stops the answers being *read*. It does not stop them being
+   *computed*: the fingerprint function is in the page, so one line in the
+   console still returns them. For a class that has not learned programming
+   it is a real barrier; treat it as nothing more than that.
+
+6. Open all three in a browser, then commit and push to `main`.
 
 ### Answer positions do not matter
 

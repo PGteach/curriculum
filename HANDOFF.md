@@ -235,6 +235,28 @@ Then write the slides (`<section class="slide">` blocks, QR slide stays last)
 and the questions (`SECTIONS` / `QUESTIONS` at the top of the quiz `<script>`).
 Answer positions do not matter any more — they get shuffled.
 
+## Answers are fingerprinted, not hidden
+
+`QUESTIONS` used to carry `a: 1`, so View Source handed a student every
+answer — an easier route than the `_teacher/` folder ever was.
+`scripts/protect_answers.py` rewrites each `a: N` as `k: "<cyrb53>"`, and
+`ansOf(q)` in the page finds which option matches. It still accepts a plain
+`a:` so an unconverted lecture keeps working.
+
+Be clear about the ceiling: the fingerprint function ships in the page, so
+`QUESTIONS.map(q => q.o[ansOf(q)])` in the console returns everything. This
+moves the answers from *readable* to *computable*, which for a foundations
+class that has not learned programming is a real barrier and for anyone else
+is none. There is no way to hide them properly in a client-side quiz — that
+needs server-side grading, which would cost the instant per-question
+feedback, and that feedback is the most valuable thing the quiz does.
+
+The dangerous failure mode is an option's text being edited without
+re-running the script: nothing matches, `ansOf` returns -1, and every answer
+counts as wrong, silently. Both checks fail on it and both run in CI. Tested
+by adding a single trailing space to a correct option — invisible to the eye,
+caught by both.
+
 ## Two tests, and the difference between them
 
 ```bash

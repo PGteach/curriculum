@@ -193,7 +193,7 @@ function testQuiz(num, file) {
   const { html, js } = scriptOf(file);
   const p = runPage(js, {
     expose: ["QUESTIONS", "SECTIONS", "state", "LECTURE", "RESULTS_URL",
-             "currentQ", "render"],
+             "currentQ", "render", "ansOf"],
   });
   const Q = p.exported.QUESTIONS, S = p.exported.SECTIONS, st = p.exported.state;
   check(Array.isArray(Q) && Q.length > 0, tag + ": no questions");
@@ -228,7 +228,8 @@ function testQuiz(num, file) {
   for (let n = 0; n < Q.length; n++) {
     const q = p.exported.currentQ();
     shown.push(q);
-    const right = q.o[q.a];
+    // ansOf resolves either a plain index or a fingerprint
+    const right = q.o[p.exported.ansOf(q)];
     const opts = p.byId("options").children;
 
     check(opts.length === q.o.length,
@@ -326,7 +327,8 @@ async function checkSubmission(ctx, num) {
 function testShuffle(num, file) {
   const tag = "L" + num + " quiz";
   const { js } = scriptOf(file);
-  const p = runPage(js, { expose: ["QUESTIONS", "currentQ", "render", "state"] });
+  const p = runPage(js, {
+    expose: ["QUESTIONS", "currentQ", "render", "state", "ansOf"] });
   const Q = p.exported.QUESTIONS;
   p.byId("sName").value = "Ali Hassan Mohamed";
   p.byId("sPhone").value = "01001234567";
@@ -339,7 +341,7 @@ function testShuffle(num, file) {
     for (let t = 0; t < 400; t++) {
       p.exported.render();
       slots.add(p.byId("options").children.findIndex(
-        (o) => o.textContent === q.o[q.a]));
+        (o) => o.textContent === q.o[p.exported.ansOf(q)]));
     }
     check(slots.size === q.o.length,
           tag + ": the correct answer only ever appeared in slot(s) [" +

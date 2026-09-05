@@ -20,6 +20,9 @@ import sys
 import tempfile
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from protect_answers import fingerprint          # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 SITE_BASE = "https://pgteach.github.io/curriculum"
 PAGES = ("slides", "quiz", "handout")
@@ -102,7 +105,8 @@ def node_check(js: str, label: str, rep: Report) -> None:
         fh.write(js)
         tmp = fh.name
     try:
-        out = subprocess.run(["node", "--check", tmp], capture_output=True, text=True)
+        out = subprocess.run(["node", "--check", tmp], capture_output=True, text=True,
+                         encoding="utf-8")
         if out.returncode != 0:
             first = (out.stderr or "").strip().split("\n")
             detail = next((l for l in first if "Error" in l), first[0] if first else "")
@@ -132,7 +136,8 @@ def quiz_data(js: str, rep: Report) -> dict | None:
         fh.write(prog)
         tmp = fh.name
     try:
-        out = subprocess.run(["node", tmp], capture_output=True, text=True)
+        out = subprocess.run(["node", tmp], capture_output=True, text=True,
+                         encoding="utf-8")
         if out.returncode != 0:
             rep.fail("quiz: SECTIONS/QUESTIONS do not evaluate — %s"
                      % (out.stderr or "").strip().split("\n")[0])
@@ -228,6 +233,13 @@ def check_quiz(html: str, rep: Report) -> None:
         return
     secs, qs = data["SECTIONS"], data["QUESTIONS"]
 
+    m = re.search(r"const ANSWER_SALT\s*=\s*(\d+)\s*;", js)
+    salt = int(m.group(1)) if m else None
+    if any("k" in q for q in qs):
+        rep.want(salt is not None,
+                 "quiz: answers are fingerprinted but ANSWER_SALT is missing")
+    salt = salt if salt is not None else 0
+
     rep.want(len(secs) >= 1, "quiz: SECTIONS is empty")
     rep.want(len(qs) >= 1, "quiz: QUESTIONS is empty")
     rep.want(len(secs) == len(set(secs)), "quiz: two sections share a name")
@@ -242,10 +254,19 @@ def check_quiz(html: str, rep: Report) -> None:
         rep.want(len(opts) == len(set(opts)), "%s repeats an option" % where)
         rep.want(all(str(o).strip() for o in opts), "%s has a blank option" % where)
 
-        a = q.get("a")
-        rep.want(isinstance(a, int) and 0 <= a < len(opts),
-                 "%s: answer index %r is outside its %d options"
-                 % (where, a, len(opts)))
+        if "k" in q:
+            # fingerprinted by protect_answers.py: exactly one option must match
+            hits = [o for o in opts if fingerprint(str(o), salt) == q["k"]]
+            rep.want(len(hits) == 1,
+                     "%s: %d option(s) match the stored answer fingerprint. An "
+                     "option's text was almost certainly edited without "
+                     "re-running scripts/protect_answers.py, which would make "
+                     "every answer count as wrong." % (where, len(hits)))
+        else:
+            a = q.get("a")
+            rep.want(isinstance(a, int) and 0 <= a < len(opts),
+                     "%s: answer index %r is outside its %d options"
+                     % (where, a, len(opts)))
 
         s = q.get("s")
         rep.want(isinstance(s, int) and 0 <= s < len(secs),

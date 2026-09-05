@@ -214,36 +214,73 @@ const SECTIONS = [
 
 const QUESTIONS = [
   { s:0, q:"What is the first stage in how a computer handles any task?",
-    o:["Input","Processing","Output"], a:0,
+    o:["Input","Processing","Output"], k:"ag1m4zcunt",
     why:"Everything starts with input — the computer receives data before it can do anything with it." },
   { s:0, q:"The CPU is responsible for which stage?",
-    o:["Receiving data","Processing","Displaying results"], a:1,
+    o:["Receiving data","Processing","Displaying results"], k:"fffadp0vde",
     why:"The CPU is where the actual work on the data happens." },
   { s:1, q:"Specific, ordered instructions written for a computer are called:",
-    o:["Artificial intelligence","Programming","Design"], a:1,
+    o:["Artificial intelligence","Programming","Design"], k:"1aqc31i8l8j",
     why:"Programming is giving the computer exact steps to follow, one after another." },
   { s:1, q:"A computer that learns from data and works out decisions itself is doing:",
-    o:["Programming","Artificial intelligence","Compiling"], a:1,
+    o:["Programming","Artificial intelligence","Compiling"], k:"s5wl2d4v80",
     why:"AI finds patterns in data instead of following rules someone wrote by hand." },
   { s:1, q:"print(\"hello world\") is an example of:",
-    o:["A programming language","Source code","A compiler"], a:1,
+    o:["A programming language","Source code","A compiler"], k:"i0wisins78",
     why:"Source code is the actual text a programmer writes. Python is the language it is written in." },
   { s:2, q:"The program that turns your code into machine language is the:",
-    o:["Text editor","Compiler","IDE"], a:1,
+    o:["Text editor","Compiler","IDE"], k:"iq7gghunqz",
     why:"The compiler translates your code into the zeros and ones the computer understands." },
   { s:2, q:"A full workspace with an editor plus tools to run and debug is called:",
-    o:["A compiler","An IDE","Source code"], a:1,
+    o:["A compiler","An IDE","Source code"], k:"1ja4n02tzhr",
     why:"That is the whole kitchen, not just the counter — editor, run tools and error-finding together." },
   { s:2, q:"A program stops working because of one missing semicolon. This shows a programmer mostly needs:",
-    o:["Fast typing","Attention to detail","Advanced maths"], a:1,
+    o:["Fast typing","Attention to detail","Advanced maths"], k:"15fuwfh6jre",
     why:"Small details break programs, so patience and care matter more than typing speed." },
   { s:3, q:"Studying large amounts of data to pull useful insights out of it is the field of:",
-    o:["Cybersecurity","Data analysis","Networking"], a:1,
+    o:["Cybersecurity","Data analysis","Networking"], k:"tfgse2todk",
     why:"Data analysis is about turning raw data into something meaningful." },
   { s:3, q:"Protecting systems and accounts from being hacked is the field of:",
-    o:["Data analysis","Cybersecurity","Game development"], a:1,
+    o:["Data analysis","Cybersecurity","Game development"], k:"1zucr2v3jt9",
     why:"Cybersecurity is the field focused on defending systems against attacks." }
 ];
+
+/* ---- answer keys ------------------------------------------------------
+   The right option is stored as a fingerprint, not as an index, so opening
+   the page source does not hand a student the answers. scripts/
+   protect_answers.py converts `a: 1` into `k: "..."` before publishing.
+
+   Honest about what this is: it stops the answers being READ. It does not
+   stop them being COMPUTED — the function is right here, so one line in the
+   console still returns them. For a class that has not learned programming
+   yet that is a real barrier; for anyone who codes it is none.
+
+   If an option's text is edited and its fingerprint is not, nothing matches
+   and every answer would count as wrong. check_lecture.py fails on that and
+   CI runs on every push, so it cannot reach students.
+   --------------------------------------------------------------------- */
+const ANSWER_SALT = 1741;
+
+function fingerprint(s){                     /* cyrb53 */
+  let h1 = 0xdeadbeef ^ ANSWER_SALT, h2 = 0x41c6ce57 ^ ANSWER_SALT;
+  for(let i = 0; i < s.length; i++){
+    const c = s.charCodeAt(i);
+    h1 = Math.imul(h1 ^ c, 2654435761);
+    h2 = Math.imul(h2 ^ c, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+}
+
+/* index of the right option: by fingerprint if converted, by a: if not */
+function ansOf(q){
+  if(q._a === undefined){
+    q._a = (q.k === undefined) ? q.a
+         : q.o.findIndex(function(o){ return fingerprint(o) === q.k; });
+  }
+  return q._a;
+}
 
 const state = {
   i: 0,
@@ -376,18 +413,18 @@ function choose(idx){
   buttons.forEach((b,pos) => {
     b.disabled = true;
     const orig = state.order[pos];      // buttons are in shuffled order
-    if(orig === q.a) b.classList.add("correct");
+    if(orig === ansOf(q)) b.classList.add("correct");
     else if(orig === idx) b.classList.add("chosen-wrong");
   });
 
-  const right = idx === q.a;
+  const right = idx === ansOf(q);
   if(right) {
     state.correct[q.s]++;
   } else {
     state.wrongQuestions.push({
       question: q.q,
       selected: q.o[idx],
-      correct: q.o[q.a],
+      correct: q.o[ansOf(q)],
       why: q.why
     });
   }
