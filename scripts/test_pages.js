@@ -296,8 +296,17 @@ function testQuiz(num, file) {
     return { err: p.byId("intakeErr").textContent,
              started: p.byId("quiz").className === "" };
   };
-  check(p.byId("sDate").value === new Date().toISOString().slice(0, 10),
-        tag + ": date not prefilled with today");
+  /* The page prefills the LOCAL date, which is what a student sitting in
+     Cairo means by "today". toISOString() is UTC, so comparing against it
+     failed this test for the ~3 hours a night between local midnight and
+     UTC midnight — and would have failed CI, not the page. */
+  const d = new Date();
+  const localToday = d.getFullYear() + "-" +
+                     String(d.getMonth() + 1).padStart(2, "0") + "-" +
+                     String(d.getDate()).padStart(2, "0");
+  check(p.byId("sDate").value === localToday,
+        tag + ": date prefilled with " + p.byId("sDate").value +
+        ", expected today (" + localToday + ")");
   check(!start("Ali", "01001234567", "2026-09-02").started,
         tag + ": a one-word name was accepted as a full name");
   check(!start("Ali Hassan", "123", "2026-09-02").started,

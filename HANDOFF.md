@@ -373,8 +373,21 @@ So the help split in two, by timing:
 | `v:` | the hard **words**, as `[["english","العربي"], ...]` | above the options, **before** answering |
 | `ar:` | the **reasoning** in Arabic | with the explanation, after answering |
 
-Nineteen of lecture 2's twenty questions have a `v:` now, and nine of lecture
-1's ten. The reasoning was stripped back out of the five `ar:` fields, because
+Twelve of lecture 2's twenty questions carry a `v:`, and three of lecture 1's
+ten — most of them a single term. The first pass glossed far more (19 and 9)
+and the teacher cut it back: *"مترجمش كلمات سهلة أو اللي ممكن تتجاب بالsense
+لكن الكلمات التقيلة ترجمها"*. He is right, and not only about noise — a list
+that is mostly easy words pushes the options down a phone screen and teaches
+the eye to skip the block, so it costs you the words that mattered. What
+survives is formal English carrying no marks (*chronological*,
+*Commercialization*, *purchasing*, *appropriate*, *dramatically*, *roughly*,
+*onward*, *computations*), false friends (*notes and coins* is not ملاحظات,
+*works out* is not يتمرن), and technical phrases the sentence does not
+explain (*integrated circuit*, *emerging technology*). What went: everyday
+words, Arabic loanwords they already say, and their own syllabus terms in
+English — glossing *Input*, *Compiling* or *debug* undoes the lesson.
+
+The reasoning was stripped back out of the five `ar:` fields, because
 `v:` renders while the options are still live — leaving "the right order is
 computer, then internet" in there would have printed an answer key above the
 answers.

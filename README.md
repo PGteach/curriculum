@@ -307,6 +307,23 @@ renders with the explanation, after the answer is locked in.
   ar:"كل سنتين تقريبًا. وخد بالك: empirical observation = ملاحظة من الواقع" }
 ```
 
+**Gloss only the heavy words.** This is the part that is easy to get wrong in
+the generous direction, and a bloated list is worse than a short one: it
+pushes the options down the phone and trains the eye to skip the block, so it
+costs you the words that mattered. The test is whether an average Egyptian
+secondary student would be *stopped* by the word, with the sentence around it
+for context.
+
+| gloss | don't gloss |
+| --- | --- |
+| formal or Latinate English carrying no marks — *chronological*, *Commercialization*, *purchasing*, *appropriate*, *dramatically*, *roughly*, *onward*, *computations*, *insights* | everyday words — *stage*, *habit*, *double*, *delay*, *mainly*, *FALSE*, *line by line* |
+| false friends, where the everyday meaning is the wrong one — *notes and coins* is not ملاحظات, *works out* is not يتمرن | Arabic loanwords they already say — *transistor*, *electron*, *virtual*, *networking*, *hacked* |
+| technical phrases with no in-line explanation — *integrated circuit*, *emerging technology* | their own syllabus terms in English — *Input/Processing/Output*, *Compiling*, *debug*, *machine language*, *Cybersecurity*. They are meant to learn those in English; glossing them undoes the lesson |
+| | anything the sentence explains itself. *quantum tunneling effect* needs no gloss when its own option says "where electrons slip through barriers" |
+
+The result is 12 of lecture 2's 20 questions and 3 of lecture 1's 10, most
+carrying a single term.
+
 Three rules on `v:`, all enforced by `check_lecture.py` so they cannot be
 broken quietly:
 
