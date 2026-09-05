@@ -47,7 +47,12 @@ var COLUMNS = [
   { header: "Section breakdown", width: 300, align: "left",   wrap: true },
   { header: "Mistakes",          width: 460, align: "left",   wrap: true },
   { header: "Screenshot",        width: 120, align: "center" },
-  { header: "Submission id",     width: 150, align: "left",   text: true }
+  { header: "Submission id",     width: 150, align: "left",   text: true },
+  /* Appended rather than slotted in after Name on purpose: inserting a
+     column mid-table would leave every existing row's data one place to
+     the left of its header. Drag it where you want it in Sheets — that
+     moves the data with it — and reorder COLUMNS to match. */
+  { header: "Class",             width: 150, align: "left" }
 ];
 
 var HEADERS   = COLUMNS.map(function (c) { return c.header; });
@@ -70,7 +75,7 @@ var IMAGE_FOLDER = "PGteach quiz results";
  * nothing in the sheet is ever styled by hand, and existing tabs catch up on
  * their own without anyone running anything.
  */
-var DESIGN_VERSION = 4;
+var DESIGN_VERSION = 5;
 
 /**
  * OPTIONAL, and off unless you create it. If a tab with this name exists, new
@@ -129,7 +134,8 @@ function doPost(e) {
       d.sections || "",
       formatMistakes_(d.wrongQuestions),
       shot,
-      String(d.id || "")
+      String(d.id || ""),
+      d["class"] || ""
     ]);
 
     var row = sheet.getLastRow();
@@ -517,7 +523,8 @@ function testSubmission() {
     }],
     // a real 2x2 PNG, so the Drive path is exercised too
     image: "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAEElEQVR4nGPgq6kGIgYIBQAa5gQVqws3cwAAAABJRU5ErkJggg==",
-    id: "test-" + Date.now()
+    id: "test-" + Date.now(),
+    "class": "Sunday 5pm"
   })}});
   Logger.log(out.getContent());
 }
@@ -555,7 +562,8 @@ function migrateOldRows() {
       r[7],                 // Section breakdown
       "(not recorded)",     // Mistakes — column did not exist yet
       "(not recorded)",     // Screenshot — ditto
-      ""                    // Submission id — ditto
+      "",                   // Submission id — ditto
+      ""                    // Class — ditto
     ]);
     moved++;
   }

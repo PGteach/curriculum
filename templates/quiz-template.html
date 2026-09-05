@@ -112,6 +112,12 @@
   }
   .field input:focus{outline:2.5px solid var(--teal);outline-offset:1px;border-color:var(--teal)}
   .field .hint{font-size:12.5px;color:var(--ink-soft);margin-top:4px}
+  /* not .opt — that is the answer-button class, and a badge inheriting
+     its display:block and width:100% stretches across the form */
+  .field .tag{
+    display:inline-block;font-weight:400;font-size:12px;color:var(--ink-soft);
+    border:1px solid var(--line);border-radius:99px;padding:1px 7px;margin-left:6px;
+  }
   .err{color:var(--wrong);font-size:13.5px;margin-bottom:12px;font-weight:600}
   .whoami{font-size:13px;color:var(--ink-soft);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
 
@@ -139,9 +145,14 @@
     <input id="sName" type="text" autocomplete="name" placeholder="Write your name as it appears in class">
   </div>
   <div class="field">
-    <label for="sPhone">Phone number</label>
+    <label for="sClass">Class / group</label>
+    <input id="sClass" type="text" autocomplete="off" placeholder="e.g. Sunday 5pm, or Group B">
+    <div class="hint">So your teacher knows which class this result belongs to.</div>
+  </div>
+  <div class="field">
+    <label for="sPhone">Phone number <span class="tag">optional</span></label>
     <input id="sPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="01xxxxxxxxx">
-    <div class="hint">Used only so your teacher can match this result to you.</div>
+    <div class="hint">Only needed if your teacher asks for it. You can leave it empty.</div>
   </div>
   <div class="field">
     <label for="sDate">Date</label>
@@ -242,6 +253,7 @@ const state = {
   correct: [],
   total: [],
   name: "",
+  klass: "",
   phone: "",
   date: "",
   wrongQuestions: [],
@@ -299,19 +311,24 @@ const $ = id => document.getElementById(id);
 
 $("start").onclick = () => {
   const name  = $("sName").value.trim();
+  const klass = $("sClass").value.trim();
   const phone = $("sPhone").value.trim();
   const date  = $("sDate").value;
   const err   = $("intakeErr");
 
   /* A first name alone can't be matched to a register, so ask for at least
-     two words. Phone is kept permissive on format but bounded on length. */
+     two words. The class is what actually identifies which group a result
+     belongs to, so it is required. The phone is optional — a student who
+     does not want to give it should not be blocked — but if one is typed it
+     still has to look like a phone number, or it is a typo worth catching. */
   const words  = name.split(/\s+/).filter(w => w.length >= 2);
   const digits = phone.replace(/\D/g,"");
   let problem = "";
-  if(words.length < 2)        problem = "Please write your full name — first and last name.";
-  else if(digits.length < 8)  problem = "Please write a valid phone number.";
-  else if(digits.length > 15) problem = "That phone number is too long.";
-  else if(!date)              problem = "Please choose the date.";
+  if(words.length < 2)               problem = "Please write your full name — first and last name.";
+  else if(klass.length < 2)          problem = "Please write your class or group.";
+  else if(digits.length && digits.length < 8)  problem = "That phone number looks too short. Leave it empty if you would rather not give it.";
+  else if(digits.length > 15)        problem = "That phone number is too long.";
+  else if(!date)                     problem = "Please choose the date.";
 
   if(problem){
     err.textContent = problem;
@@ -319,8 +336,9 @@ $("start").onclick = () => {
     return;
   }
 
-  state.name = name; state.phone = phone; state.date = date;
-  const line = name + " · " + phone + " · " + date;
+  state.name = name; state.klass = klass;
+  state.phone = phone; state.date = date;
+  const line = [name, klass, phone, date].filter(Boolean).join(" · ");
   $("whoami").textContent = line;
   $("whoamiResult").textContent = line;
 
@@ -549,7 +567,8 @@ async function resultImage(got){
   /* ---- who ---- */
   write(state.name, "600 27px " + CARD.head, CARD.ink, 34);
   y += 2;
-  write(state.phone + "  \u00b7  " + state.date, "400 16px " + CARD.body, CARD.soft, 24);
+  write([state.klass, state.phone, state.date].filter(Boolean).join("  \u00b7  "),
+        "400 16px " + CARD.body, CARD.soft, 24);
   y += 22;
 
   /* ---- score box ---- */
@@ -777,6 +796,7 @@ async function sendResult(got, weak){
   const payload = {
     lecture: LECTURE.label,
     name:   state.name,
+    class:  state.klass,
     phone:  state.phone,
     date:   state.date,
     score:  got,

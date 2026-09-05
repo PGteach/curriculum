@@ -274,8 +274,13 @@ must deploy a **new version** — saving alone does not change the live URL.
 Set `RESULTS_URL = ""` to turn sending off; the quiz still runs and still
 shows the student their review list.
 
-Intake requires a full name (two words or more), a phone number of 8–15
-digits, and a date, which is pre-filled with today.
+Intake requires a full name (two words or more), a **class or group**, and a
+date, which is pre-filled with today. The **phone is optional** — a student
+who would rather not give it is not blocked — but a phone that is typed still
+has to be 8–15 digits, because a half-typed number is a typo worth catching.
+
+`class` is what identifies which group a result belongs to, so it is the
+required field; it lands in a **Class** column in the sheet.
 
 ### The submission is confirmed, not assumed
 

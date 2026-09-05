@@ -219,6 +219,10 @@ def check_quiz(html: str, rep: Report) -> None:
              "quiz: the submission payload is missing the lecture field")
     rep.want("image: image" in js,
              "quiz: the submission payload is missing the result screenshot")
+    rep.want('id="sClass"' in html,
+             "quiz: the intake form is missing the class field")
+    rep.want("class:  state.klass" in js,
+             "quiz: the submission payload is missing the class")
     rep.want('href="../slides/"' in html, "quiz: no relative link back to the slides")
 
     url = re.search(r'const RESULTS_URL = "([^"]*)"', js)

@@ -285,8 +285,9 @@ function testQuiz(num, file) {
   if (!Q || !Q.length) return;
 
   // intake
-  const start = (name, phone, date) => {
+  const start = (name, phone, date, klass) => {
     p.byId("sName").value = name;
+    p.byId("sClass").value = klass === undefined ? "Sunday 5pm" : klass;
     p.byId("sPhone").value = phone;
     p.byId("sDate").value = date;
     p.byId("intakeErr")._text = "";
@@ -303,6 +304,13 @@ function testQuiz(num, file) {
         tag + ": a 3-digit phone was accepted");
   check(!start("Ali Hassan", "01001234567", "").started,
         tag + ": a missing date was accepted");
+  check(!start("Ali Hassan", "01001234567", "2026-09-02", "").started,
+        tag + ": a missing class was accepted");
+  /* the phone is optional now: a student who skips it must not be blocked */
+  check(start("Ali Hassan Mohamed", "", "2026-09-02").started,
+        tag + ": an empty phone was rejected, but it is optional");
+  check(!start("Ali Hassan Mohamed", "123", "2026-09-02").started,
+        tag + ": a 3-digit phone was accepted");
   check(start("Ali Hassan Mohamed", "01001234567", "2026-09-02").started,
         tag + ": a valid intake did not start the quiz");
 
@@ -378,7 +386,7 @@ async function checkSubmission(ctx, num) {
   check(/^https:\/\/script\.google\.com\/macros\/s\//.test(sent.url),
         tag + ": endpoint is " + sent.url);
 
-  const want = ["lecture", "name", "phone", "date", "score", "total",
+  const want = ["lecture", "name", "class", "phone", "date", "score", "total",
                 "weak", "sections", "wrongQuestions", "image", "id"];
   want.forEach((k) => check(k in d, tag + ": payload is missing " + k));
   Object.keys(d).forEach((k) =>
@@ -387,6 +395,7 @@ async function checkSubmission(ctx, num) {
   check(d.lecture === "Lecture " + num, tag + ": payload.lecture is " + d.lecture);
   check(d.name === "Ali Hassan Mohamed", tag + ": payload.name is " + d.name);
   check(d.phone === "01001234567", tag + ": payload.phone is " + d.phone);
+  check(d["class"] === "Sunday 5pm", tag + ": payload.class is " + d["class"]);
   check(d.score === expScore, tag + ": payload.score is " + d.score);
   check(d.total === Q.length, tag + ": payload.total is " + d.total);
   check(Array.isArray(d.wrongQuestions) && d.wrongQuestions.length === wrongAt.size,
@@ -418,6 +427,7 @@ function testShuffle(num, file) {
     expose: ["QUESTIONS", "currentQ", "render", "state", "ansOf"] });
   const Q = p.exported.QUESTIONS;
   p.byId("sName").value = "Ali Hassan Mohamed";
+  p.byId("sClass").value = "Sunday 5pm";
   p.byId("sPhone").value = "01001234567";
   p.byId("sDate").value = "2026-09-02";
   p.byId("start").onclick();
@@ -457,6 +467,7 @@ async function attempt(file, opts) {
   const Q = p.exported.QUESTIONS;
 
   p.byId("sName").value = "Ali Hassan Mohamed";
+  p.byId("sClass").value = "Sunday 5pm";
   p.byId("sPhone").value = "01001234567";
   p.byId("sDate").value = "2026-09-02";
   p.byId("start").onclick();
