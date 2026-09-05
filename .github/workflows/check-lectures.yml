@@ -28,3 +28,7 @@ jobs:
 
       - name: Validate every lecture
         run: python scripts/check_lecture.py
+
+      # check_lecture.py reads the pages; this one runs them
+      - name: Exercise every lecture in a fake browser
+        run: node scripts/test_pages.js

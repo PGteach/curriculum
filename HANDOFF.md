@@ -235,6 +235,28 @@ Then write the slides (`<section class="slide">` blocks, QR slide stays last)
 and the questions (`SECTIONS` / `QUESTIONS` at the top of the quiz `<script>`).
 Answer positions do not matter any more — they get shuffled.
 
+## Two tests, and the difference between them
+
+```bash
+python scripts/check_lecture.py     # reads the pages
+node    scripts/test_pages.js       # runs them
+```
+
+Both run in CI on every push (`.github/workflows/check-lectures.yml`).
+
+The second one matters more than it looks. It stubs enough of a browser to
+execute each page's real `<script>`, drives a whole quiz attempt, and asserts
+what the student sees and what gets submitted — the shuffled options located
+by text rather than position, the payload key by key, the result card's
+contents, and that the correct answer reaches every slot over 400 renders.
+The two worst bugs in this repo's history — a stray `[cite: 3]` inside a
+string literal that made the quiz completely dead, and the correct answer
+sitting in slot 2 of nine questions — were both invisible to a reader and
+obvious to a runner. 330 checks across two lectures at the time of writing.
+
+An earlier version of this harness lived in a scratch directory and was lost
+when it was cleaned up. That is why it is in the repo now.
+
 ## How this was verified
 
 There is no test framework in the repo; verification was done by extracting
