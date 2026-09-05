@@ -102,6 +102,13 @@
   .review-card .w-val{color:var(--wrong);font-weight:600}
   .review-card .c-val{color:var(--green);font-weight:600}
   .review-card .why-txt{margin-top:6px;color:var(--ink-soft);font-size:13px;font-style:italic}
+  /* The question stays in the exam's own English. The explanation is
+     where teaching happens, so it may also come in Arabic. */
+  .why-ar{
+    display:block;margin-top:7px;font-weight:400;font-size:14px;
+    color:var(--ink-soft);border-right:2px solid var(--line);padding-right:8px;
+  }
+  .review-card .why-ar{font-size:13px;font-style:normal;margin-top:5px}
 
   /* intake */
   .field{margin-bottom:15px}
@@ -397,13 +404,24 @@ function choose(idx){
       question: q.q,
       selected: q.o[idx],
       correct: q.o[q.a],
-      why: q.why
+      why: q.why,
+      ar: q.ar || ""
     });
   }
 
   const v = $("verdict");
   v.className = "verdict " + (right ? "ok" : "no");
-  v.textContent = (right ? "Correct. " : "Not quite. ") + q.why;
+  v.textContent = "";
+  v.appendChild(document.createTextNode(
+    (right ? "Correct. " : "Not quite. ") + q.why));
+  /* The question is worded as the exam words it. The explanation may add
+     Arabic, because that is where the student is actually learning. */
+  if(q.ar){
+    const line = document.createElement("span");
+    line.className = "ar why-ar";
+    line.textContent = q.ar;
+    v.appendChild(line);
+  }
 
   const n = $("next");
   n.className = "next";
@@ -483,6 +501,7 @@ function finish(){
       card.appendChild(ansLine("\u274c", "Your answer:", item.selected, "w-val"));
       card.appendChild(ansLine("\u2705", "Correct answer:", item.correct, "c-val"));
       card.appendChild(el("div", "why-txt", item.why));
+      if(item.ar) card.appendChild(el("div", "ar why-ar", item.ar));
       wrongList.appendChild(card);
     });
   } else {

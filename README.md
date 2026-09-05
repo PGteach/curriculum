@@ -274,14 +274,28 @@ must deploy a **new version** — saving alone does not change the live URL.
 Set `RESULTS_URL = ""` to turn sending off; the quiz still runs and still
 shows the student their review list.
 
-### Keep the English at the students' level, not the topic's
+### Do not simplify the English. Gloss it.
 
-Technical terms stay — they are the syllabus and the exam asks for them:
-*autonomous driving*, *quantum mechanics*, *quantum tunneling*, *integrated
-circuit*. What comes out is the incidental hard English around them:
-*chronological*, *approximately*, *unintentionally*, *dramatically*,
-*immerses*, *overlays*, *appropriate*. A student should fail a question for
-not knowing the topic, never for not knowing the word "chronological".
+The questions are worded the way the textbook words them — several are copied
+from its Worked Examples, and `src:` on each question records the page. That
+includes the hard words: *chronological order*, *empirical observation*,
+*integrated circuit*, *approximately*, *escapes unintentionally*, *overlays*,
+*appropriate description*, *dramatically*, *computations*. All of those are in
+the Ministry textbook, and the exam will use them.
+
+Rewriting them into easier English was tried and reverted. It made the quiz
+easier to read and worse at its job: a student who only ever meets
+"order, earliest first" is ambushed by "chronological order" in the exam.
+
+So the question stays in the exam's English, and an optional `ar:` field on a
+question adds an Arabic gloss under the explanation — shown after answering,
+where the teaching happens rather than the testing:
+
+```js
+{ s:2, q:"...", o:[...], a:1,
+  why:"Moore's Law is the empirical observation that ...",
+  ar:"empirical observation = ملاحظة من الواقع، مش قانون فيزيائي" }
+```
 
 Editing an option's text means re-running the answer protection:
 

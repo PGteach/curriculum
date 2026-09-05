@@ -343,6 +343,30 @@ endpoint that *answers* with `ok:false`. A dropped connection is obvious, but
 a script that ran and failed looks exactly like success unless the reply is
 actually read — which is precisely the bug this replaced.
 
+## The quiz English was simplified, and it was wrong
+
+Lecture 2's quiz reads hard — *chronological*, *empirical observation*,
+*approximately*, *escapes unintentionally*, *overlays*, *appropriate
+description*, *dramatically*, *computations*. I rewrote all of it into easier
+English, then checked the Ministry textbook on Drive
+(`Programming-ArtificialIntelligence-En-EB-part1_copy.pdf`, Lesson 1-1) and
+found every one of those words in it — several inside the book's own Worked
+Examples, with the option strings matching the quiz **verbatim**. The quiz
+even records `src: "p.9 — Worked Example (1), answer B"` on each question.
+
+So the simplification was reverted. A student who only ever meets "order,
+earliest first" is ambushed by "chronological order" in the exam. The quiz's
+job is to rehearse the exam's language, not to be comfortable.
+
+What replaced it: an optional `ar:` field per question, rendered under the
+English explanation after the student answers, glossing the hard words in
+Arabic. The question stays exactly as the exam words it; the teaching happens
+in the language the student thinks in. Five questions in lecture 2 have one.
+
+The general rule this settles: **check the source material before deciding
+the wording is too hard.** Lecture 1, which is not textbook-derived, was
+already at a plain level and needed nothing.
+
 ## Editing a question after it is fingerprinted
 
 `protect_answers.py --unlock` turns each `k: "..."` back into `a: N` by
