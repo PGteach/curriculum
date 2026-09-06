@@ -291,6 +291,15 @@ def check_quiz(html: str, rep: Report) -> None:
     rep.want('glossary(q);' in js,
              "quiz: render() never calls glossary(), so the word help would "
              "only appear on the first question or not at all")
+    rep.want("minutesEstimate()" in js,
+             "quiz: the byline's time estimate is not derived from "
+             "QUESTIONS.length. A written-down estimate goes stale the moment "
+             "a question is added — the last one still claimed 5 minutes for a "
+             "20-question quiz.")
+    stale = re.search(r"about \d+ minutes", html)
+    rep.want(stale is None,
+             "quiz: %r is written into the page. Let minutesEstimate() produce "
+             "it." % (stale.group(0) if stale else ""))
     rep.want("lecture: LECTURE.label" in js,
              "quiz: the submission payload is missing the lecture field")
     rep.want("image: image" in js,

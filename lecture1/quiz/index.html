@@ -159,7 +159,7 @@
 <header>
   <div class="kicker" id="kicker">Programming &amp; AI</div>
   <h1>Check what you understood</h1>
-  <div class="byline" id="byline">10 questions · about 5 minutes · Mr. Eissa Islam</div>
+  <div class="byline" id="byline">Mr. Eissa Islam</div>
 </header>
 
 <p class="count" id="introNote">Enter your details first, then the quiz begins.</p>
@@ -378,7 +378,7 @@ const $ = id => document.getElementById(id);
   document.title = LECTURE.label + " Quiz \u2014 " + LECTURE.title;
   $("kicker").textContent = LECTURE.label + " \u2014 " + LECTURE.title;
   $("byline").textContent =
-    QUESTIONS.length + " questions \u00b7 about 5 minutes \u00b7 Mr. Eissa Islam";
+    QUESTIONS.length + " questions \u00b7 about " + minutesEstimate() + " minutes \u00b7 Mr. Eissa Islam";
 })();
 
 // prefill today's date
@@ -429,6 +429,23 @@ $("start").onclick = () => {
   newAttempt();
   render();
 };
+
+/* The byline's time estimate, derived so it cannot go stale: a written-in
+   figure was still promising five minutes on a twenty-question quiz, and a
+   student who budgets five for fifteen gives up half way.
+
+   45 seconds a question -- read it, read the word help, answer, read the
+   explanation -- rounded up to the nearest 5 minutes so it reads as an
+   estimate and not a promise.
+
+   Deliberately holds no module-level const. The byline is set by an IIFE
+   further up this script, and a `const` declared down here hoists without
+   initialising, so reading one from above throws a ReferenceError and
+   blanks the header. A function declaration hoists completely. */
+function minutesEstimate(){
+  const mins = QUESTIONS.length * 45 / 60;
+  return Math.max(5, Math.ceil(mins / 5) * 5);
+}
 
 function render(){
   const q = currentQ();

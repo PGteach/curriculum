@@ -486,7 +486,10 @@ ol.qs .rule{margin-top:1.5mm}
   <div class="qrbox">
     <img id="qr" alt="QR code linking to the quiz" width="250" height="250">
     <div class="txt">
-      <h3>10 questions · about 5 minutes</h3>
+      <!-- No QUESTIONS array on a printed sheet, so this one figure is
+           written in. Keep it equal to what the quiz page shows:
+           minutesEstimate() there is 45s a question, rounded up to 5. -->
+      <h3>10 questions · about 10 minutes</h3>
       <p>Scan this code with your phone camera to open the quiz. At the end it tells you,
       section by section, which parts of this session you have understood and which parts
       to read again.</p>

@@ -307,6 +307,16 @@ function testQuiz(num, file) {
   check(p.byId("sDate").value === localToday,
         tag + ": date prefilled with " + p.byId("sDate").value +
         ", expected today (" + localToday + ")");
+
+  /* The byline's estimate is derived, so check the number a student actually
+     reads -- 45s a question, rounded up to the nearest 5 minutes. */
+  const wantMins = Math.max(5, Math.ceil(Q.length * 45 / 60 / 5) * 5);
+  const byline = p.byId("byline").textContent;
+  check(byline.includes(Q.length + " questions"),
+        tag + ": byline does not state the question count — " + byline);
+  check(byline.includes("about " + wantMins + " minutes"),
+        tag + ": byline reads " + JSON.stringify(byline) +
+        ", expected about " + wantMins + " minutes for " + Q.length + " questions");
   check(!start("Ali", "01001234567", "2026-09-02").started,
         tag + ": a one-word name was accepted as a full name");
   check(!start("Ali Hassan", "123", "2026-09-02").started,
