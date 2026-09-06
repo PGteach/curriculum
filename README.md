@@ -310,9 +310,24 @@ renders with the explanation, after the answer is locked in.
 **Gloss only the heavy words.** This is the part that is easy to get wrong in
 the generous direction, and a bloated list is worse than a short one: it
 pushes the options down the phone and trains the eye to skip the block, so it
-costs you the words that mattered. The test is whether an average Egyptian
-secondary student would be *stopped* by the word, with the sentence around it
-for context.
+costs you the words that mattered.
+
+> **The test: cover the word with your thumb. Can you still answer? Then cut it.**
+
+Do not ask "is this word hard" — that question keeps saying yes. Ask what the
+rest of the sentence already gives you. Three that were cut on exactly this,
+after they had been waved through as "moderately hard":
+
+| glossed | why it went |
+| --- | --- |
+| `staff` | "A **company** lets its staff **work from home**" — company and work from home carry it |
+| `vehicle` | the question already says "a **self-driving car**" |
+| `goods and services` | "**buying and selling** goods and services" — buying and selling carry it |
+
+And point the gloss at the heavy half of a phrase, not the whole phrase.
+`computation`, not *scientific computation*. `Autonomous`, not *Autonomous
+driving*. The easy word riding along makes the list look longer than the help
+it gives.
 
 | gloss | don't gloss |
 | --- | --- |
@@ -321,7 +336,7 @@ for context.
 | technical phrases with no in-line explanation — *integrated circuit*, *emerging technology* | their own syllabus terms in English — *Input/Processing/Output*, *Compiling*, *debug*, *machine language*, *Cybersecurity*. They are meant to learn those in English; glossing them undoes the lesson |
 | | anything the sentence explains itself. *quantum tunneling effect* needs no gloss when its own option says "where electrons slip through barriers" |
 
-The result is 12 of lecture 2's 20 questions and 3 of lecture 1's 10, most
+The result is 10 of lecture 2's 20 questions and 3 of lecture 1's 10, most
 carrying a single term.
 
 Three rules on `v:`, all enforced by `check_lecture.py` so they cannot be

@@ -373,10 +373,16 @@ So the help split in two, by timing:
 | `v:` | the hard **words**, as `[["english","العربي"], ...]` | above the options, **before** answering |
 | `ar:` | the **reasoning** in Arabic | with the explanation, after answering |
 
-Twelve of lecture 2's twenty questions carry a `v:`, and three of lecture 1's
+Ten of lecture 2's twenty questions carry a `v:`, and three of lecture 1's
 ten — most of them a single term. The first pass glossed far more (19 and 9)
 and the teacher cut it back: *"مترجمش كلمات سهلة أو اللي ممكن تتجاب بالsense
-لكن الكلمات التقيلة ترجمها"*. He is right, and not only about noise — a list
+لكن الكلمات التقيلة ترجمها"*. He is right, and not only about noise. It took three passes to land, because
+"is this word hard" keeps answering yes — `staff`, `vehicle`, `goods and
+services` all survived a cut on that question and had to be removed after he
+pointed at `staff` on a live question. The test that actually works is
+different: **cover the word with your thumb — can you still answer? Then cut
+it.** Ask what the rest of the sentence already gives you, not how hard the
+word looks on its own — a list
 that is mostly easy words pushes the options down a phone screen and teaches
 the eye to skip the block, so it costs you the words that mattered. What
 survives is formal English carrying no marks (*chronological*,
