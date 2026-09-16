@@ -462,6 +462,26 @@ ol.qs.lettered{list-style:none; margin-left:0}
 .key .note{font-size:9.5pt; color:var(--soft); font-style:italic; margin-top:1.5mm}
 """
 
+# Kept separate from EXTRA_CSS on purpose: EXTRA_CSS is baked into `head`,
+# which build_booklet() and build_homework() also return, so anything
+# added there ships to the student handout and homework whether they use
+# it or not. Nothing else in this file needs .talknote, so it lives in its
+# own <style> tag inside build_key()'s own output instead.
+KEY_CSS = """<style>
+.talknote{
+  background:var(--gold-pale); border:1px solid #E9D6AA; border-radius:2mm;
+  padding:3mm 4mm; margin:0 0 3mm;
+}
+.talknote h4{font-size:10pt; margin-bottom:1.5mm}
+.talknote h4 .slideref{font-weight:400; color:var(--soft); font-size:9pt}
+.talknote .say{font-size:9.5pt; line-height:1.55; margin:1mm 0}
+.talknote .ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif; direction:rtl;
+  font-size:9.5pt; color:var(--ink-2); margin:0.5mm 0 2mm; line-height:1.55;
+}
+.talknote .bridge{font-size:9pt; color:var(--soft); font-style:italic; margin-top:1.5mm}
+</style>"""
+
 
 def shell():
     """The template with our CSS added, split at the point pages go in."""
@@ -630,10 +650,104 @@ def key_entry(ex):
     return "\n".join(out)
 
 
+
+# ------------------------------------------------------------------------
+# Teaching notes: how to TALK THROUGH two slides students find abstract,
+# not what the exercises' answers are. Requested straight from the
+# classroom, after the teacher asked for a way to explain slides 22 and 24
+# to a class the way you would to a ten-year-old -- concrete, physical
+# analogies before the technical term, in both languages so it can be said
+# either way depending on the room.
+#
+# Each entry: slide number + title (so the teacher can find it fast while
+# the deck is open), then one `say` per idea -- English first because that
+# is the slide's own wording, the Arabic version directly under it -- and
+# an optional `bridge`, the one line that links this slide back to
+# something already taught so the new idea does not land as if from
+# nowhere.
+# ------------------------------------------------------------------------
+TEACHING_NOTES = [
+    {
+        "slide": 22, "title": "Why shrinking is getting hard",
+        "say": [
+            ("Quantum tunneling. A ball thrown at a thick wall bounces off "
+             "it. Make the wall thin enough &mdash; thinner than an atom &mdash; "
+             "and the ball passes straight through without breaking it. "
+             "That is what an electron does through a barrier made too "
+             "thin: a switch that cannot stay off is not a switch.",
+             "النفق الكمومي. الكورة اللي بترميها على حيطة سميكة بترتد وترجع. "
+             "لكن لو الحيطة رقيقة جدًا &mdash; أرق من الذرة &mdash; الكورة بتعدّي "
+             "منها من غير ما تكسرها. ده اللي بيعمله الإلكترون لما الحاجز "
+             "يبقى رقيق جدًا: مفتاح مايعرفش يفضل مقفول، مش مفتاح أصلًا."),
+            ("Leakage current. A tap that is switched off but still drips "
+             "on its own, with nobody touching it. That is current leaking "
+             "out of a transistor that is officially OFF &mdash; it wastes "
+             "power and gives off heat even when nothing is switching.",
+             "تسرّب التيار. حنفية مقفولة بس بتنقّط لوحدها من غير ما حد "
+             "يلمسها. ده تيار بيسيح من ترانزستور &laquo;مقفول&raquo; رسميًا "
+             "&mdash; بيضيع كهربا وبيسخّن من غير أي استخدام."),
+        ],
+        "bridge": "Say out loud: \"So we cannot just keep shrinking. Next "
+                 "slide: what do we do instead?\" &mdash; that line is the "
+                 "slide's own transition into slide 23/24, so it is worth "
+                 "landing before you click.",
+    },
+    {
+        "slide": 24, "title": "Quantum computing (bit vs qubit)",
+        "say": [
+            ("A normal bit is a light switch: on or off, one answer at a "
+             "time. Nothing new here &mdash; it is the same bit from the "
+             "&ldquo;Everything is a 0 or a 1&rdquo; slide in Part A.",
+             "البت العادي زي مفتاح النور: مفتوح أو مقفول، إجابة واحدة في "
+             "كل مرة. مفيش جديد هنا &mdash; هو نفس البت اللي شرحناه في سلايد "
+             "&laquo;كل حاجة هي 0 أو 1&raquo; في الجزء الأول."),
+            ("A qubit is a coin spinning in the air, not yet landed. While "
+             "it spins it is heads AND tails at once &mdash; not one, not "
+             "the other, both. That &ldquo;both at once&rdquo; is what "
+             "superposition means.",
+             "الكيوبِت زي عملة معدنية اترمت في الهوا ولسه بتلف ومحطتش. طول "
+             "ما هي طايرة، هي وش وضهر في نفس الوقت &mdash; مش دي ولا دي، "
+             "الاتنين مع بعض. اللفظة &laquo;الاتنين مع بعض&raquo; ده هو "
+             "معنى Superposition."),
+            ("Why that speeds anything up: 100 normal bits must be tried "
+             "one combination at a time. 100 qubits can hold many "
+             "combinations together, so they try many at once.",
+             "ليه ده بيسرّع الحسابات: ١٠٠ بت عادي لازم تجرب كل توافيقها "
+             "واحد واحد. ١٠٠ كيوبت بيقدروا يحملوا توافيق كتير مع بعض، "
+             "فبيجربوها كلها في نفس الوقت."),
+        ],
+        "bridge": "Say out loud: \"Remember the switch from Part A? This "
+                 "is the same switch, just able to be both at once.\" &mdash; "
+                 "naming that link is what stops the qubit landing as a "
+                 "brand new idea out of nowhere.",
+    },
+]
+
+
+def render_note(note):
+    out = ['<div class="talknote"><h4>Slide %d &middot; %s '
+          '<span class="slideref">&mdash; how to talk through it</span></h4>'
+          % (note["slide"], esc(note["title"]))]
+    for en, ar in note["say"]:
+        out.append('<p class="say">%s</p>' % en)
+        out.append('<p class="ar">%s</p>' % ar)
+    out.append('<p class="bridge">%s</p>' % note["bridge"])
+    out.append("</div>")
+    return "\n".join(out)
+
+
 def build_key(head, tail):
-    body = [masthead("Teacher Answer Key", with_names=False),
+    body = [KEY_CSS,
+            masthead("Teacher Answer Key", with_names=False),
             '<div class="teacherwarn">Teacher copy &mdash; do not hand this to '
             'students.</div>']
+    # Before the exercise keys: how to TALK THROUGH the two slides students
+    # find most abstract, not what an exercise's answer is. Read this while
+    # the deck is still open, before the class-work answers below.
+    body.append('<div class="keygroup">Teaching notes &mdash; explaining '
+               'tricky slides simply</div>')
+    for note in TEACHING_NOTES:
+        body.append(render_note(note))
     for label, nums in (("Class work &mdash; done in the session", IN_CLASS),
                         ("Homework &mdash; separate sheet", HOMEWORK)):
         body.append('<div class="keygroup">%s</div>' % label)
