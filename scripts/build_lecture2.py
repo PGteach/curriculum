@@ -709,12 +709,32 @@ TEACHING_NOTES = [
              "ما هي طايرة، هي وش وضهر في نفس الوقت &mdash; مش دي ولا دي، "
              "الاتنين مع بعض. اللفظة &laquo;الاتنين مع بعض&raquo; ده هو "
              "معنى Superposition."),
-            ("Why that speeds anything up: 100 normal bits must be tried "
-             "one combination at a time. 100 qubits can hold many "
-             "combinations together, so they try many at once.",
-             "ليه ده بيسرّع الحسابات: ١٠٠ بت عادي لازم تجرب كل توافيقها "
-             "واحد واحد. ١٠٠ كيوبت بيقدروا يحملوا توافيق كتير مع بعض، "
-             "فبيجربوها كلها في نفس الوقت."),
+            ("A student will ask: so what happens when you actually check "
+             "it? The moment you look at a spinning coin, it lands and "
+             "shows ONE face, not both anymore. A qubit works the same "
+             "way: while it is computing it explores many possibilities "
+             "together, but the instant you read the answer, it settles "
+             "on just one &mdash; you still only ever get one answer out, "
+             "it was just found faster.",
+             "طالب هيسأل: طب لما أتأكد منها فعلًا يحصل إيه؟ اللحظة اللي "
+             "تبص فيها على العملة الطايرة، هي بتقع وتوريك وش واحد بس، مش "
+             "الاتنين. الكيوبِت بيعمل نفس الحاجة: وهو بيحسب بيكون بيجرّب "
+             "احتمالات كتير مع بعض، لكن أول ما تقرا الإجابة، بيثبت على "
+             "احتمال واحد بس &mdash; يعني لسه بتاخد إجابة واحدة في الآخر، "
+             "بس وصلتلها أسرع."),
+            ("A concrete way to see the speed-up: imagine a padlock with a "
+             "hidden 3-digit code, from 000 to 999. A normal computer "
+             "tries 000, then 001, then 002 &hellip; one at a time, up to "
+             "1000 tries. Because its qubits can hold many numbers "
+             "together, a quantum computer can explore many of those "
+             "codes at once, so it does not need 1000 separate tries to "
+             "find the right one.",
+             "مثال ملموس عشان تتخيل السرعة: خيّل معاك قفل بكود سري من 3 "
+             "أرقام، من 000 لـ 999. الكمبيوتر العادي بيجرب 000 بعدين 001 "
+             "بعدين 002 &hellip; واحد واحد، لغاية 1000 محاولة. الكمبيوتر "
+             "الكمومي، لأن الكيوبِتات بتحمل أرقام كتير مع بعض، بيقدر يجرب "
+             "كذا كود من الألف كود في نفس الوقت &mdash; فمش محتاج 1000 "
+             "محاولة منفصلة عشان يوصل للكود الصح."),
         ],
         "bridge": "Say out loud: \"Remember the switch from Part A? This "
                  "is the same switch, just able to be both at once.\" &mdash; "
