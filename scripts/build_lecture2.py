@@ -494,16 +494,48 @@ def masthead(subtitle, with_names=True):
     return "\n".join(out)
 
 
+def lit(text, old, new, label):
+    """.replace(), but loud if `old` is not in `text` exactly once.
+
+    Every call below assumes some literal text still exists in the QR
+    section this template ships. That assumption already broke once,
+    silently: templates/handout-template.html's own "about 5 minutes" was
+    changed to "about 10 minutes" by a later, unrelated fix, and a plain
+    .replace() just returned its input unchanged -- no error, no warning,
+    the exam-specific heading and its explanatory comment simply never made
+    it into the built page. Caught only by chance, re-running this script
+    to verify something else. This raises instead, so the next drift fails
+    the build where it happens rather than shipping quietly.
+    """
+    n = text.count(old)
+    if n != 1:
+        raise SystemExit(
+            "build_lecture2.py: qr_panel() target for %r matched %d time(s), "
+            "expected 1 -- templates/handout-template.html changed under it. "
+            "Update the literal text this replace() is looking for."
+            % (label, n))
+    return text.replace(old, new, 1)
+
+
 def qr_panel(qr, heading, blurb):
-    return (qr.replace("<h2>Session Summary</h2>", "<h2>Test yourself online</h2>")
-              .replace('<div class="summary">\n    <p>Three or four one-line takeaways from the session.</p>\n    <p>One per line, in the order they were taught.</p>\n  </div>', "")
-              .replace("<p>Three or four one-line takeaways from the session.</p>", "")
-              .replace("<p>One per line, in the order they were taught.</p>", "")
-              .replace("<h3>Test yourself · about 5 minutes</h3>",
-                       "<h3>%s</h3>" % heading)
-              .replace("which parts of this session you have understood",
-                       blurb)
-              .replace("<h2>My Notes</h2>", "<h2>My notes</h2>"))
+    qr = lit(qr, "<h2>Session Summary</h2>", "<h2>Test yourself online</h2>", "session heading")
+    qr = lit(qr,
+             '<div class="summary">\n    <p>Three or four one-line takeaways from the session.</p>\n    <p>One per line, in the order they were taught.</p>\n  </div>',
+             "", "summary block")
+    # The comment right above this in the template explains why ITS number
+    # is hand-written -- advice for someone editing the template's own
+    # default heading. It stops being relevant the moment this heading is
+    # replaced with the exam-specific one below, so it goes with it rather
+    # than surviving as a stale, disconnected note in the built page.
+    qr = lit(qr,
+             '      <!-- Written in: a printed sheet has no QUESTIONS to count. Set it\n'
+             '           to whatever the quiz page shows (45s a question, rounded up\n'
+             '           to the nearest 5 minutes). -->\n'
+             '      <h3>Test yourself · about 10 minutes</h3>',
+             "      <h3>%s</h3>" % heading, "time-estimate heading")
+    qr = lit(qr, "which parts of this session you have understood", blurb, "blurb")
+    qr = lit(qr, "<h2>My Notes</h2>", "<h2>My notes</h2>", "notes heading")
+    return qr
 
 
 def build_booklet(head, tail, qr):

@@ -343,21 +343,43 @@ function applyAccent(){
 }
 
 (function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
   applyAccent();
   document.title = LECTURE.label + " Handout — " + LECTURE.title + " · PGteach";
-  document.getElementById('brand').textContent =
-    LECTURE.label + " · " + LECTURE_TOPIC;
-  document.getElementById('docTitle').textContent = LECTURE.title;
-  document.getElementById('quizUrl').textContent =
-    LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
 
   /* A printed sheet is unfixable once it is on paper, so the QR is built
      from the config and its loading is checked before you print. */
   const qr = document.getElementById('qr');
-  qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
-  qr.onerror = () => { document.getElementById('qrWarn').style.display = 'block'; };
-  qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
-         + encodeURIComponent(LECTURE.quizUrl);
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
 
   /* Page numbers are counted, not typed, so adding or removing a sheet
      needs no renumbering. */
@@ -366,8 +388,6 @@ function applyAccent(){
     const slot = sheet.querySelector('.pageno');
     if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
   });
-
-  document.getElementById('printBtn').onclick = () => window.print();
 })();
 </script>
 </body>

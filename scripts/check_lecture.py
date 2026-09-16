@@ -426,6 +426,62 @@ def check_quiz(html: str, rep: Report) -> None:
              "zero: %s" % ", ".join(empty))
 
 
+def check_print_button(html: str, js: str, rep: Report) -> None:
+    """Printing must not be able to silently die.
+
+    This caught a real bug: the print button used to bind on the LAST line
+    of its setup script, after several getElementById() calls nothing
+    checked the result of. lecture2/_teacher/answer-key.html has no QR
+    panel -- a teacher does not need one -- so
+    `getElementById('quizUrl').textContent = ...` threw on null, the script
+    stopped three lines before ever reaching the print binding, and
+    clicking the button did nothing. No error visible to whoever clicked
+    it; it just failed to work.
+
+    Two things are checked, both by position in the script text rather
+    than by trying to infer whether arbitrary code is "guarded enough" --
+    that is a judgement call worth making by eye, not worth a clever
+    regex, and a first attempt at one here was wrong against its own
+    target the moment it was run:
+
+      1. The print button is looked up and bound only under `if(printBtn)`
+         -- so a missing button (there should never be one, but this is
+         what "unconditional" would actually mean going wrong) cannot
+         throw either.
+      2. That binding's line comes before the two lookups that are
+         genuinely optional on some pages -- `quizUrl` and `qr`, absent
+         from the teacher's answer key on purpose -- and each of those, if
+         present at all, is itself behind an `if(...)` guard naming it.
+
+    Applies to any page carrying id="printBtn" -- handout and homework via
+    check_handout(), and any _teacher/*.html page via check_lecture() below.
+    """
+    if 'id="printBtn"' not in html:
+        return
+
+    bound = re.search(r"if\s*\(\s*printBtn\s*\)\s*printBtn\.onclick\s*=", js)
+    rep.want(bool(bound),
+             "print button: expected `if(printBtn) printBtn.onclick = ...` -- "
+             "an unconditional binding can be skipped by anything that "
+             "throws before it runs")
+    if not bound:
+        return
+
+    for name in ("quizUrl", "qr"):
+        lookup = re.search(r"getElementById\('%s'\)" % name, js)
+        if not lookup:
+            continue                          # fine: this page has neither
+        rep.want(lookup.start() > bound.start(),
+                 "print button: getElementById('%s') runs before the print "
+                 "button is bound -- move the binding earlier, or a page "
+                 "missing #%s breaks printing again" % (name, name))
+        guarded = re.search(r"if\s*\(\s*\w*%s\w*\s*\)" % re.escape(name), js)
+        rep.want(bool(guarded),
+                 "print button: getElementById('%s') is not behind an "
+                 "if(...) guard naming it, so a page without #%s throws "
+                 "instead of just skipping that block" % (name, name))
+
+
 def check_handout(html: str, rep: Report) -> None:
     n = len(re.findall(r'<section class="sheet"', re.sub(r"<!--.*?-->", "", html,
                                                          flags=re.DOTALL)))
@@ -435,6 +491,7 @@ def check_handout(html: str, rep: Report) -> None:
              "handout: @page margin is not 0, so the browser will print its own "
              "header and footer over your sheet")
     rep.want('id="qr"' in html, "handout: the QR panel is missing")
+    check_print_button(html, js_of(html), rep)
 
 
 def check_lecture(num: int) -> Report:
@@ -461,6 +518,11 @@ def check_lecture(num: int) -> Report:
             if name == "homework":
                 rep.want("class=\"ex\"" in html,
                          "homework: no exercises on the page")
+
+    teacher_dir = folder / "_teacher"
+    if teacher_dir.is_dir():
+        for path in sorted(teacher_dir.glob("*.html")):
+            check_print_button(read(path), js_of(read(path)), rep)
 
     if len(set(accents.values())) > 1:
         rep.fail("the slides and the handout use different accent colours: %s"

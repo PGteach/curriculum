@@ -149,6 +149,52 @@ found that, and all three are now caught by name.
 `scripts/probe_lightbox.js` is the behavioural half, run by hand in a browser
 (its header says how). It is not in CI because it needs a real one.
 
+## The print button that silently did nothing
+
+Reported from the answer key specifically: clicking "Print this sheet" did
+nothing, no error visible anywhere. Root cause was one line -- the button
+bound its click handler on the LAST line of its setup IIFE, after five other
+`getElementById()` calls nothing checked the result of. The answer key has
+no QR panel (a teacher does not need one to scan), so
+`getElementById('quizUrl').textContent = ...` threw on null three lines
+before the print binding, and the whole script just stopped there.
+
+Same shared script, so the same bug was latent on every page built from
+`templates/handout-template.html` -- it only ever surfaced on the one page
+missing an element the others all have. Fixed structurally, not just for
+this page: the print button now binds first, unconditionally
+(`if(printBtn) printBtn.onclick = ...`), and every other lookup that is not
+guaranteed present -- `quizUrl`, `qr` -- is wrapped in its own `if(...)` and
+skips its block rather than assuming the element exists. Patched in five
+files: the template and the four pages already built from it.
+
+Fixing this exposed a second, unrelated bug while verifying the first: the
+"about 5 minutes" -> "about 10 minutes" change in `templates/handout-template.html`
+was never followed by an update to the six literal `.replace()` calls in
+`scripts/build_lecture2.py`'s `qr_panel()` that patch that template into the
+exam-specific panel. One of those six calls -- the heading -- had gone
+stale, and `str.replace()` on a miss just returns the input unchanged: no
+error, so the built handout and homework silently kept a leftover comment
+and the wrong heading text. Only found because regenerating them to verify
+the print-button fix produced output that no longer matched what was
+already committed. `qr_panel()` now runs its replacements through `lit()`,
+which raises if a target does not match exactly once -- sabotage-tested by
+drifting the template text on purpose; the build now fails loudly instead
+of shipping quietly wrong output.
+
+`check_lecture.py` gained `check_print_button()`: the print binding must be
+`if(printBtn)`-guarded, and must sit before any `quizUrl`/`qr` lookup, each
+itself behind its own named guard. It runs on handout, homework, and now
+every `_teacher/*.html` page too (added to the checker's own loop), so a
+future teacher-only page gets this for free. Proved by reproducing the
+original bug byte-for-byte and confirming it is caught by name, then two
+more sabotages -- the binding moved after the lookups, and a lookup left
+unguarded -- each caught individually. One early version of this check used
+a general "is this getElementById call guarded" heuristic; it failed
+against its own intended target the first time it ran, which is why the
+final version checks the two specific optional lookups by name instead of
+trying to infer guardedness generally.
+
 ## The anti-cheating change (item 6)
 
 The original questions had the correct answer at index `1` in **9 of 10
