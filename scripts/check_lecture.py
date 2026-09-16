@@ -198,6 +198,52 @@ def check_common(name: str, html: str, num: int, rep: Report,
         rep.ok()
 
 
+def check_lightbox(html: str, js: str, rep: Report) -> None:
+    """Photos open full size on click — and must not steal the deck's keys.
+
+    The lightbox and the slide navigation both listen on `window`, where
+    stopPropagation does not stop a sibling listener. So the nav handlers
+    carry an explicit `zoomOpen()` guard, and without it pressing Right
+    while a photo is open advances the photo AND the slide underneath it —
+    which looks like the deck randomly skipping, and is the kind of thing
+    nobody reports, they just stop using the feature.
+
+    Only checked on decks that actually have photos.
+    """
+    if 'class="shot"' not in html:
+        return
+    rep.want('id="zoom"' in html,
+             "slides: there are photos but no #zoom overlay, so clicking one "
+             "does nothing")
+    rep.want("function zoomOpen()" in js,
+             "slides: the lightbox has no zoomOpen(), so the nav handlers "
+             "cannot tell whether a photo is open")
+
+    # Cut the script into whole handler bodies, then look at the three that
+    # drive the slides. Searching the raw script instead does not work: a
+    # search from the lightbox's own keydown runs straight past the end of
+    # it to the next go(i+1) and finds the lightbox's zoomOpen(), so the
+    # check passes with the guard deleted. That is exactly what happened,
+    # and deleting the guard on purpose is what showed it.
+    handlers = re.findall(
+        r"addEventListener\('(keydown|touchstart|touchend)',"
+        r"(.*?)\n\}(?:\s*,\s*\{[^}]*\})?\);", js, re.DOTALL)
+
+    # each nav handler, named by the thing only it does
+    for marker, name in [("go(i+1)", "keyboard"),
+                         ("x0 = e.changedTouches", "touchstart"),
+                         ("go(dx", "touchend")]:
+        bodies = [b for _, b in handlers if marker in b]
+        if not bodies:
+            rep.warn("slides: could not find the %s nav handler to check its "
+                     "lightbox guard" % name)
+            continue
+        rep.want(all("zoomOpen()" in b for b in bodies),
+                 "slides: the %s navigation has no zoomOpen() guard, so "
+                 "using it while a photo is open moves the slide behind it"
+                 % name)
+
+
 def check_slides(html: str, rep: Report) -> None:
     body = re.sub(r"<!--.*?-->", "", html, flags=re.DOTALL)
     n = len(re.findall(r'<section class="slide', body))
@@ -407,6 +453,7 @@ def check_lecture(num: int) -> Report:
         check_common(name, html, num, rep, titles, accents)
         if name == "slides":
             check_slides(html, rep)
+            check_lightbox(html, js_of(html), rep)
         elif name == "quiz":
             check_quiz(html, rep)
         else:

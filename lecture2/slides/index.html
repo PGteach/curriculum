@@ -278,6 +278,43 @@ tr:last-child td{border-bottom:0}
   .hint{display:none}
 }
 
+/* ---- photo lightbox ----------------------------------------------
+   Grid thumbnails are ~15vh tall but the files are full resolution, so
+   the detail is downloaded already. Clicking shows it. */
+.shot img{cursor:zoom-in}
+.shot img:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+#zoom{
+  position:fixed;inset:0;z-index:99;
+  display:none;align-items:center;justify-content:center;
+  background:rgba(8,12,24,.94);padding:clamp(14px,3vw,44px);
+}
+#zoom.on{display:flex}
+#zoom figure{margin:0;max-width:min(1180px,92vw);text-align:center}
+#zoom img{
+  max-width:100%;max-height:72vh;object-fit:contain;
+  border-radius:10px;background:#fff;
+}
+#zoom .zcap{color:#fff;margin-top:.9rem;font-size:clamp(14px,1.5vw,19px);line-height:1.5}
+#zoom .zcap b{display:block;font-weight:600;font-size:1.06em;margin-bottom:.15rem}
+#zoom .zcap .ar{display:block;color:#C6CCD9;margin-top:.3rem}
+#zoom .znum{color:#8A93A6;font-size:13px;margin-top:.7rem;letter-spacing:.03em}
+#zoom button{
+  position:absolute;background:rgba(255,255,255,.13);color:#fff;
+  border:0;border-radius:99px;cursor:pointer;font:inherit;
+  width:46px;height:46px;font-size:23px;line-height:1;
+}
+#zoom button:hover{background:rgba(255,255,255,.26)}
+#zoom button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+#zoom .zclose{top:18px;right:18px}
+#zoom .zprev{left:18px;top:50%;transform:translateY(-50%)}
+#zoom .znext{right:18px;top:50%;transform:translateY(-50%)}
+@media (max-width:620px){
+  #zoom button{width:40px;height:40px;font-size:20px}
+  #zoom .zprev{left:8px} #zoom .znext{right:8px}
+  #zoom img{max-height:60vh}
+}
+@media print{#zoom{display:none!important}}
+
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 /* ---------- photo example slides ---------- */
 .shots{
@@ -1476,6 +1513,17 @@ tr:last-child td{border-bottom:0}
 </div>
 <div class="hint">← → or swipe</div>
 
+<div id="zoom" role="dialog" aria-modal="true" aria-label="Photo" aria-hidden="true">
+  <button class="zclose" type="button" aria-label="Close">&#215;</button>
+  <button class="zprev" type="button" aria-label="Previous photo">&#8249;</button>
+  <button class="znext" type="button" aria-label="Next photo">&#8250;</button>
+  <figure>
+    <img id="zimg" alt="">
+    <figcaption class="zcap" id="zcap"></figcaption>
+    <div class="znum" id="znum"></div>
+  </figure>
+</div>
+
 <script>
 /* ============================================================
    LECTURE CONFIG
@@ -1621,10 +1669,89 @@ function go(n){
   location.hash = i + 1;
 }
 
+/* ---- photo lightbox ------------------------------------------------
+   Thumbnails are ~15vh; the files are full resolution. Clicking one opens
+   it at size with its caption, and the arrows walk the photos on that
+   slide only.
+
+   Declared above the navigation handlers deliberately: they read `zoom`,
+   and a const declared below them would be in the temporal dead zone. */
+const zoom = document.getElementById('zoom');
+const zimg = document.getElementById('zimg');
+const zcap = document.getElementById('zcap');
+const znum = document.getElementById('znum');
+const zprev = zoom.querySelector('.zprev');
+const znext = zoom.querySelector('.znext');
+let zshots = [], zi = 0, zfrom = null;
+
+function zoomOpen(){ return zoom.classList.contains('on'); }
+
+function zshow(n){
+  if(!zshots.length) return;
+  zi = (n + zshots.length) % zshots.length;
+  const fig = zshots[zi];
+  const img = fig.querySelector('img');
+  /* currentSrc is what the browser actually fetched */
+  zimg.src = img.currentSrc || img.src;
+  zimg.alt = img.alt || '';
+  const cap = fig.querySelector('figcaption');
+  /* our own caption markup, carrying <b> and the Arabic line */
+  zcap.innerHTML = cap ? cap.innerHTML : '';
+  const many = zshots.length > 1;
+  znum.textContent = many ? (zi + 1) + ' / ' + zshots.length : '';
+  zprev.hidden = !many;
+  znext.hidden = !many;
+}
+
+function zopen(fig){
+  const grid = fig.closest('.shots');
+  zshots = grid ? Array.from(grid.querySelectorAll('figure.shot')) : [fig];
+  zfrom = fig.querySelector('img');
+  zshow(zshots.indexOf(fig));
+  zoom.classList.add('on');
+  zoom.setAttribute('aria-hidden', 'false');
+  zoom.querySelector('.zclose').focus();
+}
+
+function zclose(){
+  if(!zoomOpen()) return;
+  zoom.classList.remove('on');
+  zoom.setAttribute('aria-hidden', 'true');
+  zimg.removeAttribute('src');          // stop holding the decoded bitmap
+  if(zfrom) zfrom.focus();
+  zfrom = null;
+}
+
+document.querySelectorAll('.shot img').forEach(img => {
+  img.tabIndex = 0;                     // reachable without a mouse
+  img.addEventListener('click', () => zopen(img.closest('figure')));
+  img.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault(); zopen(img.closest('figure'));
+    }
+  });
+});
+
+zoom.addEventListener('click', e => {
+  /* the backdrop closes; the picture and its caption do not */
+  if(e.target === zoom || e.target.tagName === 'FIGURE') zclose();
+});
+zoom.querySelector('.zclose').onclick = zclose;
+zprev.onclick = () => zshow(zi - 1);
+znext.onclick = () => zshow(zi + 1);
+
+addEventListener('keydown', e => {
+  if(!zoomOpen()) return;
+  if(e.key === 'Escape'){    e.preventDefault(); zclose(); }
+  if(e.key === 'ArrowRight'){ e.preventDefault(); zshow(zi + 1); }
+  if(e.key === 'ArrowLeft'){  e.preventDefault(); zshow(zi - 1); }
+});
+
 document.getElementById('next').onclick = () => go(i+1);
 document.getElementById('prev').onclick = () => go(i-1);
 
 addEventListener('keydown', e => {
+  if(zoomOpen()) return;          /* the lightbox owns the keys while open */
   if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); go(i+1); }
   if(e.key === 'ArrowLeft'  || e.key === 'PageUp'){ e.preventDefault(); go(i-1); }
   if(e.key === 'Home') go(0);
@@ -1632,9 +1759,12 @@ addEventListener('keydown', e => {
 });
 
 let x0 = null;
-addEventListener('touchstart', e => x0 = e.changedTouches[0].clientX, {passive:true});
+addEventListener('touchstart', e => {
+  if(zoomOpen()) return;          /* a swipe over the photo is not a swipe past it */
+  x0 = e.changedTouches[0].clientX;
+}, {passive:true});
 addEventListener('touchend', e => {
-  if(x0 === null) return;
+  if(zoomOpen() || x0 === null) return;
   const dx = e.changedTouches[0].clientX - x0;
   if(Math.abs(dx) > 55) go(dx < 0 ? i+1 : i-1);
   x0 = null;

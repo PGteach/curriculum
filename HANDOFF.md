@@ -126,6 +126,29 @@ templates give you for free. Worth knowing before touching it:
   `.nojekyll` — discussed under Open decisions — would publish it. Move it
   out of the repo first if that ever happens.
 
+## Photos open full size (the lightbox)
+
+Any `figure.shot` inside a `.shots` grid is clickable; the overlay is `#zoom`,
+fixed to `<body>` so the slide's auto-fit transform does not scale it.
+
+The one thing to know before touching the deck's navigation: **the arrow-key
+and swipe handlers must keep their `zoomOpen()` guard.** Both they and the
+lightbox listen on `window`, where `stopPropagation` does not stop a sibling
+listener — so without the guard, Right with a photo open moves the photo and
+the slide underneath it. That reads as the deck randomly skipping, and nobody
+reports it, they just stop clicking photos.
+
+`check_lecture.py` fails if a guard goes missing. Getting that check right
+took two tries: the first version searched the raw script from
+`addEventListener('keydown'` to the next `go(i+1)`, which ran straight past
+the end of the lightbox's own keydown handler and found *its* `zoomOpen()` —
+so it passed with the guard deleted. It now splits the script into whole
+handler bodies first. Deleting each of the three guards on purpose is what
+found that, and all three are now caught by name.
+
+`scripts/probe_lightbox.js` is the behavioural half, run by hand in a browser
+(its header says how). It is not in CI because it needs a real one.
+
 ## The anti-cheating change (item 6)
 
 The original questions had the correct answer at index `1` in **9 of 10

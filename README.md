@@ -142,6 +142,24 @@ the markup straight out of its source.
 `class="slide dark"` inverts any slide to navy — worth doing on the one or two
 slides you most want remembered.
 
+### Photos open full size when you click them
+
+Grid thumbnails render at about 15vh. The files behind them are full
+resolution, so the detail is already downloaded and simply not shown — from
+the back of a room that is the difference between "that is a chip" and
+reading `i7-6700K` off it. Clicking any photo opens it over the slide, with
+its caption; the arrows walk the photos on that slide, `Esc` or a click on
+the backdrop closes it. Nothing to add per photo: any `figure.shot` in a
+`.shots` grid is picked up.
+
+The deck's own arrow keys and swipe carry an explicit `zoomOpen()` guard.
+They have to: the lightbox and the navigation both listen on `window`, and
+`stopPropagation` does not stop a sibling listener on the same target, so
+without the guard pressing Right with a photo open advances the photo **and**
+the slide behind it. `check_lecture.py` fails if any of the three guards goes
+missing, and `scripts/probe_lightbox.js` checks the behaviour in a real
+browser — a stubbed DOM cannot prove this one.
+
 ### A slide that is too tall shrinks itself
 
 Slides are written into a fixed frame, so a dense one runs off the bottom —

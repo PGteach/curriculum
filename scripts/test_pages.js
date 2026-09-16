@@ -70,7 +70,17 @@ class El {
     return c;
   }
   querySelector() { return new El("stub"); }
+  querySelectorAll() { return []; }
+  /* Enough to let a page that wires element-level listeners run. The stub
+     never dispatches, so this records intent rather than behaviour — the
+     photo lightbox is exercised in a real browser instead, because the
+     thing worth proving about it (that the arrow keys stop moving slides
+     while it is open) needs real event dispatch. */
+  addEventListener(type, fn) { (this._on || (this._on = {}))[type] = fn; }
+  removeEventListener(type) { if (this._on) delete this._on[type]; }
+  getBoundingClientRect() { return { width: 0, height: 0, top: 0, left: 0 }; }
   focus() {}
+  blur() {}
 }
 
 function makeCanvas(calls) {
