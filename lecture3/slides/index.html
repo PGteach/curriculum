@@ -281,104 +281,353 @@ tr:last-child td{border-bottom:0}
 <div id="bar"></div>
 <div id="stage">
 
-  <!-- 1 TITLE -->
   <section class="slide dark">
     <div class="rise eyebrow" id="lectureBadge">Programming &amp; Artificial Intelligence</div>
-    <h1 class="rise">How does it learn?</h1>
-    <p class="rise sub" style="margin-top:1.2rem">AI is not one thing: today we follow the layers from AI to generative AI.</p>
-    <p class="rise arline ar">النهارده هنفك كلمة AI ونشوف الطبقات اللي جواها واحدة واحدة.</p>
+    <h2 class="rise" style="font-size:clamp(34px,6vw,86px);max-width:18ch">How does it learn?</h2>
+    <p class="rise sub" style="max-width:56ch;margin-top:1rem">AI is not one thing. Today we open it up, layer by layer, and find out what is actually doing the learning.</p>
+    <p class="rise arline ar">النهارده هنفك كلمة AI ونشوف الطبقات اللي جواها واحدة واحدة — مين بالظبط اللي بيتعلّم.</p>
   </section>
 
-  <!-- ------------------------------------------------------------------
-       YOUR CONTENT SLIDES GO HERE.
-
-       Add as many "slide" sections as you need — the dots, the progress
-       bar and the "n / total" counter all count them at runtime, so there
-       is no slide total to update by hand anywhere.
-
-       Add class="dark" for an inverted slide. Wrap every child you want
-       revealed in sequence with class="rise". The reusable blocks from
-       lecture 1 are: .pipe/.step (pipeline), table, .vs/.pane (compare),
-       .kit/.card (icon row), .fields/.chip (tag cloud), .codeline (code).
-       ------------------------------------------------------------------- -->
-
-  <!-- 2 EXAMPLE: two-column compare -->
   <section class="slide">
-    <div class="rise eyebrow">1 · The big picture</div>
-    <h2 class="rise">AI is the broad field</h2>
-    <p class="rise sub">AI is a general term for technologies that reproduce or perform intelligent human behavior on a computer.</p>
-    <div class="rise vs">
-      <div class="pane a">
-        <h3>Everyday examples</h3>
-        <ul>
-          <li>Speech recognition</li>
-          <li>Image recognition and translation</li>
-        </ul>
-      </div>
-      <div class="pane b">
-        <h3>One important limit</h3>
-        <ul>
-          <li>Today’s AI is narrow</li>
-          <li>It is expert at one task</li>
-        </ul>
-      </div>
-    </div>
-    <p class="rise arline ar">AI مش إنسان جوه الكمبيوتر؛ هو شاطر في مهمة محددة زي الترجمة أو الصور.</p>
+    <div class="rise eyebrow">Before we start &#183; Lecture 2</div>
+    <h2 class="rise">Where we got to</h2>
+    <div class="rise stats"><div class="stat"><b>5</b><span>stages of IT, from a room-sized computer to the cloud</span></div><div class="stat"><b>&#215;2</b><span>transistors about every two years &#8212; Moore&#8217;s Law</span></div><div class="stat"><b>2010s</b><span>cloud computing made large-scale data and AI possible</span></div></div>
+    <p class="rise sub" style="max-width:60ch;margin-top:.9rem">That last one is the door into today. The cloud gave us the data and the computing power &#8212; this lesson is about what we did with them.</p>
+    <p class="rise arline ar">آخر مرحلة — السحابة — هي اللي فتحت الباب للدرس ده: داتا كتير وقدرة حوسبة كبيرة. النهارده هنشوف عملنا بيهم إيه.</p>
   </section>
 
-  <!-- 3 EXAMPLE: table -->
   <section class="slide">
-    <div class="rise eyebrow">2 · Nested technologies</div>
-    <h2 class="rise">Four layers, not four separate things</h2>
-    <table class="rise">
-      <tr><th>Layer</th><th>What it does</th></tr>
-      <tr><td><b>Machine learning</b></td><td>Learns patterns from data to make predictions and judgments.</td></tr>
-      <tr><td><b>Deep learning</b></td><td>Uses neural networks and large-scale data for complex patterns.</td></tr>
-      <tr><td><b>Generative AI</b></td><td>Uses deep learning to generate new text, images, audio or programs.</td></tr>
-    </table>
-    <p class="rise arline ar">دي دوائر جوه بعض: AI ثم machine learning ثم deep learning ثم generative AI.</p>
+    <div class="rise eyebrow">Right now, in your pocket</div>
+    <h2 class="rise">You used AI four times before breakfast</h2>
+    <div class="rise fields"><span class="chip">a spam filter sorted your email</span><span class="chip">a store recommended a product</span><span class="chip">an app translated a sentence</span><span class="chip">ChatGPT wrote you a paragraph</span></div>
+    <p class="rise sub" style="max-width:58ch;margin-top:1rem">All four are AI. <b>None of them work the same way.</b> By the end of this lesson you will be able to say which is which.</p>
+    <p class="rise arline ar">الأربعة دول كلهم AI، بس شغالين بطرق مختلفة خالص. في آخر الحصة هتعرف تفرق بينهم.</p>
   </section>
 
-  <section class="slide"><div class="rise eyebrow">Recap · Lecture 2</div><h2 class="rise">Rules or examples?</h2><p class="rise sub">Programming follows hand-written rules. Machine learning learns patterns from data.</p><p class="rise arline ar">افتكر الفرق: في programming إحنا بنكتب القاعدة، إنما هنا الكمبيوتر بيتعلم من أمثلة.</p></section>
-  <section class="slide dark"><div class="rise eyebrow">Part 1</div><h2 class="rise">What is AI?</h2><p class="rise arline ar">هنبدأ من الاسم الكبير الأول: AI.</p></section>
-  <section class="slide"><h2 class="rise">AI performs intelligent human behavior</h2><p class="rise sub">Learning, reasoning and judgment can be reproduced or performed on a computer.</p><p class="rise arline ar">الفكرة مش إن الجهاز بقى إنسان؛ هو بيعمل جزء من سلوك ذكي على الكمبيوتر.</p></section>
-  <section class="slide"><h2 class="rise">Three examples</h2><p class="rise sub">Speech recognition · image recognition · translation.</p><p class="rise arline ar">التلاتة دول أمثلة الكتاب: كلام، صور، وترجمة.</p></section>
-  <section class="slide"><h2 class="rise">Today’s AI is narrow</h2><p class="rise sub">It can be expert at one task, not at everything a person can do.</p><p class="rise arline ar">دي نقطة مهمة: AI شاطر في مهمة واحدة، مش فاهم الدنيا كلها.</p></section>
-  <section class="slide"><h2 class="rise">Pause and think</h2><p class="rise sub">Does a spam filter follow fixed rules, or learn from examples? What makes you think so?</p><p class="rise arline ar">فكّر مع زميلك: spam filter حافظ rules ولا اتعلم من أمثلة؟</p></section>
-  <section class="slide dark"><div class="rise eyebrow">Part 2</div><h2 class="rise">The nested layers</h2><p class="rise arline ar">دلوقتي هنرتّب المصطلحات اللي الطلبة بتلخبط فيها.</p></section>
-  <section class="slide"><h2 class="rise">Machine learning sits inside AI</h2><p class="rise sub">It is one of the learning technologies that makes AI work.</p><p class="rise arline ar">Machine learning جزء من AI، مش كلمة تانية لنفس المعنى.</p></section>
-  <section class="slide"><h2 class="rise">Machine learning learns patterns</h2><p class="rise sub">It uses data to make predictions and judgments.</p><p class="rise arline ar">الكلمة المفتاح هنا patterns: يشوف بيانات كتير ويلقط النمط.</p></section>
-  <section class="slide"><h2 class="rise">Two machine-learning examples</h2><p class="rise sub">Spam filters sort email. Product recommendations suggest things you might buy.</p><p class="rise arline ar">المهم إن المهمتين مختلفتين، بس الاتنين بيتعلموا من data.</p></section>
-  <section class="slide"><h2 class="rise">Deep learning sits inside machine learning</h2><p class="rise sub">It is an advanced technology for learning complex patterns.</p><p class="rise arline ar">Deep learning مش حاجة منفصلة؛ ده نوع متقدم جوه machine learning.</p></section>
-  <section class="slide"><h2 class="rise">It needs large-scale data</h2><p class="rise sub">More complex patterns require large-scale data.</p><p class="rise arline ar">عشان يتعلم حاجة معقدة، محتاج أمثلة كتير مش كام مثال بس.</p></section>
-  <section class="slide"><h2 class="rise">Neural networks</h2><p class="rise sub">A neural network is modeled after the nerve cells of the human brain.</p><p class="rise arline ar">اسم neural network جاي من فكرة خلايا المخ، بس ده نظام على الكمبيوتر.</p></section>
-  <section class="slide"><h2 class="rise">Why rare cases are difficult</h2><p class="rise sub">An AI may struggle when it has rarely seen something in its data.</p><p class="rise arline ar">لو المثال نادر في البيانات، الـ AI غالبًا مش هيكون اتعلمه كويس.</p></section>
-  <section class="slide"><h2 class="rise">Pause and think</h2><p class="rise sub">Why would a system need many examples before judging a new image?</p><p class="rise arline ar">قولها بطريقتك: ليه الصور الكتير بتفرق قبل ما يحكم على صورة جديدة؟</p></section>
-  <section class="slide dark"><div class="rise eyebrow">Part 3</div><h2 class="rise">Generative AI</h2><p class="rise arline ar">آخر طبقة هي اللي بنسمع عنها كل يوم: generative AI.</p></section>
-  <section class="slide"><h2 class="rise">Generative AI uses deep learning</h2><p class="rise sub">It generates new data rather than only making a classification.</p><p class="rise arline ar">ركز في generate: بيطلع حاجة جديدة، مش بس يقول ده spam ولا لأ.</p></section>
-  <section class="slide"><h2 class="rise">What can it generate?</h2><p class="rise sub">Text, images, audio and programs.</p><p class="rise arline ar">ممكن يطلع text أو image أو صوت أو program — دي أمثلة الكتاب.</p></section>
-  <section class="slide"><h2 class="rise">Examples</h2><p class="rise sub">ChatGPT and image-generation AI are examples of generative AI.</p><p class="rise arline ar">ChatGPT مثال مشهور، لكن generative AI مش مقتصر عليه.</p></section>
-  <section class="slide"><h2 class="rise">Worked example</h2><p class="rise sub">Match: learns patterns → machine learning; neural networks → deep learning; generates new data → generative AI.</p><p class="rise arline ar">امسك كلمة مميزة في الوصف: patterns، neural networks، أو generate.</p></section>
-  <section class="slide"><h2 class="rise">Exam warning</h2><p class="rise sub">AI and machine learning do not have the same meaning. Deep learning is not separate from machine learning.</p><p class="rise arline ar">دي أكتر حاجة الطلبة بيلخبطوا فيها: مش أربع تكنولوجيات واقفين جنب بعض.</p></section>
-  <section class="slide"><h2 class="rise">A fluent answer can still be wrong</h2><p class="rise sub">Generative AI can produce plausible but factually incorrect output: a hallucination.</p><p class="rise arline ar">لو الكلام شكله واثق وحلو، ده مش دليل إنه صح — دي hallucination.</p></section>
-  <section class="slide"><h2 class="rise">Use it carefully in school work</h2><p class="rise sub">Check AI output before using it as an answer in a school report.</p><p class="rise arline ar">استخدمه يساعدك، بس راجع المعلومة قبل ما تحطها في report.</p></section>
-  <section class="slide"><h2 class="rise">New context: crop photographs</h2><p class="rise sub">A system distinguishing healthy and diseased crops needs relevant photographs; poor or rare data can lead to a wrong judgment.</p><p class="rise arline ar">لو صور الزرع مش كفاية أو مش متنوعة، الحكم ممكن يطلع غلط.</p></section>
-  <section class="slide dark"><h2 class="rise">Key takeaway</h2><p class="rise sub">AI → machine learning → deep learning → generative AI: increasingly specialised nested fields.</p><p class="rise arline ar">الخلاصة: احفظ ترتيب الدواير، ومع كل واحدة اعرف بتعمل إيه.</p></section>
+  <section class="slide dark">
+    <div class="rise eyebrow">Today&#8217;s question</div>
+    <h2 class="rise" style="max-width:26ch">What is AI &#8212; and how do machine learning, deep learning and generative AI fit inside it?</h2>
+    <p class="rise arline ar">سؤال النهارده: إيه هو الـ AI أصلاً، وإزاي الـ machine learning والـ deep learning والـ generative AI بيدخلوا جواه؟</p>
+  </section>
 
-  <!-- LAST SLIDE: QUIZ QR (keep this one last) -->
+  <section class="slide">
+    <div class="rise eyebrow">Explore &#183; in pairs</div>
+    <h2 class="rise" style="max-width:20ch">Before you read on</h2>
+    <p class="rise sub" style="max-width:56ch;margin-top:1rem">With your partner, list <b>three</b> things your phone does that seem to need intelligence. For each one predict: does it follow rules somebody wrote, or did it <b>learn from examples</b>? Give one reason.</p>
+    <p class="rise sub" style="margin-top:.8rem;color:var(--soft)">Keep your answers. We come back to them at the end.</p>
+    <p class="rise arline ar">مع زميلك: اكتبوا تلات حاجات موبايلكم بيعملها وشكلها محتاج ذكاء. ولكل واحدة توقّعوا: بيتبع قواعد حد كتبها، ولا اتعلّم من أمثلة؟ وليه؟ احتفظوا بالإجابات، هنرجعلها في الآخر.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Part 1</div>
+    <h2 class="rise" style="font-size:clamp(30px,5.5vw,72px)">What is AI?</h2>
+    <p class="rise arline ar">الجزء الأول: يعني إيه ذكاء اصطناعي.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">1 &#183; The definition</div>
+    <h2 class="rise" style="max-width:24ch">AI is a general term, not one machine</h2>
+    <div class="rise statement"><em>Artificial Intelligence</em> &#8212; a general term for technologies that reproduce or perform intelligent human behaviour &#8212; learning, reasoning, judgment &#8212; on a computer.</div>
+    <p class="rise sub" style="max-width:58ch;margin-top:.9rem">It is the name of a whole field. Saying &#8220;an AI&#8221; is a bit like saying &#8220;a vehicle&#8221;: true, but it does not tell you whether you are looking at a bicycle or a lorry.</p>
+    <p class="rise arline ar">AI اسم لمجال كامل مش لجهاز معيّن. لما تقول &#8220;ده AI&#8221; ده زي ما تقول &#8220;دي عربية&#8221; — صح، بس ماقلتش عجلة ولا تريلا.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">1 &#183; The book&#8217;s three examples</div>
+    <h2 class="rise">Where you meet it</h2>
+    <table><tr><th>Example</th><th>What the machine is doing</th></tr><tr><td><b>Speech recognition</b></td><td>Turning the sound of your voice into words</td></tr><tr><td><b>Image recognition</b></td><td>Deciding what is in a photograph</td></tr><tr><td><b>Translation</b></td><td>Changing one language into another</td></tr></table>
+    <p class="rise sub" style="margin-top:.8rem;color:var(--soft)">Learn these three &#8212; they are the examples the textbook gives for AI itself, and they come up in questions.</p>
+    <p class="rise arline ar">التلاتة دول هما الأمثلة اللي الكتاب بيديها للـ AI نفسه. احفظهم، بييجوا في الأسئلة.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">1 &#183; The limit that matters</div>
+    <h2 class="rise">Today&#8217;s AI is narrow</h2>
+    <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 860 210" role="img" aria-label="Each AI is expert at one task only and cannot do the others">
+  <g>
+    <rect x="30" y="40" width="180" height="88" rx="10" fill="var(--teal)" opacity=".14" stroke="var(--teal)" stroke-width="2"/>
+    <text x="120" y="72" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">translation app</text>
+    <text x="120" y="94" text-anchor="middle" font-size="11" fill="var(--soft)">brilliant at translating</text>
+    <text x="120" y="113" text-anchor="middle" font-size="11" fill="var(--wrong)">cannot recognise a face</text>
+  </g>
+  <g>
+    <rect x="240" y="40" width="180" height="88" rx="10" fill="var(--teal)" opacity=".14" stroke="var(--teal)" stroke-width="2"/>
+    <text x="330" y="72" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">spam filter</text>
+    <text x="330" y="94" text-anchor="middle" font-size="11" fill="var(--soft)">brilliant at spotting spam</text>
+    <text x="330" y="113" text-anchor="middle" font-size="11" fill="var(--wrong)">cannot translate a word</text>
+  </g>
+  <g>
+    <rect x="450" y="40" width="180" height="88" rx="10" fill="var(--teal)" opacity=".14" stroke="var(--teal)" stroke-width="2"/>
+    <text x="540" y="72" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">speech recognition</text>
+    <text x="540" y="94" text-anchor="middle" font-size="11" fill="var(--soft)">brilliant at hearing words</text>
+    <text x="540" y="113" text-anchor="middle" font-size="11" fill="var(--wrong)">cannot drive a car</text>
+  </g>
+  <g>
+    <rect x="660" y="40" width="170" height="88" rx="10" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 5"/>
+    <text x="745" y="80" text-anchor="middle" font-size="12.5" fill="var(--soft)">one AI that</text>
+    <text x="745" y="100" text-anchor="middle" font-size="12.5" fill="var(--soft)">does all of it</text>
+    <text x="745" y="119" text-anchor="middle" font-size="11" font-weight="600" fill="var(--wrong)">does not exist yet</text>
+  </g>
+  <text x="30" y="172" font-size="12" fill="var(--soft)">This is what &#8220;narrow&#8221; means: expert at one task, useless at the one next to it.</text>
+</svg></div>
+    <p class="rise arline ar">كل AI شاطر في حاجة واحدة بس. اللي بيترجم مايعرفش يشوف وش، واللي بيمسك السبام مايعرفش يترجم. والـ AI اللي يعمل كل حاجة لسه مش موجود.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Think it through</div>
+    <h2 class="rise" style="max-width:26ch">A spam filter and a shop&#8217;s recommendations do completely different jobs. What do they have in common <i>underneath</i>?</h2>
+    <p class="rise sub" style="margin-top:1rem;color:var(--soft)">Two minutes with your partner. Answer in one sentence.</p>
+    <p class="rise arline ar">فلتر السبام وترشيحات المتجر بيعملوا حاجتين مختلفتين تمامًا. إيه اللي مشترك بينهم من جوه؟ دقيقتين مع زميلك، وإجابة في سطر واحد.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Part 2</div>
+    <h2 class="rise" style="font-size:clamp(30px,5.5vw,72px)">The nested layers</h2>
+    <p class="rise arline ar">الجزء التاني: الطبقات اللي جوه بعض.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">2 &#183; The one picture to remember</div>
+    <h2 class="rise">Boxes inside boxes</h2>
+    <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 860 300" role="img" aria-label="AI contains machine learning, which contains deep learning, which contains generative AI">
+  <rect x="20" y="20" width="820" height="260" rx="16" fill="var(--teal)" opacity=".07" stroke="var(--teal)" stroke-width="2.5"/>
+  <text x="40" y="48" font-size="15" font-weight="600" fill="var(--teal)">AI</text>
+  <text x="40" y="68" font-size="11" fill="var(--soft)">intelligent behaviour on a computer</text>
+
+  <rect x="150" y="56" width="670" height="204" rx="14" fill="var(--teal)" opacity=".10" stroke="var(--teal)" stroke-width="2"/>
+  <text x="170" y="84" font-size="14" font-weight="600" fill="var(--teal)">Machine learning</text>
+  <text x="170" y="103" font-size="11" fill="var(--soft)">learns from data</text>
+
+  <rect x="300" y="92" width="500" height="148" rx="12" fill="var(--teal)" opacity=".14" stroke="var(--teal)" stroke-width="2"/>
+  <text x="320" y="120" font-size="14" font-weight="600" fill="var(--teal)">Deep learning</text>
+  <text x="320" y="139" font-size="11" fill="var(--soft)">neural networks</text>
+
+  <rect x="470" y="128" width="310" height="92" rx="10" fill="var(--gold)" opacity=".20" stroke="var(--gold)" stroke-width="2.5"/>
+  <text x="492" y="156" font-size="14" font-weight="600" fill="#8A6420">Generative AI</text>
+  <text x="492" y="175" font-size="11" fill="var(--soft)">makes new text, images, audio</text>
+  <text x="492" y="196" font-size="10.5" fill="var(--soft)">e.g. ChatGPT</text>
+
+  <text x="40" y="272" font-size="11.5" fill="var(--soft)">each box is inside the one before it &#8212; not beside it</text>
+</svg></div>
+    <p class="rise arline ar">دي أهم صورة في الدرس: الـ AI هو الأوسع، وجواه machine learning، وجواه deep learning، وجواه generative AI. مش أربع حاجات جنب بعض — دول جوه بعض.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">2 &#183; Machine learning</div>
+    <h2 class="rise" style="max-width:22ch">It learns patterns from data</h2>
+    <div class="rise statement"><em>Machine learning</em> &#8212; one of the learning technologies that makes AI work. It learns <b>patterns from data</b> to make predictions and judgments.</div>
+    <p class="rise sub" style="max-width:58ch;margin-top:.9rem">Examples the book gives: <b>spam filters</b> and <b>product recommendations</b>. That is the answer to the question you just discussed &#8212; different jobs, same underlying method.</p>
+    <p class="rise arline ar">الـ machine learning بيتعلّم أنماط من الداتا عشان يتنبأ ويحكم. وأمثلة الكتاب: فلتر السبام وترشيح المنتجات — دي إجابة السؤال اللي لسه سألناه.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">2 &#183; The difference that matters</div>
+    <h2 class="rise">Rules you write, or rules it works out</h2>
+    <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 880 270" role="img" aria-label="Traditional programming follows written rules; machine learning works out the rules from examples">
+  <text x="30" y="24" font-size="13" font-weight="600" fill="var(--ink)">Traditional programming</text>
+  <rect x="30" y="38" width="150" height="46" rx="6" fill="none" stroke="var(--soft)" stroke-width="2"/>
+  <text x="105" y="60" text-anchor="middle" font-size="11.5" fill="var(--ink)">rules you</text>
+  <text x="105" y="76" text-anchor="middle" font-size="11.5" fill="var(--ink)">write by hand</text>
+  <line x1="186" y1="61" x2="238" y2="61" stroke="var(--soft)" stroke-width="2"/>
+  <polygon points="238,61 230,56 230,66" fill="var(--soft)"/>
+  <rect x="244" y="38" width="120" height="46" rx="6" fill="var(--soft)" opacity=".13" stroke="var(--soft)" stroke-width="2"/>
+  <text x="304" y="66" text-anchor="middle" font-size="11.5" fill="var(--ink)">the program</text>
+  <line x1="370" y1="61" x2="422" y2="61" stroke="var(--soft)" stroke-width="2"/>
+  <polygon points="422,61 414,56 414,66" fill="var(--soft)"/>
+  <text x="432" y="66" font-size="11.5" fill="var(--soft)">answer</text>
+
+  <line x1="30" y1="112" x2="850" y2="112" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="5 5"/>
+
+  <text x="30" y="146" font-size="13" font-weight="600" fill="var(--teal)">Machine learning</text>
+  <rect x="30" y="160" width="150" height="62" rx="6" fill="var(--teal)" opacity=".12" stroke="var(--teal)" stroke-width="2"/>
+  <text x="105" y="184" text-anchor="middle" font-size="11.5" fill="var(--ink)">lots of examples</text>
+  <text x="105" y="202" text-anchor="middle" font-size="11.5" fill="var(--ink)">already answered</text>
+  <line x1="186" y1="191" x2="238" y2="191" stroke="var(--teal)" stroke-width="2"/>
+  <polygon points="238,191 230,186 230,196" fill="var(--teal)"/>
+  <rect x="244" y="160" width="150" height="62" rx="6" fill="var(--teal)" opacity=".22" stroke="var(--teal)" stroke-width="2.5"/>
+  <text x="319" y="184" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink)">it works out</text>
+  <text x="319" y="202" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink)">the rules itself</text>
+  <line x1="400" y1="191" x2="452" y2="191" stroke="var(--teal)" stroke-width="2"/>
+  <polygon points="452,191 444,186 444,196" fill="var(--teal)"/>
+  <text x="462" y="196" font-size="11.5" fill="var(--soft)">answer for something new</text>
+
+  <text x="30" y="252" font-size="11.5" fill="var(--soft)">Nobody wrote a rule for every spam email. It learned what spam looks like.</text>
+</svg></div>
+    <p class="rise arline ar">الفرق الأساسي: في البرمجة العادية انت بتكتب القواعد بإيدك. في الـ machine learning بتديله أمثلة متحلولة وهو يستنتج القاعدة لوحده.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">2 &#183; Deep learning</div>
+    <h2 class="rise" style="max-width:24ch">A more advanced kind of machine learning</h2>
+    <div class="rise statement"><em>Deep learning</em> &#8212; an advanced technology <b>within</b> machine learning that uses <b>neural networks</b>. It learns complex patterns using <b>large-scale data</b>.</div>
+    <table style='margin-top:.9rem'><tr><th>Example</th><th>What it handles</th></tr><tr><td><b>Image analysis for autonomous driving</b></td><td>Reading a whole road scene at once</td></tr><tr><td><b>Speech synthesis</b></td><td>Producing a voice that sounds human</td></tr></table>
+    <p class="rise arline ar">الـ deep learning نوع متقدم جوه الـ machine learning، بيستخدم الشبكات العصبية ومحتاج داتا ضخمة. أمثلته: تحليل صور القيادة الذاتية، وتوليد الصوت.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">2 &#183; The core technology</div>
+    <h2 class="rise">A neural network</h2>
+    <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 860 290" role="img" aria-label="A neural network: input nodes connect through hidden layers to an output">
+  <g stroke="var(--line)" stroke-width="1.2">
+    <line x1="140" y1="70"  x2="330" y2="60"/><line x1="140" y1="70"  x2="330" y2="140"/><line x1="140" y1="70"  x2="330" y2="220"/>
+    <line x1="140" y1="145" x2="330" y2="60"/><line x1="140" y1="145" x2="330" y2="140"/><line x1="140" y1="145" x2="330" y2="220"/>
+    <line x1="140" y1="220" x2="330" y2="60"/><line x1="140" y1="220" x2="330" y2="140"/><line x1="140" y1="220" x2="330" y2="220"/>
+    <line x1="330" y1="60"  x2="520" y2="100"/><line x1="330" y1="60"  x2="520" y2="185"/>
+    <line x1="330" y1="140" x2="520" y2="100"/><line x1="330" y1="140" x2="520" y2="185"/>
+    <line x1="330" y1="220" x2="520" y2="100"/><line x1="330" y1="220" x2="520" y2="185"/>
+    <line x1="520" y1="100" x2="690" y2="145"/><line x1="520" y1="185" x2="690" y2="145"/>
+  </g>
+
+  <g fill="var(--teal)">
+    <circle cx="140" cy="70" r="15"/><circle cx="140" cy="145" r="15"/><circle cx="140" cy="220" r="15"/>
+  </g>
+  <g fill="var(--teal)" opacity=".62">
+    <circle cx="330" cy="60" r="15"/><circle cx="330" cy="140" r="15"/><circle cx="330" cy="220" r="15"/>
+    <circle cx="520" cy="100" r="15"/><circle cx="520" cy="185" r="15"/>
+  </g>
+  <circle cx="690" cy="145" r="18" fill="var(--gold)"/>
+
+  <text x="140" y="264" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">what goes in</text>
+  <text x="140" y="281" text-anchor="middle" font-size="10.5" fill="var(--soft)">the photo</text>
+  <text x="425" y="264" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">many simple parts, connected</text>
+  <text x="425" y="281" text-anchor="middle" font-size="10.5" fill="var(--soft)">each one passes a small judgment along</text>
+  <text x="690" y="264" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">the judgment</text>
+  <text x="690" y="281" text-anchor="middle" font-size="10.5" fill="var(--soft)">&#8220;that is a cat&#8221;</text>
+
+  <text x="30" y="26" font-size="12.5" font-weight="600" fill="var(--soft)">modelled on the nerve cells of the brain &#8212; no single part is clever</text>
+</svg></div>
+    <p class="rise sub" style="max-width:58ch;margin-top:.5rem">It is the core technology behind the recent jump in what AI can do.</p>
+    <p class="rise arline ar">الشبكة العصبية متصممة على فكرة خلايا المخ. مفيش جزء منها ذكي لوحده — الذكاء بييجي من ربط أجزاء بسيطة كتير مع بعض. ودي التقنية اللي شايلة تقدّم الـ AI الحديث.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">2 &#183; Why large-scale data matters</div>
+    <h2 class="rise">It only knows what it was shown</h2>
+    <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 860 250" role="img" aria-label="A model sees common cases many times and rare cases almost never">
+  <text x="30" y="24" font-size="12.5" font-weight="600" fill="var(--soft)">what the training data actually contained</text>
+
+  <text x="30" y="66" font-size="12.5" fill="var(--ink)">an ordinary car</text>
+  <g fill="var(--teal)">
+    <rect x="200" y="50" width="22" height="22" rx="3"/><rect x="230" y="50" width="22" height="22" rx="3"/>
+    <rect x="260" y="50" width="22" height="22" rx="3"/><rect x="290" y="50" width="22" height="22" rx="3"/>
+    <rect x="320" y="50" width="22" height="22" rx="3"/><rect x="350" y="50" width="22" height="22" rx="3"/>
+    <rect x="380" y="50" width="22" height="22" rx="3"/><rect x="410" y="50" width="22" height="22" rx="3"/>
+    <rect x="440" y="50" width="22" height="22" rx="3"/><rect x="470" y="50" width="22" height="22" rx="3"/>
+    <rect x="500" y="50" width="22" height="22" rx="3"/><rect x="530" y="50" width="22" height="22" rx="3"/>
+  </g>
+  <text x="566" y="66" font-size="11.5" fill="var(--soft)">seen thousands of times</text>
+
+  <text x="30" y="132" font-size="12.5" fill="var(--ink)">a horse and cart at night</text>
+  <rect x="200" y="116" width="22" height="22" rx="3" fill="var(--wrong)"/>
+  <text x="240" y="132" font-size="11.5" fill="var(--wrong)">seen almost never</text>
+
+  <rect x="30" y="170" width="800" height="54" rx="8" fill="var(--gold)" opacity=".16" stroke="var(--gold)" stroke-width="2"/>
+  <text x="50" y="194" font-size="12.5" font-weight="600" fill="var(--ink)">It did not learn a rule for &#8220;vehicle&#8221;. It learned what it was shown.</text>
+  <text x="50" y="213" font-size="11.5" fill="var(--soft)">So the thing it has barely seen is the thing it gets wrong &#8212; and it is confident anyway.</text>
+</svg></div>
+    <p class="rise arline ar">الموديل مابيتعلمش قاعدة عامة، بيتعلم اللي اتعرض عليه. فالحاجة النادرة هي بالظبط اللي بيغلط فيها — وبثقة كمان.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Pause &amp; think</div>
+    <h2 class="rise" style="max-width:26ch">Deep learning needs large-scale data to learn. So why might an AI struggle with something it has <i>rarely</i> seen?</h2>
+    <p class="rise arline ar">الـ deep learning محتاج داتا ضخمة عشان يتعلم. طب ليه بيتلخبط في حاجة نادرًا ما شافها؟</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Part 3</div>
+    <h2 class="rise" style="font-size:clamp(30px,5.5vw,72px)">Generative AI</h2>
+    <p class="rise arline ar">الجزء التالت: الذكاء الاصطناعي التوليدي.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">3 &#183; Generative AI</div>
+    <h2 class="rise" style="max-width:18ch">It makes new data</h2>
+    <div class="rise statement"><em>Generative AI</em> &#8212; AI technology that uses <b>deep learning</b> to generate <b>new data</b>: text, images, audio, programs.</div>
+    <p class="rise sub" style="max-width:58ch;margin-top:.9rem">Examples the book gives: <b>ChatGPT</b> and <b>image-generation AIs</b>. Note where it sits &#8212; it is built <i>on</i> deep learning, which is inside machine learning, which is inside AI.</p>
+    <p class="rise arline ar">الـ generative AI بيستخدم الـ deep learning عشان يطلّع داتا جديدة: نص، صور، صوت، برامج. وخلي بالك من مكانه — مبني على الـ deep learning اللي جوه الـ machine learning اللي جوه الـ AI.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">3 &#183; The word &#8220;generate&#8221;</div>
+    <h2 class="rise">Choosing an answer, or making one</h2>
+    <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 880 250" role="img" aria-label="Classifying picks a label from a list; generating produces something new">
+  <text x="30" y="24" font-size="13" font-weight="600" fill="var(--teal)">Classify &#8212; choose from what exists</text>
+  <rect x="30" y="38" width="118" height="52" rx="6" fill="var(--teal)" opacity=".12" stroke="var(--teal)" stroke-width="2"/>
+  <text x="89" y="70" text-anchor="middle" font-size="11.5" fill="var(--ink)">an email</text>
+  <line x1="154" y1="64" x2="206" y2="64" stroke="var(--teal)" stroke-width="2"/>
+  <polygon points="206,64 198,59 198,69" fill="var(--teal)"/>
+  <rect x="212" y="38" width="150" height="52" rx="6" fill="none" stroke="var(--teal)" stroke-width="2"/>
+  <text x="287" y="62" text-anchor="middle" font-size="11.5" fill="var(--ink)">spam</text>
+  <text x="287" y="80" text-anchor="middle" font-size="11.5" fill="var(--soft)">or not spam</text>
+  <text x="380" y="68" font-size="11" fill="var(--soft)">one of two answers, both already known</text>
+
+  <line x1="30" y1="120" x2="850" y2="120" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="5 5"/>
+
+  <text x="30" y="154" font-size="13" font-weight="600" fill="#8A6420">Generate &#8212; make something that was not there</text>
+  <rect x="30" y="168" width="118" height="52" rx="6" fill="var(--gold)" opacity=".18" stroke="var(--gold)" stroke-width="2"/>
+  <text x="89" y="200" text-anchor="middle" font-size="11.5" fill="var(--ink)">a prompt</text>
+  <line x1="154" y1="194" x2="206" y2="194" stroke="var(--gold)" stroke-width="2"/>
+  <polygon points="206,194 198,189 198,199" fill="var(--gold)"/>
+  <rect x="212" y="168" width="150" height="52" rx="6" fill="var(--gold)" opacity=".28" stroke="var(--gold)" stroke-width="2.5"/>
+  <text x="287" y="192" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink)">a new paragraph</text>
+  <text x="287" y="210" text-anchor="middle" font-size="11.5" fill="var(--soft)">nobody wrote before</text>
+  <text x="380" y="198" font-size="11" fill="var(--soft)">not picked from a list &#8212; produced</text>
+</svg></div>
+    <p class="rise arline ar">الفرق بين إنه يختار من حاجات موجودة، وإنه يطلّع حاجة جديدة محدش كتبها قبل كده. دي معنى كلمة generate.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">3 &#183; What counts as &#8220;new data&#8221;</div>
+    <h2 class="rise">Four kinds</h2>
+    <div class="rise fields"><span class="chip">text</span><span class="chip">images</span><span class="chip">audio</span><span class="chip">programs</span></div>
+    <p class="rise sub" style="max-width:58ch;margin-top:1rem">If a question asks what generative AI produces, these four are the answer. A program counts too &#8212; code is just another kind of text it can write.</p>
+    <p class="rise arline ar">لو السؤال بيقول الـ generative AI بيطلّع إيه، دي الأربعة. والبرامج منهم — الكود ده برضو نص بيكتبه.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Worked example &#183; page 15</div>
+    <h2 class="rise" style="max-width:18ch">True or false?</h2>
+    <ul class="rise check"><li>Machine learning is one of the technologies that makes AI work. <b>&#10003; True</b></li><li class="no">Deep learning is a completely different technology from machine learning. <b>&#10007; False &#8212; it is <i>inside</i> it</b></li><li>Generative AI uses deep learning to generate new data. <b>&#10003; True</b></li><li class="no">AI and machine learning have the same meaning. <b>&#10007; False &#8212; AI is the broad field</b></li></ul>
+    <p class="rise arline ar">التمرين ده من الكتاب صفحة 15. لاحظ إن الغلطتين الاتنين سببهم حاجة واحدة: إن الطالب فاكر الطبقات دي جنب بعض مش جوه بعض.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Exam warning</div>
+    <h2 class="rise" style="max-width:24ch">The two sentences students get wrong every year</h2>
+    <div class="rise vs"><div class="pane b"><h3>&#10007; &#8220;Deep learning is completely different from machine learning&#8221;</h3><ul><li>It is not a different technology</li><li>It is an <b>advanced kind of</b> machine learning</li><li>Go back to the nested boxes</li></ul></div><div class="pane b"><h3>&#10007; &#8220;AI and machine learning mean the same thing&#8221;</h3><ul><li>AI is the <b>broad field</b></li><li>Machine learning is <b>one technology inside it</b></li><li>Same trap, other direction</li></ul></div></div>
+    <p class="rise arline ar">الجملتين دول بيتكرروا في الامتحان كل سنة، والسبب واحد: الطالب مش شايف إن الطبقات جوه بعض. ارجع لصورة الصناديق.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Use it carefully</div>
+    <h2 class="rise" style="max-width:24ch">A fluent answer can still be wrong</h2>
+    <div class="rise quote"><p>Generative AI is built to produce text that <i>reads</i> like a good answer. Reading well and being correct are not the same thing.</p><cite>Why you check before you hand it in</cite></div>
+    <p class="rise sub" style="max-width:56ch;margin-top:.9rem">It has no way of knowing it is wrong, so it will not warn you. Check any fact it gives you against the book.</p>
+    <p class="rise arline ar">الـ generative AI متصمم يطلّع كلام شكله مقنع. وشكله مقنع مش معناه إنه صح — وهو مش هيحذّرك لأنه أصلاً مش عارف. راجع أي معلومة منه على الكتاب.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">In a new context</div>
+    <h2 class="rise" style="max-width:26ch">A farmer photographs a diseased crop leaf</h2>
+    <p class="rise sub" style="max-width:54ch;margin-top:.7rem">An app names the disease from the photo, and writes a short treatment plan.</p>
+    <ul class="rise check" style="margin-top:.8rem"><li>Which part is <b>image recognition</b>, and which part is <b>generative AI</b>?</li><li>If the disease is rare in that region, which part would you trust less &#8212; and why?</li></ul>
+    <p class="rise arline ar">فلاح بيصوّر ورقة زرع مريضة. التطبيق بيحدد المرض وبيكتب خطة علاج. أنهي جزء تعرّف على صور وأنهي جزء توليد؟ ولو المرض نادر في المنطقة دي، هتثق في أنهي جزء أقل؟</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Key takeaway</div>
+    <h2 class="rise" style="max-width:30ch">AI is the field. Everything else is a box inside it.</h2>
+    <div class="rise stats" style="margin-top:1rem"><div class="stat"><b>AI</b><span>intelligent behaviour on a computer</span></div><div class="stat"><b>ML</b><span>learns patterns from data</span></div><div class="stat"><b>DL</b><span>neural networks, large data</span></div><div class="stat"><b>Gen</b><span>makes new text, images, audio</span></div></div>
+    <p class="rise arline ar">الخلاصة: AI هو المجال كله، وكل واحد بعده صندوق جواه. والترتيب ده هو اللي بيتسأل عليه أكتر حاجة.</p>
+  </section>
+
   <section class="slide dark">
     <div class="rise eyebrow">Before you go</div>
-    <h2 class="rise">Test yourself</h2>
-    <div class="rise qrwrap">
-      <img id="qr" alt="QR code linking to the quiz" width="250" height="250">
-      <div class="txt">
-        <p class="sub">Scan with your phone camera. At the end it shows you which parts you understood and which parts to read again.</p>
-        <p class="sub mono" style="margin-top:.7rem;font-size:clamp(12px,1.3vw,17px)"><a id="quizLink" href="../quiz/"></a></p>
-      </div>
-    </div>
-    <p class="rise arline ar">امسح الكود بكاميرا موبايلك.</p>
+    <h2 class="rise">Exam &#8212; Lectures 1, 2 and 3</h2>
+    <div class="rise qrwrap"><img id="qr" alt="QR code linking to the Lecture 3 quiz" width="250" height="250"><div class="txt"><p class="sub">It covers this session and the ones before it. At the end it shows you, section by section, which parts to read again.</p><p class="sub mono" style="margin-top:.7rem;font-size:clamp(12px,1.3vw,17px)"><a id="quizLink" href="../quiz/"></a></p></div></div>
+    <p class="rise arline ar">امتحان على المحاضرات التلاتة. في الآخر هيوضحلك انت ضعيف في أنهي جزء بالظبط.</p>
   </section>
-
 </div>
 
 <div id="nav">
