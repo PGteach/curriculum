@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 3 Handout — How does it learn? · PGteach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}</style>
+</head>
+<body>
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">How does it learn?</h1><div class="docsub">Student Booklet &middot; Lecture 3</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><h2>What is AI?</h2><p class="lead">AI is a general term for technologies that reproduce or perform intelligent human behavior on a computer.</p><p class="ar">AI ده اسم واسع لتقنيات بتعمل سلوك ذكي على الكمبيوتر.</p><table><tr><th>Everyday example</th><th>What it does</th></tr><tr><td>Speech recognition</td><td>Recognises speech</td></tr><tr><td>Image recognition</td><td>Recognises images</td></tr><tr><td>Translation</td><td>Changes one language into another</td></tr></table><div class="summary"><p><b>Important:</b> today’s AI is narrow — expert at one task only.</p><p class="ar">خلي بالك: AI النهارده شاطر في مهمة محددة، مش فاهم كل حاجة زي الإنسان.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>The spine of the lesson</h2><p>The technologies are nested categories, becoming more specialised at each layer.</p><p class="ar">دي دوائر جوه بعض، كل دايرة أضيق وأكتر تحديدًا.</p><table><tr><th>Layer</th><th>What it does</th></tr><tr><td class="k">AI</td><td>Broad term for intelligent behavior on a computer</td></tr><tr><td class="k">Machine learning</td><td>Learns patterns from data</td></tr><tr><td class="k">Deep learning</td><td>Uses neural networks and large-scale data</td></tr><tr><td class="k">Generative AI</td><td>Uses deep learning to generate new data</td></tr></table><p class="ar">احفظ الترتيب ده؛ هو أساس كل أسئلة الدرس.</p><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Machine learning</h2><div class="term"><h4>Machine learning</h4><p>A learning technology that makes AI work: it learns patterns from data to make predictions and judgments.</p><p class="ar">بدل ما نكتب rules بإيدنا، بيتعلم pattern من أمثلة.</p></div><div class="stages"><div class="stage"><div class="n">1</div><h4>Data</h4><p>Examples are provided.</p></div><div class="stage"><div class="n">2</div><h4>Pattern</h4><p>The system learns a pattern.</p></div><div class="stage"><div class="n">3</div><h4>Judgment</h4><p>It makes a prediction or judgment.</p></div></div><p>Examples: spam filters and product recommendations.</p><p class="ar">spam filter و product recommendation مهمتين مختلفتين، لكن الاتنين بيتعلموا من data.</p><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Deep learning and neural networks</h2><div class="term"><h4>Deep learning</h4><p>An advanced technology within machine learning that uses neural networks and large-scale data to learn complex patterns.</p><p class="ar">Deep learning نوع متقدم جوه machine learning وبيحتاج بيانات كتير.</p></div><div class="term"><h4>Neural network</h4><p>A system modeled after the workings of the nerve cells of the human brain. Connected components learn from data and make complex judgments.</p><p class="ar">الـ neural network متصممة على فكرة خلايا المخ، بس هي نظام على الكمبيوتر.</p></div><div class="summary"><p><b>Pause and think.</b> If an AI has rarely seen something in its data, why might it struggle to judge it?</p><p class="ar">لو الحاجة نادرة في data، غالبًا الـ AI مش هيكون اتعلم نمطها كويس.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Generative AI</h2><div class="term"><h4>Generative AI</h4><p>AI technology that uses deep learning to generate new data: text, images, audio and programs.</p><p class="ar">كلمة generate معناها يطلع حاجة جديدة: text أو image أو صوت.</p></div><table><tr><th>Classify / predict</th><th>Generate</th></tr><tr><td>Spam filter sorts email</td><td>ChatGPT generates text</td></tr><tr><td>Product recommendation predicts an interest</td><td>Image AI generates an image</td></tr></table><p class="ar">دي أكتر حاجة الطلبة بيلخبطوا فيها: spam filter بيصنّف، مش generative AI.</p><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Exam warning: fluent is not always correct</h2><div class="summary"><p>Generative AI can produce text that sounds plausible but is factually incorrect: a <b>hallucination</b>.</p><p class="ar">لو الكلام شكله مقنع مش معناه إنه صح؛ ده ممكن يكون hallucination.</p></div><p>Do not use output as the answer to a school report as-is. Check it first.</p><p class="ar">استخدمه يساعدك، بس راجع المعلومة قبل ما تحطها في report.</p><h2>Key takeaway</h2><div class="summary"><p>AI is the broad field; machine learning sits inside it; deep learning sits inside machine learning; generative AI is built on deep learning.</p><p class="ar">الخلاصة: AI ثم machine learning ثم deep learning ثم generative AI.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Class work · Part A</h2><p class="ar">شغل الحصة — نحل دول سوا.</p><div class="ex"><div class="exhead"><span class="exn">1</span><span class="exq">Fill in the nested technologies from broadest to most specialised.</span></div><p class="ar">كمّل مستويات التكنولوجيا من الأوسع للأكثر تحديدًا.</p><div class="src">p.13–14 — hierarchy</div><p class="passage">( a ) contains machine learning. Within it is ( b ). Within that is ( c ). Today&#x27;s ( d ) systems are built on deep learning.</p><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="ex"><div class="exhead"><span class="exn">2</span><span class="exq">Write true or false.</span></div><p class="ar">اكتب صح أو غلط.</p><div class="src">p.15 — Worked Example (1)</div><table class="tftbl"><tr><th>✓ / ✕</th><th>Statement</th></tr><tr><td class="blank"></td><td>Machine learning learns patterns from data.</td></tr><tr><td class="blank"></td><td>Deep learning is completely separate from machine learning.</td></tr><tr><td class="blank"></td><td>Generative AI uses deep learning to generate new data.</td></tr></table></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Class work · Part B</h2><p class="ar">كمّل مع زميلك وبص على الكلمات المفتاح.</p><div class="ex"><div class="exhead"><span class="exn">3</span><span class="exq">Match each description to the most appropriate term.</span></div><p class="ar">صِل كل وصف بالمصطلح الصح.</p><div class="src">p.14 — definitions</div><table class="matchtbl"><tr><td>Learns patterns from data</td><td class="blank"></td></tr><tr><td>Uses neural networks</td><td class="blank"></td></tr><tr><td>Generates new text or images</td><td class="blank"></td></tr></table><p>Options: Machine learning, Deep learning, Generative AI</p></div><div class="ex"><div class="exhead"><span class="exn">4</span><span class="exq">What does machine learning learn from data to make?</span></div><p class="ar">Machine learning بيتعلم patterns من البيانات عشان يعمل إيه؟</p><div class="src">p.14 — Machine Learning definition</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet">
+  <div class="brand" id="brand">Programming &amp; Artificial Intelligence</div>
+
+  <h1 id="docTitle">How does it learn?</h1>
+  <div class="docsub">Student Booklet</div>
+
+  <h2>Introduction</h2>
+  <p class="lead">Two or three sentences on what this session is for, and why it is
+  worth the student's time. Keep it plain — no jargon before it is explained.</p>
+  <p class="ar">.</p>
+
+  <h2>1 · </h2>
+  <p></p>
+
+  <div class="stages">
+    <div class="stage">
+      <div class="n">1</div>
+      <h4>Step one</h4>
+      <p>What happens here</p>
+    </div>
+    <div class="stage">
+      <div class="n">2</div>
+      <h4>Step two</h4>
+      <p>What happens here</p>
+    </div>
+    <div class="stage">
+      <div class="n">3</div>
+      <h4>Step three</h4>
+      <p>What happens here</p>
+    </div>
+  </div>
+  <p class="ar">.</p>
+
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+
+
+
+
+<section class="sheet">
+  <h2>2 · </h2>
+  <p>Explain the idea, then show it in a table:</p>
+  <table>
+    <tr><th>Term</th><th>What it means</th></tr>
+    <tr><td class="k"></td><td></td></tr>
+    <tr><td class="k"></td><td></td></tr>
+  </table>
+  <p class="ar">.</p>
+
+  <div class="term">
+    <h4></h4>
+    <p>The explanation, one or two sentences.</p>
+  </div>
+
+  <h2>3 · Activity</h2>
+  <p>Ask the student to apply it:</p>
+  <div class="write">
+    <div class="label"></div>
+    <div class="rule"></div>
+    <div class="rule"></div>
+  </div>
+
+  <h2>4 · Check Your Understanding</h2>
+  <ol class="qs">
+    <li><div class="rule tight"></div></li>
+    <li><div class="rule tight"></div></li>
+  </ol>
+
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+
+<section class="sheet">
+  <h2>Test yourself online</h2>
+  <div class="summary">
+    <p>Scan the code to open the Lecture 3 quiz.</p>
+    <p>Review the nested layers and key terms first.</p>
+  </div>
+
+  <h2>Test Yourself Online</h2>
+  <div class="qrbox">
+    <img id="qr" alt="QR code linking to the quiz" width="250" height="250">
+    <div class="txt">
+      <h3>Test yourself · about 5 minutes</h3>
+      <p>Scan this code with your phone camera to open the quiz. At the end it tells you,
+      section by section, which parts of this session you have understood and which parts
+      to read again.</p>
+      <p>Or open it directly:</p>
+      <div class="qrurl" id="quizUrl"></div>
+      <div id="qrWarn">The QR image did not load. Check your connection and reload
+        before printing this sheet.</div>
+    </div>
+  </div>
+  <p class="ar">امسح الكود بكاميرا موبايلك.</p>
+
+  <h2>My notes</h2>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+  <div class="rule"></div>
+
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 3;
+const LECTURE_TITLE = "How does it learn?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#1D6FA5";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  applyAccent();
+  document.title = LECTURE.label + " Handout — " + LECTURE.title + " · PGteach";
+  document.getElementById('brand').textContent =
+    LECTURE.label + " · " + LECTURE_TOPIC;
+  document.getElementById('docTitle').textContent = LECTURE.title;
+  document.getElementById('quizUrl').textContent =
+    LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+  qr.onerror = () => { document.getElementById('qrWarn').style.display = 'block'; };
+  qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+         + encodeURIComponent(LECTURE.quizUrl);
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+
+  document.getElementById('printBtn').onclick = () => window.print();
+})();
+</script>
+</body>
+</html>
