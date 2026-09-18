@@ -102,6 +102,31 @@
   .review-card .w-val{color:var(--wrong);font-weight:600}
   .review-card .c-val{color:var(--green);font-weight:600}
   .review-card .why-txt{margin-top:6px;color:var(--ink-soft);font-size:13px;font-style:italic}
+  /* Hard words are glossed BEFORE the options, because a word the student
+     cannot read stops them answering at all — help that arrives with the
+     explanation arrives too late. This block carries vocabulary only; the
+     reasoning stays in .why-ar, after the answer. */
+  .gloss{
+    border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:0 8px 8px 0;background:#FCFBF7;
+    padding:9px 12px;margin:0 0 16px;
+  }
+  .gloss-h{
+    font-size:12px;font-weight:600;color:var(--ink-soft);
+    margin-bottom:5px;text-align:left;
+  }
+  .gloss-list{display:flex;flex-wrap:wrap;gap:3px 18px}
+  .gl{font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+  .gl b{font-weight:600;color:var(--ink)}
+  .gl .eq{margin:0 5px;color:#B9BEC6}
+
+  /* The question stays in the exam's own English. The explanation is
+     where teaching happens, so it may also come in Arabic. */
+  .why-ar{
+    display:block;margin-top:7px;font-weight:400;font-size:14px;
+    color:var(--ink-soft);border-right:2px solid var(--line);padding-right:8px;
+  }
+  .review-card .why-ar{font-size:13px;font-style:normal;margin-top:5px}
 
   /* intake */
   .field{margin-bottom:15px}
@@ -112,6 +137,12 @@
   }
   .field input:focus{outline:2.5px solid var(--teal);outline-offset:1px;border-color:var(--teal)}
   .field .hint{font-size:12.5px;color:var(--ink-soft);margin-top:4px}
+  /* not .opt — that is the answer-button class, and a badge inheriting
+     its display:block and width:100% stretches across the form */
+  .field .tag{
+    display:inline-block;font-weight:400;font-size:12px;color:var(--ink-soft);
+    border:1px solid var(--line);border-radius:99px;padding:1px 7px;margin-left:6px;
+  }
   .err{color:var(--wrong);font-size:13.5px;margin-bottom:12px;font-weight:600}
   .whoami{font-size:13px;color:var(--ink-soft);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
 
@@ -128,7 +159,7 @@
 <header>
   <div class="kicker" id="kicker">Programming &amp; AI</div>
   <h1>Check what you understood</h1>
-  <div class="byline" id="byline">10 questions · about 5 minutes · Mr. Eissa Islam</div>
+  <div class="byline" id="byline">Mr. Eissa Islam</div>
 </header>
 
 <p class="count" id="introNote">Enter your details first, then the quiz begins.</p>
@@ -139,9 +170,14 @@
     <input id="sName" type="text" autocomplete="name" placeholder="Write your name as it appears in class">
   </div>
   <div class="field">
-    <label for="sPhone">Phone number</label>
+    <label for="sClass">Class / group</label>
+    <input id="sClass" type="text" autocomplete="off" placeholder="e.g. Sunday 5pm, or Group B">
+    <div class="hint">So your teacher knows which class this result belongs to.</div>
+  </div>
+  <div class="field">
+    <label for="sPhone">Phone number <span class="tag">optional</span></label>
     <input id="sPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="01xxxxxxxxx">
-    <div class="hint">Used only so your teacher can match this result to you.</div>
+    <div class="hint">Only needed if your teacher asks for it. You can leave it empty.</div>
   </div>
   <div class="field">
     <label for="sDate">Date</label>
@@ -157,6 +193,7 @@
   <div class="count" id="count"></div>
   <div class="section-tag" id="tag"></div>
   <div class="q" id="question"></div>
+  <div class="gloss hide" id="gloss"></div>
   <div id="options"></div>
   <div class="verdict hide" id="verdict"></div>
   <button type="button" class="next hide" id="next"></button>
@@ -220,25 +257,83 @@ const SECTIONS = [
      o   the options, in display order
      a   index of the correct option in `o`
      why the explanation shown after answering, and in the review list
+     v   OPTIONAL word help: [["english term","العربي"], ...]
+     ar  OPTIONAL Arabic explanation, shown with `why` after answering
    The question total, the progress bar and the per-section tracks are all
-   derived from this array — nothing else needs updating when you add one. */
+   derived from this array — nothing else needs updating when you add one.
+
+   ON `v` AND `ar` — the two of them are not interchangeable.
+
+   Keep the question in the exam's own English. That is the English the
+   students will sit, and the ministry textbook uses it, so rewriting it
+   into easier words trains them for a paper that does not exist.
+
+   `v` fixes the real problem instead: it translates the hard WORDS, and it
+   shows above the options, before the student answers. Help that arrives
+   after the answer is not help. Rules, both enforced by check_lecture.py:
+     - every term must appear in `q` or one of `o` — no glossing wording
+       the student cannot see;
+     - if you translate the correct option in full, translate every option,
+       or the right answer becomes the only readable one;
+     - at most six terms, or the block pushes the options off a phone.
+
+   `ar` is for reasoning — "the right order is computer, then internet" —
+   and it renders only once the answer is locked in. Never put reasoning
+   in `v`; that is an answer key printed above the options. */
 const QUESTIONS = [
-  {s:0,q:"Which sequence describes how a computer handles a task?",o:["Input, processing, output","Output, input, processing","Storage, output, input"],a:0,why:"A computer receives input, processes it according to instructions, then produces output.",src:"p.4 — input, processing, output"},
-  {s:0,q:"Which part keeps files when power is off?",o:["RAM","Storage","CPU"],a:1,why:"Storage keeps files when power is off; RAM only holds current work.",src:"p.5 — Storage"},
-  {s:0,q:"In traditional programming, who writes the rules?",o:["The programmer","The data","The screen"],a:0,why:"Traditional programming uses rules written by a programmer.",src:"p.11 — programming and AI"},
-  {s:1,q:"What does e-commerce mean?",o:["Buying and selling through the Internet","Paying cash in a shop","Only advertising online"],a:0,why:"E-commerce is buying and selling goods and services through the Internet.",src:"p.7 — e-commerce"},
-  {s:1,q:"Which technology overlays digital information on real-world images?",o:["VR","AR","Quantum computing"],a:1,why:"AR overlays digital information on real-world images.",src:"p.8 — AR"},
-  {s:1,q:"Why does an autonomous vehicle process data on board?",o:["A delay can cause an accident","Cars cannot use the Internet","Cloud storage is too small"],a:0,why:"Even a 0.1-second delay can cause an accident, so decisions need to be instant.",src:"p.8 — edge computing"},
-  {s:2,q:"What is AI?",o:["A general term for technologies that perform intelligent human behavior on a computer","Only software that creates pictures","A name for neural networks only"],a:0,why:"AI is the broad general term; its examples include speech recognition, image recognition and translation.",src:"p.13 — AI definition"},
-  {s:2,q:"What does machine learning learn from data?",o:["Patterns","Keyboard layouts","Fixed hand-written rules"],a:0,why:"Machine learning learns patterns from data to make predictions and judgments.",src:"p.14 — Machine Learning"},
-  {s:2,q:"Which is an example of machine learning in the lesson?",o:["A spam filter","A printed textbook","A computer mouse"],a:0,why:"Spam filters and product recommendations are examples of machine learning.",src:"p.14 — Machine Learning examples"},
-  {s:2,q:"Which order goes from broadest to most specialised?",o:["AI, machine learning, deep learning, generative AI","Generative AI, AI, deep learning, machine learning","AI, deep learning, machine learning, generative AI"],a:0,why:"The technologies are nested: AI contains machine learning, which contains deep learning, which supports generative AI.",src:"p.13–14 — hierarchy"},
-  {s:3,q:"What does deep learning use to learn complex patterns?",o:["Neural networks and large-scale data","Only a few fixed rules","Cashless payments"],a:0,why:"Deep learning is an advanced machine-learning technology using neural networks and large-scale data.",src:"p.14 — Deep Learning"},
-  {s:3,q:"What is a neural network modeled after?",o:["Nerve cells in the human brain","A hard disk","A mobile phone antenna"],a:0,why:"A neural network is modeled after the workings of nerve cells in the human brain.",src:"p.14 — Neural network"},
-  {s:3,q:"What can generative AI generate?",o:["New data such as text, images and audio","Only spam classifications","Only product prices"],a:0,why:"Generative AI uses deep learning to generate new data such as text, images, audio and programs.",src:"p.14 — Generative AI"},
-  {s:3,q:"Which is NOT an appropriate example of generative AI?",o:["ChatGPT","Image-generation AI","Spam filter"],a:2,why:"A spam filter classifies messages; it does not generate new data.",src:"p.16 — Try 2"},
-  {s:3,q:"Why should you check a generative AI answer before putting it in a report?",o:["It may sound plausible but be factually incorrect","It always uses too much storage","It cannot generate text"],a:0,why:"Generative AI can hallucinate: produce text that sounds plausible but is factually incorrect.",src:"p.16 — Think It Through"},
+  {s:0,q:"Which sequence describes how a computer handles a task?",o:["Input, processing, output","Output, input, processing","Storage, output, input"],k:"16mdfmoyt7j",why:"A computer receives input, processes it according to instructions, then produces output.",src:"p.4 — input, processing, output"},
+  {s:0,q:"Which part keeps files when power is off?",o:["RAM","Storage","CPU"],k:"rs9yl6ksvj",why:"Storage keeps files when power is off; RAM only holds current work.",src:"p.5 — Storage"},
+  {s:0,q:"In traditional programming, who writes the rules?",o:["The programmer","The data","The screen"],k:"1l8sfnndaug",why:"Traditional programming uses rules written by a programmer.",src:"p.11 — programming and AI"},
+  {s:1,q:"What does e-commerce mean?",o:["Buying and selling through the Internet","Paying cash in a shop","Only advertising online"],k:"15kjlek3cnn",why:"E-commerce is buying and selling goods and services through the Internet.",src:"p.7 — e-commerce"},
+  {s:1,q:"Which technology overlays digital information on real-world images?",o:["VR","AR","Quantum computing"],k:"1pq0fuuvjgf",why:"AR overlays digital information on real-world images.",src:"p.8 — AR"},
+  {s:1,q:"Why does an autonomous vehicle process data on board?",o:["A delay can cause an accident","Cars cannot use the Internet","Cloud storage is too small"],k:"13xvrcpv0s3",why:"Even a 0.1-second delay can cause an accident, so decisions need to be instant.",src:"p.8 — edge computing"},
+  {s:2,q:"What is AI?",o:["A general term for technologies that perform intelligent human behavior on a computer","Only software that creates pictures","A name for neural networks only"],k:"11ldlhgmeg6",why:"AI is the broad general term; its examples include speech recognition, image recognition and translation.",src:"p.13 — AI definition"},
+  {s:2,q:"What does machine learning learn from data?",o:["Patterns","Keyboard layouts","Fixed hand-written rules"],k:"uiecrzknyh",why:"Machine learning learns patterns from data to make predictions and judgments.",src:"p.14 — Machine Learning"},
+  {s:2,q:"Which is an example of machine learning in the lesson?",o:["A spam filter","A printed textbook","A computer mouse"],k:"8pb7pazj2d",why:"Spam filters and product recommendations are examples of machine learning.",src:"p.14 — Machine Learning examples"},
+  {s:2,q:"Which order goes from broadest to most specialised?",o:["AI, machine learning, deep learning, generative AI","Generative AI, AI, deep learning, machine learning","AI, deep learning, machine learning, generative AI"],k:"14513nxr4u7",why:"The technologies are nested: AI contains machine learning, which contains deep learning, which supports generative AI.",src:"p.13–14 — hierarchy"},
+  {s:3,q:"What does deep learning use to learn complex patterns?",o:["Neural networks and large-scale data","Only a few fixed rules","Cashless payments"],k:"2463i66tiao",why:"Deep learning is an advanced machine-learning technology using neural networks and large-scale data.",src:"p.14 — Deep Learning"},
+  {s:3,q:"What is a neural network modeled after?",o:["Nerve cells in the human brain","A hard disk","A mobile phone antenna"],k:"b4oj567v0p",why:"A neural network is modeled after the workings of nerve cells in the human brain.",src:"p.14 — Neural network"},
+  {s:3,q:"What can generative AI generate?",o:["New data such as text, images and audio","Only spam classifications","Only product prices"],k:"fk2ghl1goc",why:"Generative AI uses deep learning to generate new data such as text, images, audio and programs.",src:"p.14 — Generative AI"},
+  {s:3,q:"Which is NOT an appropriate example of generative AI?",o:["ChatGPT","Image-generation AI","Spam filter"],k:"i1th33dlu6",why:"A spam filter classifies messages; it does not generate new data.",src:"p.16 — Try 2"},
+  {s:3,q:"Why should you check a generative AI answer before putting it in a report?",o:["It may sound plausible but be factually incorrect","It always uses too much storage","It cannot generate text"],k:"y2xpn2bov1",why:"Generative AI can hallucinate: produce text that sounds plausible but is factually incorrect.",src:"p.16 — Think It Through"},
 ];
+
+/* ---- answer keys ------------------------------------------------------
+   The right option is stored as a fingerprint, not as an index, so opening
+   the page source does not hand a student the answers. scripts/
+   protect_answers.py converts `a: 1` into `k: "..."` before publishing.
+
+   Honest about what this is: it stops the answers being READ. It does not
+   stop them being COMPUTED — the function is right here, so one line in the
+   console still returns them. For a class that has not learned programming
+   yet that is a real barrier; for anyone who codes it is none.
+
+   If an option's text is edited and its fingerprint is not, nothing matches
+   and every answer would count as wrong. check_lecture.py fails on that and
+   CI runs on every push, so it cannot reach students.
+   --------------------------------------------------------------------- */
+const ANSWER_SALT = 1741;
+
+function fingerprint(s){                     /* cyrb53 */
+  let h1 = 0xdeadbeef ^ ANSWER_SALT, h2 = 0x41c6ce57 ^ ANSWER_SALT;
+  for(let i = 0; i < s.length; i++){
+    const c = s.charCodeAt(i);
+    h1 = Math.imul(h1 ^ c, 2654435761);
+    h2 = Math.imul(h2 ^ c, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+}
+
+/* index of the right option: by fingerprint if converted, by a: if not */
+function ansOf(q){
+  if(q._a === undefined){
+    q._a = (q.k === undefined) ? q.a
+         : q.o.findIndex(function(o){ return fingerprint(o) === q.k; });
+  }
+  return q._a;
+}
 
 const state = {
   i: 0,
@@ -246,6 +341,7 @@ const state = {
   correct: [],
   total: [],
   name: "",
+  klass: "",
   phone: "",
   date: "",
   wrongQuestions: [],
@@ -289,7 +385,7 @@ const $ = id => document.getElementById(id);
   document.title = LECTURE.label + " Quiz \u2014 " + LECTURE.title;
   $("kicker").textContent = LECTURE.label + " \u2014 " + LECTURE.title;
   $("byline").textContent =
-    QUESTIONS.length + " questions \u00b7 about 5 minutes \u00b7 Mr. Eissa Islam";
+    QUESTIONS.length + " questions \u00b7 about " + minutesEstimate() + " minutes \u00b7 Mr. Eissa Islam";
 })();
 
 // prefill today's date
@@ -303,19 +399,24 @@ const $ = id => document.getElementById(id);
 
 $("start").onclick = () => {
   const name  = $("sName").value.trim();
+  const klass = $("sClass").value.trim();
   const phone = $("sPhone").value.trim();
   const date  = $("sDate").value;
   const err   = $("intakeErr");
 
   /* A first name alone can't be matched to a register, so ask for at least
-     two words. Phone is kept permissive on format but bounded on length. */
+     two words. The class is what actually identifies which group a result
+     belongs to, so it is required. The phone is optional — a student who
+     does not want to give it should not be blocked — but if one is typed it
+     still has to look like a phone number, or it is a typo worth catching. */
   const words  = name.split(/\s+/).filter(w => w.length >= 2);
   const digits = phone.replace(/\D/g,"");
   let problem = "";
-  if(words.length < 2)        problem = "Please write your full name — first and last name.";
-  else if(digits.length < 8)  problem = "Please write a valid phone number.";
-  else if(digits.length > 15) problem = "That phone number is too long.";
-  else if(!date)              problem = "Please choose the date.";
+  if(words.length < 2)               problem = "Please write your full name — first and last name.";
+  else if(klass.length < 2)          problem = "Please write your class or group.";
+  else if(digits.length && digits.length < 8)  problem = "That phone number looks too short. Leave it empty if you would rather not give it.";
+  else if(digits.length > 15)        problem = "That phone number is too long.";
+  else if(!date)                     problem = "Please choose the date.";
 
   if(problem){
     err.textContent = problem;
@@ -323,8 +424,9 @@ $("start").onclick = () => {
     return;
   }
 
-  state.name = name; state.phone = phone; state.date = date;
-  const line = name + " · " + phone + " · " + date;
+  state.name = name; state.klass = klass;
+  state.phone = phone; state.date = date;
+  const line = [name, klass, phone, date].filter(Boolean).join(" · ");
   $("whoami").textContent = line;
   $("whoamiResult").textContent = line;
 
@@ -335,6 +437,23 @@ $("start").onclick = () => {
   render();
 };
 
+/* The byline's time estimate, derived so it cannot go stale: a written-in
+   figure was still promising five minutes on a twenty-question quiz, and a
+   student who budgets five for fifteen gives up half way.
+
+   45 seconds a question -- read it, read the word help, answer, read the
+   explanation -- rounded up to the nearest 5 minutes so it reads as an
+   estimate and not a promise.
+
+   Deliberately holds no module-level const. The byline is set by an IIFE
+   further up this script, and a `const` declared down here hoists without
+   initialising, so reading one from above throws a ReferenceError and
+   blanks the header. A function declaration hoists completely. */
+function minutesEstimate(){
+  const mins = QUESTIONS.length * 45 / 60;
+  return Math.max(5, Math.ceil(mins / 5) * 5);
+}
+
 function render(){
   const q = currentQ();
   state.answered = false;
@@ -343,6 +462,7 @@ function render(){
   $("count").textContent = "Question " + (state.i+1) + " of " + QUESTIONS.length;
   $("tag").textContent = SECTIONS[q.s];
   $("question").textContent = q.q;
+  glossary(q);
 
   state.order = shuffle(q.o.map((_, k) => k));
 
@@ -362,6 +482,29 @@ function render(){
   $("next").className = "next hide";
 }
 
+/* Vocabulary help, shown with the question and before the options.
+   Rule: q.v explains WORDS, never the answer. Anything that reasons towards
+   the right option belongs in q.ar, which only appears once the student has
+   committed. check_lecture.py refuses a glossed term that is not visible in
+   the question or an option, which keeps the two apart. */
+function glossary(q){
+  const box = $("gloss");
+  box.textContent = "";
+  if(!q.v || !q.v.length){ box.className = "gloss hide"; return; }
+  box.className = "gloss";
+  box.appendChild(el("div", "gloss-h ar", "معاني الكلمات"));
+  const list = el("div", "gloss-list", "");
+  q.v.forEach(function(pair){
+    const item = el("span", "gl", "");
+    item.appendChild(el("b", "", pair[0]));
+    /* each direction isolated, or a trailing bracket jumps sides */
+    item.appendChild(el("bdi", "eq", "="));
+    item.appendChild(el("bdi", "ar", pair[1]));
+    list.appendChild(item);
+  });
+  box.appendChild(list);
+}
+
 function choose(idx){
   if(state.answered) return;
   state.answered = true;
@@ -371,25 +514,36 @@ function choose(idx){
   buttons.forEach((b,pos) => {
     b.disabled = true;
     const orig = state.order[pos];      // buttons are in shuffled order
-    if(orig === q.a) b.classList.add("correct");
+    if(orig === ansOf(q)) b.classList.add("correct");
     else if(orig === idx) b.classList.add("chosen-wrong");
   });
 
-  const right = idx === q.a;
+  const right = idx === ansOf(q);
   if(right) {
     state.correct[q.s]++;
   } else {
     state.wrongQuestions.push({
       question: q.q,
       selected: q.o[idx],
-      correct: q.o[q.a],
-      why: q.why
+      correct: q.o[ansOf(q)],
+      why: q.why,
+      ar: q.ar || ""
     });
   }
 
   const v = $("verdict");
   v.className = "verdict " + (right ? "ok" : "no");
-  v.textContent = (right ? "Correct. " : "Not quite. ") + q.why;
+  v.textContent = "";
+  v.appendChild(document.createTextNode(
+    (right ? "Correct. " : "Not quite. ") + q.why));
+  /* The question is worded as the exam words it. The explanation may add
+     Arabic, because that is where the student is actually learning. */
+  if(q.ar){
+    const line = document.createElement("span");
+    line.className = "ar why-ar";
+    line.textContent = q.ar;
+    v.appendChild(line);
+  }
 
   const n = $("next");
   n.className = "next";
@@ -469,6 +623,7 @@ function finish(){
       card.appendChild(ansLine("\u274c", "Your answer:", item.selected, "w-val"));
       card.appendChild(ansLine("\u2705", "Correct answer:", item.correct, "c-val"));
       card.appendChild(el("div", "why-txt", item.why));
+      if(item.ar) card.appendChild(el("div", "ar why-ar", item.ar));
       wrongList.appendChild(card);
     });
   } else {
@@ -553,7 +708,8 @@ async function resultImage(got){
   /* ---- who ---- */
   write(state.name, "600 27px " + CARD.head, CARD.ink, 34);
   y += 2;
-  write(state.phone + "  \u00b7  " + state.date, "400 16px " + CARD.body, CARD.soft, 24);
+  write([state.klass, state.phone, state.date].filter(Boolean).join("  \u00b7  "),
+        "400 16px " + CARD.body, CARD.soft, 24);
   y += 22;
 
   /* ---- score box ---- */
@@ -635,6 +791,143 @@ async function resultImage(got){
   return b64.length > 4000000 ? "" : b64;
 }
 
+/* ============================================================
+   DELIVERY
+
+   Submitting used to be fire-and-forget: mode:"no-cors" meant the browser
+   could not read the reply, so the page said "sent" the moment the request
+   left its hand — true or not. Thirty phones on one classroom network is
+   exactly the moment that lies, and the row never appears.
+
+   Apps Script does return CORS headers, so the reply IS readable. That is the
+   difference between "sent" and "saved", and it is what lets a retry be a
+   decision instead of a guess.
+
+   Four lines of defence:
+     1. POST with the screenshot, and read the reply
+     2. retry on failure, telling the student the truth while it happens
+     3. keep anything still unsent on the phone, and retry on the next visit
+     4. if the page is closing mid-flight, a beacon carries a slim copy
+
+   Every attempt carries the same `id`, and the Apps Script ignores an id it
+   has already stored, so retrying can never make two rows for one student.
+   ============================================================ */
+const QUEUE_KEY = "pgteach:unsent";
+const TRY_AFTER = [0, 5000, 15000];   /* ms before each attempt */
+/* Measured, not guessed. The cheapest possible round trip to Apps Script —
+   a duplicate id, so no row written and no image uploaded — already takes
+   2.0-2.7s. A real submission adds a ~340KB screenshot upload to Drive, and
+   the first one after a deploy also pays for the sheet reformat. At 12s the
+   page was giving up while the server was still working: the row landed and
+   the student was told the connection was slow. */
+const TRY_LIMIT = 30000;              /* abandon a single attempt after this */
+
+let pendingSend = null;               /* in flight, for the pagehide beacon */
+
+function newId(){
+  return "s" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+/* The screenshot is ~340KB — far past what a beacon (64KB) or localStorage
+   should carry. Both fall back to a copy without it: a row with no picture
+   beats no row at all. */
+function slim(p){
+  const c = {};
+  for(const k in p) c[k] = p[k];
+  c.image = "";
+  return c;
+}
+
+function queueRead(){
+  try { return JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]"); }
+  catch(e){ return []; }
+}
+function queueWrite(list){
+  try { localStorage.setItem(QUEUE_KEY, JSON.stringify(list.slice(-5))); }
+  catch(e){}                          /* private mode, quota — never fatal */
+}
+function queueAdd(p){
+  queueWrite(queueRead().filter(x => x.id !== p.id).concat([slim(p)]));
+}
+function queueDrop(id){
+  queueWrite(queueRead().filter(x => x.id !== id));
+}
+
+/* One attempt. Resolves with the parsed reply, throws on anything else. */
+async function postOnce(payload){
+  const ctl = typeof AbortController === "function" ? new AbortController() : null;
+  const timer = setTimeout(function(){ if(ctl) ctl.abort(); }, TRY_LIMIT);
+  try {
+    const res = await fetch(RESULTS_URL, {
+      method: "POST",
+      /* text/plain is CORS-safelisted, so there is no preflight to fail and
+         the reply comes back readable. Do not set application/json here. */
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      signal: ctl ? ctl.signal : undefined
+    });
+    let reply = null;
+    try { reply = JSON.parse(await res.text()); } catch(e){}
+    if(!reply || reply.ok !== true){
+      throw new Error(reply && reply.error ? reply.error : "unreadable reply");
+    }
+    return reply;
+  } finally { clearTimeout(timer); }
+}
+
+function say(box, colour, text){
+  box.className = "advice";
+  box.style.borderLeftColor = "var(--" + colour + ")";
+  box.textContent = text;
+}
+
+/* Tries, retries, and never claims more than it knows. */
+async function deliver(payload, box){
+  queueAdd(payload);                  /* survives a closed tab */
+  pendingSend = payload;
+
+  for(let i = 0; i < TRY_AFTER.length; i++){
+    if(TRY_AFTER[i]) await new Promise(r => setTimeout(r, TRY_AFTER[i]));
+    say(box, "gold", i === 0 ? "Saving your result\u2026"
+                             : "The connection is slow \u2014 trying again\u2026");
+    try {
+      const reply = await postOnce(payload);
+      queueDrop(payload.id);
+      pendingSend = null;
+      say(box, "teal", reply.duplicate
+        ? "Saved. Your teacher already had this one."
+        : "Saved. Your teacher has your result.");
+      return reply;
+    } catch(e){ /* try again, or fall out of the loop */ }
+  }
+
+  say(box, "wrong", "Not saved \u2014 the connection would not hold. "
+    + "Screenshot this page and send it to your teacher. It will also try "
+    + "again by itself the next time you open this page.");
+  return null;
+}
+
+/* Last-ditch: the page is closing while a submission is still in flight.
+   A beacon is delivered by the browser after the page is gone. */
+addEventListener("pagehide", function(){
+  if(!pendingSend || !RESULTS_URL) return;
+  try {
+    if(navigator.sendBeacon){
+      navigator.sendBeacon(RESULTS_URL, new Blob(
+        [JSON.stringify(slim(pendingSend))],
+        { type: "text/plain;charset=utf-8" }));
+    }
+  } catch(e){}
+});
+
+/* Anything left from an earlier visit goes out quietly on load. */
+(function retryUnsent(){
+  if(!RESULTS_URL) return;
+  queueRead().forEach(function(p){
+    postOnce(p).then(function(){ queueDrop(p.id); }).catch(function(){});
+  });
+})();
+
 async function sendResult(got, weak){
   const box = $("sendState");
   if(!RESULTS_URL){ box.className = "hide"; return; }
@@ -650,6 +943,7 @@ async function sendResult(got, weak){
   const payload = {
     lecture: LECTURE.label,
     name:   state.name,
+    class:  state.klass,
     phone:  state.phone,
     date:   state.date,
     score:  got,
@@ -660,18 +954,8 @@ async function sendResult(got, weak){
     image: image        // base64 PNG, or "" if it could not be drawn
   };
 
-  fetch(RESULTS_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify(payload)
-  }).then(() => {
-    box.style.borderLeftColor = "var(--teal)";
-    box.textContent = "Your result has been sent to your teacher.";
-  }).catch(() => {
-    box.style.borderLeftColor = "var(--wrong)";
-    box.textContent = "Couldn't send automatically. Please screenshot this page and send it to your teacher.";
-  });
+    payload.id = newId();     /* one row per submission, however many attempts */
+    await deliver(payload, box);
 }
 
 $("restart").onclick = () => {
