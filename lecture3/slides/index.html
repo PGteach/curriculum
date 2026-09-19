@@ -274,6 +274,53 @@ tr:last-child td{border-bottom:0}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .fitbox{width:100%}
+/* ---------- photo slides ---------- */
+.shots{display:grid; gap:.85rem; margin:1rem 0 .35rem}
+.shots.three{grid-template-columns:repeat(3,1fr)}
+@media (max-width:900px){.shots.three{grid-template-columns:repeat(2,1fr)}}
+.shot{background:var(--white); border:1px solid var(--line); border-radius:10px;
+      overflow:hidden; display:flex; flex-direction:column}
+.shot img{width:100%; height:23vh; object-fit:contain; background:#F1F0EB;
+          display:block; padding:6px; font-size:11px; color:var(--soft)}
+.shot .cap{padding:.5rem .6rem .65rem; font-size:clamp(10.5px,1vw,13.5px);
+           line-height:1.4; color:var(--ink-2)}
+.shot .cap b{display:block; color:var(--ink); font-size:clamp(11.5px,1.12vw,15px);
+             margin-bottom:.18rem}
+.shot .cap .ar{display:block; color:var(--soft); margin-top:.28rem; font-size:.94em}
+.credit{font-size:clamp(9px,.82vw,11.5px); color:var(--soft); margin-top:.15rem}
+.shot img{cursor:zoom-in}
+.shot img:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+#zoom{
+  position:fixed;inset:0;z-index:99;
+  display:none;align-items:center;justify-content:center;
+  background:rgba(8,12,24,.94);padding:clamp(14px,3vw,44px);
+}
+#zoom.on{display:flex}
+#zoom figure{margin:0;max-width:min(1180px,92vw);text-align:center}
+#zoom img{
+  max-width:100%;max-height:72vh;object-fit:contain;
+  border-radius:10px;background:#fff;
+}
+#zoom .zcap{color:#fff;margin-top:.9rem;font-size:clamp(14px,1.5vw,19px);line-height:1.5}
+#zoom .zcap b{display:block;font-weight:600;font-size:1.06em;margin-bottom:.15rem}
+#zoom .zcap .ar{display:block;color:#C6CCD9;margin-top:.3rem}
+#zoom .znum{color:#8A93A6;font-size:13px;margin-top:.7rem;letter-spacing:.03em}
+#zoom button{
+  position:absolute;background:rgba(255,255,255,.13);color:#fff;
+  border:0;border-radius:99px;cursor:pointer;font:inherit;
+  width:46px;height:46px;font-size:23px;line-height:1;
+}
+#zoom button:hover{background:rgba(255,255,255,.26)}
+#zoom button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+#zoom .zclose{top:18px;right:18px}
+#zoom .zprev{left:18px;top:50%;transform:translateY(-50%)}
+#zoom .znext{right:18px;top:50%;transform:translateY(-50%)}
+@media (max-width:620px){
+  #zoom button{width:40px;height:40px;font-size:20px}
+  #zoom .zprev{left:8px} #zoom .znext{right:8px}
+  #zoom img{max-height:60vh}
+}
+@media print{#zoom{display:none!important}}
 </style>
 </head>
 <body>
@@ -363,7 +410,7 @@ tr:last-child td{border-bottom:0}
     <text x="540" y="113" text-anchor="middle" font-size="11" fill="var(--wrong)">cannot drive a car</text>
   </g>
   <g>
-    <rect x="660" y="40" width="170" height="88" rx="10" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 5"/>
+    <rect x="660" y="40" width="170" height="88" rx="10" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 5"><animate attributeName="opacity" values="1;.35;1" dur="2.4s" begin="0s" repeatCount="indefinite"/></rect>
     <text x="745" y="80" text-anchor="middle" font-size="12.5" fill="var(--soft)">one AI that</text>
     <text x="745" y="100" text-anchor="middle" font-size="12.5" fill="var(--soft)">does all of it</text>
     <text x="745" y="119" text-anchor="middle" font-size="11" font-weight="600" fill="var(--wrong)">does not exist yet</text>
@@ -371,6 +418,14 @@ tr:last-child td{border-bottom:0}
   <text x="30" y="172" font-size="12" fill="var(--soft)">This is what &#8220;narrow&#8221; means: expert at one task, useless at the one next to it.</text>
 </svg></div>
     <p class="rise arline ar">كل AI شاطر في حاجة واحدة بس. اللي بيترجم مايعرفش يشوف وش، واللي بيمسك السبام مايعرفش يترجم. والـ AI اللي يعمل كل حاجة لسه مش موجود.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">1 &#183; The same three, photographed</div>
+    <h2 class="rise">AI you can point at</h2>
+    <div class="rise shots three"><figure class="shot"><img src="media/Google_Home_Mini.jpg" alt="Speech recognition" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Speech recognition</b>It turns the sound of a voice into words, and does nothing else.<span class="ar">ده بيحوّل الصوت لكلام — وبس. مابيعرفش يترجم ولا يشوف.</span></figcaption></figure><figure class="shot"><img src="media/MnistExamples.png" alt="Image recognition" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Image recognition</b>Thousands of handwritten digits. This is what &#8220;learning from examples&#8221; looks like.<span class="ar">أرقام مكتوبة بخط اليد. دي شكل التعلّم من الأمثلة على الحقيقة.</span></figcaption></figure><figure class="shot"><img src="media/Waymo_self-driving_car_front_view.gk.jpg" alt="A car that reads the road" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>A car that reads the road</b>The book&#8217;s own example of deep learning: image analysis for autonomous driving.<span class="ar">مثال الكتاب نفسه على الـ deep learning: تحليل صور القيادة الذاتية.</span></figcaption></figure></div>
+    <p class="rise credit">Photos: Wikimedia Commons &#183; public domain or Creative Commons. Used for teaching.</p>
+    <p class="rise arline ar">التلات صور دي نفس أمثلة الكتاب بس على الحقيقة. خلي الطلبة يقولوا كل واحدة شغالة إزاي قبل ما تقول.</p>
   </section>
 
   <section class="slide dark">
@@ -390,19 +445,19 @@ tr:last-child td{border-bottom:0}
     <div class="rise eyebrow">2 &#183; The one picture to remember</div>
     <h2 class="rise">Boxes inside boxes</h2>
     <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 860 300" role="img" aria-label="AI contains machine learning, which contains deep learning, which contains generative AI">
-  <rect x="20" y="20" width="820" height="260" rx="16" fill="var(--teal)" opacity=".07" stroke="var(--teal)" stroke-width="2.5"/>
+  <rect x="20" y="20" width="820" height="260" rx="16" fill="var(--teal)" opacity=".07" stroke="var(--teal)" stroke-width="2.5"><animate attributeName="opacity" values=".07;.20;.07" dur="8s" begin="0s" repeatCount="indefinite"/></rect>
   <text x="40" y="48" font-size="15" font-weight="600" fill="var(--teal)">AI</text>
   <text x="40" y="68" font-size="11" fill="var(--soft)">intelligent behaviour on a computer</text>
 
-  <rect x="150" y="56" width="670" height="204" rx="14" fill="var(--teal)" opacity=".10" stroke="var(--teal)" stroke-width="2"/>
+  <rect x="150" y="56" width="670" height="204" rx="14" fill="var(--teal)" opacity=".10" stroke="var(--teal)" stroke-width="2"><animate attributeName="opacity" values=".10;.24;.10" dur="8s" begin="2s" repeatCount="indefinite"/></rect>
   <text x="170" y="84" font-size="14" font-weight="600" fill="var(--teal)">Machine learning</text>
   <text x="170" y="103" font-size="11" fill="var(--soft)">learns from data</text>
 
-  <rect x="300" y="92" width="500" height="148" rx="12" fill="var(--teal)" opacity=".14" stroke="var(--teal)" stroke-width="2"/>
+  <rect x="300" y="92" width="500" height="148" rx="12" fill="var(--teal)" opacity=".14" stroke="var(--teal)" stroke-width="2"><animate attributeName="opacity" values=".14;.30;.14" dur="8s" begin="4s" repeatCount="indefinite"/></rect>
   <text x="320" y="120" font-size="14" font-weight="600" fill="var(--teal)">Deep learning</text>
   <text x="320" y="139" font-size="11" fill="var(--soft)">neural networks</text>
 
-  <rect x="470" y="128" width="310" height="92" rx="10" fill="var(--gold)" opacity=".20" stroke="var(--gold)" stroke-width="2.5"/>
+  <rect x="470" y="128" width="310" height="92" rx="10" fill="var(--gold)" opacity=".20" stroke="var(--gold)" stroke-width="2.5"><animate attributeName="opacity" values=".20;.42;.20" dur="8s" begin="6s" repeatCount="indefinite"/></rect>
   <text x="492" y="156" font-size="14" font-weight="600" fill="#8A6420">Generative AI</text>
   <text x="492" y="175" font-size="11" fill="var(--soft)">makes new text, images, audio</text>
   <text x="492" y="196" font-size="10.5" fill="var(--soft)">e.g. ChatGPT</text>
@@ -439,12 +494,12 @@ tr:last-child td{border-bottom:0}
   <line x1="30" y1="112" x2="850" y2="112" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="5 5"/>
 
   <text x="30" y="146" font-size="13" font-weight="600" fill="var(--teal)">Machine learning</text>
-  <rect x="30" y="160" width="150" height="62" rx="6" fill="var(--teal)" opacity=".12" stroke="var(--teal)" stroke-width="2"/>
+  <rect x="30" y="160" width="150" height="62" rx="6" fill="var(--teal)" opacity=".12" stroke="var(--teal)" stroke-width="2"><animate attributeName="opacity" values=".12;.30;.12" dur="3.2s" begin="0s" repeatCount="indefinite"/></rect>
   <text x="105" y="184" text-anchor="middle" font-size="11.5" fill="var(--ink)">lots of examples</text>
   <text x="105" y="202" text-anchor="middle" font-size="11.5" fill="var(--ink)">already answered</text>
   <line x1="186" y1="191" x2="238" y2="191" stroke="var(--teal)" stroke-width="2"/>
   <polygon points="238,191 230,186 230,196" fill="var(--teal)"/>
-  <rect x="244" y="160" width="150" height="62" rx="6" fill="var(--teal)" opacity=".22" stroke="var(--teal)" stroke-width="2.5"/>
+  <rect x="244" y="160" width="150" height="62" rx="6" fill="var(--teal)" opacity=".22" stroke="var(--teal)" stroke-width="2.5"><animate attributeName="opacity" values=".22;.46;.22" dur="3.2s" begin="1.1s" repeatCount="indefinite"/></rect>
   <text x="319" y="184" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink)">it works out</text>
   <text x="319" y="202" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink)">the rules itself</text>
   <line x1="400" y1="191" x2="452" y2="191" stroke="var(--teal)" stroke-width="2"/>
@@ -467,35 +522,104 @@ tr:last-child td{border-bottom:0}
   <section class="slide">
     <div class="rise eyebrow">2 &#183; The core technology</div>
     <h2 class="rise">A neural network</h2>
-    <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 860 290" role="img" aria-label="A neural network: input nodes connect through hidden layers to an output">
+    <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 980 340" role="img" aria-label="A photograph is broken into pixels, the pixels are fed into a neural network, and the network outputs a judgment">
+  <text x="30" y="34" font-size="13" font-weight="600" fill="var(--soft)">A photo is only numbers. The network reads the numbers, not the picture.</text>
+  <g>
+  <rect x="40" y="92" width="22" height="22" fill="#C9963B"/>
+  <rect x="62" y="92" width="22" height="22" fill="#EDEAE3"/>
+  <rect x="84" y="92" width="22" height="22" fill="#EDEAE3"/>
+  <rect x="106" y="92" width="22" height="22" fill="#EDEAE3"/>
+  <rect x="128" y="92" width="22" height="22" fill="#C9963B"/>
+  <rect x="40" y="114" width="22" height="22" fill="#C9963B"/>
+  <rect x="62" y="114" width="22" height="22" fill="#C9963B"/>
+  <rect x="84" y="114" width="22" height="22" fill="#C9963B"/>
+  <rect x="106" y="114" width="22" height="22" fill="#C9963B"/>
+  <rect x="128" y="114" width="22" height="22" fill="#C9963B"/>
+  <rect x="40" y="136" width="22" height="22" fill="#C9963B"/>
+  <rect x="62" y="136" width="22" height="22" fill="#16233F"/>
+  <rect x="84" y="136" width="22" height="22" fill="#C9963B"/>
+  <rect x="106" y="136" width="22" height="22" fill="#16233F"/>
+  <rect x="128" y="136" width="22" height="22" fill="#C9963B"/>
+  <rect x="40" y="158" width="22" height="22" fill="#C9963B"/>
+  <rect x="62" y="158" width="22" height="22" fill="#C9963B"/>
+  <rect x="84" y="158" width="22" height="22" fill="#D98C8C"/>
+  <rect x="106" y="158" width="22" height="22" fill="#C9963B"/>
+  <rect x="128" y="158" width="22" height="22" fill="#C9963B"/>
+  <rect x="40" y="180" width="22" height="22" fill="#EDEAE3"/>
+  <rect x="62" y="180" width="22" height="22" fill="#C9963B"/>
+  <rect x="84" y="180" width="22" height="22" fill="#C9963B"/>
+  <rect x="106" y="180" width="22" height="22" fill="#C9963B"/>
+  <rect x="128" y="180" width="22" height="22" fill="#EDEAE3"/>
+  <g stroke="#fff" stroke-width="1.4" opacity="0">
+  <line x1="40" y1="92" x2="40" y2="202"/>
+  <line x1="40" y1="92" x2="150" y2="92"/>
+  <line x1="62" y1="92" x2="62" y2="202"/>
+  <line x1="40" y1="114" x2="150" y2="114"/>
+  <line x1="84" y1="92" x2="84" y2="202"/>
+  <line x1="40" y1="136" x2="150" y2="136"/>
+  <line x1="106" y1="92" x2="106" y2="202"/>
+  <line x1="40" y1="158" x2="150" y2="158"/>
+  <line x1="128" y1="92" x2="128" y2="202"/>
+  <line x1="40" y1="180" x2="150" y2="180"/>
+  <line x1="150" y1="92" x2="150" y2="202"/>
+  <line x1="40" y1="202" x2="150" y2="202"/>
+  <animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.10;0.20;0.75;0.90;1" dur="12s" begin="0s" repeatCount="indefinite"/></g>
+  </g>
+  <text x="95" y="228" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">the photo</text>
+  <text x="95" y="245" text-anchor="middle" font-size="10.5" fill="var(--soft)">25 pixels, each a number</text>
+  <rect width="22" height="22" rx="2" fill="#16233F" opacity="0">
+  <animate attributeName="x" values="40;40;319;319" keyTimes="0;0.28;0.44;1" dur="12s" begin="0s" repeatCount="indefinite"/>
+  <animate attributeName="y" values="136;136;85;85" keyTimes="0;0.28;0.44;1" dur="12s" begin="0s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.28;0.31;0.42;0.45;1" dur="12s" begin="0s" repeatCount="indefinite"/>
+  </rect>
+  <rect width="22" height="22" rx="2" fill="#16233F" opacity="0">
+  <animate attributeName="x" values="106;106;319;319" keyTimes="0;0.31;0.47;1" dur="12s" begin="0s" repeatCount="indefinite"/>
+  <animate attributeName="y" values="136;136;157;157" keyTimes="0;0.31;0.47;1" dur="12s" begin="0s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.31;0.34;0.45;0.48;1" dur="12s" begin="0s" repeatCount="indefinite"/>
+  </rect>
+  <rect width="22" height="22" rx="2" fill="#D98C8C" opacity="0">
+  <animate attributeName="x" values="84;84;319;319" keyTimes="0;0.34;0.50;1" dur="12s" begin="0s" repeatCount="indefinite"/>
+  <animate attributeName="y" values="158;158;229;229" keyTimes="0;0.34;0.50;1" dur="12s" begin="0s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.34;0.37;0.48;0.51;1" dur="12s" begin="0s" repeatCount="indefinite"/>
+  </rect>
   <g stroke="var(--line)" stroke-width="1.2">
-    <line x1="140" y1="70"  x2="330" y2="60"/><line x1="140" y1="70"  x2="330" y2="140"/><line x1="140" y1="70"  x2="330" y2="220"/>
-    <line x1="140" y1="145" x2="330" y2="60"/><line x1="140" y1="145" x2="330" y2="140"/><line x1="140" y1="145" x2="330" y2="220"/>
-    <line x1="140" y1="220" x2="330" y2="60"/><line x1="140" y1="220" x2="330" y2="140"/><line x1="140" y1="220" x2="330" y2="220"/>
-    <line x1="330" y1="60"  x2="520" y2="100"/><line x1="330" y1="60"  x2="520" y2="185"/>
-    <line x1="330" y1="140" x2="520" y2="100"/><line x1="330" y1="140" x2="520" y2="185"/>
-    <line x1="330" y1="220" x2="520" y2="100"/><line x1="330" y1="220" x2="520" y2="185"/>
-    <line x1="520" y1="100" x2="690" y2="145"/><line x1="520" y1="185" x2="690" y2="145"/>
+  <line x1="330" y1="96" x2="520" y2="80"/>
+  <line x1="330" y1="96" x2="520" y2="168"/>
+  <line x1="330" y1="96" x2="520" y2="256"/>
+  <line x1="330" y1="168" x2="520" y2="80"/>
+  <line x1="330" y1="168" x2="520" y2="168"/>
+  <line x1="330" y1="168" x2="520" y2="256"/>
+  <line x1="330" y1="240" x2="520" y2="80"/>
+  <line x1="330" y1="240" x2="520" y2="168"/>
+  <line x1="330" y1="240" x2="520" y2="256"/>
+  <line x1="520" y1="80" x2="680" y2="120"/>
+  <line x1="520" y1="80" x2="680" y2="216"/>
+  <line x1="520" y1="168" x2="680" y2="120"/>
+  <line x1="520" y1="168" x2="680" y2="216"/>
+  <line x1="520" y1="256" x2="680" y2="120"/>
+  <line x1="520" y1="256" x2="680" y2="216"/>
+  <line x1="680" y1="120" x2="840" y2="168"/>
+  <line x1="680" y1="216" x2="840" y2="168"/>
   </g>
-
-  <g fill="var(--teal)">
-    <circle cx="140" cy="70" r="15"/><circle cx="140" cy="145" r="15"/><circle cx="140" cy="220" r="15"/>
+  <circle cx="330" cy="96" r="15" fill="var(--teal)" opacity=".45"><animate attributeName="opacity" values=".45;.45;1;.45;.45" keyTimes="0;0.42;0.47;0.55;1" dur="12s" begin="0s" repeatCount="indefinite"/></circle>
+  <circle cx="330" cy="168" r="15" fill="var(--teal)" opacity=".45"><animate attributeName="opacity" values=".45;.45;1;.45;.45" keyTimes="0;0.43;0.48;0.56;1" dur="12s" begin="0s" repeatCount="indefinite"/></circle>
+  <circle cx="330" cy="240" r="15" fill="var(--teal)" opacity=".45"><animate attributeName="opacity" values=".45;.45;1;.45;.45" keyTimes="0;0.44;0.49;0.57;1" dur="12s" begin="0s" repeatCount="indefinite"/></circle>
+  <circle cx="520" cy="80" r="15" fill="var(--teal)" opacity=".35"><animate attributeName="opacity" values=".35;.35;.95;.35;.35" keyTimes="0;0.52;0.57;0.65;1" dur="12s" begin="0s" repeatCount="indefinite"/></circle>
+  <circle cx="520" cy="168" r="15" fill="var(--teal)" opacity=".35"><animate attributeName="opacity" values=".35;.35;.95;.35;.35" keyTimes="0;0.53;0.58;0.66;1" dur="12s" begin="0s" repeatCount="indefinite"/></circle>
+  <circle cx="520" cy="256" r="15" fill="var(--teal)" opacity=".35"><animate attributeName="opacity" values=".35;.35;.95;.35;.35" keyTimes="0;0.54;0.59;0.67;1" dur="12s" begin="0s" repeatCount="indefinite"/></circle>
+  <circle cx="680" cy="120" r="15" fill="var(--teal)" opacity=".35"><animate attributeName="opacity" values=".35;.35;.95;.35;.35" keyTimes="0;0.62;0.67;0.75;1" dur="12s" begin="0s" repeatCount="indefinite"/></circle>
+  <circle cx="680" cy="216" r="15" fill="var(--teal)" opacity=".35"><animate attributeName="opacity" values=".35;.35;.95;.35;.35" keyTimes="0;0.63;0.68;0.76;1" dur="12s" begin="0s" repeatCount="indefinite"/></circle>
+  <circle cx="840" cy="168" r="19" fill="var(--gold)" opacity=".35"><animate attributeName="opacity" values=".35;.35;1;.35;.35" keyTimes="0;0.72;0.77;0.85;1" dur="12s" begin="0s" repeatCount="indefinite"/></circle>
+  <text x="330" y="300" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">what goes in</text>
+  <text x="600" y="300" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">many simple parts, connected</text>
+  <text x="600" y="317" text-anchor="middle" font-size="10.5" fill="var(--soft)">each passes a small judgment along</text>
+  <g opacity="0">
+  <rect x="786" y="206" width="112" height="46" rx="7" fill="var(--gold)" opacity=".22" stroke="var(--gold)" stroke-width="2"/>
+  <text x="842" y="228" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">&#8220;a cat&#8221;</text>
+  <text x="842" y="245" text-anchor="middle" font-size="10.5" fill="var(--soft)">the judgment</text>
+  <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.76;0.82;0.93;1" dur="12s" begin="0s" repeatCount="indefinite"/>
   </g>
-  <g fill="var(--teal)" opacity=".62">
-    <circle cx="330" cy="60" r="15"/><circle cx="330" cy="140" r="15"/><circle cx="330" cy="220" r="15"/>
-    <circle cx="520" cy="100" r="15"/><circle cx="520" cy="185" r="15"/>
-  </g>
-  <circle cx="690" cy="145" r="18" fill="var(--gold)"/>
-
-  <text x="140" y="264" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">what goes in</text>
-  <text x="140" y="281" text-anchor="middle" font-size="10.5" fill="var(--soft)">the photo</text>
-  <text x="425" y="264" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">many simple parts, connected</text>
-  <text x="425" y="281" text-anchor="middle" font-size="10.5" fill="var(--soft)">each one passes a small judgment along</text>
-  <text x="690" y="264" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">the judgment</text>
-  <text x="690" y="281" text-anchor="middle" font-size="10.5" fill="var(--soft)">&#8220;that is a cat&#8221;</text>
-
-  <text x="30" y="26" font-size="12.5" font-weight="600" fill="var(--soft)">modelled on the nerve cells of the brain &#8212; no single part is clever</text>
-</svg></div>
+  </svg></div>
     <p class="rise sub" style="max-width:58ch;margin-top:.5rem">It is the core technology behind the recent jump in what AI can do.</p>
     <p class="rise arline ar">الشبكة العصبية متصممة على فكرة خلايا المخ. مفيش جزء منها ذكي لوحده — الذكاء بييجي من ربط أجزاء بسيطة كتير مع بعض. ودي التقنية اللي شايلة تقدّم الـ AI الحديث.</p>
   </section>
@@ -518,7 +642,7 @@ tr:last-child td{border-bottom:0}
   <text x="566" y="66" font-size="11.5" fill="var(--soft)">seen thousands of times</text>
 
   <text x="30" y="132" font-size="12.5" fill="var(--ink)">a horse and cart at night</text>
-  <rect x="200" y="116" width="22" height="22" rx="3" fill="var(--wrong)"/>
+  <rect x="200" y="116" width="22" height="22" rx="3" fill="var(--wrong)"><animate attributeName="opacity" values="1;.18;1" dur="1.6s" begin="0s" repeatCount="indefinite"/></rect>
   <text x="240" y="132" font-size="11.5" fill="var(--wrong)">seen almost never</text>
 
   <rect x="30" y="170" width="800" height="54" rx="8" fill="var(--gold)" opacity=".16" stroke="var(--gold)" stroke-width="2"/>
@@ -569,7 +693,7 @@ tr:last-child td{border-bottom:0}
   <text x="89" y="200" text-anchor="middle" font-size="11.5" fill="var(--ink)">a prompt</text>
   <line x1="154" y1="194" x2="206" y2="194" stroke="var(--gold)" stroke-width="2"/>
   <polygon points="206,194 198,189 198,199" fill="var(--gold)"/>
-  <rect x="212" y="168" width="150" height="52" rx="6" fill="var(--gold)" opacity=".28" stroke="var(--gold)" stroke-width="2.5"/>
+  <rect x="212" y="168" width="150" height="52" rx="6" fill="var(--gold)" opacity=".28" stroke="var(--gold)" stroke-width="2.5"><animate attributeName="opacity" values=".28;.55;.28" dur="2.6s" begin="0s" repeatCount="indefinite"/></rect>
   <text x="287" y="192" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink)">a new paragraph</text>
   <text x="287" y="210" text-anchor="middle" font-size="11.5" fill="var(--soft)">nobody wrote before</text>
   <text x="380" y="198" font-size="11" fill="var(--soft)">not picked from a list &#8212; produced</text>
@@ -616,6 +740,14 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="slide">
+    <div class="rise eyebrow">3 &#183; Inside, and made</div>
+    <h2 class="rise">What the words actually point at</h2>
+    <div class="rise shots three"><figure class="shot"><img src="media/GFPneuron.png" alt="A real nerve cell" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>A real nerve cell</b>The thing a neural network is modelled on. One of these is not clever either.<span class="ar">دي الخلية العصبية اللي الشبكة متصممة على فكرتها. وهي كمان لوحدها مش ذكية.</span></figcaption></figure><figure class="shot"><img src="media/Datacenter-telecom.jpg" alt="Where large-scale data lives" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Where large-scale data lives</b>Deep learning needs this much machine. It is why the cloud stage mattered.<span class="ar">الـ deep learning محتاج الكم ده من الأجهزة. عشان كده مرحلة السحابة كانت مهمة.</span></figcaption></figure><figure class="shot"><img src="media/A_photograph_of_an_astronaut_riding_a_horse_2022-08-28.png" alt="Nobody took this photo" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Nobody took this photo</b>Generated from a sentence. There was never an astronaut, a horse, or a camera.<span class="ar">الصورة دي محدش صوّرها. اتولدت من جملة — مفيش رائد فضاء ولا حصان ولا كاميرا.</span></figcaption></figure></div>
+    <p class="rise credit">Photos: Wikimedia Commons &#183; public domain or Creative Commons. Used for teaching.</p>
+    <p class="rise arline ar">قف عند الصورة التالتة واسأل: إزاي نعرف إن دي مش صورة حقيقية؟ دي مقدمة لسلايدة التحذير الجاية.</p>
+  </section>
+
+  <section class="slide">
     <div class="rise eyebrow">Key takeaway</div>
     <h2 class="rise" style="max-width:30ch">AI is the field. Everything else is a box inside it.</h2>
     <div class="rise stats" style="margin-top:1rem"><div class="stat"><b>AI</b><span>intelligent behaviour on a computer</span></div><div class="stat"><b>ML</b><span>learns patterns from data</span></div><div class="stat"><b>DL</b><span>neural networks, large data</span></div><div class="stat"><b>Gen</b><span>makes new text, images, audio</span></div></div>
@@ -628,6 +760,17 @@ tr:last-child td{border-bottom:0}
     <div class="rise qrwrap"><img id="qr" alt="QR code linking to the Lecture 3 quiz" width="250" height="250"><div class="txt"><p class="sub">It covers this session and the ones before it. At the end it shows you, section by section, which parts to read again.</p><p class="sub mono" style="margin-top:.7rem;font-size:clamp(12px,1.3vw,17px)"><a id="quizLink" href="../quiz/"></a></p></div></div>
     <p class="rise arline ar">امتحان على المحاضرات التلاتة. في الآخر هيوضحلك انت ضعيف في أنهي جزء بالظبط.</p>
   </section>
+</div>
+
+<div id="zoom" role="dialog" aria-modal="true" aria-label="Photo" aria-hidden="true">
+  <button class="zclose" type="button" aria-label="Close">&#215;</button>
+  <button class="zprev" type="button" aria-label="Previous photo">&#8249;</button>
+  <button class="znext" type="button" aria-label="Next photo">&#8250;</button>
+  <figure>
+    <img id="zimg" alt="">
+    <figcaption class="zcap" id="zcap"></figcaption>
+    <div class="znum" id="znum"></div>
+  </figure>
 </div>
 
 <div id="nav">
@@ -766,6 +909,11 @@ function refit(){ fit(slides[i]); }
 addEventListener('resize', refit);
 addEventListener('orientationchange', refit);
 
+/* images arrive after first paint and change the height under us */
+Array.from(document.images).forEach(function(img){
+  if(!img.complete) img.addEventListener('load', refit);
+});
+
 function go(n){
   i = Math.max(0, Math.min(slides.length - 1, n));
   slides.forEach((s,k) => s.classList.toggle('on', k === i));
@@ -780,7 +928,89 @@ function go(n){
 document.getElementById('next').onclick = () => go(i+1);
 document.getElementById('prev').onclick = () => go(i-1);
 
+/* ---- photo lightbox ------------------------------------------------
+   Thumbnails are ~15vh; the files are full resolution. Clicking one opens
+   it at size with its caption, and the arrows walk the photos on that
+   slide only.
+
+   Declared above the navigation handlers deliberately: they read `zoom`,
+   and a const declared below them would be in the temporal dead zone. */
+const zoom = document.getElementById('zoom');
+const zimg = document.getElementById('zimg');
+const zcap = document.getElementById('zcap');
+const znum = document.getElementById('znum');
+const zprev = zoom.querySelector('.zprev');
+const znext = zoom.querySelector('.znext');
+let zshots = [], zi = 0, zfrom = null;
+
+function zoomOpen(){ return zoom.classList.contains('on'); }
+
+function zshow(n){
+  if(!zshots.length) return;
+  zi = (n + zshots.length) % zshots.length;
+  const fig = zshots[zi];
+  const img = fig.querySelector('img');
+  /* currentSrc is what the browser actually fetched */
+  zimg.src = img.currentSrc || img.src;
+  zimg.alt = img.alt || '';
+  const cap = fig.querySelector('figcaption');
+  /* our own caption markup, carrying <b> and the Arabic line */
+  zcap.innerHTML = cap ? cap.innerHTML : '';
+  const many = zshots.length > 1;
+  znum.textContent = many ? (zi + 1) + ' / ' + zshots.length : '';
+  zprev.hidden = !many;
+  znext.hidden = !many;
+}
+
+function zopen(fig){
+  const grid = fig.closest('.shots');
+  zshots = grid ? Array.from(grid.querySelectorAll('figure.shot')) : [fig];
+  zfrom = fig.querySelector('img');
+  zshow(zshots.indexOf(fig));
+  zoom.classList.add('on');
+  zoom.setAttribute('aria-hidden', 'false');
+  zoom.querySelector('.zclose').focus();
+}
+
+function zclose(){
+  if(!zoomOpen()) return;
+  zoom.classList.remove('on');
+  zoom.setAttribute('aria-hidden', 'true');
+  zimg.removeAttribute('src');          // stop holding the decoded bitmap
+  if(zfrom) zfrom.focus();
+  zfrom = null;
+}
+
+document.querySelectorAll('.shot img').forEach(img => {
+  img.tabIndex = 0;                     // reachable without a mouse
+  img.addEventListener('click', () => zopen(img.closest('figure')));
+  img.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault(); zopen(img.closest('figure'));
+    }
+  });
+});
+
+zoom.addEventListener('click', e => {
+  /* the backdrop closes; the picture and its caption do not */
+  if(e.target === zoom || e.target.tagName === 'FIGURE') zclose();
+});
+zoom.querySelector('.zclose').onclick = zclose;
+zprev.onclick = () => zshow(zi - 1);
+znext.onclick = () => zshow(zi + 1);
+
 addEventListener('keydown', e => {
+  if(!zoomOpen()) return;
+  if(e.key === 'Escape'){    e.preventDefault(); zclose(); }
+  if(e.key === 'ArrowRight'){ e.preventDefault(); zshow(zi + 1); }
+  if(e.key === 'ArrowLeft'){  e.preventDefault(); zshow(zi - 1); }
+});
+
+document.getElementById('next').onclick = () => go(i+1);
+document.getElementById('prev').onclick = () => go(i-1);
+
+addEventListener('keydown', e => {
+  if(zoomOpen()) return;          /* the lightbox owns the keys while open */
   if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); go(i+1); }
   if(e.key === 'ArrowLeft'  || e.key === 'PageUp'){ e.preventDefault(); go(i-1); }
   if(e.key === 'Home') go(0);
@@ -788,9 +1018,12 @@ addEventListener('keydown', e => {
 });
 
 let x0 = null;
-addEventListener('touchstart', e => x0 = e.changedTouches[0].clientX, {passive:true});
+addEventListener('touchstart', e => {
+  if(zoomOpen()) return;          /* a swipe over the photo is not a swipe past it */
+  x0 = e.changedTouches[0].clientX;
+}, {passive:true});
 addEventListener('touchend', e => {
-  if(x0 === null) return;
+  if(zoomOpen() || x0 === null) return;
   const dx = e.changedTouches[0].clientX - x0;
   if(Math.abs(dx) > 55) go(dx < 0 ? i+1 : i-1);
   x0 = null;
