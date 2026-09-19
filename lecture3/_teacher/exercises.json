@@ -1,18 +1,280 @@
 {
-  "SHEET":{"lecture":3,"title":"How does it learn?","parts":[{"part":"A","heading":"How AI works","headingAr":"إزاي الذكاء الاصطناعي بيتعلم؟","exercises":[
-{"n":1,"type":"fill","prompt":"Fill in the nested technologies from broadest to most specialised.","promptAr":"كمّل مستويات التكنولوجيا من الأوسع للأكثر تحديدًا.","passage":"( a ) contains machine learning. Within it is ( b ). Within that is ( c ). Today's ( d ) systems are built on deep learning.","src":"p.13–14 — hierarchy"},
-{"n":2,"type":"truefalse","prompt":"Write true or false.","promptAr":"اكتب صح أو غلط.","statements":["Machine learning learns patterns from data.","Deep learning is completely separate from machine learning.","Generative AI uses deep learning to generate new data."],"src":"p.15 — Worked Example (1)"},
-{"n":3,"type":"match","prompt":"Match each description to the most appropriate term.","promptAr":"صِل كل وصف بالمصطلح الصح.","left":["Learns patterns from data","Uses neural networks","Generates new text or images"],"right":["Machine learning","Deep learning","Generative AI"],"src":"p.14 — definitions"},
-{"n":4,"type":"short","prompt":"What does machine learning learn from data to make?","promptAr":"Machine learning بيتعلم patterns من البيانات عشان يعمل إيه؟","src":"p.14 — Machine Learning definition"},
-{"n":5,"type":"table","prompt":"Complete the comparison table.","promptAr":"كمّل الجدول ده.","head":["Term","Key idea"],"rows":[["Machine learning","learns patterns from data"],["Deep learning","________________"],["Generative AI","________________"]],"src":"p.14 — definitions"},
-{"n":6,"type":"short","prompt":"Explain what a neural network is.","promptAr":"اشرح neural network ببساطة.","src":"p.14 — Neural network definition"},
-{"n":7,"type":"sort","prompt":"Sort the examples into Classifies or Generates.","promptAr":"قسّم الأمثلة: بيصنّف ولا بيولّد حاجة جديدة.","items":["Spam filter","Product recommendation","Text from ChatGPT","New image from text"],"columns":["Classifies / predicts","Generates"],"src":"p.13–16 — examples"},
-{"n":8,"type":"truefalse","prompt":"Write true or false.","promptAr":"اكتب صح أو غلط.","statements":["AI and machine learning have the same meaning.","ChatGPT can be an example of generative AI.","A spam filter is an example of generative AI."],"src":"p.15 — Worked Example; p.16 — Try 2"},
-{"n":9,"type":"category","prompt":"Write A, B or C: A = machine learning, B = deep learning, C = generative AI.","promptAr":"اكتب A أو B أو C: A machine learning، B deep learning، C generative AI.","items":["Sorting spam emails","Recognising pedestrians for autonomous driving","Generating an image from text"],"src":"p.18 — Exercise 3(1)"},
-{"n":10,"type":"extended","prompt":"A farmer uses AI to identify healthy and diseased crops in photographs. Explain what it needs to learn from and one reason its judgment might be wrong.","promptAr":"المزارع عايز AI يفرّق بين زرع سليم ومريض في الصور. اشرح يتعلم من إيه، وليه ممكن حكمه يغلط.","marks":4,"lines":6,"src":"p.17 — In a New Context"},
-{"n":11,"type":"extended","prompt":"Analyse the relationship between AI, machine learning, deep learning and generative AI. Use nested categories and give one example of each.","promptAr":"حلّل علاقة AI وmachine learning وdeep learning وgenerative AI كطبقات جوه بعض، وادّي مثال لكل واحد.","marks":6,"lines":8,"src":"p.16 — Exam-style question"},
-{"n":12,"type":"short","prompt":"Classify each: spam sorting, pedestrian recognition in autonomous driving, and generating an image from text.","promptAr":"صنّف كل واحدة: spam sorting، تمييز المشاة في عربية ذاتية، وعمل صورة من text.","src":"p.18 — Exercise 3(1)"},
-{"n":13,"type":"short","prompt":"Explain the relationship between AI, machine learning, deep learning and generative AI using nested categories and one example of each.","promptAr":"اشرح علاقة AI وmachine learning وdeep learning وgenerative AI كأنهم مستويات جوه بعض، وادّي مثال لكل واحد.","src":"p.16 — Exam-style question"}
-]}]},
-  "ANSWERS":{"1":"AI → machine learning → deep learning → generative AI.","2":"True; False; True.","3":"AI reproduces or performs intelligent human behavior on a computer; examples include speech recognition, image recognition or translation.","4":"Patterns, to make predictions and judgments.","5":"Neural networks and large-scale data.","6":"A system modeled after the brain’s nerve cells; connected components learn from data and make complex judgments.","7":"Text, images, audio (also programs).","8":"False; True; False.","9":"It has too few relevant examples from which to learn the pattern.","10":"It needs photographs/data of healthy and diseased crops; it may be wrong when the data has too few or unrepresentative examples.","11":"Output that sounds plausible but is factually incorrect; it must be checked before being used as a report answer.","12":"Machine learning; deep learning; generative AI.","13":"AI is broad; machine learning sits within AI; deep learning sits within machine learning; generative AI uses deep learning. Examples: translation/speech recognition; spam filter; autonomous-driving image analysis; ChatGPT/image generation."}
+ "SHEET": {
+  "lecture": 3,
+  "title": "How does it learn?",
+  "parts": [
+   {
+    "part": "A",
+    "heading": "How AI works",
+    "headingAr": "إزاي الذكاء الاصطناعي بيتعلم؟",
+    "exercises": [
+     {
+      "n": 1,
+      "type": "fill",
+      "prompt": "Fill in ( a ) to ( d ) with the four layers, broadest first.",
+      "promptAr": "كمّل ( أ ) لـ ( د ) بالأربع طبقات، الأوسع الأول.",
+      "passage": "( a ) is the broad field. Inside it is ( b ), which learns patterns from data. Inside that is ( c ), which uses neural networks. Built on top of it is ( d ), which makes new text and images.",
+      "src": "p.13–14 — hierarchy"
+     },
+     {
+      "n": 2,
+      "type": "truefalse",
+      "prompt": "Write ✓ if the statement is true, ✗ if it is false.",
+      "promptAr": "اكتب ✓ لو الجملة صح، و ✗ لو غلط.",
+      "statements": [
+       "Machine learning is one of the technologies that makes AI work.",
+       "Deep learning is a completely different technology from machine learning.",
+       "Generative AI is a technology that uses deep learning to generate new data.",
+       "AI and machine learning have the same meaning."
+      ],
+      "src": "p.15 — Worked Example (1) A-D"
+     },
+     {
+      "n": 3,
+      "type": "match",
+      "prompt": "Match each description to the most appropriate term.",
+      "promptAr": "صِل كل وصف بالمصطلح الصح.",
+      "left": [
+       "Learns patterns from data",
+       "Uses neural networks",
+       "Generates new text or images"
+      ],
+      "right": [
+       "Deep learning",
+       "Generative AI",
+       "Machine learning"
+      ],
+      "src": "p.14 — definitions"
+     },
+     {
+      "n": 4,
+      "type": "short",
+      "prompt": "Machine learning learns patterns from data. What two things does it use those patterns for?",
+      "promptAr": "الـ machine learning بيتعلم أنماط من الداتا. بيستخدمها في حاجتين إيه؟",
+      "src": "p.14 — Machine Learning definition"
+     },
+     {
+      "n": 5,
+      "type": "table",
+      "prompt": "Complete the comparison table.",
+      "promptAr": "كمّل الجدول ده.",
+      "head": [
+       "Term",
+       "Key idea"
+      ],
+      "rows": [
+       [
+        "Machine learning",
+        "learns patterns from data"
+       ],
+       [
+        "Deep learning",
+        "________________"
+       ],
+       [
+        "Generative AI",
+        "________________"
+       ]
+      ],
+      "src": "p.14 — definitions"
+     },
+     {
+      "n": 6,
+      "type": "short",
+      "prompt": "Explain what a neural network is.",
+      "promptAr": "اشرح neural network ببساطة.",
+      "src": "p.14 — Neural network definition"
+     },
+     {
+      "n": 7,
+      "type": "sort",
+      "prompt": "Sort the examples into Classifies or Generates.",
+      "promptAr": "قسّم الأمثلة: بيصنّف ولا بيولّد حاجة جديدة.",
+      "items": [
+       "Spam filter",
+       "Product recommendation",
+       "Text from ChatGPT",
+       "New image from text"
+      ],
+      "columns": [
+       "Classifies / predicts",
+       "Generates"
+      ],
+      "src": "p.13–16 — examples"
+     },
+     {
+      "n": 8,
+      "type": "truefalse",
+      "prompt": "Write ✓ if the statement is true, ✗ if it is false.",
+      "promptAr": "اكتب ✓ لو الجملة صح، و ✗ لو غلط.",
+      "statements": [
+       "AI and machine learning have the same meaning.",
+       "ChatGPT can be an example of generative AI.",
+       "A spam filter is an example of generative AI."
+      ],
+      "src": "p.15 — Worked Example; p.16 — Try 2"
+     },
+     {
+      "n": 9,
+      "type": "category",
+      "prompt": "Write A, B or C: A = machine learning, B = deep learning, C = generative AI.",
+      "promptAr": "اكتب A أو B أو C: A machine learning، B deep learning، C generative AI.",
+      "items": [
+       "Sorting spam emails",
+       "Recognising pedestrians for autonomous driving",
+       "Generating an image from text"
+      ],
+      "src": "p.18 — Exercise 3(1)"
+     },
+     {
+      "n": 10,
+      "type": "extended",
+      "prompt": "A farmer uses AI to identify healthy and diseased crops in photographs. Explain what it needs to learn from and one reason its judgment might be wrong.",
+      "promptAr": "المزارع عايز AI يفرّق بين زرع سليم ومريض في الصور. اشرح يتعلم من إيه، وليه ممكن حكمه يغلط.",
+      "marks": 4,
+      "lines": 6,
+      "src": "p.17 — In a New Context"
+     },
+     {
+      "n": 11,
+      "type": "extended",
+      "prompt": "Analyse the relationship between AI, machine learning, deep learning and generative AI. Use nested categories and give one example of each.",
+      "promptAr": "حلّل علاقة AI وmachine learning وdeep learning وgenerative AI كطبقات جوه بعض، وادّي مثال لكل واحد.",
+      "marks": 6,
+      "lines": 8,
+      "src": "p.16 — Exam-style question"
+     },
+     {
+      "n": 12,
+      "type": "short",
+      "prompt": "Classify each: spam sorting, pedestrian recognition in autonomous driving, and generating an image from text.",
+      "promptAr": "صنّف كل واحدة: spam sorting، تمييز المشاة في عربية ذاتية، وعمل صورة من text.",
+      "src": "p.18 — Exercise 3(1)"
+     },
+     {
+      "n": 13,
+      "type": "short",
+      "prompt": "Answer with the correct term for each.",
+      "promptAr": "اكتب المصطلح الصح لكل واحدة.",
+      "src": "p.16 — Try 1, questions 1-4",
+      "questions": [
+       {
+        "q": "The general term, given as a two-letter abbreviation, for technologies that reproduce or perform intelligent human behaviour on a computer.",
+        "lines": 1
+       },
+       {
+        "q": "The learning technology that makes AI work by learning patterns from data to make predictions and judgments.",
+        "lines": 1
+       },
+       {
+        "q": "The advanced technology within machine learning that uses neural networks.",
+        "lines": 1
+       },
+       {
+        "q": "The AI technology that uses deep learning to generate new data.",
+        "lines": 1
+       }
+      ]
+     },
+     {
+      "n": 14,
+      "type": "short",
+      "prompt": "Choose the correct option in each.",
+      "promptAr": "اختر الإجابة الصح في كل واحدة.",
+      "src": "p.16 — Try 2, questions (1) and (2)",
+      "questions": [
+       {
+        "q": "(1) Which shows the correct relationship?  A: AI > Deep Learning > Machine Learning > Generative AI   B: Machine Learning > AI > Generative AI > Deep Learning   C: AI > Machine Learning > Deep Learning > Generative AI   D: Generative AI > Deep Learning > Machine Learning > AI",
+        "lines": 1
+       },
+       {
+        "q": "(2) Which is NOT an appropriate example of generative AI?  A: ChatGPT   B: Image generation AI   C: Spam filter   D: Audio generation AI",
+        "lines": 1
+       }
+      ]
+     },
+     {
+      "n": 15,
+      "type": "extended",
+      "marks": 4,
+      "lines": 6,
+      "prompt": "Generative AI can produce text that sounds plausible but is factually incorrect — a hallucination. Explain why it is dangerous to hand such output in as a school report as it is, and state what you should do instead.",
+      "promptAr": "الـ generative AI ممكن يطلّع كلام شكله مقنع بس غلط — ده اسمه hallucination. اشرح ليه خطر تسلّم الكلام ده كتقرير مدرسي زي ما هو، وقول تعمل إيه بدل كده.",
+      "src": "p.16 — Think It Through"
+     },
+     {
+      "n": 16,
+      "type": "extended",
+      "marks": 4,
+      "lines": 6,
+      "prompt": "Generative AI can create text, images and audio. Suggest one genuinely helpful use, and one possible misuse, and say what makes the difference between them.",
+      "promptAr": "الـ generative AI بيعمل نص وصور وصوت. اقترح استخدام مفيد فعلًا، واستخدام ضار، وقول إيه اللي بيفرّق بينهم.",
+      "src": "p.19 — Reflect & Challenge"
+     },
+     {
+      "n": 17,
+      "type": "extended",
+      "marks": 6,
+      "lines": 8,
+      "prompt": "Research task. Find one documented case where a generative AI gave an answer that sounded correct but was wrong. Record where you found it — a news article, an official report, or your own tested prompt with a screenshot. Do not rely on an example given in class.",
+      "promptAr": "مهمة بحث. دوّر على حالة موثقة لـ generative AI قال إجابة شكلها صح وطلعت غلط. سجّل مصدرك — خبر، تقرير رسمي، أو تجربة عملتها بنفسك بصورة. متعتمدش على مثال اتقال في الحصة.",
+      "src": "p.17 — Think as an Engineer"
+     }
+    ]
+   }
+  ]
+ },
+ "ANSWERS": {
+  "1": {
+   "a": "AI",
+   "b": "machine learning",
+   "c": "deep learning",
+   "d": "generative AI",
+   "src": "p.13-14 — hierarchy"
+  },
+  "2": [
+   "✓ — correct, machine learning is one of the technologies that makes AI work",
+   "✗ — deep learning is an advanced kind of machine learning, not a separate field",
+   "✓ — correct description of generative AI",
+   "✗ — AI is the broad field; machine learning is one technology inside it"
+  ],
+  "3": "AI reproduces or performs intelligent human behavior on a computer; examples include speech recognition, image recognition or translation.",
+  "4": "Patterns, to make predictions and judgments.",
+  "5": "Neural networks and large-scale data.",
+  "6": "A system modeled after the brain’s nerve cells; connected components learn from data and make complex judgments.",
+  "7": "Text, images, audio (also programs).",
+  "8": "False; True; False.",
+  "9": "It has too few relevant examples from which to learn the pattern.",
+  "10": "It needs photographs/data of healthy and diseased crops; it may be wrong when the data has too few or unrepresentative examples.",
+  "11": "Output that sounds plausible but is factually incorrect; it must be checked before being used as a report answer.",
+  "12": "Machine learning; deep learning; generative AI.",
+  "13": [
+   "AI (Artificial Intelligence)",
+   "Machine learning",
+   "Deep learning",
+   "Generative AI"
+  ],
+  "14": [
+   "(1) C — AI > Machine Learning > Deep Learning > Generative AI",
+   "(2) C — a spam filter classifies email; it does not generate new data"
+  ],
+  "15": {
+   "points": [
+    "A hallucination reads as confidently as a correct answer, so the reader cannot tell.",
+    "The student is responsible for what they hand in, not the tool.",
+    "An error passed on as fact can mislead whoever reads the report.",
+    "What to do instead: check every fact against the textbook or another reliable source before using it."
+   ],
+   "marking": "2 marks for why it is dangerous, 2 for a concrete checking step. Naming 'hallucination' alone is not an explanation."
+  },
+  "16": {
+   "open": true,
+   "marking": "One helpful use, one misuse, and a stated distinction. Look for the distinction — most answers give two examples and never say what separates them.",
+   "example": "Helpful: drafting practice questions to revise from. Misuse: submitting generated text as your own work. The difference is whether the output is checked and whether authorship is honest."
+  },
+  "17": {
+   "open": true,
+   "marking": "Requires a named source the teacher can check. An example repeated from the lesson scores zero for the research part. Accept a screenshot of the student's own tested prompt."
+  }
+ }
 }

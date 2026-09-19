@@ -281,21 +281,36 @@ const SECTIONS = [
    and it renders only once the answer is locked in. Never put reasoning
    in `v`; that is an answer key printed above the options. */
 const QUESTIONS = [
-  {s:0,q:"Which sequence describes how a computer handles a task?",o:["Input, processing, output","Output, input, processing","Storage, output, input"],k:"16mdfmoyt7j",why:"A computer receives input, processes it according to instructions, then produces output.",src:"p.4 — input, processing, output"},
-  {s:0,q:"Which part keeps files when power is off?",o:["RAM","Storage","CPU"],k:"rs9yl6ksvj",why:"Storage keeps files when power is off; RAM only holds current work.",src:"p.5 — Storage"},
-  {s:0,q:"In traditional programming, who writes the rules?",o:["The programmer","The data","The screen"],k:"1l8sfnndaug",why:"Traditional programming uses rules written by a programmer.",src:"p.11 — programming and AI"},
-  {s:1,q:"What does e-commerce mean?",o:["Buying and selling through the Internet","Paying cash in a shop","Only advertising online"],k:"15kjlek3cnn",why:"E-commerce is buying and selling goods and services through the Internet.",src:"p.7 — e-commerce"},
-  {s:1,q:"Which technology overlays digital information on real-world images?",o:["VR","AR","Quantum computing"],k:"1pq0fuuvjgf",why:"AR overlays digital information on real-world images.",src:"p.8 — AR"},
-  {s:1,q:"Why does an autonomous vehicle process data on board?",o:["A delay can cause an accident","Cars cannot use the Internet","Cloud storage is too small"],k:"13xvrcpv0s3",why:"Even a 0.1-second delay can cause an accident, so decisions need to be instant.",src:"p.8 — edge computing"},
-  {s:2,q:"What is AI?",o:["A general term for technologies that perform intelligent human behavior on a computer","Only software that creates pictures","A name for neural networks only"],k:"11ldlhgmeg6",why:"AI is the broad general term; its examples include speech recognition, image recognition and translation.",src:"p.13 — AI definition"},
-  {s:2,q:"What does machine learning learn from data?",o:["Patterns","Keyboard layouts","Fixed hand-written rules"],k:"uiecrzknyh",why:"Machine learning learns patterns from data to make predictions and judgments.",src:"p.14 — Machine Learning"},
-  {s:2,q:"Which is an example of machine learning in the lesson?",o:["A spam filter","A printed textbook","A computer mouse"],k:"8pb7pazj2d",why:"Spam filters and product recommendations are examples of machine learning.",src:"p.14 — Machine Learning examples"},
-  {s:2,q:"Which order goes from broadest to most specialised?",o:["AI, machine learning, deep learning, generative AI","Generative AI, AI, deep learning, machine learning","AI, deep learning, machine learning, generative AI"],k:"14513nxr4u7",why:"The technologies are nested: AI contains machine learning, which contains deep learning, which supports generative AI.",src:"p.13–14 — hierarchy"},
-  {s:3,q:"What does deep learning use to learn complex patterns?",o:["Neural networks and large-scale data","Only a few fixed rules","Cashless payments"],k:"2463i66tiao",why:"Deep learning is an advanced machine-learning technology using neural networks and large-scale data.",src:"p.14 — Deep Learning"},
-  {s:3,q:"What is a neural network modeled after?",o:["Nerve cells in the human brain","A hard disk","A mobile phone antenna"],k:"b4oj567v0p",why:"A neural network is modeled after the workings of nerve cells in the human brain.",src:"p.14 — Neural network"},
-  {s:3,q:"What can generative AI generate?",o:["New data such as text, images and audio","Only spam classifications","Only product prices"],k:"fk2ghl1goc",why:"Generative AI uses deep learning to generate new data such as text, images, audio and programs.",src:"p.14 — Generative AI"},
-  {s:3,q:"Which is NOT an appropriate example of generative AI?",o:["ChatGPT","Image-generation AI","Spam filter"],k:"i1th33dlu6",why:"A spam filter classifies messages; it does not generate new data.",src:"p.16 — Try 2"},
-  {s:3,q:"Why should you check a generative AI answer before putting it in a report?",o:["It may sound plausible but be factually incorrect","It always uses too much storage","It cannot generate text"],k:"y2xpn2bov1",why:"Generative AI can hallucinate: produce text that sounds plausible but is factually incorrect.",src:"p.16 — Think It Through"},
+  {s:0,d:1,q:"Which sequence describes how a computer handles a task?",o:["Input, processing, output","Output, input, processing","Processing, output, input"],k:"16mdfmoyt7j",why:"A computer takes input, processes it, then produces output. That order never changes.",src:"Lecture 1"},
+  {s:0,d:1,q:"Which part keeps your files after the power goes off?",o:["RAM","Storage","The screen"],k:"rs9yl6ksvj",why:"Storage keeps things permanently. RAM only holds what you are using right now.",src:"Lecture 1"},
+  {s:1,d:1,q:"Roughly how often does Moore's Law say the number of transistors doubles?",o:["Every two years","Every ten years","Every six months"],k:"3x4j9odvvg",why:"Moore noticed the count doubles about every two years. It is an observation, not a law of physics.",src:"p.7 — Moore's Law"},
+  {s:1,d:1,q:"What is e-commerce?",o:["Buying and selling over the Internet","Paying cash in a shop","Storing receipts on a computer"],k:"2byx1q7e89g",why:"E-commerce is trade carried out through the Internet. No Internet, no e-commerce.",src:"p.7 — social changes"},
+  {s:2,d:1,q:"What does AI stand for?",o:["Artificial Intelligence","Automatic Information","Applied Internet"],k:"a58j7uksq",why:"AI is Artificial Intelligence: a general term for technologies that perform intelligent behaviour on a computer.",src:"p.13 — definition"},
+  {s:2,d:1,q:"Machine learning learns patterns from what?",o:["Data","Rules typed in by a programmer","The operating system"],k:"kyls6xl85c",why:"Machine learning learns patterns from data, and uses them to make predictions and judgments.",src:"p.14 — Machine Learning"},
+  {s:2,d:1,q:"Which of these is an everyday example of AI the book gives?",o:["Speech recognition","Printing a document","Charging a battery"],k:"9k5rw3le20",why:"The book lists speech recognition, image recognition and translation.",src:"p.13 — examples"},
+  {s:3,d:1,q:"What is a neural network modelled on?",o:["The nerve cells of the human brain","The wiring of a telephone exchange","The layout of a keyboard"],k:"2f6fmdpo3bi",why:"A neural network is modelled on the workings of the nerve cells, or neurons, of the human brain.",src:"p.14 — Neural network"},
+  {s:3,d:1,q:"Generative AI is built on top of which technology?",o:["Deep learning","Spreadsheets","Cashless payment"],k:"gbtakjmixv",why:"Generative AI uses deep learning to generate new data.",src:"p.14 — Generative AI"},
+  {s:3,d:1,q:"Which of these can generative AI produce?",o:["Text, images and audio","Only numbers","Only translations"],k:"1zqrmrf3zs",why:"It generates new data: text, images, audio and programs.",src:"p.14 — Generative AI"},
+  {s:0,d:2,q:"You were writing for an hour and the battery died before you saved. Where was your work?",o:["In RAM","In storage","In the CPU"],k:"sohng4ll12",why:"Unsaved work sits in RAM, which is wiped when the power goes. Saving copies it to storage.",src:"Lecture 1"},
+  {s:0,d:2,q:"In traditional programming, who works out the rules?",o:["The programmer writes them","The computer finds them in data","They come with the operating system"],k:"v2gxnslq24",why:"That is the dividing line: in programming you write the rules; in machine learning the computer works them out.",src:"Lecture 1"},
+  {s:1,d:2,q:"Which stage came immediately after the spread of personal computers?",o:["Commercialization of the Internet","Cloud computing","Smartphones"],k:"ezqay5utjf",why:"PCs in the 1970s-80s, then the Internet in the 1990s, then smartphones, then cloud computing.",src:"p.6 — stages table"},
+  {s:1,d:2,q:"A company lets staff work from home over the Internet. Which change is that?",o:["Remote work","E-commerce","Online learning"],k:"21wonivbvrn",why:"Remote work is work performed from home or another location using the Internet.",src:"p.7 — social changes"},
+  {s:1,d:2,q:"Which pair are both emerging technologies from Lecture 2?",o:["AR and quantum computing","Email and personal computers","SNS and cashless payment"],k:"10ohjmbbfjc",why:"AR, VR, autonomous driving and quantum computing are the emerging technologies. Email and PCs are earlier stages.",src:"p.8 — emerging technologies"},
+  {s:2,d:2,q:"Which sentence puts the layers in the right order, broadest first?",o:["AI, machine learning, deep learning, generative AI","Machine learning, AI, generative AI, deep learning","Deep learning, AI, machine learning, generative AI"],k:"14513nxr4u7",why:"They are nested: AI contains machine learning, which contains deep learning, on which generative AI is built.",src:"p.13-14 — hierarchy"},
+  {s:2,d:2,q:"A spam filter and a shop's recommendations do different jobs. What do they share?",o:["Both learn patterns from data","Both generate new text","Both use quantum computing"],k:"18jrfilo79c",why:"Both are machine learning: different tasks, same underlying method of learning from data.",src:"p.14 — Machine Learning"},
+  {s:2,d:2,q:"Why is today's AI described as narrow?",o:["Each system is expert at one task only","It runs on small computers","It only works in one language"],k:"c0ie70laop",why:"Narrow means expert at a single task. A translation app cannot recognise a face.",src:"p.13 — narrow AI"},
+  {s:3,d:2,q:"What does deep learning need a great deal of?",o:["Large-scale data","Printed manuals","Cashless payments"],k:"23v7r6icxqe",why:"Deep learning uses neural networks and large-scale data to learn complex patterns.",src:"p.14 — Deep Learning"},
+  {s:3,d:2,q:"Which task is classifying rather than generating?",o:["Sorting an email into spam or not spam","Writing a new paragraph from a prompt","Drawing a picture from a sentence"],k:"1gkucl9ji18",why:"Classifying chooses from answers that already exist. Generating makes something new.",src:"p.14 — Generative AI"},
+  {s:3,d:3,q:"Deep learning is a completely different technology from machine learning.",o:["False — it is an advanced kind of machine learning","True — they are unrelated fields","True — deep learning came first"],k:"18ll211vrel",why:"Deep learning sits inside machine learning. This is the sentence students get wrong most often.",src:"p.15 — Worked Example (1) B"},
+  {s:2,d:3,q:"AI and machine learning mean the same thing.",o:["False — AI is the broad field, machine learning is one technology in it","True — the words are interchangeable","False — machine learning is broader than AI"],k:"1p7cwu61mhp",why:"AI is the broad field; machine learning is one of the technologies inside it.",src:"p.15 — Worked Example (1) D"},
+  {s:3,d:3,q:"VR is a technology that speeds up a computer's processing.",o:["False — VR immerses you in a generated space; quantum computing is about speed","True — VR uses a faster processor","False — VR only affects sound"],k:"rlavd74u4i",why:"VR has nothing to do with speed. The technology expected to speed up hard computations is quantum computing.",src:"p.9 — Lecture 2 exam trap"},
+  {s:3,d:3,q:"An AI misjudges a horse and cart on a road at night. What is the most likely reason?",o:["It had rarely seen that situation in its training data","Its screen resolution was too low","It was not connected to the Internet"],k:"149jwf4zwbx",why:"A model learns what it was shown. The rare case is the one it gets wrong — and it stays confident.",src:"p.14 — large-scale data"},
+  {s:3,d:3,q:"A chatbot gives a fluent, confident answer that turns out to be factually wrong. Why does this happen?",o:["It is built to produce text that reads well, not text that is checked","It ran out of memory","The question was too short"],k:"1lqel37uxm1",why:"Reading well and being correct are not the same thing, and it has no way of knowing it is wrong.",src:"p.16 — using generative AI carefully"},
+  {s:2,d:3,q:"Which is the clearest evidence that a system is using machine learning rather than fixed rules?",o:["Its accuracy improves as it is given more examples","It runs faster on a newer computer","It has a larger screen"],k:"1fw9ypp4o4q",why:"Learning from examples is the defining behaviour. More data improving the result is the signature of it.",src:"p.14 — Machine Learning"},
+  {s:3,d:3,q:"An app names a crop disease from a photo, then writes a treatment plan. Which parts are which?",o:["Naming the disease is image recognition; writing the plan is generative AI","Both parts are generative AI","Both parts are image recognition"],k:"105blgjea2c",why:"Choosing a label from known diseases is classifying. Producing a plan that did not exist before is generating.",src:"p.14 — classify and generate"},
+  {s:1,d:3,q:"Why did the spread of cloud computing matter for AI?",o:["It made large-scale data and processing power available without owning them","It made screens larger","It replaced the Internet"],k:"wmk8qe0j08",why:"Cloud computing let organisations rent storage and processing, which is what large-scale data analysis and AI need.",src:"p.6 — cloud computing"},
+  {s:3,d:3,q:"A self-driving car must decide in a fraction of a second. Why is edge computing used?",o:["Sending data to the cloud and waiting for a reply is too slow to brake in time","The cloud cannot store enough photographs","Edge computing is cheaper to install"],k:"w1ztasyt58",why:"A delay of even 0.1 seconds can cause an accident, so the decision is made on the vehicle itself.",src:"p.8 — autonomous driving"},
+  {s:0,d:3,q:"Which statement about a touchscreen is correct?",o:["It is both an input and an output device","It is an input device only","It is an output device only"],k:"xkgct695hu",why:"It takes your finger in and shows the picture out, so it is both. A very common exam question.",src:"Lecture 1"}
 ];
 
 /* ---- answer keys ------------------------------------------------------
@@ -368,10 +383,23 @@ function currentQ(){
   return QUESTIONS[state.qOrder[state.i]];
 }
 
+/* Questions carry d: 1 easy, 2 medium, 3 hard. The paper walks up through the
+   bands so a student meets the recall questions before the reasoning ones, but
+   the order INSIDE a band is still shuffled -- two students sitting together
+   are not on the same question, which is the point of shuffling at all. */
+function bandedOrder(){
+  const bands = {};
+  QUESTIONS.forEach((q, k) => {
+    const d = (q.d === 1 || q.d === 2 || q.d === 3) ? q.d : 2;
+    (bands[d] = bands[d] || []).push(k);
+  });
+  return [1, 2, 3].reduce((all, d) => all.concat(shuffle(bands[d] || [])), []);
+}
+
 function newAttempt(){
   state.i = 0;
   state.wrongQuestions = [];
-  state.qOrder = shuffle(QUESTIONS.map((_, k) => k));
+  state.qOrder = bandedOrder();
   SECTIONS.forEach((_, k) => { state.correct[k] = 0; });
 }
 
