@@ -219,6 +219,121 @@
       "prompt": "Research task. Find one documented case where a generative AI gave an answer that sounded correct but was wrong. Record where you found it — a news article, an official report, or your own tested prompt with a screenshot. Do not rely on an example given in class.",
       "promptAr": "مهمة بحث. دوّر على حالة موثقة لـ generative AI قال إجابة شكلها صح وطلعت غلط. سجّل مصدرك — خبر، تقرير رسمي، أو تجربة عملتها بنفسك بصورة. متعتمدش على مثال اتقال في الحصة.",
       "src": "p.17 — Think as an Engineer"
+     },
+     {
+      "n": 18,
+      "type": "match",
+      "prompt": "Match each service to the AI technology it uses.",
+      "promptAr": "صِل كل خدمة بالتقنية اللي بتستخدمها.",
+      "src": "p.21 — Worked Example (1) a-d",
+      "left": [
+       "YouTube recommends videos that match your preferences",
+       "Speaking to a phone to check the weather",
+       "Turning a foreign website into your own language",
+       "A camera automatically detecting a person's face"
+      ],
+      "right": [
+       "Voice assistant",
+       "Machine translation",
+       "Face recognition",
+       "Recommendation system"
+      ]
+     },
+     {
+      "n": 19,
+      "type": "truefalse",
+      "prompt": "Write ✓ if the statement is true, ✗ if it is false.",
+      "promptAr": "اكتب ✓ لو الجملة صح، و ✗ لو غلط.",
+      "src": "p.21 — Worked Example (2) A-D",
+      "statements": [
+       "AI is good at probabilistic reasoning and prediction based on data.",
+       "AI is good at recognising images and audio.",
+       "It is fine to leave ethical judgments entirely to AI.",
+       "AI judgments can become inaccurate when training data is biased."
+      ]
+     },
+     {
+      "n": 20,
+      "type": "short",
+      "prompt": "Answer with the correct term or industry.",
+      "promptAr": "اكتب المصطلح أو المجال الصح.",
+      "src": "p.22 — Try 1, questions 1-4",
+      "questions": [
+       {
+        "q": "The system that predicts preferences from past behaviour data and displays recommendations.",
+        "lines": 1
+       },
+       {
+        "q": "The AI technology that recognises a voice, understands commands and carries them out.",
+        "lines": 1
+       },
+       {
+        "q": "The industry in which image-diagnosis AIs are used.",
+        "lines": 1
+       },
+       {
+        "q": "In manufacturing, the system that predicts product failures in advance.",
+        "lines": 1
+       }
+      ]
+     },
+     {
+      "n": 21,
+      "type": "short",
+      "prompt": "Choose the correct option in each.",
+      "promptAr": "اختر الإجابة الصح في كل واحدة.",
+      "src": "p.23 — Try 2, questions (1) and (2)",
+      "questions": [
+       {
+        "q": "(1) Which does NOT belong to “what requires caution when using AI”?  A: Ethical judgments   B: Finding and classifying patterns   C: Judgments involving personal information   D: Final decision-making",
+        "lines": 1
+       },
+       {
+        "q": "(2) Match each to its industry (A Healthcare, B Agriculture, C Manufacturing, D Logistics):  a optimising delivery routes   b detecting diseases from X-ray images   c detecting pests and diseases   d automating product quality inspection",
+        "lines": 2
+       }
+      ]
+     },
+     {
+      "n": 22,
+      "type": "category",
+      "prompt": "Write G if AI is good at it, or C if it requires caution.",
+      "promptAr": "اكتب G لو دي حاجة الـ AI شاطر فيها، أو C لو محتاجة حذر.",
+      "src": "p.21 — Characteristics and Cautions",
+      "items": [
+       "Finding patterns in a large set of images",
+       "Deciding who is responsible when something goes wrong",
+       "Predicting a likely outcome from past data",
+       "Making a judgment that involves someone's private data",
+       "Recognising speech and turning it into text"
+      ]
+     },
+     {
+      "n": 23,
+      "type": "extended",
+      "marks": 6,
+      "lines": 8,
+      "prompt": "Analyse why AI is well suited to some tasks but requires caution in others. Refer to what AI is good at (finding patterns, recognition, prediction) and to what needs caution (ethical judgments, privacy, final decision-making).",
+      "promptAr": "حلّل ليه الـ AI مناسب لمهام معينة ومحتاج حذر في غيرها. أشر لللي هو شاطر فيه (إيجاد الأنماط، التعرّف، التنبؤ) ولللي محتاج حذر (الأحكام الأخلاقية، الخصوصية، القرار النهائي).",
+      "src": "p.22 — Exam-style question"
+     },
+     {
+      "n": 24,
+      "type": "extended",
+      "marks": 4,
+      "lines": 6,
+      "prompt": "A hospital wants an image-diagnosis AI to detect disease from X-ray images. Explain why the final diagnosis should still be confirmed by a human doctor rather than left to the AI alone.",
+      "promptAr": "مستشفى عايزة AI يكتشف المرض من الأشعة. اشرح ليه لازم دكتور بني آدم يأكد التشخيص النهائي بدل ما يتساب للـ AI لوحده.",
+      "src": "p.21 — Think It Through"
+     },
+     {
+      "n": 25,
+      "type": "extended",
+      "marks": 5,
+      "lines": 7,
+      "prompt": "A school library wants to recommend books to a student based on what they borrowed before. Explain how the AI would work, and identify one caution the school should consider.",
+      "promptAr": "مكتبة مدرسة عايزة ترشّح كتب للطالب حسب اللي استعاره قبل كده. اشرح هتشتغل إزاي، وحدد تحذير واحد لازم المدرسة تفكر فيه.",
+      "src": "p.24 — In a New Context"
      }
     ]
    }
@@ -275,6 +390,61 @@
   "17": {
    "open": true,
    "marking": "Requires a named source the teacher can check. An example repeated from the lesson scores zero for the research part. Accept a screenshot of the student's own tested prompt."
+  },
+  "18": [
+   "YouTube recommends videos → Recommendation system",
+   "Speaking to a phone → Voice assistant",
+   "Turning a foreign website into your language → Machine translation",
+   "A camera detecting a face → Face recognition"
+  ],
+  "19": [
+   "✓ — AI is good at probabilistic reasoning and prediction from data",
+   "✓ — AI is good at recognising images, audio and text",
+   "✗ — ethical judgments can carry discrimination or prejudice; they must not be left to AI",
+   "✓ — bias in the training data affects the accuracy of the judgment"
+  ],
+  "20": [
+   "Recommendation system",
+   "Voice assistant",
+   "Healthcare",
+   "Predictive maintenance"
+  ],
+  "21": [
+   "(1) B — finding and classifying patterns is what AI is GOOD at, not a caution",
+   "(2) a-D logistics, b-A healthcare, c-B agriculture, d-C manufacturing"
+  ],
+  "22": [
+   "Finding patterns in images — G",
+   "Deciding responsibility — C",
+   "Predicting from past data — G",
+   "A judgment involving private data — C",
+   "Recognising speech — G"
+  ],
+  "23": {
+   "marks": 6,
+   "points": [
+    "AI is good at finding and classifying patterns in complex data such as images and text.",
+    "It is good at recognition and generation of images, audio and text.",
+    "It is good at probabilistic reasoning and prediction from data.",
+    "Caution: ethical judgments may carry discrimination or prejudice.",
+    "Caution: anything involving personal data raises privacy questions.",
+    "Caution: final decision-making — someone has to be responsible for the result."
+   ],
+   "marking": "3 marks for the strengths, 3 for the cautions. A list with no explanation of WHY each one follows scores half."
+  },
+  "24": {
+   "points": [
+    "A wrong diagnosis can seriously harm a patient, so responsibility matters.",
+    "The black-box problem: it is not clear how the AI reached its judgment.",
+    "Training data may be biased, making the judgment less accurate for some patients.",
+    "Final decision-making is exactly what the book lists as needing caution."
+   ],
+   "marking": "2 marks for a harm/responsibility point, 2 for a limitation of the AI itself. Naming 'black box' without explaining it scores 1."
+  },
+  "25": {
+   "open": true,
+   "marking": "How it works: it reads past borrowing, finds a pattern, predicts a preference. Caution: student borrowing history is personal data, or the recommendations narrow what a student is shown. Both parts needed for full marks.",
+   "example": "It would use the student's borrowing record as past behaviour data, find patterns across students, and predict books they are likely to want. Caution: borrowing history is personal, so the school must decide who may see it."
   }
  }
 }

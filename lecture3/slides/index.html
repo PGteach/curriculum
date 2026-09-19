@@ -274,20 +274,6 @@ tr:last-child td{border-bottom:0}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .fitbox{width:100%}
-/* ---------- photo slides ---------- */
-.shots{display:grid; gap:.85rem; margin:1rem 0 .35rem}
-.shots.three{grid-template-columns:repeat(3,1fr)}
-@media (max-width:900px){.shots.three{grid-template-columns:repeat(2,1fr)}}
-.shot{background:var(--white); border:1px solid var(--line); border-radius:10px;
-      overflow:hidden; display:flex; flex-direction:column}
-.shot img{width:100%; height:23vh; object-fit:contain; background:#F1F0EB;
-          display:block; padding:6px; font-size:11px; color:var(--soft)}
-.shot .cap{padding:.5rem .6rem .65rem; font-size:clamp(10.5px,1vw,13.5px);
-           line-height:1.4; color:var(--ink-2)}
-.shot .cap b{display:block; color:var(--ink); font-size:clamp(11.5px,1.12vw,15px);
-             margin-bottom:.18rem}
-.shot .cap .ar{display:block; color:var(--soft); margin-top:.28rem; font-size:.94em}
-.credit{font-size:clamp(9px,.82vw,11.5px); color:var(--soft); margin-top:.15rem}
 .shot img{cursor:zoom-in}
 .shot img:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 #zoom{
@@ -321,6 +307,21 @@ tr:last-child td{border-bottom:0}
   #zoom img{max-height:60vh}
 }
 @media print{#zoom{display:none!important}}
+/* ---------- photo slides ---------- */
+.shots{display:grid; gap:.85rem; margin:1rem 0 .35rem}
+.shots.three{grid-template-columns:repeat(3,1fr)}
+.shots.four{grid-template-columns:repeat(4,1fr)}
+@media (max-width:900px){.shots.three,.shots.four{grid-template-columns:repeat(2,1fr)}}
+.shot{background:var(--white); border:1px solid var(--line); border-radius:10px;
+      overflow:hidden; display:flex; flex-direction:column}
+.shot img{width:100%; height:21vh; object-fit:contain; background:#F1F0EB;
+          display:block; padding:6px; font-size:11px; color:var(--soft)}
+.shot .cap{padding:.5rem .6rem .65rem; font-size:clamp(10.5px,1vw,13.5px);
+           line-height:1.4; color:var(--ink-2)}
+.shot .cap b{display:block; color:var(--ink); font-size:clamp(11.5px,1.12vw,15px);
+             margin-bottom:.18rem}
+.shot .cap .ar{display:block; color:var(--soft); margin-top:.28rem; font-size:.94em}
+.credit{font-size:clamp(9px,.82vw,11.5px); color:var(--soft); margin-top:.15rem}
 </style>
 </head>
 <body>
@@ -752,6 +753,147 @@ tr:last-child td{border-bottom:0}
     <h2 class="rise" style="max-width:30ch">AI is the field. Everything else is a box inside it.</h2>
     <div class="rise stats" style="margin-top:1rem"><div class="stat"><b>AI</b><span>intelligent behaviour on a computer</span></div><div class="stat"><b>ML</b><span>learns patterns from data</span></div><div class="stat"><b>DL</b><span>neural networks, large data</span></div><div class="stat"><b>Gen</b><span>makes new text, images, audio</span></div></div>
     <p class="rise arline ar">الخلاصة: AI هو المجال كله، وكل واحد بعده صندوق جواه. والترتيب ده هو اللي بيتسأل عليه أكتر حاجة.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Part 4</div>
+    <h2 class="rise" style="font-size:clamp(30px,5.5vw,72px)">Where you actually meet it</h2>
+    <p class="rise sub" style="max-width:56ch;margin-top:1rem">Everything so far was how it works. Now: where it already is, what it is good at, and where it must not be trusted alone.</p>
+    <p class="rise arline ar">لغاية دلوقتي شفنا بيشتغل إزاي. دلوقتي: هو موجود فين فعلاً، شاطر في إيه، وفين مينفعش نسيبه لوحده.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">4 · Explore · in pairs</div>
+    <h2 class="rise" style="max-width:24ch">Three services you used this week</h2>
+    <p class="rise sub" style="max-width:56ch;margin-top:1rem">With your partner, name <b>three</b> services you used this week that you think used AI. For each, predict <b>what data</b> it needed. Then decide together: which one would matter most if it got it wrong?</p>
+    <p class="rise arline ar">مع زميلك: اذكروا تلات خدمات استخدمتوها الأسبوع ده وتفتكروا إن فيها AI. ولكل واحدة توقّعوا محتاجة أنهي بيانات. وبعدين قرروا: لو واحدة فيهم غلطت، أنهي غلطة تفرق أكتر؟</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">4 · In daily life</div>
+    <h2 class="rise">Four you already use</h2>
+    <table><tr><th>Service</th><th>What the AI does</th><th>Examples</th></tr><tr><td><b>Recommendation system</b></td><td>Predicts your preferences from past behaviour and shows suggestions</td><td>YouTube, Amazon, Spotify</td></tr><tr><td><b>Voice assistant</b></td><td>Recognises a voice, understands the command, carries it out</td><td>Siri, Google Assistant</td></tr><tr><td><b>Machine translation</b></td><td>Turns text automatically into another language</td><td>Google Translate, DeepL</td></tr><tr><td><b>Face recognition</b></td><td>Detects and identifies faces in photographs</td><td>Unlocking a phone</td></tr></table>
+    <p class="rise arline ar">الأربعة دول من الكتاب بالحرف، وبيتسألوا كسؤال مطابقة. خلي بالك من الفرق بين voice assistant و machine translation.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">4 · How a recommendation works</div>
+    <h2 class="rise">It read what you did before</h2>
+    <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 900 250" role="img" aria-label="A recommendation system reads past behaviour, finds a pattern, and suggests something new">
+  <text x="30" y="24" font-size="12.5" font-weight="600" fill="var(--soft)">Nobody told it you like this. It read what you did before.</text>
+
+  <rect x="30" y="52" width="180" height="118" rx="9" fill="var(--teal)" opacity=".12" stroke="var(--teal)" stroke-width="2"/>
+  <text x="120" y="78" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">what you did before</text>
+  <text x="120" y="102" text-anchor="middle" font-size="11" fill="var(--soft)">videos watched</text>
+  <text x="120" y="122" text-anchor="middle" font-size="11" fill="var(--soft)">things bought</text>
+  <text x="120" y="142" text-anchor="middle" font-size="11" fill="var(--soft)">songs skipped</text>
+
+  <line x1="216" y1="111" x2="276" y2="111" stroke="var(--teal)" stroke-width="2"/>
+  <polygon points="276,111 268,106 268,116" fill="var(--teal)"/>
+
+  <rect x="282" y="52" width="200" height="118" rx="9" fill="var(--teal)" opacity=".22" stroke="var(--teal)" stroke-width="2.5">
+    <animate attributeName="opacity" values=".22;.42;.22" dur="3.4s" repeatCount="indefinite"/>
+  </rect>
+  <text x="382" y="86" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">it finds a pattern</text>
+  <text x="382" y="110" text-anchor="middle" font-size="11" fill="var(--soft)">people who liked these</text>
+  <text x="382" y="130" text-anchor="middle" font-size="11" fill="var(--soft)">also liked that</text>
+
+  <line x1="488" y1="111" x2="548" y2="111" stroke="var(--teal)" stroke-width="2"/>
+  <polygon points="548,111 540,106 540,116" fill="var(--teal)"/>
+
+  <rect x="554" y="52" width="200" height="118" rx="9" fill="var(--gold)" opacity=".24" stroke="var(--gold)" stroke-width="2.5">
+    <animate attributeName="opacity" values=".24;.46;.24" dur="3.4s" begin="1.2s" repeatCount="indefinite"/>
+  </rect>
+  <text x="654" y="96" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">&#8220;watch this next&#8221;</text>
+  <text x="654" y="120" text-anchor="middle" font-size="11" fill="var(--soft)">a prediction, not a fact</text>
+
+  <text x="30" y="208" font-size="11.5" fill="var(--soft)">This is machine learning from Part 2, doing a job you meet every day.</text>
+  <text x="30" y="228" font-size="11.5" fill="var(--wrong)">It works because it holds your behaviour &#8212; which is the privacy question.</text>
+</svg></div>
+    <p class="rise arline ar">نظام الترشيح بياخد سلوكك القديم، يلاقي نمط، ويتوقّع. وده machine learning من الجزء التاني بيشتغل في حاجة بتقابلها كل يوم.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">4 · In industry</div>
+    <h2 class="rise">Four industries</h2>
+    <table><tr><th>Industry</th><th>How AI is used</th></tr><tr><td><b>Healthcare</b></td><td>Image-diagnosis AI reads X-ray and CT images; drug-discovery support</td></tr><tr><td><b>Agriculture</b></td><td>Predicting harvest timing; detecting pests and diseases</td></tr><tr><td><b>Manufacturing</b></td><td>Automatic quality inspection; predictive maintenance</td></tr><tr><td><b>Logistics</b></td><td>Optimising delivery routes</td></tr></table>
+    <p class="rise sub" style="margin-top:.8rem;color:var(--soft)"><b>Predictive maintenance</b> means predicting a failure <i>before</i> it happens. That term is examined.</p>
+    <p class="rise arline ar">الأربع مجالات دي بيتسألوا كسؤال مطابقة برضو. و predictive maintenance معناها يتوقّع العطل قبل ما يحصل — المصطلح ده بييجي في الامتحان.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">4 · The same four, photographed</div>
+    <h2 class="rise">Where the work actually happens</h2>
+    <div class="rise shots four"><figure class="shot"><img src="media/Chest_Xray_PA_3-8-2010.png" alt="Healthcare" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Healthcare</b>An image-diagnosis AI reads films like this one and flags what a doctor should look at.<span class="ar">الـ AI بيقرا أفلام زي دي ويحدد للدكتور يبص فين.</span></figcaption></figure><figure class="shot"><img src="media/Combine_harvester.jpg" alt="Agriculture" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Agriculture</b>Predicting when to harvest, and spotting pests before they spread.<span class="ar">يتوقّع وقت الحصاد، ويكتشف الآفات قبل ما تنتشر.</span></figcaption></figure><figure class="shot"><img src="media/KUKA_Industrial_Robots_IR.jpg" alt="Manufacturing" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Manufacturing</b>Quality inspection, and predicting a failure before the machine stops.<span class="ar">فحص الجودة، وتوقّع العطل قبل ما الماكينة تقف.</span></figcaption></figure><figure class="shot"><img src="media/DHL_delivery_van.jpg" alt="Logistics" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Logistics</b>Working out the delivery route that costs the least time and fuel.<span class="ar">يحسب أحسن خط توصيل يوفّر وقت ووقود.</span></figcaption></figure></div>
+    <p class="rise credit">Photos: Wikimedia Commons &#183; public domain or Creative Commons. Used for teaching.</p>
+    <p class="rise arline ar">خلي الطلبة يوصلوا كل صورة بالمجال بتاعها قبل ما تقرا العناوين.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">4 · The honest summary</div>
+    <h2 class="rise" style="max-width:26ch">Good at, and not to be trusted alone</h2>
+    <div class="rise vs"><div class="pane a"><h3>What AI is good at</h3><ul><li>Finding and classifying <b>patterns</b> in complex data — images, text</li><li><b>Recognition and generation</b> of images, audio and text</li><li><b>Probabilistic prediction</b> based on data</li></ul></div><div class="pane b"><h3>What needs caution</h3><ul><li><b>Ethical judgments</b> — can carry discrimination or prejudice</li><li>Anything touching <b>personal data and privacy</b></li><li><b>Final decisions</b> — who is responsible for the result?</li><li><b>Biased training data</b> makes judgments inaccurate</li><li><b>Hallucination</b>, and the <b>black-box problem</b></li></ul></div></div>
+    <p class="rise arline ar">العمود الشمال بييجي سؤال 'اختر اللي الـ AI شاطر فيه'، واليمين بييجي 'اختر اللي مش من دواعي الحذر'. ذاكرهم مقابل بعض.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">4 · The one that needs a picture</div>
+    <h2 class="rise">The black-box problem</h2>
+    <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 900 240" role="img" aria-label="The black-box problem: the input and the answer are visible but the reasoning inside is not">
+  <text x="30" y="24" font-size="12.5" font-weight="600" fill="var(--soft)">You can see what went in and what came out. You cannot see why.</text>
+
+  <rect x="30" y="58" width="150" height="90" rx="8" fill="var(--teal)" opacity=".14" stroke="var(--teal)" stroke-width="2"/>
+  <text x="105" y="98" text-anchor="middle" font-size="12" fill="var(--ink)">an X-ray</text>
+  <text x="105" y="120" text-anchor="middle" font-size="11" fill="var(--soft)">you can see this</text>
+
+  <line x1="186" y1="103" x2="244" y2="103" stroke="var(--teal)" stroke-width="2"/>
+  <polygon points="244,103 236,98 236,108" fill="var(--teal)"/>
+
+  <rect x="250" y="44" width="260" height="118" rx="10" fill="var(--ink)" opacity=".88"/>
+  <text x="380" y="92" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">?</text>
+  <text x="380" y="118" text-anchor="middle" font-size="12" fill="#C6CCD9">why it decided that</text>
+  <text x="380" y="138" text-anchor="middle" font-size="11" fill="#8A93A6">not visible, even to its builders</text>
+  <rect x="250" y="44" width="260" height="118" rx="10" fill="none" stroke="var(--wrong)" stroke-width="2.5" stroke-dasharray="7 5">
+    <animate attributeName="opacity" values="1;.3;1" dur="2.2s" repeatCount="indefinite"/>
+  </rect>
+
+  <line x1="516" y1="103" x2="574" y2="103" stroke="var(--teal)" stroke-width="2"/>
+  <polygon points="574,103 566,98 566,108" fill="var(--teal)"/>
+
+  <rect x="580" y="58" width="180" height="90" rx="8" fill="var(--gold)" opacity=".24" stroke="var(--gold)" stroke-width="2"/>
+  <text x="670" y="92" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">&#8220;likely disease&#8221;</text>
+  <text x="670" y="116" text-anchor="middle" font-size="11" fill="var(--soft)">you can see this too</text>
+
+  <text x="30" y="204" font-size="11.5" fill="var(--ink)">That gap is the <tspan font-weight="600">black-box problem</tspan> &#8212; and it is why a doctor still signs the diagnosis.</text>
+</svg></div>
+    <p class="rise arline ar">انت شايف اللي دخل واللي طلع، بس مش شايف قرر كده ليه — ولا حتى اللي عملوه شايفين. عشان كده الدكتور هو اللي بيمضي التشخيص.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Think it through</div>
+    <h2 class="rise" style="max-width:27ch">A hospital wants image-diagnosis AI to read X-rays. Why should a <i>human doctor</i> still confirm the final diagnosis?</h2>
+    <p class="rise arline ar">مستشفى عايزة تستخدم AI يقرا أشعة. ليه لازم دكتور بني آدم يأكد التشخيص النهائي؟</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Pause & think</div>
+    <h2 class="rise" style="max-width:27ch">These services hold what you watch, buy and say. Why is that a privacy problem — and who should decide how your data is used?</h2>
+    <p class="rise arline ar">الخدمات دي شايلة اللي بتتفرج عليه وبتشتريه وبتقوله. ليه دي مشكلة خصوصية؟ ومين اللي يقرر بياناتك تتستخدم إزاي؟</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">In a new context</div>
+    <h2 class="rise" style="max-width:26ch">A school library wants AI to recommend books</h2>
+    <p class="rise sub" style="max-width:54ch;margin-top:.7rem">It would suggest books to a student based on what they borrowed before.</p>
+    <ul class="rise check" style="margin-top:.8rem"><li>Explain <b>how it would work</b>, using what you know about recommendation systems.</li><li>Identify <b>one caution</b> the school should think about first.</li></ul>
+    <p class="rise arline ar">مكتبة مدرسة عايزة AI يرشّح كتب للطالب حسب اللي استعاره قبل كده. اشرح هيشتغل إزاي، وحدد تحذير واحد لازم المدرسة تفكر فيه.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Key takeaway &middot; lesson 1-3</div>
+    <h2 class="rise" style="max-width:28ch">It is already here, and it still needs you</h2>
+    <div class="rise vs"><div class="pane a"><h3>Where it is</h3><ul><li>Daily life: recommendations, voice, translation, face recognition</li><li>Industry: healthcare, agriculture, manufacturing, logistics</li></ul></div><div class="pane b"><h3>What it cannot be left to do</h3><ul><li>Ethical judgments, and anything touching private data</li><li>The final decision &#8212; somebody has to be responsible</li></ul></div></div>
+    <p class="rise arline ar">الخلاصة: الـ AI موجود فعلاً حواليك في الحياة والصناعة، بس القرار الأخير والأحكام الأخلاقية وأي حاجة فيها بيانات شخصية لسه محتاجة بني آدم.</p>
   </section>
 
   <section class="slide dark">
