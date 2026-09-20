@@ -353,15 +353,50 @@
    "✓ — correct description of generative AI",
    "✗ — AI is the broad field; machine learning is one technology inside it"
   ],
-  "3": "AI reproduces or performs intelligent human behavior on a computer; examples include speech recognition, image recognition or translation.",
+  "3": [
+   "Learns patterns from data → C (Machine learning)",
+   "Uses neural networks → A (Deep learning)",
+   "Generates new text or images → B (Generative AI)"
+  ],
   "4": "Patterns, to make predictions and judgments.",
-  "5": "Neural networks and large-scale data.",
+  "5": [
+   "Deep learning — uses neural networks and large-scale data to learn complex patterns",
+   "Generative AI — uses deep learning to generate new data: text, images, audio, programs"
+  ],
   "6": "A system modeled after the brain’s nerve cells; connected components learn from data and make complex judgments.",
-  "7": "Text, images, audio (also programs).",
-  "8": "False; True; False.",
-  "9": "It has too few relevant examples from which to learn the pattern.",
+  "7": {
+   "Classifies / predicts": [
+    "Spam filter",
+    "Product recommendation"
+   ],
+   "Generates": [
+    "Text from ChatGPT",
+    "New image from text"
+   ],
+   "note": "The two on the left choose from answers that already exist; the two on the right make something new."
+  },
+  "8": [
+   "✗ — AI is the broad field; machine learning is one technology inside it",
+   "✓ — ChatGPT is an example of generative AI",
+   "✗ — a spam filter classifies email, it does not generate new data"
+  ],
+  "9": [
+   "Sorting spam emails — A (machine learning)",
+   "Recognising pedestrians for autonomous driving — B (deep learning)",
+   "Generating an image from text — C (generative AI)"
+  ],
   "10": "It needs photographs/data of healthy and diseased crops; it may be wrong when the data has too few or unrepresentative examples.",
-  "11": "Output that sounds plausible but is factually incorrect; it must be checked before being used as a report answer.",
+  "11": {
+   "marks": 6,
+   "points": [
+    "AI is the broad field: technologies that perform intelligent human behaviour on a computer. Example: speech recognition.",
+    "Machine learning sits inside AI: it learns patterns from data to make predictions and judgments. Example: a spam filter.",
+    "Deep learning sits inside machine learning: it uses neural networks and large-scale data. Example: image analysis for autonomous driving.",
+    "Generative AI is built on deep learning and generates new data. Example: ChatGPT.",
+    "The four are nested categories, each more specialised than the one before, not four separate technologies."
+   ],
+   "marking": "4 marks for the four layers in the right order with an example each, 2 for stating that they are nested rather than separate. A list with no nesting statement scores 4."
+  },
   "12": "Machine learning; deep learning; generative AI.",
   "13": [
    "AI (Artificial Intelligence)",

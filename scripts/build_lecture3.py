@@ -16,17 +16,19 @@ IN_CLASS=[1,2,18,19]
 HW_SECTIONS=[
  ("Part 1 &middot; How AI works",
   "الجزء الأول — إزاي الـ AI بيشتغل",
-  [[3,4],[5,6],[7,8],[9,12],[13,14],[10],[11]]),
+  # the first sheet also carries the masthead and the intro box, so it takes
+  # two exercises rather than three
+  [[3,4],[5,6,7],[8,9,12],[13,14],[10,11]]),
  ("Part 2 &middot; AI in daily life and industry",
   "الجزء التاني — الـ AI في الحياة والصناعة",
-  [[20,21],[22,25],[23],[24]]),
+  [[20,21],[22,25],[23,24]]),
  ("Challenge &middot; optional",
   "تحدي — اختياري",
   [[15,16],[17]]),
 ]
 HOMEWORK=[n for _,_,pages in HW_SECTIONS for g in pages for n in g]
 EXTRA_CSS='''
-.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}'''
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}.keysheet{min-height:auto}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}'''
 def shell():
  t=(ROOT/'templates/handout-template.html').read_text(encoding='utf-8').replace('</style>',EXTRA_CSS+'</style>',1)
  t=t.replace('__LECTURE_NUM__','3').replace('__TITLE_HTML__','How does it learn?').replace('__TITLE_JS__','How does it learn?').replace('__TOPIC_HTML__','Programming &amp; Artificial Intelligence').replace('__TOPIC_JS__','Programming & Artificial Intelligence').replace('__ACCENT__','#1D6FA5')
@@ -52,8 +54,16 @@ def dg(x):return '<div class="dg">'+x+'</div>'
 def page(x):return '<section class="sheet">'+x+foot()+'</section>'
 def masthead(sub):return '<div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">How does it learn?</h1><div class="docsub">'+sub+' &middot; Lecture 3</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div>'
 def rules(n=2):return ''.join('<div class="rule tight"></div>' for _ in range(n))
-def exercise(n):
- x=EX[n];typ=x['type'];body=rules(3)
+def mcq(t):
+ """A question whose options are written inline as "A: ... B: ... " reads as a
+ wall of text on paper. Put each option on its own line."""
+ import re as _re
+ parts=_re.split(r'\s(?=[A-D]:\s)', esc(t))
+ if len(parts)<3:return esc(t)
+ return parts[0]+''.join('<span class="opt">'+x+'</span>' for x in parts[1:])
+
+def exercise(n,num=None):
+ x=EX[n];num=n if num is None else num;typ=x['type'];body=rules(3)
  if typ=='truefalse':body='<table class="tftbl"><tr><th>✓ / ✕</th><th>Statement</th></tr>'+''.join('<tr><td class="blank"></td><td>'+esc(a)+'</td></tr>' for a in x['statements'])+'</table>'
  elif typ=='match':
   # the options carry letters, so there is something definite to write in the
@@ -71,8 +81,19 @@ def exercise(n):
   body=('<p class="passage">'+esc(x['passage'])+'</p><ol class="blanks">'
         +''.join('<li><b>( '+c+' )</b><span class="rule tight"></span></li>' for c in ls)
         +'</ol>')
+ elif typ=='short':
+  # Without this branch a short-answer exercise fell through to the
+  # default and printed blank lines with no question on them at all.
+  qs=x.get('questions')
+  if qs:
+   body='<ol class="qs">'+''.join(
+     '<li>'+mcq(q['q'])
+     +(('<span class="srcinline">'+esc(q['src'])+'</span>') if q.get('src') else '')
+     +rules(q.get('lines',1))+'</li>' for q in qs)+'</ol>'
+  else:
+   body=rules(3)
  elif typ=='extended':body='<div class="marks">['+str(x.get('marks',6))+' marks]</div>'+rules(x.get('lines',7))
- return '<div class="ex"><div class="exhead"><span class="exn">'+str(n)+'</span><span class="exq">'+esc(x['prompt'])+'</span></div><p class="ar">'+esc(x['promptAr'])+'</p><div class="src">'+esc(x['src'])+'</div>'+body+'</div>'
+ return '<div class="ex"><div class="exhead"><span class="exn">'+str(num)+'</span><span class="exq">'+esc(x['prompt'])+'</span></div><p class="ar">'+esc(x['promptAr'])+'</p><div class="src">'+esc(x['src'])+'</div>'+body+'</div>'
 def term(h,p,ar):return '<div class="term"><h4>'+h+'</h4><p>'+p+'</p><p class="ar">'+ar+'</p></div>'
 def booklet(head,tail,qr):
  p=[]
@@ -80,17 +101,16 @@ def booklet(head,tail,qr):
  p.append(page('<h2>The spine of the lesson</h2>'+dg(NESTED)+'<p>The technologies are nested categories, becoming more specialised at each layer.</p><p class="ar">دي دوائر جوه بعض، كل دايرة أضيق وأكتر تحديدًا.</p><table><tr><th>Layer</th><th>What it does</th></tr><tr><td class="k">AI</td><td>Broad term for intelligent behavior on a computer</td></tr><tr><td class="k">Machine learning</td><td>Learns patterns from data</td></tr><tr><td class="k">Deep learning</td><td>Uses neural networks and large-scale data</td></tr><tr><td class="k">Generative AI</td><td>Uses deep learning to generate new data</td></tr></table><p class="ar">احفظ الترتيب ده؛ هو أساس كل أسئلة الدرس.</p>'))
  p.append(page('<h2>Machine learning</h2>'+dg(RULES)+''+term('Machine learning','A learning technology that makes AI work: it learns patterns from data to make predictions and judgments.','بدل ما نكتب rules بإيدنا، بيتعلم pattern من أمثلة.')+'<div class="stages"><div class="stage"><div class="n">1</div><h4>Data</h4><p>Examples are provided.</p></div><div class="stage"><div class="n">2</div><h4>Pattern</h4><p>The system learns a pattern.</p></div><div class="stage"><div class="n">3</div><h4>Judgment</h4><p>It makes a prediction or judgment.</p></div></div><p>Examples: spam filters and product recommendations.</p><p class="ar">spam filter و product recommendation مهمتين مختلفتين، لكن الاتنين بيتعلموا من data.</p>'))
  p.append(page('<h2>Deep learning and neural networks</h2>'+dg(NEURAL)+''+term('Deep learning','An advanced technology within machine learning that uses neural networks and large-scale data to learn complex patterns.','Deep learning نوع متقدم جوه machine learning وبيحتاج بيانات كتير.')+term('Neural network','A system modeled after the workings of the nerve cells of the human brain. Connected components learn from data and make complex judgments.','الـ neural network متصممة على فكرة خلايا المخ، بس هي نظام على الكمبيوتر.')+'<div class="summary"><p><b>Pause and think.</b> If an AI has rarely seen something in its data, why might it struggle to judge it?</p><p class="ar">لو الحاجة نادرة في data، غالبًا الـ AI مش هيكون اتعلم نمطها كويس.</p></div>'))
- p.append(page('<h2>Generative AI</h2>'+dg(GEN)+''+term('Generative AI','AI technology that uses deep learning to generate new data: text, images, audio and programs.','كلمة generate معناها يطلع حاجة جديدة: text أو image أو صوت.')+'<table><tr><th>Classify / predict</th><th>Generate</th></tr><tr><td>Spam filter sorts email</td><td>ChatGPT generates text</td></tr><tr><td>Product recommendation predicts an interest</td><td>Image AI generates an image</td></tr></table><p class="ar">دي أكتر حاجة الطلبة بيلخبطوا فيها: spam filter بيصنّف، مش generative AI.</p>'))
- p.append(page('<h2>Exam warning: fluent is not always correct</h2><div class="summary"><p>Generative AI can produce text that sounds plausible but is factually incorrect: a <b>hallucination</b>.</p><p class="ar">لو الكلام شكله مقنع مش معناه إنه صح؛ ده ممكن يكون hallucination.</p></div><p>Do not use output as the answer to a school report as-is. Check it first.</p><p class="ar">استخدمه يساعدك، بس راجع المعلومة قبل ما تحطها في report.</p><h2>Key takeaway</h2><div class="summary"><p>AI is the broad field; machine learning sits inside it; deep learning sits inside machine learning; generative AI is built on deep learning.</p><p class="ar">الخلاصة: AI ثم machine learning ثم deep learning ثم generative AI.</p></div>'))
+ p.append(page('<h2>Generative AI</h2>'+dg(GEN)+''+term('Generative AI','AI technology that uses deep learning to generate new data: text, images, audio and programs.','كلمة generate معناها يطلع حاجة جديدة: text أو image أو صوت.')+'<table><tr><th>Classify / predict</th><th>Generate</th></tr><tr><td>Spam filter sorts email</td><td>ChatGPT generates text</td></tr><tr><td>Product recommendation predicts an interest</td><td>Image AI generates an image</td></tr></table><p class="ar">دي أكتر حاجة الطلبة بيلخبطوا فيها: spam filter بيصنّف، مش generative AI.</p>'+'<h2>Exam warning: fluent is not always correct</h2><div class="summary"><p>Generative AI can produce text that sounds plausible but is factually incorrect: a <b>hallucination</b>.</p><p class="ar">لو الكلام شكله مقنع مش معناه إنه صح؛ ده ممكن يكون hallucination.</p></div><p>Do not use output as the answer to a school report as-is. Check it first.</p><p class="ar">استخدمه يساعدك، بس راجع المعلومة قبل ما تحطها في report.</p><h2>Key takeaway</h2><div class="summary"><p>AI is the broad field; machine learning sits inside it; deep learning sits inside machine learning; generative AI is built on deep learning.</p><p class="ar">الخلاصة: AI ثم machine learning ثم deep learning ثم generative AI.</p></div>'))
  # ---- lesson 1-3: where you meet it ----
  p.append(page('<h2>AI in daily life</h2>'+dg(RECSYS)+'<table><tr><th>Service</th><th>What the AI does</th><th>Examples</th></tr><tr><td class="k">Recommendation system</td><td>Predicts your preferences from past behaviour and shows suggestions</td><td>YouTube, Amazon, Spotify</td></tr><tr><td class="k">Voice assistant</td><td>Recognises a voice, understands the command, carries it out</td><td>Siri, Google Assistant</td></tr><tr><td class="k">Machine translation</td><td>Turns text automatically into another language</td><td>Google Translate, DeepL</td></tr><tr><td class="k">Face recognition</td><td>Detects and identifies faces in photographs</td><td>Unlocking a phone</td></tr></table><p class="ar">الأربعة دول من الكتاب بالحرف وبيتسألوا كسؤال مطابقة.</p>'))
  p.append(page('<h2>AI in industry</h2>'+'<table><tr><th>Industry</th><th>How AI is used</th></tr><tr><td class="k">Healthcare</td><td>Image-diagnosis AI reads X-ray and CT images; drug-discovery support</td></tr><tr><td class="k">Agriculture</td><td>Predicting harvest timing; detecting pests and diseases</td></tr><tr><td class="k">Manufacturing</td><td>Automatic quality inspection; predictive maintenance</td></tr><tr><td class="k">Logistics</td><td>Optimising delivery routes</td></tr></table>'+term('Predictive maintenance','Predicting that a machine will fail before it does, so it can be serviced in time.','يتوقّع إن الماكينة هتعطل قبل ما تعطل فعلاً، عشان تتصلح في وقتها.')+'<div class="summary"><p><b>Pause and think.</b> These services hold what you watch, buy and say. Why is that a privacy problem, and who should decide how your data is used?</p><p class="ar">الخدمات دي شايلة بياناتك. ليه دي مشكلة خصوصية، ومين يقرر تتستخدم إزاي؟</p></div>'))
  p.append(page('<h2>What AI is good at, and what needs caution</h2>'+'<table><tr><th>Good at</th><th>Needs caution</th></tr><tr><td>Finding and classifying patterns in complex data</td><td>Ethical judgments — can carry discrimination or prejudice</td></tr><tr><td>Recognition and generation of images, audio and text</td><td>Anything involving personal data and privacy</td></tr><tr><td>Probabilistic reasoning and prediction from data</td><td>Final decision-making — who is responsible?</td></tr><tr><td></td><td>Biased training data makes judgments inaccurate</td></tr><tr><td></td><td>Hallucination, and the black-box problem</td></tr></table>'+dg(BLACKBOX)+'<p class="ar">العمود الشمال بييجي سؤال اختر اللي الـ AI شاطر فيه، واليمين اختر اللي مش من دواعي الحذر. ذاكرهم مقابل بعض.</p>'))
  # two pages rather than one: four exercises overflowed a single sheet
  p.append(page('<h2>Class work &middot; how AI works</h2><p class="ar">شغل الحصة — نحل دول سوا.</p>'
-               +exercise(1)+exercise(2)))
+               +exercise(1,1)+exercise(2,2)))
  p.append(page('<h2>Class work &middot; where you meet it</h2><p class="ar">الجزء التاني — كمّل مع زميلك.</p>'
-               +exercise(18)+exercise(19)))
+               +exercise(18,3)+exercise(19,4)))
  panel=qr.replace('<h2>Session Summary</h2>','<h2>Test yourself online</h2>').replace('<h2>My Notes</h2>','<h2>My notes</h2>').replace('Three or four one-line takeaways from the session.','Scan the code to open the Lecture 3 quiz.').replace('One per line, in the order they were taught.','Review the nested layers and key terms first.').replace('Explain the first idea here.','').replace('A term worth its own block','').replace('First Section','').replace('Second Section','').replace('First question?','').replace('Second question?','').replace('First term','').replace('Second term','').replace('Its definition','').replace('My answer','').replace('الشرح بالعربي','').replace('سطر المقدمة بالعربي','')
  return head+''.join(p)+panel+tail
 def homework(head,tail,qr):
@@ -108,13 +128,51 @@ def homework(head,tail,qr):
     intro+='<h2>'+title+'</h2><p class="ar">'+titleAr+'</p>'
    else:
     intro+='<h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p>'
-   p.append(page(intro+''.join(exercise(n) for n in group)))
+   p.append(page(intro+''.join(exercise(n,HOMEWORK.index(n)+1) for n in group)))
  panel=qr.replace('<h2>Session Summary</h2>','<h2>Check your work online</h2>').replace('Three or four one-line takeaways from the session.','Use the quiz after completing the homework.').replace('One per line, in the order they were taught.','Bring your questions to the next session.').replace('Explain the first idea here.','').replace('A term worth its own block','').replace('First Section','').replace('Second Section','').replace('First question?','').replace('Second question?','').replace('First term','').replace('Second term','').replace('Its definition','').replace('My answer','').replace('الشرح بالعربي','').replace('سطر المقدمة بالعربي','')
  return head+''.join(p)+panel+tail
+def answer_html(n):
+ """Render one answer readably. The data carries different shapes -- a list of
+ lines, a model answer with a marking scheme, a set of lettered blanks -- and
+ printing str() of the dict put raw Python in the teacher's hand."""
+ a=DATA['ANSWERS'].get(str(n))
+ out=[]
+ if isinstance(a,list):
+  out.append('<ul>'+''.join('<li>'+esc(str(x))+'</li>' for x in a)+'</ul>')
+ elif isinstance(a,dict):
+  if a.get('marks'):out.append('<div class="marks">['+str(a['marks'])+' marks]</div>')
+  if a.get('open'):out.append('<p class="note">Open response &mdash; any reasonable answer, marked on the points below.</p>')
+  if a.get('model'):out.append('<p><b>Model answer.</b> '+esc(a['model'])+'</p>')
+  if a.get('points'):
+   out.append('<p><b>The answer must cover:</b></p><ul>'+''.join('<li>'+esc(x)+'</li>' for x in a['points'])+'</ul>')
+  if a.get('example'):out.append('<p><b>Example of a good answer.</b> '+esc(a['example'])+'</p>')
+  rest=[(k,v) for k,v in a.items() if k not in ('note','src','marks','open','model','points','example','marking')]
+  if rest:
+   out.append('<ul>'+''.join('<li><b>'+esc(k)+'</b> &mdash; '+esc(', '.join(v) if isinstance(v,list) else str(v))+'</li>' for k,v in rest)+'</ul>')
+  if a.get('marking'):out.append('<p class="note"><b>Marking.</b> '+esc(a['marking'])+'</p>')
+  if a.get('note'):out.append('<p class="note">'+esc(a['note'])+'</p>')
+  if a.get('src'):out.append('<div class="src">'+esc(a['src'])+'</div>')
+ elif a is not None:
+  out.append('<p>'+esc(str(a))+'</p>')
+ else:
+  out.append('<p class="note">Open response &mdash; mark on the points named in the question.</p>')
+ return ''.join(out)
+
 def key(head,tail):
- b='<section class="sheet">'+masthead('Teacher Answer Key')+'<div class="teacherwarn">Teacher copy — do not hand this to students.</div>'
- for n in IN_CLASS+HOMEWORK:b+='<div class="ex"><div class="exhead"><span class="exn">'+str(n)+'</span><span class="exq">'+esc(EX[n]['prompt'])+'</span></div><div class="key">'+esc(str(DATA['ANSWERS'][str(n)]))+'</div></div>'
- return head+b+foot()+'</section>'+tail
+ """Teacher copy. Numbers match what the student sees: class work is numbered
+ 1.. on its sheets, homework 1.. on its own, so 'homework 7' means the same
+ thing to both of them."""
+ b=[masthead('Teacher Answer Key'),
+    '<div class="teacherwarn">Teacher copy &mdash; do not hand this to students.</div>']
+ for label,nums in (('Class work &mdash; done in the session',IN_CLASS),
+                    ('Homework &mdash; separate sheet',HOMEWORK)):
+  b.append('<div class="keygroup">'+label+'</div>')
+  for i,n in enumerate(nums,1):
+   b.append('<div class="ex"><div class="exhead"><span class="exn">'+str(i)+'</span>'
+            '<span class="exq">'+esc(EX[n]['prompt'])+'</span></div>')
+   if EX[n].get('src'):b.append('<div class="src">'+esc(EX[n]['src'])+'</div>')
+   b.append('<div class="key">'+answer_html(n)+'</div></div>')
+ return head+'<section class="sheet keysheet">'+''.join(b)+foot()+'</section>'+tail
 head,tail,qr=shell()
 for path,html in [(ROOT/'lecture3/handout/index.html',booklet(head,tail,qr)),(ROOT/'lecture3/homework/index.html',homework(head,tail,qr)),(ROOT/'lecture3/_teacher/answer-key.html',key(head,tail))]:
  # the template ships author instructions in HTML comments; they are not ours
