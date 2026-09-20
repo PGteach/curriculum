@@ -18,7 +18,7 @@ HW_SECTIONS=[
   "الجزء الأول — إزاي الـ AI بيشتغل",
   # the first sheet also carries the masthead and the intro box, so it takes
   # two exercises rather than three
-  [[3,4],[5,6,7],[8,9,12],[13,14],[10,11]]),
+  [[3,4],[5,6,7],[8,9],[13,14],[10,11]]),
  ("Part 2 &middot; AI in daily life and industry",
   "الجزء التاني — الـ AI في الحياة والصناعة",
   [[20,21],[22,25],[23,24]]),

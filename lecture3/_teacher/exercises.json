@@ -56,16 +56,16 @@
      {
       "n": 5,
       "type": "table",
-      "prompt": "Complete the comparison table.",
-      "promptAr": "كمّل الجدول ده.",
+      "prompt": "Complete the table with one example of each, from the lesson.",
+      "promptAr": "كمّل الجدول بمثال واحد لكل نوع من الدرس.",
       "head": [
-       "Term",
-       "Key idea"
+       "Technology",
+       "One example from the lesson"
       ],
       "rows": [
        [
         "Machine learning",
-        "learns patterns from data"
+        "________________"
        ],
        [
         "Deep learning",
@@ -76,7 +76,7 @@
         "________________"
        ]
       ],
-      "src": "p.14 — definitions"
+      "src": "p.14 — the examples given with each definition"
      },
      {
       "n": 6,
@@ -108,7 +108,7 @@
       "prompt": "Write ✓ if the statement is true, ✗ if it is false.",
       "promptAr": "اكتب ✓ لو الجملة صح، و ✗ لو غلط.",
       "statements": [
-       "AI and machine learning have the same meaning.",
+       "A neural network is modelled on the nerve cells of the human brain.",
        "ChatGPT can be an example of generative AI.",
        "A spam filter is an example of generative AI."
       ],
@@ -143,13 +143,6 @@
       "marks": 6,
       "lines": 8,
       "src": "p.16 — Exam-style question"
-     },
-     {
-      "n": 12,
-      "type": "short",
-      "prompt": "Classify each: spam sorting, pedestrian recognition in autonomous driving, and generating an image from text.",
-      "promptAr": "صنّف كل واحدة: spam sorting، تمييز المشاة في عربية ذاتية، وعمل صورة من text.",
-      "src": "p.18 — Exercise 3(1)"
      },
      {
       "n": 13,
@@ -360,8 +353,9 @@
   ],
   "4": "Patterns, to make predictions and judgments.",
   "5": [
-   "Deep learning — uses neural networks and large-scale data to learn complex patterns",
-   "Generative AI — uses deep learning to generate new data: text, images, audio, programs"
+   "Machine learning — a spam filter, or product recommendations",
+   "Deep learning — image analysis for autonomous driving, or speech synthesis",
+   "Generative AI — ChatGPT, or an image-generation AI"
   ],
   "6": "A system modeled after the brain’s nerve cells; connected components learn from data and make complex judgments.",
   "7": {
@@ -376,7 +370,7 @@
    "note": "The two on the left choose from answers that already exist; the two on the right make something new."
   },
   "8": [
-   "✗ — AI is the broad field; machine learning is one technology inside it",
+   "✓ — it is modelled on the workings of the neurons of the human brain",
    "✓ — ChatGPT is an example of generative AI",
    "✗ — a spam filter classifies email, it does not generate new data"
   ],
@@ -397,7 +391,6 @@
    ],
    "marking": "4 marks for the four layers in the right order with an example each, 2 for stating that they are nested rather than separate. A list with no nesting statement scores 4."
   },
-  "12": "Machine learning; deep learning; generative AI.",
   "13": [
    "AI (Artificial Intelligence)",
    "Machine learning",
