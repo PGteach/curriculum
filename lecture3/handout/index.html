@@ -183,7 +183,74 @@ ol.qs .rule{margin-top:1.5mm}
   <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
   <button type="button" id="printBtn">Print this sheet</button>
 </div>
-<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">How does it learn?</h1><div class="docsub">Student Booklet &middot; Lecture 3</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><h2>What is AI?</h2><p class="lead">AI is a general term for technologies that reproduce or perform intelligent human behavior on a computer.</p><p class="ar">AI ده اسم واسع لتقنيات بتعمل سلوك ذكي على الكمبيوتر.</p><table><tr><th>Everyday example</th><th>What it does</th></tr><tr><td>Speech recognition</td><td>Recognises speech</td></tr><tr><td>Image recognition</td><td>Recognises images</td></tr><tr><td>Translation</td><td>Changes one language into another</td></tr></table><div class="summary"><p><b>Important:</b> today’s AI is narrow — expert at one task only.</p><p class="ar">خلي بالك: AI النهارده شاطر في مهمة محددة، مش فاهم كل حاجة زي الإنسان.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>The spine of the lesson</h2><div class="dg"><svg viewBox="0 0 860 300" role="img" aria-label="AI contains machine learning, which contains deep learning, which contains generative AI">
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">How does it learn?</h1><div class="docsub">Student Booklet &middot; Lecture 3</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><h2>What is AI?</h2><p class="lead">AI is a general term for technologies that reproduce or perform intelligent human behavior on a computer.</p><p class="ar">AI ده اسم واسع لتقنيات بتعمل سلوك ذكي على الكمبيوتر.</p><table><tr><th>Everyday example</th><th>What it does</th></tr><tr><td>Speech recognition</td><td>Recognises speech</td></tr><tr><td>Image recognition</td><td>Recognises images</td></tr><tr><td>Translation</td><td>Changes one language into another</td></tr></table><div class="summary"><p><b>Important:</b> today’s AI is narrow — expert at one task only.</p><p class="ar">خلي بالك: AI النهارده شاطر في مهمة محددة، مش فاهم كل حاجة زي الإنسان.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Four words people mix up</h2><p class="lead">These four are not separated in the textbook, but every AI example in this lesson is one of them. Getting them straight makes the rest easy.</p><p class="ar">الأربع كلمات دول مش مفصولين في الكتاب، بس كل مثال في الدرس واحد منهم. لو مسكتهم صح الباقي هيبقى سهل.</p><div class="dg"><svg viewBox="0 0 980 470" role="img" aria-label="The same photograph put through classification, detection, recognition and generation, and what each one returns">
+  <text x="30" y="24" font-size="13" font-weight="600" fill="var(--soft)">The same photo. Four different questions. Four different answers.</text>
+
+  
+  <g>
+    <text x="30" y="58" font-size="13" font-weight="600" fill="var(--teal)">1 &#183; Classification &#8212; WHAT is this?</text>
+    <rect x="30" y="70" width="96" height="72" rx="5" fill="#EDEAE3" stroke="var(--line)" stroke-width="1.5"/>
+    <circle cx="62" cy="100" r="12" fill="#C9963B"/><rect x="82" y="94" width="28" height="32" rx="4" fill="#9BB7A6"/>
+    <line x1="134" y1="106" x2="172" y2="106" stroke="var(--teal)" stroke-width="2"/>
+    <polygon points="172,106 164,101 164,111" fill="var(--teal)"/>
+    <rect x="180" y="84" width="130" height="44" rx="6" fill="var(--teal)" opacity=".16" stroke="var(--teal)" stroke-width="2"/>
+    <text x="245" y="111" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">&#8220;a cat&#8221;</text>
+    <text x="30" y="164" font-size="11.5" fill="var(--soft)">one label for the whole picture &#8212; it never says where</text>
+  </g>
+
+  <g>
+    <text x="520" y="58" font-size="13" font-weight="600" fill="#8A6420">3 &#183; Recognition &#8212; WHICH ONE is it?</text>
+    <rect x="520" y="70" width="96" height="72" rx="5" fill="#EDEAE3" stroke="var(--line)" stroke-width="1.5"/>
+    <circle cx="556" cy="100" r="14" fill="#D9B08C"/>
+    <circle cx="551" cy="97" r="2" fill="#16233F"/><circle cx="562" cy="97" r="2" fill="#16233F"/>
+    <rect x="539" y="83" width="35" height="35" fill="none" stroke="var(--gold)" stroke-width="2.5"/>
+    <line x1="624" y1="106" x2="662" y2="106" stroke="var(--gold)" stroke-width="2"/>
+    <polygon points="662,106 654,101 654,111" fill="var(--gold)"/>
+    <rect x="670" y="84" width="150" height="44" rx="6" fill="var(--gold)" opacity=".22" stroke="var(--gold)" stroke-width="2"/>
+    <text x="745" y="111" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">&#8220;this is Sara&#8221;</text>
+    <text x="520" y="164" font-size="11.5" fill="var(--soft)">detection finds A face. Recognition says WHOSE face.</text>
+  </g>
+
+  <line x1="30" y1="186" x2="950" y2="186" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="5 5"/>
+
+  
+  <g>
+    <text x="30" y="218" font-size="13" font-weight="600" fill="var(--teal)">2 &#183; Detection &#8212; WHAT, and WHERE?</text>
+    <rect x="30" y="230" width="96" height="72" rx="5" fill="#EDEAE3" stroke="var(--line)" stroke-width="1.5"/>
+    <circle cx="62" cy="260" r="12" fill="#C9963B"/><rect x="82" y="254" width="28" height="32" rx="4" fill="#9BB7A6"/>
+    <rect x="48" y="246" width="28" height="28" fill="none" stroke="#C9963B" stroke-width="2.5"/>
+    <rect x="79" y="250" width="34" height="40" fill="none" stroke="#3F7D3A" stroke-width="2.5"/>
+    <line x1="134" y1="266" x2="172" y2="266" stroke="var(--teal)" stroke-width="2"/>
+    <polygon points="172,266 164,261 164,271" fill="var(--teal)"/>
+    <rect x="180" y="240" width="170" height="52" rx="6" fill="var(--teal)" opacity=".16" stroke="var(--teal)" stroke-width="2"/>
+    <text x="265" y="261" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">cat &#8212; box here</text>
+    <text x="265" y="280" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">chair &#8212; box there</text>
+    <text x="30" y="324" font-size="11.5" fill="var(--soft)">every object found, and its position</text>
+    <text x="30" y="342" font-size="11.5" fill="var(--soft)">this is what a self-driving car needs</text>
+  </g>
+
+  <g>
+    <text x="520" y="218" font-size="13" font-weight="600" fill="#8A6420">4 &#183; Generation &#8212; MAKE one that did not exist</text>
+    <rect x="520" y="230" width="124" height="52" rx="6" fill="var(--gold)" opacity=".14" stroke="var(--gold)" stroke-width="2" stroke-dasharray="5 4"/>
+    <text x="582" y="253" text-anchor="middle" font-size="11.5" fill="var(--ink)">&#8220;a cat on a</text>
+    <text x="582" y="270" text-anchor="middle" font-size="11.5" fill="var(--ink)">chair, painted&#8221;</text>
+    <line x1="652" y1="256" x2="690" y2="256" stroke="var(--gold)" stroke-width="2"/>
+    <polygon points="690,256 682,251 682,261" fill="var(--gold)"/>
+    <rect x="698" y="230" width="96" height="72" rx="5" fill="#F3E6CE" stroke="var(--gold)" stroke-width="2">
+      <animate attributeName="opacity" values=".25;1;1;.25" keyTimes="0;0.25;0.8;1" dur="5s" repeatCount="indefinite"/>
+    </rect>
+    <g>
+      <circle cx="730" cy="260" r="12" fill="#C9963B"/><rect x="750" y="254" width="28" height="32" rx="4" fill="#9BB7A6"/>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.3;0.8;1" dur="5s" repeatCount="indefinite"/>
+    </g>
+    <text x="520" y="324" font-size="11.5" fill="var(--soft)">no photograph went in at all</text>
+    <text x="520" y="342" font-size="11.5" fill="var(--soft)">the picture itself is the answer</text>
+  </g>
+
+  <rect x="30" y="374" width="920" height="72" rx="8" fill="var(--teal)" opacity=".10" stroke="var(--teal)" stroke-width="2"/>
+  <text x="50" y="402" font-size="12.5" font-weight="600" fill="var(--ink)">The first three take a picture IN and give a label OUT. Only the fourth gives a picture out.</text>
+  <text x="50" y="426" font-size="11.5" fill="var(--soft)">Every AI example in this lesson, and in the exam, is one of these four.</text>
+</svg></div><table><tr><th>Task</th><th>The question it answers</th><th>Where it appears</th></tr><tr><td class="k">Classification</td><td>What is this?</td><td>Spam filter; sorting photos</td></tr><tr><td class="k">Detection</td><td>What, and where?</td><td>A self-driving car reading the road</td></tr><tr><td class="k">Recognition</td><td>Which one is it?</td><td>Unlocking a phone; reading an X-ray</td></tr><tr><td class="k">Generation</td><td>Make a new one</td><td>ChatGPT; image-generation AI</td></tr></table><div class="summary"><p>The first three take a picture <b>in</b> and give a label <b>out</b>. Only the fourth gives a picture out &mdash; and only that one needs generative AI.</p><p class="ar">التلاتة الأولانيين بياخدوا صورة ويطلّعوا كلام. الرابع بس هو اللي بيطلّع صورة، وهو لوحده اللي محتاج generative AI.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>The spine of the lesson</h2><div class="dg"><svg viewBox="0 0 860 300" role="img" aria-label="AI contains machine learning, which contains deep learning, which contains generative AI">
   <rect x="20" y="20" width="820" height="260" rx="16" fill="var(--teal)" opacity=".07" stroke="var(--teal)" stroke-width="2.5"/>
   <text x="40" y="48" font-size="15" font-weight="600" fill="var(--teal)">AI</text>
   <text x="40" y="68" font-size="11" fill="var(--soft)">intelligent behaviour on a computer</text>
