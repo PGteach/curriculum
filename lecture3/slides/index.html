@@ -1209,6 +1209,13 @@ addEventListener('touchend', e => {
     gate.classList.add('on');
     if(link && href) link.textContent = href;
   }
+  /* the dashboard sets this, and it is served from the same origin, so the
+     teacher's own browser can have the code already showing. Storage throws
+     in a private window, so the deck must work without it. */
+  try {
+    if(localStorage.getItem('pgteach.examCode') === 'shown') reveal();
+  } catch(e){}
+
   gate.addEventListener('click', reveal);
   gate.addEventListener('keydown', function(e){
     if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); reveal(); }
