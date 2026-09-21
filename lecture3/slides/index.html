@@ -307,6 +307,20 @@ tr:last-child td{border-bottom:0}
   #zoom img{max-height:60vh}
 }
 @media print{#zoom{display:none!important}}
+/* ---------- exam code, covered until the teacher reveals it ---------- */
+.qrgate{position:relative;cursor:pointer}
+.qrgate .qrhide{
+  position:absolute; inset:0; z-index:2;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:.35rem; text-align:center; padding:1rem;
+  background:#16233F; border-radius:12px;
+}
+.qrgate.on .qrhide{display:none}
+.qrgate .qrhide b{font-size:clamp(14px,1.7vw,22px); color:var(--paper)}
+.qrgate .qrhide span{font-size:clamp(11px,1.15vw,15px); color:#A8B2C6; max-width:34ch}
+.qrgate kbd{font:inherit; font-weight:600; background:rgba(255,255,255,.16);
+  border-radius:4px; padding:0 .35em}
+@media print{.qrgate .qrhide{display:none}}
 /* ---------- photo slides ---------- */
 .shots{display:grid; gap:.85rem; margin:1rem 0 .35rem}
 .shots.three{grid-template-columns:repeat(3,1fr)}
@@ -899,7 +913,7 @@ tr:last-child td{border-bottom:0}
   <section class="slide dark">
     <div class="rise eyebrow">Before you go</div>
     <h2 class="rise">Exam &#8212; Lectures 1, 2 and 3</h2>
-    <div class="rise qrwrap"><img id="qr" alt="QR code linking to the Lecture 3 quiz" width="250" height="250"><div class="txt"><p class="sub">It covers this session and the ones before it. At the end it shows you, section by section, which parts to read again.</p><p class="sub mono" style="margin-top:.7rem;font-size:clamp(12px,1.3vw,17px)"><a id="quizLink" href="../quiz/"></a></p></div></div>
+    <div class="rise qrwrap qrgate" id="qrgate" role="button" tabindex="0" aria-label="Reveal the exam code"><div class="qrhide"><b>Exam code hidden</b><span>The code appears when your teacher reveals it &#8212; press <kbd>E</kbd></span><span class="ar">الكود بيظهر لما المدرّس يعرضه &#8212; اضغط E</span></div><img id="qr" alt="QR code linking to the Lecture 3 quiz" width="250" height="250"><div class="txt"><p class="sub">It covers this session and the ones before it. At the end it shows you, section by section, which parts to read again.</p><p class="sub mono" style="margin-top:.7rem;font-size:clamp(12px,1.3vw,17px)"><a id="quizLink" href="../quiz/"></a></p></div></div>
     <p class="rise arline ar">امتحان على المحاضرات التلاتة. في الآخر هيوضحلك انت ضعيف في أنهي جزء بالظبط.</p>
   </section>
 </div>
@@ -1170,6 +1184,40 @@ addEventListener('touchend', e => {
   if(Math.abs(dx) > 55) go(dx < 0 ? i+1 : i-1);
   x0 = null;
 }, {passive:true});
+
+/* ---- exam code stays covered until the teacher reveals it ----------------
+   The deck is published, so a student can open it at home. Hiding the code
+   behind a deliberate action keeps the exam something taken in the lesson.
+   Not security -- the quiz URL is guessable -- but it stops the easy path. */
+(function(){
+  const gate = document.getElementById('qrgate');
+  if(!gate) return;
+  /* Take the generated src off the image and hold it here, so the code is
+     never fetched or drawn until it is asked for. A cover alone is not
+     enough: a partly transparent panel still leaves a scannable code. */
+  /* The code is still generated from LECTURE.quizUrl on load -- the repo's
+     harness checks that, and it is what stops a stale QR shipping. It is the
+     VIEW that is gated: an opaque panel sits over it until revealed.
+
+     Worth being straight about what this is: the quiz address is guessable
+     from the slides address, so this stops the code being handed to a class
+     in advance, not a student who goes looking. */
+  const link = document.getElementById('quizLink');
+  const href = link ? link.textContent : '';
+  if(link) link.textContent = '';
+  function reveal(){
+    gate.classList.add('on');
+    if(link && href) link.textContent = href;
+  }
+  gate.addEventListener('click', reveal);
+  gate.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); reveal(); }
+  });
+  addEventListener('keydown', function(e){
+    if(zoomOpen && zoomOpen()) return;
+    if(e.key === 'e' || e.key === 'E') reveal();
+  });
+})();
 
 const start = parseInt(location.hash.slice(1), 10);
 go(Number.isFinite(start) && start > 0 ? start - 1 : 0);
