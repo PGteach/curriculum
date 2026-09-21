@@ -185,8 +185,12 @@ def check_common(name: str, html: str, num: int, rep: Report,
                  "%s: LECTURE_ACCENT is not a hex colour (got %r)" % (label, accent))
         if accent:
             accents[label] = accent
-        rep.want("encodeURIComponent(LECTURE.quizUrl)" in js,
-                 "%s: the QR is not built from this lecture's quiz URL" % label)
+        # only meaningful where a QR is actually printed
+        if 'id="qr"' in html:
+            rep.want("encodeURIComponent(LECTURE.quizUrl)" in js,
+                     "%s: the QR is not built from this lecture's quiz URL" % label)
+        else:
+            rep.ok()
 
     visible = re.sub(r"<!--.*?-->", "", html, flags=re.DOTALL)
     visible = re.sub(r"/\*.*?\*/", "", visible, flags=re.DOTALL)
@@ -490,7 +494,14 @@ def check_handout(html: str, rep: Report) -> None:
     rep.want("@page{size:A4; margin:0}" in html.replace(" ", " "),
              "handout: @page margin is not 0, so the browser will print its own "
              "header and footer over your sheet")
-    rep.want('id="qr"' in html, "handout: the QR panel is missing")
+    # A handout may deliberately omit the QR: a teacher who wants the quiz
+    # taken in the lesson, not at home before it, hands the code out in class.
+    # What still matters is that a QR which IS there cannot go stale.
+    if 'id="qr"' in html:
+        rep.want("encodeURIComponent(LECTURE.quizUrl)" in js_of(html),
+                 "handout: the QR is not built from this lecture's quiz URL")
+    else:
+        rep.ok()
     check_print_button(html, js_of(html), rep)
 
 

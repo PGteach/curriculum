@@ -95,6 +95,30 @@ def exercise(n,num=None):
  elif typ=='extended':body='<div class="marks">['+str(x.get('marks',6))+' marks]</div>'+rules(x.get('lines',7))
  return '<div class="ex"><div class="exhead"><span class="exn">'+str(num)+'</span><span class="exq">'+esc(x['prompt'])+'</span></div><p class="ar">'+esc(x['promptAr'])+'</p><div class="src">'+esc(x['src'])+'</div>'+body+'</div>'
 def term(h,p,ar):return '<div class="term"><h4>'+h+'</h4><p>'+p+'</p><p class="ar">'+ar+'</p></div>'
+def lastpage(kind):
+ """Closing sheet, with no QR and no quiz address on it.
+
+ The exam is meant to be taken in the lesson, not at home the night before
+ with an AI to hand, so nothing a student carries home carries the link.
+ The code is on the deck, which the teacher projects when it is time."""
+ if kind=='booklet':
+  head=('<h2>What to revise</h2><div class="summary">'
+        '<p>Go back over the nested layers first &mdash; AI, machine learning, deep '
+        'learning, generative AI &mdash; then the key terms, then what AI is good at '
+        'and what needs caution.</p>'
+        '<p class="ar">راجع الطبقات الأول: AI ثم machine learning ثم deep learning ثم '
+        'generative AI، وبعدين المصطلحات، وبعدين الـ AI شاطر في إيه ومحتاج حذر في إيه.</p></div>')
+ else:
+  head=('<h2>Before you hand this in</h2><div class="summary">'
+        '<p>Check every answer against the booklet. Bring anything you could not '
+        'work out to the next session.</p>'
+        '<p class="ar">راجع كل إجابة على الكتيّب. وأي حاجة معرفتش تحلها هاتها معاك المرة الجاية.</p></div>')
+ notes='<h2>My notes</h2>'+''.join('<div class="rule"></div>' for _ in range(8))
+ exam=('<div class="summary hw"><p><b>The exam is done in class.</b> Your teacher will '
+       'show the code to scan during the lesson.</p>'
+       '<p class="ar">الامتحان بيتحل في الحصة. المدرّس هيعرض الكود تمسحوه وقتها.</p></div>')
+ return page(head+exam+notes)
+
 def booklet(head,tail,qr):
  p=[]
  p.append(page(masthead('Student Booklet')+'<h2>What is AI?</h2><p class="lead">AI is a general term for technologies that reproduce or perform intelligent human behavior on a computer.</p><p class="ar">AI ده اسم واسع لتقنيات بتعمل سلوك ذكي على الكمبيوتر.</p><table><tr><th>Everyday example</th><th>What it does</th></tr><tr><td>Speech recognition</td><td>Recognises speech</td></tr><tr><td>Image recognition</td><td>Recognises images</td></tr><tr><td>Translation</td><td>Changes one language into another</td></tr></table><div class="summary"><p><b>Important:</b> today’s AI is narrow — expert at one task only.</p><p class="ar">خلي بالك: AI النهارده شاطر في مهمة محددة، مش فاهم كل حاجة زي الإنسان.</p></div>'))
@@ -111,8 +135,7 @@ def booklet(head,tail,qr):
                +exercise(1,1)+exercise(2,2)))
  p.append(page('<h2>Class work &middot; where you meet it</h2><p class="ar">الجزء التاني — كمّل مع زميلك.</p>'
                +exercise(18,3)+exercise(19,4)))
- panel=qr.replace('<h2>Session Summary</h2>','<h2>Test yourself online</h2>').replace('<h2>My Notes</h2>','<h2>My notes</h2>').replace('Three or four one-line takeaways from the session.','Scan the code to open the Lecture 3 quiz.').replace('One per line, in the order they were taught.','Review the nested layers and key terms first.').replace('Explain the first idea here.','').replace('A term worth its own block','').replace('First Section','').replace('Second Section','').replace('First question?','').replace('Second question?','').replace('First term','').replace('Second term','').replace('Its definition','').replace('My answer','').replace('الشرح بالعربي','').replace('سطر المقدمة بالعربي','')
- return head+''.join(p)+panel+tail
+ return head+''.join(p)+lastpage('booklet')+tail
 def homework(head,tail,qr):
  p=[]
  # Grouped, not one per sheet: nine exercises on nine near-empty pages is a
@@ -129,8 +152,7 @@ def homework(head,tail,qr):
    else:
     intro+='<h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p>'
    p.append(page(intro+''.join(exercise(n,HOMEWORK.index(n)+1) for n in group)))
- panel=qr.replace('<h2>Session Summary</h2>','<h2>Check your work online</h2>').replace('Three or four one-line takeaways from the session.','Use the quiz after completing the homework.').replace('One per line, in the order they were taught.','Bring your questions to the next session.').replace('Explain the first idea here.','').replace('A term worth its own block','').replace('First Section','').replace('Second Section','').replace('First question?','').replace('Second question?','').replace('First term','').replace('Second term','').replace('Its definition','').replace('My answer','').replace('الشرح بالعربي','').replace('سطر المقدمة بالعربي','')
- return head+''.join(p)+panel+tail
+ return head+''.join(p)+lastpage('homework')+tail
 def answer_html(n):
  """Render one answer readably. The data carries different shapes -- a list of
  lines, a model answer with a marking scheme, a set of lettered blanks -- and
