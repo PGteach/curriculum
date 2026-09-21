@@ -19,3 +19,5 @@ line on screen.
 | `Combine_harvester.jpg` | <https://commons.wikimedia.org/wiki/File:Combine_harvester.jpg> |
 | `KUKA_Industrial_Robots_IR.jpg` | <https://commons.wikimedia.org/wiki/File:KUKA_Industrial_Robots_IR.jpg> |
 | `DHL_delivery_van.jpg` | <https://commons.wikimedia.org/wiki/File:DHL_delivery_van.jpg> |
+| `Detected-with-YOLO-Schreibtisch-mit-Objekten.jpg` | <https://commons.wikimedia.org/wiki/File:Detected-with-YOLO--Schreibtisch-mit-Objekten.jpg> |
+| `Face_detection.jpg` | <https://commons.wikimedia.org/wiki/File:Face_detection.jpg> |

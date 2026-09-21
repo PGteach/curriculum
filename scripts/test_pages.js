@@ -440,7 +440,7 @@ async function checkSubmission(ctx, num) {
         tag + ": endpoint is " + sent.url);
 
   const want = ["lecture", "name", "class", "phone", "date", "score", "total",
-                "weak", "sections", "wrongQuestions", "image", "id"];
+                "weak", "sections", "wrongQuestions", "integrity", "image", "id"];
   want.forEach((k) => check(k in d, tag + ": payload is missing " + k));
   Object.keys(d).forEach((k) =>
     check(want.includes(k), tag + ": payload has an unexpected key " + k));

@@ -152,6 +152,20 @@
     cursor:pointer;color:var(--ink);width:100%;font-weight:600;
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---------- left-the-page veil ---------- */
+.awayveil{display:none}
+.awayveil.on{
+  display:flex; position:fixed; inset:0; z-index:60;
+  align-items:center; justify-content:center; padding:24px;
+  background:rgba(22,35,63,.97); color:#fff; cursor:pointer;
+}
+.awayveil b{display:block; font-size:clamp(19px,3vw,27px); margin-bottom:.5rem}
+.awayveil p{font-size:clamp(13px,1.6vw,16px); color:#C6CCD9; max-width:44ch; margin:0 auto .3rem}
+.awayveil > div{text-align:center}
+
+.awaynote{font-size:clamp(12px,1.35vw,14.5px); color:var(--soft); margin:0 0 .9rem; max-width:52ch}
+.awaynote .ar{display:block; margin-top:.25rem}
 </style>
 </head>
 <body>
@@ -184,6 +198,7 @@
     <input id="sDate" type="date">
   </div>
   <div class="err hide" id="intakeErr"></div>
+  <p class="awaynote">Once you start, leaving this page is recorded and sent with your answers.<span class="ar">أول ما تبدأ، أي خروج من الصفحة بيتسجّل وبيتبعت مع إجاباتك.</span></p>
   <button type="button" class="next" id="start">Start the quiz</button>
 </main>
 
@@ -219,6 +234,15 @@
   <button type="button" class="restart" id="restart">Take it again</button>
   <a class="backlink" href="../slides/">← Back to the slides</a>
 </main>
+
+
+<div class="awayveil" id="awayVeil">
+  <div>
+    <b>You left the exam</b>
+    <p>That has been noted and is sent with your answers. Tap to carry on.</p>
+    <p class="ar">خروجك من الامتحان اتسجّل وهيتبعت مع إجاباتك. اضغط عشان تكمّل.</p>
+  </div>
+</div>
 
 <script>
 /* ============================================================
@@ -550,6 +574,11 @@ function ansOf(q){
 
 const state = {
   i: 0,
+  /* attempt integrity — see the block near the bottom of this script */
+  startedAt: 0,
+  awayCount: 0,
+  awayMs: 0,
+  awaySince: 0,
   answered: false,
   correct: [],
   total: [],
@@ -583,6 +612,10 @@ function currentQ(){
 
 function newAttempt(){
   state.i = 0;
+  state.startedAt = Date.now();
+  state.awayCount = 0;
+  state.awayMs = 0;
+  state.awaySince = 0;
   state.wrongQuestions = [];
   state.qOrder = shuffle(QUESTIONS.map((_, k) => k));
   SECTIONS.forEach((_, k) => { state.correct[k] = 0; });
@@ -1159,6 +1192,74 @@ addEventListener("pagehide", function(){
   });
 })();
 
+/* ---- attempt integrity -------------------------------------------------
+   A browser tab cannot block a screenshot, a screen recording, or someone
+   walking away: those happen in the operating system, outside anything this
+   page is allowed to touch. So this does not pretend to prevent cheating. It
+   records the shape of the attempt — how long it took, how often the page was
+   left, how long it was hidden — and sends that with the score, so a teacher
+   comparing two results can see which one was taken in one sitting.
+
+   The overlay is the honest part of the deterrent: leaving is not blocked,
+   but it is obvious, and the student is told before they start. */
+function quizInProgress(){
+  return state.startedAt > 0 && $("quiz").className !== "hide";
+}
+
+function markAway(){
+  if(!quizInProgress() || state.awaySince) return;
+  state.awaySince = Date.now();
+  state.awayCount++;
+  const veil = $("awayVeil");
+  if(veil) veil.className = "awayveil on";
+}
+
+function markBack(){
+  if(state.awaySince){
+    state.awayMs += Date.now() - state.awaySince;
+    state.awaySince = 0;
+  }
+}
+
+function integritySummary(){
+  markBack();
+  if(!state.startedAt) return "";
+  const mins = Math.max(1, Math.round((Date.now() - state.startedAt) / 60000));
+  const away = Math.round(state.awayMs / 1000);
+  return state.awayCount === 0
+    ? ("one sitting, about " + mins + " min")
+    : ("left the page " + state.awayCount + " time(s), " + away
+       + "s away, about " + mins + " min in total");
+}
+
+/* The behavioural harness runs this script against a minimal DOM, so every
+   listener here is attached only if the host actually supports it. */
+if(typeof document.addEventListener === "function"){
+  document.addEventListener("visibilitychange", function(){
+    if(document.hidden) markAway();
+  });
+}
+if(typeof addEventListener === "function") addEventListener("blur", markAway);
+
+/* dismissing the veil is what counts as coming back */
+(function(){
+  const veil = $("awayVeil");
+  if(!veil) return;
+  veil.onclick = function(){
+    markBack();
+    veil.className = "awayveil";
+  };
+})();
+
+if(typeof addEventListener === "function"){
+  addEventListener("beforeunload", function(e){
+    if(!quizInProgress()) return;
+    e.preventDefault();
+    e.returnValue = "";
+    return "";
+  });
+}
+
 async function sendResult(got, weak){
   const box = $("sendState");
   if(!RESULTS_URL){ box.className = "hide"; return; }
@@ -1183,6 +1284,7 @@ async function sendResult(got, weak){
     weak:   weak.map(k => SECTIONS[k]).join(", ") || "none",
     sections: SECTIONS.map((s,k)=> s + ": " + state.correct[k] + "/" + state.total[k]).join(" | "),
     wrongQuestions: state.wrongQuestions,
+    integrity: integritySummary(),
     image: image        // base64 PNG, or "" if it could not be drawn
   };
 

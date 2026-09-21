@@ -71,7 +71,11 @@ var COLUMNS = [
      column mid-table would leave every existing row's data one place to
      the left of its header. Drag it where you want it in Sheets — that
      moves the data with it — and reorder COLUMNS to match. */
-  { header: "Class",             width: 150, align: "left" }
+  { header: "Class",             width: 150, align: "left" },
+  /* How the attempt was taken: one sitting, or left the page and how often.
+     A browser cannot stop a student switching away, so this records it
+     instead — read it next to the score, not as proof of anything. */
+  { header: "How it was taken",   width: 260, align: "left", wrap: true }
 ];
 
 var HEADERS   = COLUMNS.map(function (c) { return c.header; });
@@ -94,7 +98,7 @@ var IMAGE_FOLDER = "PGteach quiz results";
  * nothing in the sheet is ever styled by hand, and existing tabs catch up on
  * their own without anyone running anything.
  */
-var DESIGN_VERSION = 5;
+var DESIGN_VERSION = 6;
 
 /**
  * OPTIONAL, and off unless you create it. If a tab with this name exists, new
@@ -154,7 +158,8 @@ function doPost(e) {
       formatMistakes_(d.wrongQuestions),
       shot,
       String(d.id || ""),
-      d["class"] || ""
+      d["class"] || "",
+      d.integrity || ""
     ]);
 
     var row = sheet.getLastRow();
@@ -625,7 +630,8 @@ function migrateOldRows() {
       "(not recorded)",     // Mistakes — column did not exist yet
       "(not recorded)",     // Screenshot — ditto
       "",                   // Submission id — ditto
-      ""                    // Class — ditto
+      "",                   // Class — ditto
+      "(not recorded)"      // How it was taken — ditto
     ]);
     moved++;
   }
