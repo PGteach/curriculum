@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 3 — How does it learn? · PGteach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#6B7688;
+  --teal:#0E7C7B;
+  --teal-pale:#E6F1F0;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --paper:#FBFAF7;
+  --line:#DFE3E8;
+  --white:#fff;
+  --wrong:#9C3B2E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"Inter",system-ui,sans-serif;
+  background:var(--ink);
+  color:var(--ink);
+  overflow:hidden;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl;
+  unicode-bidi:isolate;
+}
+code,.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- stage ---------- */
+#stage{
+  position:fixed; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  padding:0;
+}
+.slide{
+  position:absolute; inset:0;
+  background:var(--paper);
+  padding:5.5vh 6vw 9vh;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  overflow-y:auto;
+}
+.slide.on{display:flex}
+.slide.dark{background:var(--ink);color:var(--paper)}
+
+/* entrance: one orchestrated reveal per slide */
+.slide.on .rise{animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+.slide.on .rise:nth-child(2){animation-delay:.07s}
+.slide.on .rise:nth-child(3){animation-delay:.14s}
+.slide.on .rise:nth-child(4){animation-delay:.21s}
+.slide.on .rise:nth-child(5){animation-delay:.28s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- type ---------- */
+.eyebrow{
+  font-size:clamp(11px,1.15vw,15px); font-weight:600;
+  color:var(--teal); letter-spacing:.02em; margin-bottom:.9rem;
+}
+.dark .eyebrow{color:var(--gold)}
+h1{
+  font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(30px,5.2vw,68px); line-height:1.06;
+  letter-spacing:-.015em;
+}
+h2{
+  font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(24px,3.5vw,46px); line-height:1.12;
+  letter-spacing:-.01em; margin-bottom:.35em;
+}
+.sub{font-size:clamp(14px,1.5vw,21px);color:var(--soft);line-height:1.5}
+.dark .sub{color:#AAB6CC}
+.arline{
+  font-size:clamp(12px,1.25vw,17px);
+  color:var(--soft); line-height:1.65;
+  border-right:2.5px solid var(--line);
+  padding-right:.75rem; margin-top:.85rem;
+  max-width:62ch; margin-left:auto;
+}
+.dark .arline{color:#9FADC4;border-right-color:#3A4867}
+
+/* ---------- pipeline diagram ---------- */
+.pipe{display:flex;gap:clamp(8px,1.2vw,18px);align-items:stretch;margin:1.4rem 0 .5rem;flex-wrap:wrap}
+.step{
+  flex:1 1 180px; background:var(--white); border:1px solid var(--line);
+  border-radius:14px; padding:clamp(12px,1.5vw,22px); position:relative;
+  box-shadow:0 1px 2px rgba(22,35,63,.04);
+}
+.step .n{
+  width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;
+  display:grid;place-items:center;font-size:14px;font-weight:600;margin-bottom:.65rem;
+}
+.step h3{font-size:clamp(15px,1.6vw,21px);font-weight:600;margin-bottom:.3rem}
+.step p{font-size:clamp(12px,1.25vw,16px);color:var(--soft);line-height:1.5}
+.step .ex{
+  margin-top:.7rem;padding-top:.7rem;border-top:1px dashed var(--line);
+  font-size:clamp(12px,1.25vw,16px);color:var(--ink-2);
+}
+.arrow{align-self:center;color:var(--gold);font-size:26px;font-weight:600}
+@media(max-width:760px){.arrow{display:none}}
+
+/* ---------- generic table ---------- */
+table{width:100%;border-collapse:collapse;margin:1rem 0 .4rem;font-size:clamp(12px,1.35vw,18px)}
+th,td{border-bottom:1px solid var(--line);padding:clamp(7px,.9vw,14px) clamp(8px,1vw,16px);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--teal);font-size:clamp(11px,1.15vw,15px)}
+td b{font-weight:600}
+tr:last-child td{border-bottom:0}
+
+/* ---------- split compare ---------- */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.6vw,24px);margin-top:1.2rem}
+@media(max-width:700px){.vs{grid-template-columns:1fr}}
+.pane{border-radius:14px;padding:clamp(14px,1.7vw,26px)}
+.pane.a{background:var(--teal-pale)}
+.pane.b{background:var(--gold-pale)}
+.pane h3{font-size:clamp(16px,1.9vw,24px);font-weight:600;margin-bottom:.6rem}
+.pane.a h3{color:var(--teal)}
+.pane.b h3{color:#A9762A}
+.pane ul{list-style:none;font-size:clamp(12px,1.35vw,17px);line-height:1.65}
+.pane li{padding-left:1.1rem;position:relative;margin-bottom:.4rem}
+.pane li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.45}
+
+/* ---------- kitchen row ---------- */
+.kit{display:flex;gap:clamp(8px,1.2vw,18px);margin-top:1.2rem;flex-wrap:wrap}
+.kit .card{
+  flex:1 1 200px;background:var(--white);border:1px solid var(--line);
+  border-radius:14px;padding:clamp(12px,1.5vw,22px);text-align:center;
+}
+.kit .ico{font-size:clamp(28px,3.4vw,44px);line-height:1;margin-bottom:.5rem}
+.kit h3{font-size:clamp(14px,1.55vw,20px);font-weight:600;margin-bottom:.25rem}
+.kit .role{font-size:clamp(11px,1.2vw,15px);color:var(--teal);font-weight:600;margin-bottom:.4rem}
+.kit p{font-size:clamp(11.5px,1.2vw,15px);color:var(--soft);line-height:1.5}
+
+/* ---------- fields grid ---------- */
+.fields{display:flex;flex-wrap:wrap;gap:clamp(7px,.9vw,14px);margin-top:1.2rem}
+.chip{
+  background:var(--white);border:1px solid var(--line);border-radius:99px;
+  padding:clamp(8px,.9vw,14px) clamp(14px,1.5vw,24px);
+  font-size:clamp(12px,1.35vw,18px);font-weight:500;
+}
+.chip span{color:var(--soft);font-size:.82em;margin-left:.4em}
+
+/* ---------- code chip ---------- */
+.codeline{
+  display:inline-block;background:var(--ink);color:#8FE3D6;
+  padding:.35em .7em;border-radius:7px;font-size:.92em;
+}
+
+/* ---------- QR panel ---------- */
+.qrwrap{display:flex;gap:clamp(14px,2vw,32px);align-items:center;margin-top:1.4rem;flex-wrap:wrap}
+.qrwrap img{width:clamp(110px,13vw,180px);height:auto;border-radius:10px;background:#fff;padding:9px}
+.qrwrap .txt{flex:1 1 260px}
+
+/* ---------- statement: one line, nothing else ---------- */
+.statement{
+  font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(28px,6vw,80px); line-height:1.05;
+  letter-spacing:-.02em; max-width:20ch;
+}
+.statement em{font-style:normal;color:var(--gold)}
+
+/* ---------- stat row: the numbers are the point ---------- */
+.stats{display:flex;gap:clamp(12px,2.5vw,40px);flex-wrap:wrap;margin:1.4rem 0 .5rem}
+.stat{flex:1 1 170px}
+.stat b{
+  display:block; font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(34px,5.5vw,76px); line-height:1;
+  color:var(--teal); letter-spacing:-.02em;
+}
+.dark .stat b{color:var(--gold)}
+.stat span{
+  display:block; margin-top:.4rem; line-height:1.45;
+  font-size:clamp(12px,1.3vw,17px); color:var(--soft);
+}
+
+/* ---------- timeline: a sequence, read downwards ---------- */
+.timeline{position:relative;margin:1.3rem 0 .4rem;padding-left:clamp(26px,3vw,42px)}
+.timeline::before{
+  content:""; position:absolute; left:clamp(10px,1.2vw,16px);
+  top:8px; bottom:8px; width:2px; background:var(--line);
+}
+.tl{position:relative;margin-bottom:clamp(10px,1.5vw,22px)}
+.tl::before{
+  content:""; position:absolute; top:.35em;
+  left:calc(clamp(5px,.7vw,10px) - clamp(26px,3vw,42px));
+  width:12px; height:12px; border-radius:50%;
+  background:var(--teal); box-shadow:0 0 0 4px var(--paper);
+}
+.dark .tl::before{box-shadow:0 0 0 4px var(--ink)}
+.tl h3{font-size:clamp(15px,1.7vw,22px);font-weight:600;margin-bottom:.15rem}
+.tl p{font-size:clamp(12px,1.3vw,17px);color:var(--soft);line-height:1.5}
+
+/* ---------- checklist: do this, not that ---------- */
+.check{list-style:none;margin:1.2rem 0 .4rem;font-size:clamp(13px,1.5vw,20px)}
+.check li{position:relative;padding-left:1.9em;margin-bottom:.55rem;line-height:1.5}
+.check li::before{content:"\2713";position:absolute;left:0;color:var(--teal);font-weight:700}
+.check li.no::before{content:"\2715";color:var(--wrong)}
+
+/* ---------- pull quote ---------- */
+.quote{
+  border-left:4px solid var(--gold);
+  padding-left:clamp(14px,1.8vw,26px);
+  margin:1.3rem 0 .4rem; max-width:34ch;
+}
+.quote p{
+  font-family:"Fraunces",serif; font-weight:400;
+  font-size:clamp(19px,2.8vw,40px); line-height:1.2;
+}
+.quote cite{
+  display:block; margin-top:.7rem; font-style:normal;
+  font-size:clamp(11px,1.2vw,15px); color:var(--soft);
+}
+
+/* ---------- labelled scale: a spectrum, not two boxes ---------- */
+.scale{margin:1.7rem 0 .5rem}
+.scale .bar{height:10px;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--gold))}
+.scale .ends{
+  display:flex; justify-content:space-between; gap:1rem; margin-top:.7rem;
+  font-size:clamp(12px,1.3vw,17px); font-weight:500;
+}
+.scale .ends span:last-child{text-align:right}
+
+/* ---------- chrome ---------- */
+#bar{position:fixed;left:0;top:0;height:3px;background:var(--teal);width:0;transition:width .3s ease;z-index:40}
+#nav{
+  position:fixed;bottom:0;left:0;right:0;height:7vh;min-height:46px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(14px,3vw,40px);
+  background:rgba(251,250,247,.92);backdrop-filter:blur(8px);
+  border-top:1px solid var(--line);z-index:30;
+}
+.slide.dark ~ #nav{}
+#nav .who{font-size:clamp(10px,1.05vw,13px);color:var(--soft);white-space:nowrap;flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+#counter{font-size:clamp(10px,1.05vw,13px);color:var(--soft);font-variant-numeric:tabular-nums;margin-left:.7em}
+.qrwrap a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,150,59,.45)}
+#nav .mid{display:flex;gap:6px;align-items:center}
+#nav .dot{
+  width:8px;height:8px;flex:0 0 auto;
+  padding:0;border:0;border-radius:50%;
+  background:var(--line);cursor:pointer;transition:.2s;
+}
+#nav .dot.on{background:var(--teal);transform:scale(1.45)}
+#nav .dot:hover{background:var(--soft)}
+#nav button{
+  font:inherit;font-size:clamp(11px,1.1vw,14px);font-weight:500;
+  background:none;border:1px solid var(--line);border-radius:7px;
+  padding:.45em .9em;cursor:pointer;color:var(--ink);
+}
+#nav button:hover{border-color:var(--teal);color:var(--teal)}
+#nav button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.hint{position:fixed;bottom:8.5vh;right:clamp(14px,3vw,40px);font-size:11px;color:var(--soft);z-index:30;opacity:.75}
+
+/* ---------- phones ---------- */
+@media(max-width:620px){
+  /* more room at the bottom so text clears the fixed nav bar */
+  .slide{padding:4.5vh 7vw 13vh}
+  #nav{height:auto;min-height:54px;padding:9px clamp(12px,4vw,22px)}
+  /* 8px dots are not a usable tap target, and 12 of them do not
+     fit a phone; the n / total counter covers the same job */
+  #nav .mid{display:none}
+  #counter{margin-left:.45em}
+  /* this sat on top of the Arabic line */
+  .hint{display:none}
+}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.fitbox{width:100%}
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+<div id="stage">
+
+  <!-- 1 TITLE -->
+  <section class="slide dark">
+    <div class="rise eyebrow" id="lectureBadge">Programming &amp; Artificial Intelligence</div>
+    <h1 class="rise">How does it learn?</h1>
+    <p class="rise sub" style="margin-top:1.2rem">AI is not one thing: today we follow the layers from AI to generative AI.</p>
+    <p class="rise arline ar">النهارده هنفك كلمة AI ونشوف الطبقات اللي جواها واحدة واحدة.</p>
+  </section>
+
+  <!-- ------------------------------------------------------------------
+       YOUR CONTENT SLIDES GO HERE.
+
+       Add as many "slide" sections as you need — the dots, the progress
+       bar and the "n / total" counter all count them at runtime, so there
+       is no slide total to update by hand anywhere.
+
+       Add class="dark" for an inverted slide. Wrap every child you want
+       revealed in sequence with class="rise". The reusable blocks from
+       lecture 1 are: .pipe/.step (pipeline), table, .vs/.pane (compare),
+       .kit/.card (icon row), .fields/.chip (tag cloud), .codeline (code).
+       ------------------------------------------------------------------- -->
+
+  <!-- 2 EXAMPLE: two-column compare -->
+  <section class="slide">
+    <div class="rise eyebrow">1 · The big picture</div>
+    <h2 class="rise">AI is the broad field</h2>
+    <p class="rise sub">AI is a general term for technologies that reproduce or perform intelligent human behavior on a computer.</p>
+    <div class="rise vs">
+      <div class="pane a">
+        <h3>Everyday examples</h3>
+        <ul>
+          <li>Speech recognition</li>
+          <li>Image recognition and translation</li>
+        </ul>
+      </div>
+      <div class="pane b">
+        <h3>One important limit</h3>
+        <ul>
+          <li>Today’s AI is narrow</li>
+          <li>It is expert at one task</li>
+        </ul>
+      </div>
+    </div>
+    <p class="rise arline ar">AI مش إنسان جوه الكمبيوتر؛ هو شاطر في مهمة محددة زي الترجمة أو الصور.</p>
+  </section>
+
+  <!-- 3 EXAMPLE: table -->
+  <section class="slide">
+    <div class="rise eyebrow">2 · Nested technologies</div>
+    <h2 class="rise">Four layers, not four separate things</h2>
+    <table class="rise">
+      <tr><th>Layer</th><th>What it does</th></tr>
+      <tr><td><b>Machine learning</b></td><td>Learns patterns from data to make predictions and judgments.</td></tr>
+      <tr><td><b>Deep learning</b></td><td>Uses neural networks and large-scale data for complex patterns.</td></tr>
+      <tr><td><b>Generative AI</b></td><td>Uses deep learning to generate new text, images, audio or programs.</td></tr>
+    </table>
+    <p class="rise arline ar">دي دوائر جوه بعض: AI ثم machine learning ثم deep learning ثم generative AI.</p>
+  </section>
+
+  <section class="slide"><div class="rise eyebrow">Recap · Lecture 2</div><h2 class="rise">Rules or examples?</h2><p class="rise sub">Programming follows hand-written rules. Machine learning learns patterns from data.</p><p class="rise arline ar">افتكر الفرق: في programming إحنا بنكتب القاعدة، إنما هنا الكمبيوتر بيتعلم من أمثلة.</p></section>
+  <section class="slide dark"><div class="rise eyebrow">Part 1</div><h2 class="rise">What is AI?</h2><p class="rise arline ar">هنبدأ من الاسم الكبير الأول: AI.</p></section>
+  <section class="slide"><h2 class="rise">AI performs intelligent human behavior</h2><p class="rise sub">Learning, reasoning and judgment can be reproduced or performed on a computer.</p><p class="rise arline ar">الفكرة مش إن الجهاز بقى إنسان؛ هو بيعمل جزء من سلوك ذكي على الكمبيوتر.</p></section>
+  <section class="slide"><h2 class="rise">Three examples</h2><p class="rise sub">Speech recognition · image recognition · translation.</p><p class="rise arline ar">التلاتة دول أمثلة الكتاب: كلام، صور، وترجمة.</p></section>
+  <section class="slide"><h2 class="rise">Today’s AI is narrow</h2><p class="rise sub">It can be expert at one task, not at everything a person can do.</p><p class="rise arline ar">دي نقطة مهمة: AI شاطر في مهمة واحدة، مش فاهم الدنيا كلها.</p></section>
+  <section class="slide"><h2 class="rise">Pause and think</h2><p class="rise sub">Does a spam filter follow fixed rules, or learn from examples? What makes you think so?</p><p class="rise arline ar">فكّر مع زميلك: spam filter حافظ rules ولا اتعلم من أمثلة؟</p></section>
+  <section class="slide dark"><div class="rise eyebrow">Part 2</div><h2 class="rise">The nested layers</h2><p class="rise arline ar">دلوقتي هنرتّب المصطلحات اللي الطلبة بتلخبط فيها.</p></section>
+  <section class="slide"><h2 class="rise">Machine learning sits inside AI</h2><p class="rise sub">It is one of the learning technologies that makes AI work.</p><p class="rise arline ar">Machine learning جزء من AI، مش كلمة تانية لنفس المعنى.</p></section>
+  <section class="slide"><h2 class="rise">Machine learning learns patterns</h2><p class="rise sub">It uses data to make predictions and judgments.</p><p class="rise arline ar">الكلمة المفتاح هنا patterns: يشوف بيانات كتير ويلقط النمط.</p></section>
+  <section class="slide"><h2 class="rise">Two machine-learning examples</h2><p class="rise sub">Spam filters sort email. Product recommendations suggest things you might buy.</p><p class="rise arline ar">المهم إن المهمتين مختلفتين، بس الاتنين بيتعلموا من data.</p></section>
+  <section class="slide"><h2 class="rise">Deep learning sits inside machine learning</h2><p class="rise sub">It is an advanced technology for learning complex patterns.</p><p class="rise arline ar">Deep learning مش حاجة منفصلة؛ ده نوع متقدم جوه machine learning.</p></section>
+  <section class="slide"><h2 class="rise">It needs large-scale data</h2><p class="rise sub">More complex patterns require large-scale data.</p><p class="rise arline ar">عشان يتعلم حاجة معقدة، محتاج أمثلة كتير مش كام مثال بس.</p></section>
+  <section class="slide"><h2 class="rise">Neural networks</h2><p class="rise sub">A neural network is modeled after the nerve cells of the human brain.</p><p class="rise arline ar">اسم neural network جاي من فكرة خلايا المخ، بس ده نظام على الكمبيوتر.</p></section>
+  <section class="slide"><h2 class="rise">Why rare cases are difficult</h2><p class="rise sub">An AI may struggle when it has rarely seen something in its data.</p><p class="rise arline ar">لو المثال نادر في البيانات، الـ AI غالبًا مش هيكون اتعلمه كويس.</p></section>
+  <section class="slide"><h2 class="rise">Pause and think</h2><p class="rise sub">Why would a system need many examples before judging a new image?</p><p class="rise arline ar">قولها بطريقتك: ليه الصور الكتير بتفرق قبل ما يحكم على صورة جديدة؟</p></section>
+  <section class="slide dark"><div class="rise eyebrow">Part 3</div><h2 class="rise">Generative AI</h2><p class="rise arline ar">آخر طبقة هي اللي بنسمع عنها كل يوم: generative AI.</p></section>
+  <section class="slide"><h2 class="rise">Generative AI uses deep learning</h2><p class="rise sub">It generates new data rather than only making a classification.</p><p class="rise arline ar">ركز في generate: بيطلع حاجة جديدة، مش بس يقول ده spam ولا لأ.</p></section>
+  <section class="slide"><h2 class="rise">What can it generate?</h2><p class="rise sub">Text, images, audio and programs.</p><p class="rise arline ar">ممكن يطلع text أو image أو صوت أو program — دي أمثلة الكتاب.</p></section>
+  <section class="slide"><h2 class="rise">Examples</h2><p class="rise sub">ChatGPT and image-generation AI are examples of generative AI.</p><p class="rise arline ar">ChatGPT مثال مشهور، لكن generative AI مش مقتصر عليه.</p></section>
+  <section class="slide"><h2 class="rise">Worked example</h2><p class="rise sub">Match: learns patterns → machine learning; neural networks → deep learning; generates new data → generative AI.</p><p class="rise arline ar">امسك كلمة مميزة في الوصف: patterns، neural networks، أو generate.</p></section>
+  <section class="slide"><h2 class="rise">Exam warning</h2><p class="rise sub">AI and machine learning do not have the same meaning. Deep learning is not separate from machine learning.</p><p class="rise arline ar">دي أكتر حاجة الطلبة بيلخبطوا فيها: مش أربع تكنولوجيات واقفين جنب بعض.</p></section>
+  <section class="slide"><h2 class="rise">A fluent answer can still be wrong</h2><p class="rise sub">Generative AI can produce plausible but factually incorrect output: a hallucination.</p><p class="rise arline ar">لو الكلام شكله واثق وحلو، ده مش دليل إنه صح — دي hallucination.</p></section>
+  <section class="slide"><h2 class="rise">Use it carefully in school work</h2><p class="rise sub">Check AI output before using it as an answer in a school report.</p><p class="rise arline ar">استخدمه يساعدك، بس راجع المعلومة قبل ما تحطها في report.</p></section>
+  <section class="slide"><h2 class="rise">New context: crop photographs</h2><p class="rise sub">A system distinguishing healthy and diseased crops needs relevant photographs; poor or rare data can lead to a wrong judgment.</p><p class="rise arline ar">لو صور الزرع مش كفاية أو مش متنوعة، الحكم ممكن يطلع غلط.</p></section>
+  <section class="slide dark"><h2 class="rise">Key takeaway</h2><p class="rise sub">AI → machine learning → deep learning → generative AI: increasingly specialised nested fields.</p><p class="rise arline ar">الخلاصة: احفظ ترتيب الدواير، ومع كل واحدة اعرف بتعمل إيه.</p></section>
+
+  <!-- LAST SLIDE: QUIZ QR (keep this one last) -->
+  <section class="slide dark">
+    <div class="rise eyebrow">Before you go</div>
+    <h2 class="rise">Test yourself</h2>
+    <div class="rise qrwrap">
+      <img id="qr" alt="QR code linking to the quiz" width="250" height="250">
+      <div class="txt">
+        <p class="sub">Scan with your phone camera. At the end it shows you which parts you understood and which parts to read again.</p>
+        <p class="sub mono" style="margin-top:.7rem;font-size:clamp(12px,1.3vw,17px)"><a id="quizLink" href="../quiz/"></a></p>
+      </div>
+    </div>
+    <p class="rise arline ar">امسح الكود بكاميرا موبايلك.</p>
+  </section>
+
+</div>
+
+<div id="nav">
+  <div class="who">Mr. Eissa Islam<span id="counter"></span></div>
+  <div class="mid" id="dots"></div>
+  <div style="display:flex;gap:8px">
+    <button type="button" id="prev" aria-label="Previous slide">←</button>
+    <button type="button" id="next" aria-label="Next slide">→</button>
+  </div>
+</div>
+<div class="hint">← → or swipe</div>
+
+<script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code, the quiz link and the slide count all derive
+   from it, so there is nothing else to keep in sync.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 3;
+const LECTURE_TITLE = "How does it learn?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#1D6FA5";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+const slides = Array.from(document.querySelectorAll('.slide'));
+const dotsBox = document.getElementById('dots');
+let i = 0;
+
+slides.forEach((_, k) => {
+  const d = document.createElement('button');
+  d.type = 'button';
+  d.className = 'dot';
+  d.setAttribute('aria-label', 'Go to slide ' + (k+1));
+  d.onclick = () => go(k);
+  dotsBox.appendChild(d);
+});
+const dots = Array.from(dotsBox.children);
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+/* ---- stamp lecture identity + build the QR code ---- */
+(function(){
+  applyAccent();
+  document.title = LECTURE.label + " \u2014 " + LECTURE.title + " \u00b7 PGteach";
+
+  const badge = document.getElementById('lectureBadge');
+  if(badge) badge.textContent = LECTURE.label + " \u00b7 " + LECTURE_TOPIC;
+
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+  }
+
+  /* Relative href keeps the deck working from disk and on Pages alike;
+     the absolute URL is what students read out and type by hand. */
+  const link = document.getElementById('quizLink');
+  if(link) link.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+})();
+
+/* ---- fit a slide that is taller than the screen ---------------------
+   Slides are written into a fixed frame, so a dense one runs off the bottom.
+   On a projector nobody scrolls: the last line is simply gone. Seven slides
+   in lecture 2 were losing 32-90px that way.
+
+   Shrinking the figures was tried first and measured: it did not clear it,
+   and one of the seven has no figure at all. The volume of content is the
+   problem, so the content is what gets scaled.
+
+   The floor matters more than the fit. Below about 0.72 the type stops being
+   readable from the back of a room, so a slide that dense is left to scroll
+   and the checker's overflow report is the place to fix it — by splitting the
+   slide, not by shrinking it further.
+   ------------------------------------------------------------------- */
+const FIT_FLOOR = 0.72;
+
+function fitbox(s){
+  let box = s.firstElementChild;
+  if(!box || !box.classList.contains('fitbox')){
+    box = document.createElement('div');
+    box.className = 'fitbox';
+    while(s.firstChild) box.appendChild(s.firstChild);
+    s.appendChild(box);
+  }
+  return box;
+}
+
+function fit(s){
+  if(!s) return 1;
+  const box = fitbox(s);
+  box.style.transform = '';           /* measure unscaled */
+  box.style.height = '';
+  const cs = getComputedStyle(s);
+  const avail = s.clientHeight
+              - parseFloat(cs.paddingTop || 0)
+              - parseFloat(cs.paddingBottom || 0);
+  const nat = box.scrollHeight;
+  if(!avail || nat <= avail + 1) return 1;
+
+  const k = Math.max(avail / nat, FIT_FLOOR);
+  box.style.transformOrigin = 'top center';
+  box.style.transform = 'scale(' + k + ')';
+  box.style.height = (nat * k) + 'px';
+  return k;
+}
+
+/* Anything that changes how tall the content is has to re-measure. */
+function refit(){ fit(slides[i]); }
+addEventListener('resize', refit);
+addEventListener('orientationchange', refit);
+
+function go(n){
+  i = Math.max(0, Math.min(slides.length - 1, n));
+  slides.forEach((s,k) => s.classList.toggle('on', k === i));
+  dots.forEach((d,k) => d.classList.toggle('on', k === i));
+  document.getElementById('bar').style.width = ((i+1)/slides.length*100) + '%';
+  document.getElementById('counter').textContent = ' \u00b7 ' + (i+1) + ' / ' + slides.length;
+  fit(slides[i]);
+  document.body.style.background = slides[i].classList.contains('dark') ? '#16233F' : '#FBFAF7';
+  location.hash = i + 1;
+}
+
+document.getElementById('next').onclick = () => go(i+1);
+document.getElementById('prev').onclick = () => go(i-1);
+
+addEventListener('keydown', e => {
+  if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); go(i+1); }
+  if(e.key === 'ArrowLeft'  || e.key === 'PageUp'){ e.preventDefault(); go(i-1); }
+  if(e.key === 'Home') go(0);
+  if(e.key === 'End')  go(slides.length-1);
+});
+
+let x0 = null;
+addEventListener('touchstart', e => x0 = e.changedTouches[0].clientX, {passive:true});
+addEventListener('touchend', e => {
+  if(x0 === null) return;
+  const dx = e.changedTouches[0].clientX - x0;
+  if(Math.abs(dx) > 55) go(dx < 0 ? i+1 : i-1);
+  x0 = null;
+}, {passive:true});
+
+const start = parseInt(location.hash.slice(1), 10);
+go(Number.isFinite(start) && start > 0 ? start - 1 : 0);
+</script>
+</body>
+</html>

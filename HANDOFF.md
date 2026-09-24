@@ -1,6 +1,6 @@
 # Handoff — state of this repo
 
-Last updated: 2026-09-05. Written so a new session (or another machine) can pick
+Last updated: 2026-09-25. Written so a new session (or another machine) can pick
 this up with no prior context. Read this first, then [README.md](README.md) for
 how the pages actually work.
 
@@ -26,11 +26,25 @@ lecture2/homework/index.html  6-page take-home sheet, 9 exercises
 lecture2/_teacher/            answer key + exercise source (Jekyll ignores _*)
 scripts/build_lecture2.py     builds those three from _teacher/exercises.json
 
+lecture3/slides/index.html    46 slides, 9 diagrams, photos; exam code covered
+lecture3/quiz/index.html      36 questions, 4 options each, cumulative L1-L3
+lecture3/handout/index.html   12-page booklet: lessons 1-2 AND 1-3 + 4 class exercises
+lecture3/homework/index.html  take-home sheet, 20 exercises in 3 labelled parts
+lecture3/_teacher/            15-page answer key + exercises.json (unpublished)
+scripts/build_lecture3.py         booklet, homework, answer key
+scripts/build_lecture3_slides.py  the deck, from scripts/lecture3_slides_base.html
+scripts/build_lecture3_quiz.py    the quiz (then run protect_answers.py 3)
+
+dashboard/index.html          teacher dashboard (generated) with exam-code switch
+scripts/build_dashboard.py    regenerates it from the lecture folders
+
 templates/slides-template.html
 templates/quiz-template.html
 templates/handout-template.html
 scripts/new_lecture.py        scaffolds slides/quiz/handout from templates/
 scripts/check_lecture.py      pre-publish gate; run it before every commit
+scripts/test_pages.js         behavioural harness over every lecture, runs in CI
+scripts/protect_answers.py    turns quiz a: indices into fingerprints
 scripts/apps-script.gs        the Google Apps Script that records results
 README.md · HANDOFF.md · .gitignore
 ```
@@ -214,12 +228,18 @@ must go through those maps — that was the one trap when writing this.
 ## Google Sheet / Apps Script — ACTION STILL NEEDED
 
 The live endpoint is `AKfycbxfgPaAaOTuOhyyaRI4fWLclsYF1VsDXpkDQoURb_yUIsG35Lmf2wgg0IJ7Zff_BnHn`
-and it works, but **it is still running the old 8-column script**, which drops
-two fields the quiz now sends.
+and it works, but when last checked **it was still running the old 8-column
+script**. The repo's script is now at `DESIGN_VERSION = 6` and its last column
+is **How it was taken** (the quiz's new `integrity` field — see *Attempt
+integrity* below). Nobody in these sessions can deploy it; that needs the
+teacher's Google account. If the sheet's header row does not end with *How it
+was taken*, the live copy is behind. Nothing breaks meanwhile — the script
+reads fields by name, so scores still land; only the newer columns are lost.
 
 To finish: paste [scripts/apps-script.gs](scripts/apps-script.gs) into the Sheet's
 Apps Script editor, then **Deploy > Manage deployments > edit > Version: New
-version**. Saving alone does not update the live URL.
+version**. Saving alone does not update the live URL. Then run
+`reformatAllTabs()` once and `testSubmission()` to confirm the whole path.
 
 What that script changes:
 
@@ -282,7 +302,8 @@ teacher". Verify in the sheet, or in the Apps Script editor's Executions tab.
   per-stage, per-term and per-habit lines. Also restored: the "quickest way to
   keep them apart" paragraph, which the first HTML pass had dropped.
 - **No landing page.** `/curriculum/` currently renders `README.md` via Jekyll.
-  A real root `index.html` listing lectures was offered and not yet requested.
+  `/curriculum/dashboard/` now does what a landing page would; making it the
+  root was offered and not yet decided.
 - Slide 12 says "10 questions" as static text; it is not derived from the
   quiz's `QUESTIONS.length` (different page). Templates say just
   "Test yourself".
@@ -292,7 +313,9 @@ teacher". Verify in the sheet, or in the Apps Script editor's Executions tab.
   Adding `.nojekyll` makes the build serve files verbatim and immune to
   this, but it also removes the auto-generated landing page at
   `/curriculum/`, so it needs a real root `index.html` alongside it.
-  Offered, not yet decided.
+  Offered, not yet decided. **Warning:** `.nojekyll` would also start serving
+  `lecture2/_teacher/` and `lecture3/_teacher/` — the answer keys — publicly.
+  Move those out of the repo (or to a private one) before ever adding it.
 
 ## Adding a lecture
 
@@ -303,6 +326,94 @@ python scripts/new_lecture.py 2 "Variables & Data Types"
 Then write the slides (`<section class="slide">` blocks, QR slide stays last)
 and the questions (`SECTIONS` / `QUESTIONS` at the top of the quiz `<script>`).
 Answer positions do not matter any more — they get shuffled.
+
+For anything bigger than lecture 1, copy lecture 3's generators instead and
+keep content in them and in `_teacher/exercises.json`. Before publishing, all
+of these, not only the first:
+
+1. `python scripts/check_lecture.py` and `node scripts/test_pages.js`
+2. `python scripts/protect_answers.py N` after any question edit
+3. render every printed `.sheet` on its own; each must be exactly one A4 page
+4. look at the rendered pages — the gates measure structure, not teaching;
+   lecture 3's first build passed them all while it was thin and picture-less
+5. read every exercise against its answer; check questions for duplicate
+   *facts*, not duplicate wording
+6. `python scripts/build_dashboard.py`
+
+## Lecture 3 — what to know before touching it
+
+Covers **two** textbook lessons, 1-2 How AI Works (pp. 13-19) and 1-3 AI in
+Daily Life and Industry (pp. 20-25): one alone was about 70% of lecture 2's
+material. Title "How does it learn?", accent `#1D6FA5`.
+
+**Every lecture 3 file is generated — edit the generator, never the HTML.**
+
+| Output | Generator |
+|---|---|
+| slides | `build_lecture3_slides.py` (slide list inside; shell in `lecture3_slides_base.html`) |
+| quiz | `build_lecture3_quiz.py`, then `protect_answers.py 3` |
+| handout, homework, answer key | `build_lecture3.py` + `lecture3/_teacher/exercises.json` |
+
+All three rebuild byte-identical from the repo. The slide builder must start
+from the base file, never from the published deck — its injections (lightbox,
+exam-code gate) are guarded by their CSS, so rebuilding on a built deck skips
+markup it needs.
+
+**The Arabic is written, not sourced.** The Arabic textbook yields no
+extractable Arabic (the ToUnicode problem lecture 1 had) and no OCR is
+installed, so all lecture 3 Arabic is written in the Egyptian teaching
+register. It needs a teacher's read-through.
+
+**The quiz**: 36 questions, weighted to the exam — 3 from lecture 1, 9 from
+lecture 2, 24 from lecture 3. Four options each, every wrong option from the
+same material (the first draft had absurd distractors that made it easy
+whatever the labels said). Four **minimal pairs** differ by one word that
+flips the answer. Questions carry `d:` 1-3; `bandedOrder()` goes easy → hard,
+shuffling inside each band.
+
+**The exam code is covered on the deck** until the teacher presses **E**,
+clicks the panel, or turns it on from the dashboard. A speed bump only — the
+quiz address is guessable. The QR is still built from `LECTURE.quizUrl` on
+load (the harness checks it); only the view is gated. The printed booklet and
+homework carry **no QR or quiz address**: the exam is taken in the lesson.
+`check_lecture.py` now treats a QR on the handout as optional.
+
+**Class work 1-4, homework 1-20 in three parts** (lesson 1-2, lesson 1-3,
+optional thinking/research), numbered by printed position; the answer key
+uses the same numbers. A **four-tasks interlude** (classification, detection,
+recognition, generation — not in the book, labelled as such) sits in both the
+deck and the booklet.
+
+**Printed documents are one `.sheet` per A4 page, always.** The answer key was
+one long `.sheet`; Chrome paginated it, other PDF paths did not, and it would
+not print. `KEY_PAGES` in `build_lecture3.py` now lists what goes on each of
+its 15 pages. Add an exercise → add it to a page there and re-run the page gate.
+
+Bugs caught here, all fixed: `short` exercises printed no question (no branch
+in `exercise()`); five answers attached to the wrong question; two exercises
+that were the same task; the template's demo pages leaking in (QR sheet found
+from the wrong `<section>`). None of those are visible to the checker.
+
+## The dashboard
+
+`/curriculum/dashboard/` lists every lecture and its parts, generated by
+`build_dashboard.py` from the lecture folders — re-run it after any lecture
+change. Its one control is the exam-code switch: it writes
+`localStorage["pgteach.examCode"]`, which the decks read because they share
+the origin. It affects the teacher's browser only.
+
+## Attempt integrity
+
+No web page can block screenshots, screen recording, or leaving the tab —
+those are operating-system actions, and nothing here claims otherwise. The
+quiz instead **records** the shape of each attempt (time taken, times the page
+lost focus, seconds away) and sends it as `integrity`, the sheet's **How it
+was taken** column. A veil covers the questions while the page is away, and
+students are told before starting. In the template and all three lectures.
+
+The harness runs page scripts against a minimal DOM: calls such as
+`getAttribute` or `document.addEventListener` must be feature-checked
+(`typeof ... === "function"`) or CI fails.
 
 ## Why "trying again" appeared on a submission that had landed
 
