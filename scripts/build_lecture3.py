@@ -28,7 +28,7 @@ HW_SECTIONS=[
 ]
 HOMEWORK=[n for _,_,pages in HW_SECTIONS for g in pages for n in g]
 EXTRA_CSS='''
-.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}.keysheet{min-height:auto}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}'''
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}'''
 def shell():
  t=(ROOT/'templates/handout-template.html').read_text(encoding='utf-8').replace('</style>',EXTRA_CSS+'</style>',1)
  t=t.replace('__LECTURE_NUM__','3').replace('__TITLE_HTML__','How does it learn?').replace('__TITLE_JS__','How does it learn?').replace('__TOPIC_HTML__','Programming &amp; Artificial Intelligence').replace('__TOPIC_JS__','Programming & Artificial Intelligence').replace('__ACCENT__','#1D6FA5')
@@ -183,21 +183,51 @@ def answer_html(n):
   out.append('<p class="note">Open response &mdash; mark on the points named in the question.</p>')
  return ''.join(out)
 
+# One real sheet per printed page, like every other document here -- not one
+# giant flex column left to the browser's own page-break heuristics. Chrome
+# happens to paginate a single overflowing flex container correctly through
+# --print-to-pdf, but that is Chrome's tolerance, not the CSS working: the
+# per-sheet page counter only ever finds one `.sheet`, so every physical page
+# but the last printed with no footer and no page number, and any renderer
+# less forgiving than Chrome (Firefox in particular treats an overflowing
+# flex column as one page and clips or compresses the rest) does not
+# reproduce Chrome's leniency at all. Verified by rendering each page here
+# individually to PDF and counting pages == 1 for every one of them.
+KEY_PAGES=[
+ ('class', IN_CLASS),
+ ('hw', [3,4]), ('hw', [5,6,7]), ('hw', [8,9]), ('hw', [13,14]),
+ ('hw', [10]), ('hw', [11]),
+ ('hw', [20,21]), ('hw', [22]), ('hw', [25]),
+ ('hw', [23]), ('hw', [24]),
+ ('hw', [15]), ('hw', [16]), ('hw', [17]),
+]
+
 def key(head,tail):
  """Teacher copy. Numbers match what the student sees: class work is numbered
  1.. on its sheets, homework 1.. on its own, so 'homework 7' means the same
  thing to both of them."""
- b=[masthead('Teacher Answer Key'),
-    '<div class="teacherwarn">Teacher copy &mdash; do not hand this to students.</div>']
- for label,nums in (('Class work &mdash; done in the session',IN_CLASS),
-                    ('Homework &mdash; separate sheet',HOMEWORK)):
-  b.append('<div class="keygroup">'+label+'</div>')
-  for i,n in enumerate(nums,1):
+ pages=[]
+ seen_class=False
+ seen_hw=False
+ for kind,nums in KEY_PAGES:
+  b=[]
+  if not pages:
+   b.append(masthead('Teacher Answer Key'))
+   b.append('<div class="teacherwarn">Teacher copy &mdash; do not hand this to students.</div>')
+  if kind=='class' and not seen_class:
+   b.append('<div class="keygroup">Class work &mdash; done in the session</div>')
+   seen_class=True
+  if kind=='hw' and not seen_hw:
+   b.append('<div class="keygroup">Homework &mdash; separate sheet</div>')
+   seen_hw=True
+  for n in nums:
+   i=(IN_CLASS.index(n)+1) if kind=='class' else (HOMEWORK.index(n)+1)
    b.append('<div class="ex"><div class="exhead"><span class="exn">'+str(i)+'</span>'
             '<span class="exq">'+esc(EX[n]['prompt'])+'</span></div>')
    if EX[n].get('src'):b.append('<div class="src">'+esc(EX[n]['src'])+'</div>')
    b.append('<div class="key">'+answer_html(n)+'</div></div>')
- return head+'<section class="sheet keysheet">'+''.join(b)+foot()+'</section>'+tail
+  pages.append(page(''.join(b)))
+ return head+''.join(pages)+tail
 head,tail,qr=shell()
 for path,html in [(ROOT/'lecture3/handout/index.html',booklet(head,tail,qr)),(ROOT/'lecture3/homework/index.html',homework(head,tail,qr)),(ROOT/'lecture3/_teacher/answer-key.html',key(head,tail))]:
  # the template ships author instructions in HTML comments; they are not ours
