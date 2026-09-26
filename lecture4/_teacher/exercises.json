@@ -8,132 +8,380 @@
         "heading": "Lesson 1-4 · Ethical Issues with AI",
         "headingAr": "الدرس 1-4 — القضايا الأخلاقية للذكاء الاصطناعي",
         "exercises": [
-          {"n": 1, "type": "truefalse",
-           "prompt": "Write ✓ if the statement is true, ✗ if it is false.",
-           "promptAr": "اكتب ✓ لو الجملة صح، و ✗ لو غلط.",
-           "statements": [
-             "Algorithmic bias is bias in AI judgments caused by bias in the training data.",
-             "Even if an AI's decision-making process is opaque, there is no problem as long as the result is correct.",
-             "Explainable AI (XAI) is a technology that makes it possible for humans to understand the AI's reasoning.",
-             "When an AI makes an incorrect judgment, who is responsible has already been clearly determined."],
-           "src": "p.29 — Worked Example (1) A-D"},
-          {"n": 2, "type": "match",
-           "prompt": "Match each description to the most appropriate principle of AI ethics.",
-           "promptAr": "صِل كل وصف بالمبدأ الصح من مبادئ أخلاقيات الـ AI.",
-           "left": [
-             "Not unjustly discriminating against any particular person or group",
-             "Showing the AI's decision-making process and inner workings clearly",
-             "Handling personal information appropriately and protecting privacy",
-             "Being answerable for the AI's decisions"],
-           "right": ["Accountability", "Privacy protection", "Fairness", "Transparency"],
-           "src": "p.29 — Worked Example (2)"},
-          {"n": 3, "type": "short",
-           "prompt": "Answer the following questions.",
-           "promptAr": "جاوب على الأسئلة دي.",
-           "questions": [
-             {"q": "What is the term for the phenomenon in which bias arises in AI judgments due to bias in the training data?", "lines": 1},
-             {"q": "What is the term for the technology that makes it possible for humans to understand why an AI made a particular judgment? Give its three-letter abbreviation too.", "lines": 1},
-             {"q": "Which principle of AI ethics requires not unjustly discriminating against any particular person or group?", "lines": 1},
-             {"q": "Which principle of AI ethics requires handling personal information appropriately?", "lines": 1}],
-           "src": "p.30 — Try 1"},
-          {"n": 4, "type": "short",
-           "prompt": "Choose the correct option.",
-           "promptAr": "اختار الإجابة الصح.",
-           "questions": [
-             {"q": "Choose the one that is NOT an appropriate cause of algorithmic bias. A: Training data is biased. B: Past discriminatory tendencies are reflected in the data. C: The processing speed of the computer is slow. D: There is insufficient data on certain attributes.", "lines": 1},
-             {"q": "Choose ALL that are privacy issues associated with AI. A: Individuals are identified and tracked through face-recognition technology. B: Online behaviour data is collected and analysed in large quantities. C: AI creates creative works. D: AI computation speed improves.", "lines": 1}],
-           "src": "p.30 — Try 2"},
-
-          {"n": 5, "type": "fill",
-           "prompt": "Fill in ( a ) to ( c ).",
-           "promptAr": "كمّل ( أ ) لـ ( ج ).",
-           "passage": "As AI technology spreads widely in society, attention has been drawn to various ethical issues. For example, there is the issue of ( a ), in which bias arises in AI judgments due to bias in the training data. For the black-box problem, where it is unclear why an AI made a particular judgment, a technology called ( b ) is being researched. Furthermore, when an AI makes an incorrect judgment, ( c ) is questioned, but no clear standard has yet been established among developers, users and operators.",
-           "src": "p.31–32 — Exercise 2"},
-          {"n": 6, "type": "category",
-           "prompt": "Write A, B, C or D: A = Fairness, B = Transparency, C = Privacy protection, D = Accountability.",
-           "promptAr": "اكتب A أو B أو C أو D: A العدالة، B الشفافية، C حماية الخصوصية، D المساءلة.",
-           "items": [
-             "Ensuring that a hiring AI evaluates fairly regardless of gender.",
-             "Disclosing the AI's decision-making process to users in an easy-to-understand way.",
-             "Not using collected personal data for purposes other than those originally intended.",
-             "Being answerable when an AI's diagnostic result turns out to be wrong."],
-           "src": "p.32 — Exercise 3(1)"},
-          {"n": 7, "type": "short",
-           "prompt": "Choose the correct option.",
-           "promptAr": "اختار الإجابة الصح.",
-           "questions": [
-             {"q": "Choose the one that most appropriately describes ethical issues with AI. A: There are no ethical issues with AI. B: Algorithmic bias is caused by the AI's processing speed. C: Bias in training data can cause discriminatory bias in AI judgments. D: Even if an AI's decision-making process is opaque, there is no problem for users.", "lines": 1}],
-           "src": "p.32 — Exercise 3(2)"},
-          {"n": 8, "type": "short",
-           "prompt": "Answer the following questions.",
-           "promptAr": "جاوب على الأسئلة دي.",
-           "questions": [
-             {"q": "What is meant by training data in an AI system?", "lines": 2},
-             {"q": "How does too little data on some groups affect what the AI produces?", "lines": 2}],
-           "src": "Ministry assessment, lesson 4 — home task 2; p.27"},
-          {"n": 9, "type": "short",
-           "prompt": "Explain the main causes of algorithmic bias. Give one cause that comes from the training data and one that comes from the way the system is built.",
-           "promptAr": "اشرح الأسباب الرئيسية للتحيز الخوارزمي: سبب من الداتا، وسبب من طريقة بناء النظام.",
-           "questions": [
-             {"q": "A cause in the training data:", "lines": 2},
-             {"q": "A cause in the way the system is built:", "lines": 2}],
-           "src": "p.27 — main causes of bias; ministry assessment, lesson 4"},
-          {"n": 10, "type": "short",
-           "prompt": "The development of AI has given rise to new privacy issues. Name and explain the two described in the lesson.",
-           "promptAr": "تطور الـ AI عمل مشاكل خصوصية جديدة. اذكر واشرح الاتنين اللي في الدرس.",
-           "questions": [
-             {"q": "Issue 1:", "lines": 2},
-             {"q": "Issue 2:", "lines": 2}],
-           "src": "p.28 — Privacy issues"},
-          {"n": 11, "type": "short",
-           "prompt": "Answer about explainable AI.",
-           "promptAr": "جاوب عن الـ AI القابل للتفسير.",
-           "questions": [
-             {"q": "What is explainable AI (XAI)?", "lines": 2},
-             {"q": "Why is an opaque (black-box) decision process a problem, even when the result happens to be correct?", "lines": 3}],
-           "src": "p.28 — XAI; p.29 Worked Example (1) B"},
-          {"n": 12, "type": "short",
-           "prompt": "Answer about responsibility and accountability.",
-           "promptAr": "جاوب عن المسؤولية والمساءلة.",
-           "questions": [
-             {"q": "Name the three parties whose views on responsibility differ when an AI makes an incorrect judgment.", "lines": 1},
-             {"q": "Explain the difference between responsibility and accountability.", "lines": 3}],
-           "src": "p.28 — Responsibility; ministry assessment, lesson 4"},
-          {"n": 13, "type": "table",
-           "prompt": "Complete the table: what each principle means, and one situation where it applies.",
-           "promptAr": "كمّل الجدول: معنى كل مبدأ، وموقف واحد يتطبق فيه.",
-           "head": ["Principle", "What it means", "One situation"],
-           "rows": [
-             ["Fairness", "________________", "________________"],
-             ["Transparency", "________________", "________________"],
-             ["Privacy protection", "________________", "________________"],
-             ["Accountability", "________________", "________________"]],
-           "src": "p.28 — basic principles of AI ethics"},
-          {"n": 14, "type": "extended",
-           "prompt": "Analyze how algorithmic bias can arise in an AI system, and how it can be reduced. In your answer, refer to the cause of bias (biased or insufficient training data) and to how the principles of fairness and transparency help address it.",
-           "promptAr": "حلّل إزاي التحيز الخوارزمي بيحصل في نظام AI، وإزاي نقلله. اتكلم عن السبب (داتا متحيزة أو ناقصة) وإزاي مبدأ العدالة والشفافية بيساعدوا.",
-           "marks": 6, "lines": 9,
-           "src": "p.30 — Exam-style question [6]"},
-          {"n": 15, "type": "extended",
-           "prompt": "A hiring AI was found to rate applicants of a particular gender lower. Using algorithmic bias and the principles of AI ethics, explain the most likely cause and one possible measure to address it.",
-           "promptAr": "AI توظيف طلع بيقيّم نوع معين أقل. باستخدام التحيز الخوارزمي ومبادئ أخلاقيات الـ AI، اشرح السبب الأرجح وإجراء واحد يعالجه.",
-           "marks": 4, "lines": 6,
-           "src": "p.31 — Think It Through"},
-          {"n": 16, "type": "extended",
-           "prompt": "A school wants to use face-recognition cameras at its gate to record attendance automatically. Identify one practical benefit and one privacy concern. If the camera misidentifies a student, who should be responsible — the school, or the company that made the AI? Give a reason.",
-           "promptAr": "مدرسة عايزة كاميرات تعرّف على الوجه على البوابة تسجّل الحضور. اذكر فايدة واحدة ومشكلة خصوصية واحدة. ولو الكاميرا غلطت في طالب، مين المسؤول: المدرسة ولا الشركة؟ وليه؟",
-           "marks": 4, "lines": 6,
-           "src": "p.31 — In a New Context"},
-          {"n": 17, "type": "extended",
-           "prompt": "Find one documented case where an AI system was accused of being unfair or biased. Record the source (a news report, study or official statement). What group did it affect, and what data might have caused it?",
-           "promptAr": "دوّر على حالة حقيقية موثّقة لنظام AI اتهم إنه ظالم أو متحيز. اكتب المصدر. أنهي فئة اتأثرت، وإيه الداتا اللي ممكن تكون السبب؟",
-           "marks": 4, "lines": 7,
-           "src": "p.30–31 — Think as an Engineer"},
-          {"n": 18, "type": "extended",
-           "prompt": "Choose one place AI is used: hiring, face recognition, or recommendations. Suggest one rule, based on the principles of AI ethics, that would make it more trustworthy.",
-           "promptAr": "اختار مكان واحد بيتستخدم فيه الـ AI: التوظيف، التعرّف على الوجه، أو الترشيحات. اقترح قاعدة واحدة مبنية على مبادئ أخلاقيات الـ AI تخليه أجدر بالثقة.",
-           "marks": 3, "lines": 5,
-           "src": "p.32 — Reflect & Challenge"}
+          {
+            "n": 1,
+            "type": "truefalse",
+            "prompt": "Write ✓ if the statement is true, ✗ if it is false.",
+            "promptAr": "اكتب ✓ لو الجملة صح، و ✗ لو غلط.",
+            "statements": [
+              "Algorithmic bias is bias in AI judgments caused by bias in the training data.",
+              "Even if an AI's decision-making process is opaque, there is no problem as long as the result is correct.",
+              "Explainable AI (XAI) is a technology that makes it possible for humans to understand the AI's reasoning.",
+              "When an AI makes an incorrect judgment, who is responsible has already been clearly determined."
+            ],
+            "src": "p.29 — Worked Example (1) A-D"
+          },
+          {
+            "n": 2,
+            "type": "match",
+            "prompt": "Match each description to the most appropriate principle of AI ethics.",
+            "promptAr": "صِل كل وصف بالمبدأ الصح من مبادئ أخلاقيات الـ AI.",
+            "left": [
+              "Not unjustly discriminating against any particular person or group",
+              "Showing the AI's decision-making process and inner workings clearly",
+              "Handling personal information appropriately and protecting privacy",
+              "Being answerable for the AI's decisions"
+            ],
+            "right": [
+              "Accountability",
+              "Privacy protection",
+              "Fairness",
+              "Transparency"
+            ],
+            "src": "p.29 — Worked Example (2)"
+          },
+          {
+            "n": 3,
+            "type": "short",
+            "prompt": "Answer the following questions.",
+            "promptAr": "جاوب على الأسئلة دي.",
+            "questions": [
+              {
+                "q": "What is the term for the phenomenon in which bias arises in AI judgments due to bias in the training data?",
+                "lines": 1
+              },
+              {
+                "q": "What is the term for the technology that makes it possible for humans to understand why an AI made a particular judgment? Give its three-letter abbreviation too.",
+                "lines": 1
+              },
+              {
+                "q": "Which principle of AI ethics requires not unjustly discriminating against any particular person or group?",
+                "lines": 1
+              },
+              {
+                "q": "Which principle of AI ethics requires handling personal information appropriately?",
+                "lines": 1
+              }
+            ],
+            "src": "p.30 — Try 1"
+          },
+          {
+            "n": 4,
+            "type": "short",
+            "prompt": "Choose the correct option.",
+            "promptAr": "اختار الإجابة الصح.",
+            "questions": [
+              {
+                "q": "Choose the one that is NOT an appropriate cause of algorithmic bias. A: Training data is biased. B: Past discriminatory tendencies are reflected in the data. C: The processing speed of the computer is slow. D: There is insufficient data on certain attributes.",
+                "lines": 1
+              },
+              {
+                "q": "Choose ALL that are privacy issues associated with AI. A: Individuals are identified and tracked through face-recognition technology. B: Online behaviour data is collected and analysed in large quantities. C: AI creates creative works. D: AI computation speed improves.",
+                "lines": 1
+              }
+            ],
+            "src": "p.30 — Try 2"
+          },
+          {
+            "n": 5,
+            "type": "fill",
+            "prompt": "Fill in ( a ) to ( c ).",
+            "promptAr": "كمّل ( أ ) لـ ( ج ).",
+            "passage": "As AI technology spreads widely in society, attention has been drawn to various ethical issues. For example, there is the issue of ( a ), in which bias arises in AI judgments due to bias in the training data. For the black-box problem, where it is unclear why an AI made a particular judgment, a technology called ( b ) is being researched. Furthermore, when an AI makes an incorrect judgment, ( c ) is questioned, but no clear standard has yet been established among developers, users and operators.",
+            "src": "p.31–32 — Exercise 2"
+          },
+          {
+            "n": 6,
+            "type": "category",
+            "prompt": "Write A, B, C or D: A = Fairness, B = Transparency, C = Privacy protection, D = Accountability.",
+            "promptAr": "اكتب A أو B أو C أو D: A العدالة، B الشفافية، C حماية الخصوصية، D المساءلة.",
+            "items": [
+              "Ensuring that a hiring AI evaluates fairly regardless of gender.",
+              "Disclosing the AI's decision-making process to users in an easy-to-understand way.",
+              "Not using collected personal data for purposes other than those originally intended.",
+              "Being answerable when an AI's diagnostic result turns out to be wrong."
+            ],
+            "src": "p.32 — Exercise 3(1)"
+          },
+          {
+            "n": 7,
+            "type": "short",
+            "prompt": "Choose the correct option.",
+            "promptAr": "اختار الإجابة الصح.",
+            "questions": [
+              {
+                "q": "Choose the one that most appropriately describes ethical issues with AI. A: There are no ethical issues with AI. B: Algorithmic bias is caused by the AI's processing speed. C: Bias in training data can cause discriminatory bias in AI judgments. D: Even if an AI's decision-making process is opaque, there is no problem for users.",
+                "lines": 1
+              }
+            ],
+            "src": "p.32 — Exercise 3(2)"
+          },
+          {
+            "n": 8,
+            "type": "short",
+            "prompt": "Answer the following questions.",
+            "promptAr": "جاوب على الأسئلة دي.",
+            "questions": [
+              {
+                "q": "What is meant by training data in an AI system?",
+                "lines": 2
+              },
+              {
+                "q": "How does too little data on some groups affect what the AI produces?",
+                "lines": 2
+              }
+            ],
+            "src": "Ministry assessment, lesson 4 — home task 2; p.27"
+          },
+          {
+            "n": 9,
+            "type": "short",
+            "prompt": "Explain the main causes of algorithmic bias. Give one cause that comes from the training data and one that comes from the way the system is built.",
+            "promptAr": "اشرح الأسباب الرئيسية للتحيز الخوارزمي: سبب من الداتا، وسبب من طريقة بناء النظام.",
+            "questions": [
+              {
+                "q": "A cause in the training data:",
+                "lines": 2
+              },
+              {
+                "q": "A cause in the way the system is built:",
+                "lines": 2
+              }
+            ],
+            "src": "p.27 — main causes of bias; ministry assessment, lesson 4"
+          },
+          {
+            "n": 10,
+            "type": "short",
+            "prompt": "The development of AI has given rise to new privacy issues. Name and explain the two described in the lesson.",
+            "promptAr": "تطور الـ AI عمل مشاكل خصوصية جديدة. اذكر واشرح الاتنين اللي في الدرس.",
+            "questions": [
+              {
+                "q": "Issue 1:",
+                "lines": 2
+              },
+              {
+                "q": "Issue 2:",
+                "lines": 2
+              }
+            ],
+            "src": "p.28 — Privacy issues"
+          },
+          {
+            "n": 11,
+            "type": "short",
+            "prompt": "Answer about explainable AI.",
+            "promptAr": "جاوب عن الـ AI القابل للتفسير.",
+            "questions": [
+              {
+                "q": "What is explainable AI (XAI)?",
+                "lines": 2
+              },
+              {
+                "q": "Why is an opaque (black-box) decision process a problem, even when the result happens to be correct?",
+                "lines": 3
+              }
+            ],
+            "src": "p.28 — XAI; p.29 Worked Example (1) B"
+          },
+          {
+            "n": 12,
+            "type": "short",
+            "prompt": "Answer about responsibility and accountability.",
+            "promptAr": "جاوب عن المسؤولية والمساءلة.",
+            "questions": [
+              {
+                "q": "Name the three parties whose views on responsibility differ when an AI makes an incorrect judgment.",
+                "lines": 1
+              },
+              {
+                "q": "Explain the difference between responsibility and accountability.",
+                "lines": 3
+              }
+            ],
+            "src": "p.28 — Responsibility; ministry assessment, lesson 4"
+          },
+          {
+            "n": 13,
+            "type": "table",
+            "prompt": "Complete the table: what each principle means, and one situation where it applies.",
+            "promptAr": "كمّل الجدول: معنى كل مبدأ، وموقف واحد يتطبق فيه.",
+            "head": [
+              "Principle",
+              "What it means",
+              "One situation"
+            ],
+            "rows": [
+              [
+                "Fairness",
+                "________________",
+                "________________"
+              ],
+              [
+                "Transparency",
+                "________________",
+                "________________"
+              ],
+              [
+                "Privacy protection",
+                "________________",
+                "________________"
+              ],
+              [
+                "Accountability",
+                "________________",
+                "________________"
+              ]
+            ],
+            "src": "p.28 — basic principles of AI ethics"
+          },
+          {
+            "n": 14,
+            "type": "extended",
+            "prompt": "Analyze how algorithmic bias can arise in an AI system, and how it can be reduced. In your answer, refer to the cause of bias (biased or insufficient training data) and to how the principles of fairness and transparency help address it.",
+            "promptAr": "حلّل إزاي التحيز الخوارزمي بيحصل في نظام AI، وإزاي نقلله. اتكلم عن السبب (داتا متحيزة أو ناقصة) وإزاي مبدأ العدالة والشفافية بيساعدوا.",
+            "marks": 6,
+            "lines": 9,
+            "src": "p.30 — Exam-style question [6]"
+          },
+          {
+            "n": 15,
+            "type": "extended",
+            "prompt": "A hiring AI was found to rate applicants of a particular gender lower. Using algorithmic bias and the principles of AI ethics, explain the most likely cause and one possible measure to address it.",
+            "promptAr": "AI توظيف طلع بيقيّم نوع معين أقل. باستخدام التحيز الخوارزمي ومبادئ أخلاقيات الـ AI، اشرح السبب الأرجح وإجراء واحد يعالجه.",
+            "marks": 4,
+            "lines": 6,
+            "src": "p.31 — Think It Through"
+          },
+          {
+            "n": 16,
+            "type": "extended",
+            "prompt": "A school wants to use face-recognition cameras at its gate to record attendance automatically. Identify one practical benefit and one privacy concern. If the camera misidentifies a student, who should be responsible — the school, or the company that made the AI? Give a reason.",
+            "promptAr": "مدرسة عايزة كاميرات تعرّف على الوجه على البوابة تسجّل الحضور. اذكر فايدة واحدة ومشكلة خصوصية واحدة. ولو الكاميرا غلطت في طالب، مين المسؤول: المدرسة ولا الشركة؟ وليه؟",
+            "marks": 4,
+            "lines": 6,
+            "src": "p.31 — In a New Context"
+          },
+          {
+            "n": 17,
+            "type": "extended",
+            "prompt": "Find one documented case where an AI system was accused of being unfair or biased. Record the source (a news report, study or official statement). What group did it affect, and what data might have caused it?",
+            "promptAr": "دوّر على حالة حقيقية موثّقة لنظام AI اتهم إنه ظالم أو متحيز. اكتب المصدر. أنهي فئة اتأثرت، وإيه الداتا اللي ممكن تكون السبب؟",
+            "marks": 4,
+            "lines": 7,
+            "src": "p.30–31 — Think as an Engineer"
+          },
+          {
+            "n": 18,
+            "type": "extended",
+            "prompt": "Choose one place AI is used: hiring, face recognition, or recommendations. Suggest one rule, based on the principles of AI ethics, that would make it more trustworthy.",
+            "promptAr": "اختار مكان واحد بيتستخدم فيه الـ AI: التوظيف، التعرّف على الوجه، أو الترشيحات. اقترح قاعدة واحدة مبنية على مبادئ أخلاقيات الـ AI تخليه أجدر بالثقة.",
+            "marks": 3,
+            "lines": 5,
+            "src": "p.32 — Reflect & Challenge"
+          },
+          {
+            "n": 19,
+            "type": "short",
+            "prompt": "Unit review · lesson 1-1 · Quantum computing.",
+            "promptAr": "مراجعة الوحدة — درس 1-1: الحوسبة الكمومية.",
+            "questions": [
+              {
+                "q": "What distinguishes a qubit from a classical bit? A: It holds one definite state, either 0 or 1, at any time. B: It uses superposition to be a mixture of 0 and 1 at the same time. C: It relies only on traditional integrated circuits and a steady electric current. D: Its use is limited strictly to simple calculations.",
+                "lines": 1
+              },
+              {
+                "q": "Explain the principle a qubit is based on, and how it differs from a classical bit.",
+                "lines": 3
+              }
+            ],
+            "src": "Ministry assessments, lesson 1-1, home tasks (period 2), MCQ 1 and essay 1"
+          },
+          {
+            "n": 20,
+            "type": "short",
+            "prompt": "Unit review · lesson 1-1 · Autonomous driving.",
+            "promptAr": "مراجعة الوحدة — درس 1-1: القيادة الذاتية.",
+            "questions": [
+              {
+                "q": "Which technology uses AI to help drive a vehicle, using cameras and sensors to perceive its surroundings and make decisions? A: Cloud computing. B: Autonomous driving. C: Virtual reality. D: Quantum computing.",
+                "lines": 1
+              },
+              {
+                "q": "Explain how edge computing makes autonomous driving safer and faster at making decisions, without sending the data to the cloud.",
+                "lines": 3
+              }
+            ],
+            "src": "Ministry assessments, lesson 1-1, weekly model A, MCQ 2; class tasks (period 2), essay 1"
+          },
+          {
+            "n": 21,
+            "type": "short",
+            "prompt": "Unit review · lesson 1-2 · Neural networks.",
+            "promptAr": "مراجعة الوحدة — درس 1-2: الشبكات العصبية.",
+            "questions": [
+              {
+                "q": "What are the layers between the input layer and the output layer of an artificial neural network called? A: Hidden layers. B: Edge layers. C: Cloud layers. D: Linear layers.",
+                "lines": 1
+              },
+              {
+                "q": "What are the basic components of an artificial neural network?",
+                "lines": 2
+              }
+            ],
+            "src": "Ministry assessments, lesson 1-2, weekly model B, MCQ 3; home tasks, essay 1"
+          },
+          {
+            "n": 22,
+            "type": "short",
+            "prompt": "Unit review · lesson 1-3 · Voice assistants.",
+            "promptAr": "مراجعة الوحدة — درس 1-3: المساعد الصوتي.",
+            "questions": [
+              {
+                "q": "What is the term for the AI that recognises a voice, understands commands and carries them out, such as Siri and Google Assistant? A: A recommendation system. B: A voice assistant. C: Machine translation. D: Face recognition.",
+                "lines": 1
+              },
+              {
+                "q": "State the role of AI in voice assistants, and give two examples.",
+                "lines": 2
+              }
+            ],
+            "src": "Ministry assessments, lesson 1-3, home tasks, MCQ 1; weekly model B, essay 1"
+          },
+          {
+            "n": 23,
+            "type": "short",
+            "prompt": "Unit review · lesson 1-3 · AI in agriculture.",
+            "promptAr": "مراجعة الوحدة — درس 1-3: الـ AI في الزراعة.",
+            "questions": [
+              {
+                "q": "Which of the following is the main use of AI in agriculture? A: Optimising delivery routes. B: Predicting harvest timing and detecting pests and diseases. C: Product quality inspection and predictive maintenance. D: Analysing medical images and supporting drug discovery.",
+                "lines": 1
+              },
+              {
+                "q": "Explain how AI is used in agriculture, and its role in monitoring crops and pests.",
+                "lines": 2
+              }
+            ],
+            "src": "Ministry assessments, lesson 1-3, class tasks (period 2), MCQ 2 and essay 1"
+          },
+          {
+            "n": 24,
+            "type": "short",
+            "prompt": "Unit review · lesson 1-3 · Cautions when using AI.",
+            "promptAr": "مراجعة الوحدة — درس 1-3: احتياطات استخدام الـ AI.",
+            "questions": [
+              {
+                "q": "What is meant by the black-box problem in AI? A: The AI generates incorrect information that seems convincing. B: It is unclear how the AI reached its judgment or decision. C: Copyrighted works are used as training data. D: The training data is insufficient or does not represent reality.",
+                "lines": 1
+              },
+              {
+                "q": "Explain the black-box problem, and the rights issues that arise when copyrighted works are used as training data.",
+                "lines": 3
+              }
+            ],
+            "src": "Ministry assessments, lesson 1-3, home tasks (period 2), MCQ 2; weekly model C, essay 3"
+          }
         ]
       }
     ]
@@ -143,77 +391,152 @@
       "✓ — correct definition of algorithmic bias",
       "✗ — when the process is opaque, it is difficult to verify whether the result is correct",
       "✓ — correct description of explainable AI (XAI)",
-      "✗ — views differ between the developer, the user and the operator, and no clear standard has been established"],
+      "✗ — views differ between the developer, the user and the operator, and no clear standard has been established"
+    ],
     "2": [
       "Not unjustly discriminating against any particular person or group → C (Fairness)",
       "Showing the AI's decision-making process and inner workings clearly → D (Transparency)",
       "Handling personal information appropriately and protecting privacy → B (Privacy protection)",
-      "Being answerable for the AI's decisions → A (Accountability)"],
+      "Being answerable for the AI's decisions → A (Accountability)"
+    ],
     "3": [
       "1. Algorithmic bias",
       "2. Explainable AI — XAI",
       "3. Fairness",
-      "4. Privacy protection"],
+      "4. Privacy protection"
+    ],
     "4": [
       "(1) C — processing speed has nothing to do with bias",
-      "(2) A and B — face-recognition tracking, and mass collection of online behaviour data"],
-    "5": {"a": "algorithmic bias", "b": "explainable AI (XAI)", "c": "responsibility"},
-    "6": ["a → A (Fairness)", "b → B (Transparency)", "c → C (Privacy protection)", "d → D (Accountability)"],
-    "7": ["C — bias in training data can cause discriminatory bias in AI judgments"],
-    "8": {"points": [
-      "Training data: the examples an AI system learns its patterns from before it is used.",
-      "Too little data on a group means the AI learns that group's pattern poorly, so its judgments about that group are less accurate — it can misjudge them more often."],
-      "marking": "1 mark each. Accept any wording that says the AI learns from examples, and that under-represented groups are judged less accurately."},
-    "9": {"points": [
-      "From the data (either): insufficient data on certain attributes; or past discriminatory tendencies reflected in the data.",
-      "From the way it is built (any one): an inappropriate choice of variables; a proxy variable that indirectly stands in for a protected attribute; the design of the model itself."],
-      "marking": "2 marks each side: 1 for naming the cause, 1 for saying how it leads to biased judgments."},
-    "10": {"points": [
-      "Surveillance through face-recognition technology: cameras in public spaces can identify and track individuals.",
-      "Mass collection of personal data: large amounts of online behaviour data are collected and analysed."],
-      "marking": "1 mark for naming each issue, 1 for the explanation."},
-    "11": {"points": [
-      "XAI: technology that makes it possible for humans to understand why an AI made a particular judgment.",
-      "If the process is opaque, nobody can verify whether the result is correct — a right answer by chance cannot be told apart from a wrong one, and an unfair decision cannot be found or challenged."],
-      "marking": "2 marks for the definition; 3 for the explanation, which must mention verification."},
-    "12": {"points": [
-      "The developer, the user and the operator.",
-      "Responsibility is the roles and duties of each party — who does what, and who answers when a judgment is wrong. Accountability is being answerable for the AI's decisions: knowing who can be held to account, according to those roles. Accountability is one of the four principles."],
-      "marking": "1 mark for the three parties; 3 for a clear difference, not two restated definitions of the same thing."},
-    "13": ["Fairness — not unjustly discriminating against any particular person or group — e.g. a hiring AI evaluating fairly regardless of gender",
-           "Transparency — showing the decision-making process and inner workings clearly — e.g. telling users in plain language how the AI decides",
-           "Privacy protection — handling personal information appropriately — e.g. not using collected data for another purpose",
-           "Accountability — being answerable for the AI's decisions — e.g. someone answers when a diagnostic result is wrong"],
-    "14": {"marks": 6,
-           "model": "Algorithmic bias arises because an AI learns its patterns from training data. If that data is biased — for example, it contains too little data on certain groups, or it reflects past discrimination — the AI reproduces the same bias in its judgments. Bias can also enter through the way the system is built, such as a proxy variable that stands in for a protected attribute. It can be reduced by checking the training data for missing or unfair patterns and testing the AI's results across different groups, which applies the principle of fairness; and by making the decision-making process visible, for example with explainable AI, which applies the principle of transparency and lets people find and correct unfair decisions.",
-           "points": [
-             "Cause: the AI learns from training data (1)",
-             "Biased or insufficient data is reproduced in its judgments, with an example (1)",
-             "A second source: past discrimination in data, or proxy variable / variable choice (1)",
-             "Reduction through fairness: check data, test results across groups (1)",
-             "Reduction through transparency: show the decision process / XAI (1)",
-             "Links the measures back to the cause, so the answer is an analysis, not a list (1)"],
-           "marking": "Six points, one mark each. A list of the four principles with no link to bias earns no more than 2."},
-    "15": {"marks": 4, "open": true,
-           "points": [
-             "Most likely cause: the training data reflected past bias — e.g. past hiring decisions that favoured one gender, or too little data on the other (2)",
-             "One measure, justified by a principle: check the data and test results for each gender (fairness), or make the reasons visible (transparency), or name who answers for the system (accountability) (2)"],
-           "marking": "Accept any reasonable measure that is tied to a named principle."},
-    "16": {"marks": 4, "open": true,
-           "points": [
-             "Benefit: attendance recorded automatically and quickly; saves teachers' time (1)",
-             "Privacy concern: students' faces are personal data; they can be tracked, or the data used for another purpose (1)",
-             "Responsibility: either answer can earn the marks, if reasoned — the school chose and operates it; the company built it and chose its data (2)"],
-           "marking": "The book allows more than one view on responsibility; mark the reasoning, not the side chosen."},
-    "17": {"marks": 4, "open": true,
-           "points": [
-             "A real, sourced case — not recalled from memory without a source (1)",
-             "The group affected (1)",
-             "The data that might have caused it, linked to biased or insufficient training data (2)"]},
-    "18": {"marks": 3, "open": true,
-           "points": [
-             "Names one use (1)",
-             "A concrete rule (1)",
-             "Justified by a named principle of AI ethics (1)"]}
+      "(2) A and B — face-recognition tracking, and mass collection of online behaviour data"
+    ],
+    "5": {
+      "a": "algorithmic bias",
+      "b": "explainable AI (XAI)",
+      "c": "responsibility"
+    },
+    "6": [
+      "a → A (Fairness)",
+      "b → B (Transparency)",
+      "c → C (Privacy protection)",
+      "d → D (Accountability)"
+    ],
+    "7": [
+      "C — bias in training data can cause discriminatory bias in AI judgments"
+    ],
+    "8": {
+      "points": [
+        "Training data: the examples an AI system learns its patterns from before it is used.",
+        "Too little data on a group means the AI learns that group's pattern poorly, so its judgments about that group are less accurate — it can misjudge them more often."
+      ],
+      "marking": "1 mark each. Accept any wording that says the AI learns from examples, and that under-represented groups are judged less accurately."
+    },
+    "9": {
+      "points": [
+        "From the data (either): insufficient data on certain attributes; or past discriminatory tendencies reflected in the data.",
+        "From the way it is built (any one): an inappropriate choice of variables; a proxy variable that indirectly stands in for a protected attribute; the design of the model itself."
+      ],
+      "marking": "2 marks each side: 1 for naming the cause, 1 for saying how it leads to biased judgments."
+    },
+    "10": {
+      "points": [
+        "Surveillance through face-recognition technology: cameras in public spaces can identify and track individuals.",
+        "Mass collection of personal data: large amounts of online behaviour data are collected and analysed."
+      ],
+      "marking": "1 mark for naming each issue, 1 for the explanation."
+    },
+    "11": {
+      "points": [
+        "XAI: technology that makes it possible for humans to understand why an AI made a particular judgment.",
+        "If the process is opaque, nobody can verify whether the result is correct — a right answer by chance cannot be told apart from a wrong one, and an unfair decision cannot be found or challenged."
+      ],
+      "marking": "2 marks for the definition; 3 for the explanation, which must mention verification."
+    },
+    "12": {
+      "points": [
+        "The developer, the user and the operator.",
+        "Responsibility is the roles and duties of each party — who does what, and who answers when a judgment is wrong. Accountability is being answerable for the AI's decisions: knowing who can be held to account, according to those roles. Accountability is one of the four principles."
+      ],
+      "marking": "1 mark for the three parties; 3 for a clear difference, not two restated definitions of the same thing."
+    },
+    "13": [
+      "Fairness — not unjustly discriminating against any particular person or group — e.g. a hiring AI evaluating fairly regardless of gender",
+      "Transparency — showing the decision-making process and inner workings clearly — e.g. telling users in plain language how the AI decides",
+      "Privacy protection — handling personal information appropriately — e.g. not using collected data for another purpose",
+      "Accountability — being answerable for the AI's decisions — e.g. someone answers when a diagnostic result is wrong"
+    ],
+    "14": {
+      "marks": 6,
+      "model": "Algorithmic bias arises because an AI learns its patterns from training data. If that data is biased — for example, it contains too little data on certain groups, or it reflects past discrimination — the AI reproduces the same bias in its judgments. Bias can also enter through the way the system is built, such as a proxy variable that stands in for a protected attribute. It can be reduced by checking the training data for missing or unfair patterns and testing the AI's results across different groups, which applies the principle of fairness; and by making the decision-making process visible, for example with explainable AI, which applies the principle of transparency and lets people find and correct unfair decisions.",
+      "points": [
+        "Cause: the AI learns from training data (1)",
+        "Biased or insufficient data is reproduced in its judgments, with an example (1)",
+        "A second source: past discrimination in data, or proxy variable / variable choice (1)",
+        "Reduction through fairness: check data, test results across groups (1)",
+        "Reduction through transparency: show the decision process / XAI (1)",
+        "Links the measures back to the cause, so the answer is an analysis, not a list (1)"
+      ],
+      "marking": "Six points, one mark each. A list of the four principles with no link to bias earns no more than 2."
+    },
+    "15": {
+      "marks": 4,
+      "open": true,
+      "points": [
+        "Most likely cause: the training data reflected past bias — e.g. past hiring decisions that favoured one gender, or too little data on the other (2)",
+        "One measure, justified by a principle: check the data and test results for each gender (fairness), or make the reasons visible (transparency), or name who answers for the system (accountability) (2)"
+      ],
+      "marking": "Accept any reasonable measure that is tied to a named principle."
+    },
+    "16": {
+      "marks": 4,
+      "open": true,
+      "points": [
+        "Benefit: attendance recorded automatically and quickly; saves teachers' time (1)",
+        "Privacy concern: students' faces are personal data; they can be tracked, or the data used for another purpose (1)",
+        "Responsibility: either answer can earn the marks, if reasoned — the school chose and operates it; the company built it and chose its data (2)"
+      ],
+      "marking": "The book allows more than one view on responsibility; mark the reasoning, not the side chosen."
+    },
+    "17": {
+      "marks": 4,
+      "open": true,
+      "points": [
+        "A real, sourced case — not recalled from memory without a source (1)",
+        "The group affected (1)",
+        "The data that might have caused it, linked to biased or insufficient training data (2)"
+      ]
+    },
+    "18": {
+      "marks": 3,
+      "open": true,
+      "points": [
+        "Names one use (1)",
+        "A concrete rule (1)",
+        "Justified by a named principle of AI ethics (1)"
+      ]
+    },
+    "19": [
+      "(1) B — a qubit uses superposition to be a mixture of 0 and 1 at the same time",
+      "(2) A classical bit holds one state, 0 or 1. A qubit uses superposition, so it can be 0 and 1 at the same time; this is what lets quantum computers speed up computations that are difficult for traditional computers."
+    ],
+    "20": [
+      "(1) B — autonomous driving",
+      "(2) Edge computing processes the data on the vehicle itself, immediately, instead of sending it to the cloud. Even a 0.1-second delay could cause an accident, so deciding on board makes the vehicle faster to react and therefore safer."
+    ],
+    "21": [
+      "(1) A — hidden layers",
+      "(2) Connected layers of units (artificial neurons) — an input layer, hidden layers and an output layer — whose connection weights change during training."
+    ],
+    "22": [
+      "(1) B — a voice assistant",
+      "(2) AI recognises the voice, understands the command and carries it out. Examples: Siri, Google Assistant."
+    ],
+    "23": [
+      "(1) B — predicting harvest timing and detecting pests and diseases",
+      "(2) AI analyses data and images from the fields to predict when to harvest and to detect pests and crop diseases early."
+    ],
+    "24": [
+      "(1) B — it is unclear how the AI reached its judgment; option C is a different caution, copyright",
+      "(2) Black box: it is unclear how the AI reached its judgment, so its result is hard to verify. Rights issues: using copyrighted works as training data raises the question of whether the owners' rights are respected."
+    ]
   }
 }

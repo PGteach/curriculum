@@ -57,6 +57,13 @@ HW_SECTIONS = [
     ("Part 3 &middot; Apply it",
      "الجزء التالت — طبّق",
      [[14], [15, 16]]),
+    # Unit 1 ideas the lectures teach but no earlier homework or quiz
+    # practised -- found by checking every concept in the ministry's
+    # assessment book -- set here because this is the homework done right
+    # before the unit exam. Every item is a ministry assessment question.
+    ("Part 4 &middot; Unit 1 review",
+     "الجزء الرابع — مراجعة الوحدة الأولى",
+     [[19, 20], [21, 22], [23, 24]]),
     ("Challenge &middot; optional",
      "تحدي — اختياري",
      [[17, 18]]),
@@ -428,9 +435,23 @@ def answer_html(n):
 
 KEY_PAGES = [
     ('class', IN_CLASS),
-    ('hw', [5, 6, 7]), ('hw', [8, 9, 10]), ('hw', [11, 12, 13]),
-    ('hw', [14]), ('hw', [15, 16]), ('hw', [17, 18]),
+    # in HOMEWORK order, so the key reads 1, 2, 3 ... exactly as the
+    # student's sheet does; check_key_order() below enforces it
+    ('hw', [5, 7, 8]), ('hw', [9, 10, 11]), ('hw', [12, 6, 13]),
+    ('hw', [14]), ('hw', [15, 16]),
+    ('hw', [19, 20, 21]), ('hw', [22, 23, 24]),
+    ('hw', [17, 18]),
 ]
+
+
+def check_key_order():
+    """The key must list homework in the order the student's sheet numbers
+    it. Regrouping the homework once left exercise 6 -- numbered 8 on the
+    sheet -- between 1 and 2 in the key, and nothing noticed."""
+    hw = [n for kind, nums in KEY_PAGES if kind == 'hw' for n in nums]
+    assert hw == HOMEWORK, "answer key out of homework order: %s vs %s" % (hw, HOMEWORK)
+    cls = [n for kind, nums in KEY_PAGES if kind == 'class' for n in nums]
+    assert cls == IN_CLASS, "answer key out of class-work order"
 
 
 def teacher_warn():
@@ -438,6 +459,7 @@ def teacher_warn():
 
 
 def key(head, tail):
+    check_key_order()
     pages, seen = [], set()
     for kind, nums in KEY_PAGES:
         b = []

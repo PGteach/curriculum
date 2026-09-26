@@ -38,7 +38,7 @@ scripts/build_lecture3_quiz.py    the quiz (then run protect_answers.py 3)
 lecture4/slides/index.html    30 slides, lesson 1-4 Ethical Issues with AI; exam code covered
 lecture4/quiz/index.html      24 questions, 4 options each: 18 on lesson 1-4, 6 Unit 1 review
 lecture4/handout/index.html   10-page booklet, same sections in the same order as the deck
-lecture4/homework/index.html  9-page take-home sheet, 14 exercises in 4 parts
+lecture4/homework/index.html  12-page take-home sheet, 20 exercises; Part 4 is a Unit 1 review
 lecture4/_teacher/            answer key + UNIT 1 EXAM paper + its marking scheme (unpublished)
 scripts/build_lecture4.py         booklet, homework, answer key, unit exam, exam key
 scripts/build_lecture4_slides.py  the deck, from scripts/lecture4_slides_base.html
@@ -439,6 +439,18 @@ letter runs three times in a row, both sections go easy to hard, and every
 essay has one marking point per mark. Writing space is roughly three to four
 lines per mark -- the first render gave a 3-mark answer four lines and left
 the pages half blank, which no gate caught.
+
+## Unit 1 coverage against the ministry's assessments
+
+Every concept the ministry's assessment book asks about for Unit 1 (56, lessons
+1-1 to 1-4) was checked against the decks and booklets. Two were missing and are
+now taught: **hidden layers** (not in the English book, but examined -- lecture 3's
+neural-network slide) and **copyright of training data** (on the book's list of
+cautions, dropped from lecture 3). Six were taught but never practised --
+superposition, the car's sensors, hidden layers, voice assistants, agriculture,
+copyright -- and are Part 4 of lecture 4's homework, one ministry MCQ and one
+ministry short answer each. The answer key's order is checked against the
+homework by `check_key_order()`: it once numbered 1, 8, 2 after a regroup.
 
 ## scripts/ is not published -- it was serving the quiz answers
 
