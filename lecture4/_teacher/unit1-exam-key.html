@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 4 Handout — Can we trust it? · PGteach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}
+.dg{margin:3mm 0 4mm}.dg svg{display:block;width:100%;height:auto}
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}
+.principles .pr{border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:1.5mm;padding:2.5mm 3.5mm;background:#FCFCFA}
+.principles .pr h4{font-size:10.5pt;margin-bottom:1mm}.principles .pr p{font-size:9.5pt;margin:0}
+/* ---------- exam paper ---------- */
+.examcover{border:1.5px solid var(--ink);border-radius:2mm;padding:3.5mm 4.5mm;margin:0 0 5mm}
+.examcover .facts{display:flex;gap:6mm;font-size:10pt;font-weight:600;margin-bottom:2mm}
+.examcover ul{margin:0 0 0 4.5mm;font-size:9.5pt}.examcover li{margin-bottom:.8mm}
+.examsec{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid var(--ink);padding-bottom:1mm;margin:0 0 3mm}
+.examsec h2{margin:0}.examsec .tot{font-size:10pt;font-weight:600}
+.lvl{font-size:9pt;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:.05em;margin:3.5mm 0 2mm}
+.lvl .ar{display:inline;margin-left:2mm;text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)}
+.mq{margin:0 0 3.2mm;break-inside:avoid}
+.mq .qline{display:flex;gap:2.5mm;font-size:10pt;font-weight:600;line-height:1.4}
+.mq .qn{flex:0 0 7mm}
+.mq .opts{display:grid;grid-template-columns:1fr 1fr;gap:.8mm 5mm;margin:1.4mm 0 0 9.5mm;font-size:9.5pt;line-height:1.35}
+.mq .opts.long{grid-template-columns:1fr}
+.mq .opts b{display:inline-block;width:5mm}
+.eq{margin:0 0 4mm;break-inside:avoid}
+.eq .qline{display:flex;gap:2.5mm;font-size:10.5pt;font-weight:600;line-height:1.4}
+.eq .qn{flex:0 0 7mm}.eq .mk{flex:0 0 auto;margin-left:auto;font-size:9pt;color:var(--gold);white-space:nowrap}
+.eq .rule{margin-left:9.5mm}
+.answergrid{width:100%;border-collapse:collapse;margin:2mm 0 4mm}
+.answergrid td,.answergrid th{border:1px solid var(--line);padding:.9mm 1.8mm;font-size:8.8pt;line-height:1.3;text-align:left}
+.answergrid td.let{font-weight:700;color:var(--teal);text-align:center;width:9mm}
+</style>
+</head>
+<body>
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand">Programming &amp; Artificial Intelligence &middot; Grade 11</div><h1>Unit 1 Exam &mdash; Marking scheme</h1><div class="docsub">Information Technology and Society &middot; Lessons 1-1 to 1-4 &middot; 40 marks</div><div class="teacherwarn">Teacher copy &mdash; do not hand this to students.</div><div class="keygroup">Section A &mdash; answers (1 mark each)</div><table class="answergrid"><tr><th style="width:8mm">Q</th><th>Ans</th><th>Correct option</th><th style="width:34%">Source</th></tr><tr><td>1</td><td class="let">B</td><td>Moore&#x27;s Law</td><td>1-1 — p.5 — Moore&#x27;s Law</td></tr><tr><td>2</td><td class="let">D</td><td>Remote work</td><td>1-1 — p.9 — Try 1(3)</td></tr><tr><td>3</td><td class="let">A</td><td>Generative AI</td><td>1-2 — p.14 — Generative AI</td></tr><tr><td>4</td><td class="let">C</td><td>A neural network</td><td>1-2 — p.14 — Neural network</td></tr><tr><td>5</td><td class="let">D</td><td>A recommendation system</td><td>1-3 — p.20 — Recommendation systems</td></tr><tr><td>6</td><td class="let">B</td><td>Algorithmic bias</td><td>1-4 — p.27 — Algorithmic bias</td></tr><tr><td>7</td><td class="let">A</td><td>Accountability</td><td>1-4 — p.28 — basic principles</td></tr><tr><td>8</td><td class="let">C</td><td>Birth of the computer → Commercialization of the Internet → Rise of smartphones → Spread of cloud computing</td><td>1-1 — p.8 — Worked Example (1)</td></tr><tr><td>9</td><td class="let">A</td><td>Data is processed on the vehicle itself, so decisions are made instantly</td><td>1-1 — p.7 — Autonomous driving; ministry assessment, lesson 1</td></tr><tr><td>10</td><td class="let">D</td><td>It is an advanced technology within machine learning that uses neural networks and large-scale data</td><td>1-2 — p.15 — Worked Example (1) B</td></tr><tr><td>11</td><td class="let">B</td><td>Detecting pests and diseases</td><td>1-3 — p.21 — AI in industry</td></tr><tr><td>12</td><td class="let">C</td><td>Final decision-making that bears responsibility for the result</td><td>1-3 — p.21 — characteristics of AI; p.24 Exercise 2(1)</td></tr><tr><td>13</td><td class="let">D</td><td>The processing speed of the computer is slow</td><td>1-4 — p.30 — Try 2(1)</td></tr><tr><td>14</td><td class="let">A</td><td>Transparency</td><td>1-4 — p.32 — Exercise 3(1) b</td></tr><tr><td>15</td><td class="let">C</td><td>Cashless payment and SNS</td><td>1-1 — p.7 — social changes</td></tr><tr><td>16</td><td class="let">B</td><td>Naming the disease classifies; writing the plan generates new data</td><td>1-2 — p.14 — machine learning and generative AI</td></tr><tr><td>17</td><td class="let">D</td><td>Final decisions need someone responsible, and it can be unclear how the AI reached its judgment</td><td>1-3 — p.21 — Think It Through</td></tr><tr><td>18</td><td class="let">A</td><td>Another variable it uses stands in for gender — a proxy variable</td><td>1-4 — p.27 — main causes of bias</td></tr><tr><td>19</td><td class="let">C</td><td>Transparency and accountability</td><td>1-4 — p.29 — Pause &amp; Think</td></tr><tr><td>20</td><td class="let">B</td><td>It raises a privacy issue that has to be balanced against safety and convenience</td><td>1-4 — p.28 — Think It Through</td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="keygroup">Section B &mdash; marking scheme</div><div class="ex"><div class="exhead"><span class="exn">21</span><span class="exq">Define algorithmic bias, and give one example from the lesson.</span></div><div class="src">1-4 — p.27</div><div class="key"><div class="marks">[2 marks]</div><p><b>Model answer.</b> Algorithmic bias is bias in AI judgments caused by bias in the training data. Example: a hiring AI that unfairly evaluates a particular gender, or a face-recognition AI that is more likely to misidentify particular ethnic groups.</p><p><b>Award a mark for each:</b></p><ul><li>Correct definition, linked to training data (1)</li><li>One of the book&#x27;s two examples (1)</li></ul></div></div><div class="ex"><div class="exhead"><span class="exn">22</span><span class="exq">What is meant by Moore&#x27;s Law? Is it a fixed law of physics? Explain your answer.</span></div><div class="src">1-1 — p.5; p.8 Worked Example (2) A-B; ministry assessment, lesson 1</div><div class="key"><div class="marks">[3 marks]</div><p><b>Model answer.</b> Moore&#x27;s Law is the observation that the number of transistors on an integrated circuit doubles approximately every two years. It is not a fixed law of physics: it is an empirical observation of what has happened, and in recent years it has been said to be approaching a physical limit.</p><p><b>Award a mark for each:</b></p><ul><li>Transistors on an integrated circuit double (1)</li><li>Approximately every two years (1)</li><li>Not a law of physics — an empirical observation, said to be nearing a physical limit (1)</li></ul></div></div><div class="ex"><div class="exhead"><span class="exn">23</span><span class="exq">Compare AR (augmented reality) and VR (virtual reality) in terms of what each one is and how it works.</span></div><div class="src">1-1 — p.8 Worked Example (3); ministry assessment, lesson 1</div><div class="key"><div class="marks">[3 marks]</div><p><b>Model answer.</b> AR overlays digital information on real-world images, so the user still sees the real world with a digital layer added on top. VR immerses the user in a virtual space generated by a computer, replacing the real world with that space.</p><p><b>Award a mark for each:</b></p><ul><li>AR overlays digital information on real-world images (1)</li><li>VR immerses the user in a computer-generated virtual space (1)</li><li>The contrast: AR adds to the real world; VR replaces it (1)</li></ul></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ex"><div class="exhead"><span class="exn">24</span><span class="exq">Spam filters and product recommendations are both examples of machine learning, but they do different tasks. Explain what they have in common, and why neither of them is generative AI.</span></div><div class="src">1-2 — p.13 Think It Through; p.16 Try 2(2)</div><div class="key"><div class="marks">[3 marks]</div><p><b>Model answer.</b> Both learn patterns from data and use those patterns to make predictions and judgments — that is what makes them machine learning. Neither is generative AI because neither produces new data: a spam filter sorts existing email, and a recommendation predicts an interest, whereas generative AI generates new text, images or audio.</p><p><b>Award a mark for each:</b></p><ul><li>Both learn patterns from data (1)</li><li>Both use them to make predictions or judgments (1)</li><li>Neither generates new data — they classify or predict (1)</li></ul></div></div><div class="ex"><div class="exhead"><span class="exn">25</span><span class="exq">A hospital wants to use image-diagnosis AI to detect diseases from X-ray images. Explain why the final diagnosis should be confirmed by a human doctor, referring to the black-box problem and to responsibility.</span></div><div class="src">1-3 / 1-4 — p.21 Think It Through; p.28 XAI and responsibility</div><div class="key"><div class="marks">[3 marks]</div><p><b>Model answer.</b> The AI&#x27;s decision-making process can be opaque — the black-box problem — so it is difficult to verify whether its result is correct. A wrong diagnosis can harm a patient, and final decision-making needs someone who is responsible for the result, which the AI cannot be. So a doctor should confirm it.</p><p><b>Award a mark for each:</b></p><ul><li>Black box: how the AI decided is unclear, so the result is hard to verify (1)</li><li>A wrong result can harm the patient (1)</li><li>Final decisions need a responsible human; the AI cannot be answerable (1)</li></ul></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ex"><div class="exhead"><span class="exn">26</span><span class="exq">Analyze why AI is well suited to some tasks but requires caution in others. In your answer, refer to what AI is good at (finding patterns, recognition, prediction) and to what needs caution (ethical judgments, privacy, final decision-making).</span></div><div class="src">1-3 / 1-4 — p.22 — Exam-style question [6]; p.27–28</div><div class="key"><div class="marks">[6 marks]</div><p><b>Model answer.</b> AI is well suited to tasks built on patterns in data: it can find and classify patterns in complex data such as images and text, recognise and generate images, audio and text, and make probabilistic predictions based on data — for example a recommendation system or image-diagnosis AI. It requires caution where those strengths stop being enough. Ethical judgments can lead to discrimination or prejudice, especially when the training data is biased, so they should not be left entirely to AI. Judgments involving personal information raise privacy issues. And final decision-making needs someone who is responsible for the result, while the AI&#x27;s reasoning may be a black box. So AI is a powerful tool for pattern-based tasks, but human judgment is still needed for ethics, privacy and responsibility.</p><p><b>Award a mark for each:</b></p><ul><li>What AI is good at — patterns, recognition/generation, prediction — at least two (1)</li><li>Why: these tasks are based on patterns in data, with an example (1)</li><li>Ethical judgments: risk of discrimination or prejudice, linked to biased training data (1)</li><li>Privacy: judgments involving personal information (1)</li><li>Final decision-making: responsibility, and/or the black-box problem (1)</li><li>A conclusion that weighs the two sides — a tool for patterns, with human judgment kept for ethics, privacy and responsibility (1)</li></ul><p class="note"><b>Marking.</b> Six points, one mark each. A plain list of strengths and cautions with no reasoning earns no more than 3.</p></div></div><div class="summary"><p><b>Total: 40 marks.</b> Section A 20, Section B 20. Accept any wording that carries the point; the book&#8217;s words are not required, the idea is.</p><p class="ar">اقبل أي صياغة فيها الفكرة؛ مش لازم كلام الكتاب بالحرف.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 4;
+const LECTURE_TITLE = "Can we trust it?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#A63D5B";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
+  applyAccent();
+  document.title = LECTURE.label + " Handout — " + LECTURE.title + " · PGteach";
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+})();
+</script>
+</body>
+</html>

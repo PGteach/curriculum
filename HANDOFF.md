@@ -1,6 +1,6 @@
 # Handoff — state of this repo
 
-Last updated: 2026-09-25. Written so a new session (or another machine) can pick
+Last updated: 2026-09-26. Written so a new session (or another machine) can pick
 this up with no prior context. Read this first, then [README.md](README.md) for
 how the pages actually work.
 
@@ -34,6 +34,16 @@ lecture3/_teacher/            15-page answer key + exercises.json (unpublished)
 scripts/build_lecture3.py         booklet, homework, answer key
 scripts/build_lecture3_slides.py  the deck, from scripts/lecture3_slides_base.html
 scripts/build_lecture3_quiz.py    the quiz (then run protect_answers.py 3)
+
+lecture4/slides/index.html    30 slides, lesson 1-4 Ethical Issues with AI; exam code covered
+lecture4/quiz/index.html      24 questions, 4 options each: 18 on lesson 1-4, 6 Unit 1 review
+lecture4/handout/index.html   10-page booklet, same sections in the same order as the deck
+lecture4/homework/index.html  9-page take-home sheet, 14 exercises in 4 parts
+lecture4/_teacher/            answer key + UNIT 1 EXAM paper + its marking scheme (unpublished)
+scripts/build_lecture4.py         booklet, homework, answer key, unit exam, exam key
+scripts/build_lecture4_slides.py  the deck, from scripts/lecture4_slides_base.html
+scripts/build_lecture4_quiz.py    the quiz (then run protect_answers.py 4)
+_config.yml                   excludes scripts/ from the published site -- see below
 
 dashboard/index.html          teacher dashboard (generated) with exam-code switch
 scripts/build_dashboard.py    regenerates it from the lecture folders
@@ -393,6 +403,44 @@ Bugs caught here, all fixed: `short` exercises printed no question (no branch
 in `exercise()`); five answers attached to the wrong question; two exercises
 that were the same task; the template's demo pages leaking in (QR sheet found
 from the wrong `<section>`). None of those are visible to the checker.
+
+## Lecture 4, and the Unit 1 exam
+
+Lecture 4 is lesson 1-4, Ethical Issues with AI (pp. 26-32), accent `#A63D5B`,
+and it closes Unit 1. **Curriculum only** -- the teacher's instruction: no
+foundations or extras. Two ideas the English book gives one line each get a
+slide, because the ministry's assessment book asks about them directly:
+responsibility against accountability, and the proxy variable.
+
+**The booklet follows the deck section by section, in the same order** --
+also the teacher's instruction. `booklet()` in `build_lecture4.py` carries the
+slide numbers each page covers in its comments; keep them in step. Only the
+title, the part dividers and the exam QR have no page.
+
+**The Unit 1 exam is printed, not online** -- the teacher's choice, because
+essay answers cannot be marked automatically. `lecture4/_teacher/unit1-exam.html`
+is the paper (6 pages) and `unit1-exam-key.html` the marking scheme (4 pages);
+content in `unit1-exam.json`. Shape copied from the ministry's weekly
+assessments: four-option MCQ plus essay. 20 MCQ in three labelled levels
+(Remember 7, Understand 7, Apply and analyse 6), then 6 essays rising 2-3-3-3-3-6
+marks; 40 marks, 60 minutes, every lesson 1-1 to 1-4 at every level. The last
+essay is the book's own [6] exam-style question from lesson 1-3. A paper
+cannot shuffle, so each MCQ's correct letter is set by hand in `pos`;
+`check_exam()` fails the build unless the letters are exactly five each, no
+letter runs three times in a row, both sections go easy to hard, and every
+essay has one marking point per mark. Writing space is roughly three to four
+lines per mark -- the first render gave a 3-mark answer four lines and left
+the pages half blank, which no gate caught.
+
+## scripts/ is not published -- it was serving the quiz answers
+
+Until 2026-09-26 `/curriculum/scripts/build_lecture3_quiz.py` returned 200,
+and that file holds every lecture 3 question with its answer and explanation
+in plain text (it must: fingerprinting happens after). The page's answer
+fingerprinting protected nothing. `_config.yml` now excludes `scripts/`;
+verified 404 live, with the site otherwise unchanged. Anything secret must
+live in a `_teacher/` folder or in `scripts/`, never anywhere else, and never
+add `.nojekyll`.
 
 ## The dashboard
 

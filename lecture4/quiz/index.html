@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 4 Quiz — Can we trust it? · PGteach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16233F;
+    --ink-soft:#5B6472;
+    --teal:#0E7C7B;
+    --gold:#C9963B;
+    --paper:#FAFAF7;
+    --line:#E2E5E9;
+    --wrong:#9C3B2E;
+    --wrong-bg:#FDF3F2;
+    --green:#2A854E;
+    --green-bg:#EFF6F5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{
+    font-family:"Inter","Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+    padding:22px 18px 56px;
+    max-width:620px;
+    margin:0 auto;
+  }
+
+  header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:22px}
+  .kicker{font-size:13px;color:var(--teal);font-weight:600;letter-spacing:.2px}
+  h1{font-family:"Fraunces",Georgia,serif;font-size:25px;line-height:1.2;margin-top:4px;font-weight:600;letter-spacing:-.01em}
+  .byline{font-size:13px;color:var(--ink-soft);margin-top:6px}
+
+  /* progress */
+  .bar{height:5px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:8px}
+  .bar > i{display:block;height:100%;width:0;background:var(--teal);transition:width .28s ease}
+  .count{font-size:13px;color:var(--ink-soft);margin-bottom:20px}
+
+  .section-tag{
+    display:inline-block;font-size:12px;font-weight:600;color:var(--gold);
+    border:1px solid var(--gold);border-radius:99px;padding:2px 10px;margin-bottom:12px;
+  }
+  .q{font-size:19px;font-weight:600;line-height:1.4;margin-bottom:18px}
+
+  .opt{
+    display:block;width:100%;text-align:left;font:inherit;font-size:16px;
+    background:#fff;border:1.5px solid var(--line);border-radius:9px;
+    padding:13px 15px;margin-bottom:10px;cursor:pointer;color:var(--ink);
+    transition:border-color .15s,background .15s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--teal)}
+  .opt:focus-visible{outline:2.5px solid var(--teal);outline-offset:2px}
+  .opt:disabled{cursor:default}
+  .opt.correct{border-color:var(--teal);background:var(--green-bg);font-weight:600}
+  .opt.chosen-wrong{border-color:var(--wrong);background:var(--wrong-bg)}
+
+  .verdict{font-size:15px;margin:14px 0 4px;font-weight:600}
+  .verdict.ok{color:var(--teal)}
+  .verdict.no{color:var(--wrong)}
+
+  .next{
+    font:inherit;font-size:16px;font-weight:600;margin-top:16px;
+    background:var(--ink);color:#fff;border:0;border-radius:9px;
+    padding:13px 26px;cursor:pointer;width:100%;
+  }
+  .next:focus-visible{outline:2.5px solid var(--gold);outline-offset:2px}
+  .hide{display:none}
+
+  /* results */
+  .score{
+    text-align:center;border:2px solid var(--ink);border-radius:12px;
+    padding:22px 16px;margin-bottom:26px;
+  }
+  .score b{display:block;font-size:52px;line-height:1;font-weight:700}
+  .score span{font-size:14px;color:var(--ink-soft)}
+
+  h2{font-family:"Fraunces",Georgia,serif;font-size:19px;margin-bottom:14px;font-weight:600}
+  .ar{font-family:"IBM Plex Sans Arabic","Inter",sans-serif;direction:rtl;unicode-bidi:isolate;font-weight:400}
+  .backlink{display:inline-block;margin-top:18px;font-size:14px;color:var(--teal);font-weight:600}
+  .row{margin-bottom:16px}
+  .row .top{display:flex;justify-content:space-between;font-size:14px;margin-bottom:5px;gap:10px}
+  .row .top b{font-weight:600}
+  .track{height:9px;background:var(--line);border-radius:99px;overflow:hidden}
+  .track > i{display:block;height:100%;border-radius:99px}
+
+  .advice{border-left:3px solid var(--gold);padding:10px 0 10px 14px;margin-top:22px;font-size:15px}
+
+  /* review block */
+  .review-wrap{margin-top:28px}
+  .review-card{
+    background:var(--wrong-bg);border:1px solid #F5C6CB;border-left:4px solid var(--wrong);
+    border-radius:8px;padding:14px;margin-bottom:12px;font-size:14px;
+  }
+  .review-card h4{font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+  .review-card .ans{margin:3px 0;font-size:13.5px}
+  .review-card .w-val{color:var(--wrong);font-weight:600}
+  .review-card .c-val{color:var(--green);font-weight:600}
+  .review-card .why-txt{margin-top:6px;color:var(--ink-soft);font-size:13px;font-style:italic}
+  /* Hard words are glossed BEFORE the options, because a word the student
+     cannot read stops them answering at all — help that arrives with the
+     explanation arrives too late. This block carries vocabulary only; the
+     reasoning stays in .why-ar, after the answer. */
+  .gloss{
+    border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:0 8px 8px 0;background:#FCFBF7;
+    padding:9px 12px;margin:0 0 16px;
+  }
+  .gloss-h{
+    font-size:12px;font-weight:600;color:var(--ink-soft);
+    margin-bottom:5px;text-align:left;
+  }
+  .gloss-list{display:flex;flex-wrap:wrap;gap:3px 18px}
+  .gl{font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+  .gl b{font-weight:600;color:var(--ink)}
+  .gl .eq{margin:0 5px;color:#B9BEC6}
+
+  /* The question stays in the exam's own English. The explanation is
+     where teaching happens, so it may also come in Arabic. */
+  .why-ar{
+    display:block;margin-top:7px;font-weight:400;font-size:14px;
+    color:var(--ink-soft);border-right:2px solid var(--line);padding-right:8px;
+  }
+  .review-card .why-ar{font-size:13px;font-style:normal;margin-top:5px}
+
+  /* intake */
+  .field{margin-bottom:15px}
+  .field label{display:block;font-size:14px;font-weight:600;margin-bottom:5px}
+  .field input{
+    width:100%;font:inherit;font-size:16px;padding:12px 14px;
+    border:1.5px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);
+  }
+  .field input:focus{outline:2.5px solid var(--teal);outline-offset:1px;border-color:var(--teal)}
+  .field .hint{font-size:12.5px;color:var(--ink-soft);margin-top:4px}
+  /* not .opt — that is the answer-button class, and a badge inheriting
+     its display:block and width:100% stretches across the form */
+  .field .tag{
+    display:inline-block;font-weight:400;font-size:12px;color:var(--ink-soft);
+    border:1px solid var(--line);border-radius:99px;padding:1px 7px;margin-left:6px;
+  }
+  .err{color:var(--wrong);font-size:13.5px;margin-bottom:12px;font-weight:600}
+  .whoami{font-size:13px;color:var(--ink-soft);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+
+  .restart{
+    font:inherit;font-size:15px;margin-top:26px;background:none;
+    border:1.5px solid var(--ink);border-radius:9px;padding:11px 22px;
+    cursor:pointer;color:var(--ink);width:100%;font-weight:600;
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---------- left-the-page veil ---------- */
+.awayveil{display:none}
+.awayveil.on{
+  display:flex; position:fixed; inset:0; z-index:60;
+  align-items:center; justify-content:center; padding:24px;
+  background:rgba(22,35,63,.97); color:#fff; cursor:pointer;
+}
+.awayveil b{display:block; font-size:clamp(19px,3vw,27px); margin-bottom:.5rem}
+.awayveil p{font-size:clamp(13px,1.6vw,16px); color:#C6CCD9; max-width:44ch; margin:0 auto .3rem}
+.awayveil > div{text-align:center}
+
+.awaynote{font-size:clamp(12px,1.35vw,14.5px); color:var(--soft); margin:0 0 .9rem; max-width:52ch}
+.awaynote .ar{display:block; margin-top:.25rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker" id="kicker">Programming &amp; AI</div>
+  <h1>Check what you understood</h1>
+  <div class="byline" id="byline">Mr. Eissa Islam</div>
+</header>
+
+<p class="count" id="introNote">Enter your details first, then the quiz begins.</p>
+
+<main id="intake">
+  <div class="field">
+    <label for="sName">Full name</label>
+    <input id="sName" type="text" autocomplete="name" placeholder="Write your name as it appears in class">
+  </div>
+  <div class="field">
+    <label for="sClass">Class / group</label>
+    <input id="sClass" type="text" autocomplete="off" placeholder="e.g. Sunday 5pm, or Group B">
+    <div class="hint">So your teacher knows which class this result belongs to.</div>
+  </div>
+  <div class="field">
+    <label for="sPhone">Phone number <span class="tag">optional</span></label>
+    <input id="sPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="01xxxxxxxxx">
+    <div class="hint">Only needed if your teacher asks for it. You can leave it empty.</div>
+  </div>
+  <div class="field">
+    <label for="sDate">Date</label>
+    <input id="sDate" type="date">
+  </div>
+  <div class="err hide" id="intakeErr"></div>
+  <p class="awaynote">Once you start, leaving this page is recorded and sent with your answers.<span class="ar">أول ما تبدأ، أي خروج من الصفحة بيتسجّل وبيتبعت مع إجاباتك.</span></p>
+  <button type="button" class="next" id="start">Start the quiz</button>
+</main>
+
+<main id="quiz" class="hide">
+  <div class="whoami" id="whoami"></div>
+  <div class="bar"><i id="prog"></i></div>
+  <div class="count" id="count"></div>
+  <div class="section-tag" id="tag"></div>
+  <div class="q" id="question"></div>
+  <div class="gloss hide" id="gloss"></div>
+  <div id="options"></div>
+  <div class="verdict hide" id="verdict"></div>
+  <button type="button" class="next hide" id="next"></button>
+</main>
+
+<main id="results" class="hide">
+  <div class="whoami" id="whoamiResult"></div>
+  <div class="score">
+    <b id="finalScore">0/0</b>
+    <span id="finalLabel"></span>
+  </div>
+
+  <h2>Where you stand, section by section</h2>
+  <div id="breakdown"></div>
+  <div class="advice" id="advice"></div>
+
+  <div id="reviewSection" class="hide review-wrap">
+    <h2>Questions to review <span class="ar">(الأخطاء التي تحتاج مراجعة)</span></h2>
+    <div id="wrongList"></div>
+  </div>
+
+  <div class="advice hide" id="sendState"></div>
+  <button type="button" class="restart" id="restart">Take it again</button>
+  <a class="backlink" href="../slides/">← Back to the slides</a>
+</main>
+
+
+<div class="awayveil" id="awayVeil">
+  <div>
+    <b>You left the exam</b>
+    <p>That has been noted and is sent with your answers. Tap to carry on.</p>
+    <p class="ar">خروجك من الامتحان اتسجّل وهيتبعت مع إجاباتك. اضغط عشان تكمّل.</p>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   Everything else on the page derives from it.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 4;
+const LECTURE_TITLE = "Can we trust it?";
+
+const LECTURE = {
+  num:       LECTURE_NUM,
+  label:     "Lecture " + LECTURE_NUM,
+  title:     LECTURE_TITLE,
+  slidesUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/slides",
+  quizUrl:   SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+/* Google Apps Script Web App endpoint that records submissions.
+   Set to "" to disable sending; the quiz still works without it. */
+const RESULTS_URL = "https://script.google.com/macros/s/AKfycbxfgPaAaOTuOhyyaRI4fWLclsYF1VsDXpkDQoURb_yUIsG35Lmf2wgg0IJ7Zff_BnHn/exec";
+
+/* Section names shown on the progress breakdown, in order.
+   A question's `s` field is an index into this list. */
+const SECTIONS = [
+  "Unit 1 review",
+  "Algorithmic bias",
+  "Privacy",
+  "Explainable AI and responsibility",
+  "The four principles of AI ethics"
+];
+
+/* One object per question:
+     s   section index (into SECTIONS above)
+     q   the question text
+     o   the options, in display order
+     a   index of the correct option in `o`
+     why the explanation shown after answering, and in the review list
+     v   OPTIONAL word help: [["english term","العربي"], ...]
+     ar  OPTIONAL Arabic explanation, shown with `why` after answering
+   The question total, the progress bar and the per-section tracks are all
+   derived from this array — nothing else needs updating when you add one.
+
+   ON `v` AND `ar` — the two of them are not interchangeable.
+
+   Keep the question in the exam's own English. That is the English the
+   students will sit, and the ministry textbook uses it, so rewriting it
+   into easier words trains them for a paper that does not exist.
+
+   `v` fixes the real problem instead: it translates the hard WORDS, and it
+   shows above the options, before the student answers. Help that arrives
+   after the answer is not help. Rules, both enforced by check_lecture.py:
+     - every term must appear in `q` or one of `o` — no glossing wording
+       the student cannot see;
+     - if you translate the correct option in full, translate every option,
+       or the right answer becomes the only readable one;
+     - at most six terms, or the block pushes the options off a phone.
+
+   `ar` is for reasoning — "the right order is computer, then internet" —
+   and it renders only once the answer is locked in. Never put reasoning
+   in `v`; that is an answer key printed above the options. */
+const QUESTIONS = [
+  {s:1,d:1,q:"What is algorithmic bias?",o:["Bias in AI judgments caused by bias in the training data","Technology that lets humans understand why an AI made a judgment","The question of who answers when an AI judgment is wrong","The appropriate handling and protection of personal data"],k:"1lne1zsv52w",why:"Algorithmic bias comes from biased training data. The other three are XAI, responsibility and privacy — all from this lesson, which is why they are here.",src:"p.27 — Algorithmic bias"},
+  {s:1,d:1,q:"Which of these is the book's example of algorithmic bias?",o:["A face-recognition AI more likely to misidentify particular ethnic groups","A spam filter that sorts email into separate folders","An AI that is slow to process a very large image","A translation app that needs an Internet connection"],k:"hnx887shux",why:"The book's two examples are a hiring AI that unfairly evaluates a particular gender, and a face-recognition AI that misidentifies particular ethnic groups.",src:"p.27 — Algorithmic bias e.g."},
+  {s:2,d:1,q:"Which is a privacy issue associated with AI?",o:["Individuals are identified and tracked through face-recognition technology","AI creates creative works such as images","AI computation speed improves every year","AI translates text into another language"],k:"1ftlirk04p6",why:"Surveillance through face recognition is one of the two privacy issues in the lesson; mass collection of online behaviour data is the other.",src:"p.30 — Try 2(2)"},
+  {s:3,d:1,q:"What does explainable AI (XAI) make possible?",o:["Humans understanding why an AI made a particular judgment","An AI making its decisions faster","An AI generating new text and images","An AI working without any training data"],k:"2spcpi5e5f",why:"XAI is about understanding the reasoning. Generating new data is generative AI, from lesson 1-2.",src:"p.28 — Explainable AI (XAI)"},
+  {s:3,d:1,q:"When it is unclear how an AI reached its judgment, this is called:",o:["The black-box problem","Algorithmic bias","A hallucination","A proxy variable"],k:"vw5x6x4acm",why:"An opaque decision process is the black box. A hallucination is fluent content that differs from the facts — a different caution.",src:"p.28 — black box; p.21 key terms"},
+  {s:4,d:1,q:"Which principle of AI ethics requires not unjustly discriminating against any particular person or group?",o:["Fairness","Transparency","Privacy protection","Accountability"],k:"20bqrid4ch9",why:"That is fairness. Learn all four definitions exactly — the exam matches them.",src:"p.28 — basic principles; p.30 Try 1(3)",v:[["unjustly","بشكل ظالم"],["discriminating","يميّز ضد"]]},
+  {s:0,d:1,q:"Which lists the stages of IT development in the correct chronological order?",o:["Birth of the computer → Commercialization of the Internet → Rise of smartphones → Spread of cloud computing","Birth of the computer → Rise of smartphones → Commercialization of the Internet → Spread of cloud computing","Commercialization of the Internet → Birth of the computer → Spread of cloud computing → Rise of smartphones","Rise of smartphones → Commercialization of the Internet → Birth of the computer → Spread of cloud computing"],k:"xh50ilbppj",why:"1940s-60s computer, 1990s Internet, 2000s smartphones, 2010s cloud.",src:"Lesson 1-1, p.8 — Worked Example (1)",v:[["chronological order","الترتيب الزمني — الأقدم الأول"],["Commercialization","التحوّل لخدمة تجارية بتتباع"]]},
+  {s:0,d:1,q:"Which puts these in the right order, broadest first?",o:["AI > Machine learning > Deep learning > Generative AI","AI > Deep learning > Machine learning > Generative AI","Machine learning > AI > Generative AI > Deep learning","Generative AI > Deep learning > Machine learning > AI"],k:"1j6ysq2pgnm",why:"They are nested: each is inside the one before it.",src:"Lesson 1-2, p.16 — Try 2(1)"},
+  {s:1,d:2,q:"Which of these is NOT an appropriate cause of algorithmic bias?",o:["The processing speed of the computer is slow","Training data is biased","Past discriminatory tendencies are reflected in the data","There is insufficient data on certain attributes"],k:"12eii8neyjc",why:"Bias comes from the data or the way the system is built — never from how fast it runs.",src:"p.30 — Try 2(1)",v:[["discriminatory tendencies","ميول للتمييز"],["insufficient","مش كفاية"],["attributes","سمات / صفات"]]},
+  {s:1,d:2,q:"A face-recognition AI was trained mostly on photos of one group. What will it most likely do?",o:["Be accurate for that group and misidentify others more often","Be equally accurate for every group","Refuse to recognise anyone outside that group","Become slower for every group"],k:"26hy5x14t7y",why:"It learns the pattern in the data it was given. Too little data on a group is one of the book's main causes of bias.",src:"p.27 — main causes of bias"},
+  {s:2,d:2,q:"A shopping site collects and analyses large amounts of what you click, search and buy. Which issue does this raise?",o:["Privacy — mass collection of personal data","Algorithmic bias — biased training data","The black-box problem — an opaque decision process","Hallucination — content that differs from the facts"],k:"oxvnx6532p",why:"Collecting and analysing large amounts of online behaviour data is the lesson's second privacy issue.",src:"p.28 — Privacy issues (2)"},
+  {s:3,d:2,q:"\"Even if an AI's decision-making process is opaque, there is no problem as long as the result is correct.\" Is this true?",o:["False — when the process is opaque, it is difficult to verify whether the result is correct","True — only the result of an AI matters","False — an opaque AI is always wrong","True — explainable AI is only needed for slow systems"],k:"oixtd5vx6n",why:"The point is verification: you cannot check a result you cannot see the reasons for. It is not that opaque AI is always wrong.",src:"p.29 — Worked Example (1) B",v:[["opaque","مقفول / مش واضح"]]},
+  {s:3,d:2,q:"Has it been clearly decided who is responsible when an AI makes an incorrect judgment?",o:["No — views differ depending on whether one is the developer, the user or the operator","Yes — it is always the developer who built it","Yes — it is always the user who acted on it","Yes — the AI itself is held responsible"],k:"1muk55r7ysu",why:"No clear standard has been established yet. Each option that says 'always' is the trap.",src:"p.29 — Worked Example (1) D"},
+  {s:4,d:2,q:"A company explains to users, in an easy-to-understand way, how its AI reaches decisions. Which principle is this?",o:["Transparency","Fairness","Privacy protection","Accountability"],k:"223gq8xyuae",why:"Showing the decision-making process clearly is transparency.",src:"p.32 — Exercise 3(1) b"},
+  {s:4,d:2,q:"A company promises never to use the personal data it collects for any purpose other than the original one. Which principle is this?",o:["Privacy protection","Transparency","Fairness","Accountability"],k:"1daou6z3eii",why:"Handling personal information appropriately is privacy protection.",src:"p.32 — Exercise 3(1) c"},
+  {s:0,d:2,q:"Which is NOT an appropriate description of an emerging technology?",o:["VR is a technology that dramatically improves the processing speed of a computer","Autonomous driving uses AI to drive a vehicle without human operation","AR is a technology that overlays digital information on real-world images","Quantum computing is expected to speed up computations that are difficult for traditional computers"],k:"139r9fb2swv",why:"Speed describes quantum computing. VR immerses the user in a virtual space.",src:"Lesson 1-1, p.9 — Try 2(2)",v:[["appropriate","مناسب / صحيح"],["emerging technology","تكنولوجيا ناشئة — جديدة وبتنتشر"],["dramatically","بشكل كبير جدًا"],["overlays","بيحُطّ فوق — يضيف طبقة"]]},
+  {s:0,d:2,q:"Which is NOT an example of generative AI?",o:["A spam filter","ChatGPT","Image generation AI","Audio generation AI"],k:"8pb7pazj2d",why:"A spam filter classifies email; it does not generate anything new.",src:"Lesson 1-2, p.16 — Try 2(2)"},
+  {s:0,d:2,q:"In manufacturing, what is the system that predicts product failures in advance?",o:["Predictive maintenance","Automation of quality inspection","Image-diagnosis AI","Optimisation of delivery routes"],k:"1pqu3hrp6d8",why:"Predictive maintenance. Quality inspection is the book's other manufacturing example; the last two belong to healthcare and logistics.",src:"Lesson 1-3, p.22 — Try 1(4)"},
+  {s:1,d:3,q:"A hiring AI is never given applicants' gender, yet it still rates one gender lower. What best explains this?",o:["Another variable it uses stands in for gender — a proxy variable","The black-box problem makes it rate some applicants lower","It had too little processing power for some applicants","It was not trained on any data at all"],k:"bq4yzvabca",why:"A proxy variable indirectly stands in for a protected attribute, so removing gender from the data is not enough. The black box hides the reason; it is not the cause.",src:"p.27 — main causes of bias (proxy variable)"},
+  {s:1,d:3,q:"A hiring AI was trained on ten years of a company's past hiring decisions, and now favours one gender. Where did the bias most likely come from?",o:["Past discriminatory tendencies reflected in the training data","The AI generating new data, as generative AI does","The black-box problem in the AI's design","A privacy issue in the way the data was stored"],k:"1nv2vx2uz8g",why:"If past decisions were unfair, the data carries that unfairness, and the AI learns it. That is one of the book's two data causes.",src:"p.27 — main causes of bias",v:[["discriminatory tendencies","ميول للتمييز"]]},
+  {s:2,d:3,q:"Face-recognition cameras at a station make entry safer and faster, but they can track every passenger. Which principle is most directly at stake?",o:["Privacy protection","Transparency","Fairness","Accountability"],k:"1daou6z3eii",why:"Tracking individuals in a public space is the surveillance issue, which is privacy. Safety and convenience are the benefits it has to be balanced against.",src:"p.28 — Think It Through",v:[["at stake","في خطر / على المحك"]]},
+  {s:3,d:3,q:"Which statement correctly separates responsibility from accountability?",o:["Responsibility is each party's roles and duties; accountability is being answerable for decisions according to those roles","Responsibility is showing the decision process clearly; accountability is protecting personal data","Accountability is explaining why an AI decided; responsibility is avoiding bias in the data","They mean exactly the same thing"],k:"q2e7a158hz",why:"Responsibility sets out who does what; accountability is who can be held to account. Options two and three borrow the definitions of the other principles.",src:"p.28 responsibility & accountability; ministry assessment, lesson 4",v:[["answerable","يتحاسب / مسؤول قدام حد"]]},
+  {s:4,d:3,q:"No one can explain why an AI rejected a job application, and no one will answer for the decision. Which TWO principles are missing?",o:["Transparency and accountability","Fairness and privacy protection","Privacy protection and transparency","Fairness and accountability"],k:"1wmdqpk6fou",why:"'No one can explain' is transparency; 'no one will answer' is accountability. Each clause of the question points to one principle.",src:"p.29 — Pause & Think"},
+  {s:0,d:3,q:"Which of these should NOT be left entirely to AI?",o:["Ethical judgments","Finding and classifying patterns in images and text","Probabilistic reasoning and prediction based on data","Recognising images and audio"],k:"17jb553fcm1",why:"Ethical judgments can lead to discrimination or prejudice. The other three are exactly what the book lists AI as good at.",src:"Lesson 1-3, p.22 — Worked Example (2) C"}
+];
+
+/* ---- answer keys ------------------------------------------------------
+   The right option is stored as a fingerprint, not as an index, so opening
+   the page source does not hand a student the answers. scripts/
+   protect_answers.py converts `a: 1` into `k: "..."` before publishing.
+
+   Honest about what this is: it stops the answers being READ. It does not
+   stop them being COMPUTED — the function is right here, so one line in the
+   console still returns them. For a class that has not learned programming
+   yet that is a real barrier; for anyone who codes it is none.
+
+   If an option's text is edited and its fingerprint is not, nothing matches
+   and every answer would count as wrong. check_lecture.py fails on that and
+   CI runs on every push, so it cannot reach students.
+   --------------------------------------------------------------------- */
+const ANSWER_SALT = 1741;
+
+function fingerprint(s){                     /* cyrb53 */
+  let h1 = 0xdeadbeef ^ ANSWER_SALT, h2 = 0x41c6ce57 ^ ANSWER_SALT;
+  for(let i = 0; i < s.length; i++){
+    const c = s.charCodeAt(i);
+    h1 = Math.imul(h1 ^ c, 2654435761);
+    h2 = Math.imul(h2 ^ c, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+}
+
+/* index of the right option: by fingerprint if converted, by a: if not */
+function ansOf(q){
+  if(q._a === undefined){
+    q._a = (q.k === undefined) ? q.a
+         : q.o.findIndex(function(o){ return fingerprint(o) === q.k; });
+  }
+  return q._a;
+}
+
+const state = {
+  i: 0,
+  /* attempt integrity — see the block near the bottom of this script */
+  startedAt: 0,
+  awayCount: 0,
+  awayMs: 0,
+  awaySince: 0,
+  answered: false,
+  correct: [],
+  total: [],
+  name: "",
+  klass: "",
+  phone: "",
+  date: "",
+  wrongQuestions: [],
+  order: [],         // displayed position -> index in the question's o[]
+  qOrder: []         // step number -> index in QUESTIONS
+};
+
+/* Fisher-Yates. Two things are shuffled, both to stop copying:
+     - the options, on every render, so the correct answer is not always
+       in the same slot (a student could otherwise always pick the second)
+     - the question order, once per attempt, so two students sitting
+       together are not on the same question at the same time
+   q.a stays the source of truth; only the display order changes. */
+function shuffle(a){
+  for(let k = a.length - 1; k > 0; k--){
+    const j = Math.floor(Math.random() * (k + 1));
+    [a[k], a[j]] = [a[j], a[k]];
+  }
+  return a;
+}
+
+/* the question being shown at the current step */
+function currentQ(){
+  return QUESTIONS[state.qOrder[state.i]];
+}
+
+/* Questions carry d: 1 easy, 2 medium, 3 hard. The paper walks up through the
+   bands so a student meets the recall questions before the reasoning ones, but
+   the order INSIDE a band is still shuffled -- two students sitting together
+   are not on the same question, which is the point of shuffling at all. */
+function bandedOrder(){
+  const bands = {};
+  QUESTIONS.forEach((q, k) => {
+    const d = (q.d === 1 || q.d === 2 || q.d === 3) ? q.d : 2;
+    (bands[d] = bands[d] || []).push(k);
+  });
+  return [1, 2, 3].reduce((all, d) => all.concat(shuffle(bands[d] || [])), []);
+}
+
+function newAttempt(){
+  state.i = 0;
+  state.startedAt = Date.now();
+  state.awayCount = 0;
+  state.awayMs = 0;
+  state.awaySince = 0;
+  state.wrongQuestions = [];
+  state.qOrder = bandedOrder();
+  SECTIONS.forEach((_, k) => { state.correct[k] = 0; });
+}
+
+SECTIONS.forEach((_, k) => { state.correct[k] = 0; state.total[k] = 0; });
+QUESTIONS.forEach(q => state.total[q.s]++);
+
+const $ = id => document.getElementById(id);
+
+// stamp lecture identity from the config block
+(function(){
+  document.title = LECTURE.label + " Quiz \u2014 " + LECTURE.title;
+  $("kicker").textContent = LECTURE.label + " \u2014 " + LECTURE.title;
+  $("byline").textContent =
+    QUESTIONS.length + " questions \u00b7 about " + minutesEstimate() + " minutes \u00b7 Mr. Eissa Islam";
+})();
+
+// prefill today's date
+(function(){
+  const d = new Date();
+  const iso = d.getFullYear() + "-" +
+    String(d.getMonth()+1).padStart(2,"0") + "-" +
+    String(d.getDate()).padStart(2,"0");
+  $("sDate").value = iso;
+})();
+
+$("start").onclick = () => {
+  const name  = $("sName").value.trim();
+  const klass = $("sClass").value.trim();
+  const phone = $("sPhone").value.trim();
+  const date  = $("sDate").value;
+  const err   = $("intakeErr");
+
+  /* A first name alone can't be matched to a register, so ask for at least
+     two words. The class is what actually identifies which group a result
+     belongs to, so it is required. The phone is optional — a student who
+     does not want to give it should not be blocked — but if one is typed it
+     still has to look like a phone number, or it is a typo worth catching. */
+  const words  = name.split(/\s+/).filter(w => w.length >= 2);
+  const digits = phone.replace(/\D/g,"");
+  let problem = "";
+  if(words.length < 2)               problem = "Please write your full name — first and last name.";
+  else if(klass.length < 2)          problem = "Please write your class or group.";
+  else if(digits.length && digits.length < 8)  problem = "That phone number looks too short. Leave it empty if you would rather not give it.";
+  else if(digits.length > 15)        problem = "That phone number is too long.";
+  else if(!date)                     problem = "Please choose the date.";
+
+  if(problem){
+    err.textContent = problem;
+    err.className = "err";
+    return;
+  }
+
+  state.name = name; state.klass = klass;
+  state.phone = phone; state.date = date;
+  const line = [name, klass, phone, date].filter(Boolean).join(" · ");
+  $("whoami").textContent = line;
+  $("whoamiResult").textContent = line;
+
+  $("intake").className = "hide";
+  $("introNote").className = "hide";
+  $("quiz").className = "";
+  newAttempt();
+  render();
+};
+
+/* The byline's time estimate, derived so it cannot go stale: a written-in
+   figure was still promising five minutes on a twenty-question quiz, and a
+   student who budgets five for fifteen gives up half way.
+
+   45 seconds a question -- read it, read the word help, answer, read the
+   explanation -- rounded up to the nearest 5 minutes so it reads as an
+   estimate and not a promise.
+
+   Deliberately holds no module-level const. The byline is set by an IIFE
+   further up this script, and a `const` declared down here hoists without
+   initialising, so reading one from above throws a ReferenceError and
+   blanks the header. A function declaration hoists completely. */
+function minutesEstimate(){
+  const mins = QUESTIONS.length * 45 / 60;
+  return Math.max(5, Math.ceil(mins / 5) * 5);
+}
+
+function render(){
+  const q = currentQ();
+  state.answered = false;
+
+  $("prog").style.width = (state.i / QUESTIONS.length * 100) + "%";
+  $("count").textContent = "Question " + (state.i+1) + " of " + QUESTIONS.length;
+  $("tag").textContent = SECTIONS[q.s];
+  $("question").textContent = q.q;
+  glossary(q);
+
+  state.order = shuffle(q.o.map((_, k) => k));
+
+  const box = $("options");
+  box.innerHTML = "";
+  state.order.forEach(orig => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "opt";
+    b.textContent = q.o[orig];
+    /* pass the original index, so q.a stays the source of truth */
+    b.onclick = () => choose(orig);
+    box.appendChild(b);
+  });
+
+  $("verdict").className = "verdict hide";
+  $("next").className = "next hide";
+}
+
+/* Vocabulary help, shown with the question and before the options.
+   Rule: q.v explains WORDS, never the answer. Anything that reasons towards
+   the right option belongs in q.ar, which only appears once the student has
+   committed. check_lecture.py refuses a glossed term that is not visible in
+   the question or an option, which keeps the two apart. */
+function glossary(q){
+  const box = $("gloss");
+  box.textContent = "";
+  if(!q.v || !q.v.length){ box.className = "gloss hide"; return; }
+  box.className = "gloss";
+  box.appendChild(el("div", "gloss-h ar", "معاني الكلمات"));
+  const list = el("div", "gloss-list", "");
+  q.v.forEach(function(pair){
+    const item = el("span", "gl", "");
+    item.appendChild(el("b", "", pair[0]));
+    /* each direction isolated, or a trailing bracket jumps sides */
+    item.appendChild(el("bdi", "eq", "="));
+    item.appendChild(el("bdi", "ar", pair[1]));
+    list.appendChild(item);
+  });
+  box.appendChild(list);
+}
+
+function choose(idx){
+  if(state.answered) return;
+  state.answered = true;
+
+  const q = currentQ();
+  const buttons = document.querySelectorAll(".opt");
+  buttons.forEach((b,pos) => {
+    b.disabled = true;
+    const orig = state.order[pos];      // buttons are in shuffled order
+    if(orig === ansOf(q)) b.classList.add("correct");
+    else if(orig === idx) b.classList.add("chosen-wrong");
+  });
+
+  const right = idx === ansOf(q);
+  if(right) {
+    state.correct[q.s]++;
+  } else {
+    state.wrongQuestions.push({
+      question: q.q,
+      selected: q.o[idx],
+      correct: q.o[ansOf(q)],
+      why: q.why,
+      ar: q.ar || ""
+    });
+  }
+
+  const v = $("verdict");
+  v.className = "verdict " + (right ? "ok" : "no");
+  v.textContent = "";
+  v.appendChild(document.createTextNode(
+    (right ? "Correct. " : "Not quite. ") + q.why));
+  /* The question is worded as the exam words it. The explanation may add
+     Arabic, because that is where the student is actually learning. */
+  if(q.ar){
+    const line = document.createElement("span");
+    line.className = "ar why-ar";
+    line.textContent = q.ar;
+    v.appendChild(line);
+  }
+
+  const n = $("next");
+  n.className = "next";
+  n.textContent = state.i === QUESTIONS.length - 1 ? "See my results" : "Next question";
+  n.focus();
+}
+
+$("next").onclick = () => {
+  if(state.i === QUESTIONS.length - 1) finish();
+  else { state.i++; render(); }
+};
+
+/* small DOM helpers — keep review cards free of innerHTML interpolation */
+function el(tag, cls, text){
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  n.textContent = text;
+  return n;
+}
+function ansLine(icon, label, value, cls){
+  const row = document.createElement("div");
+  row.className = "ans";
+  row.appendChild(document.createTextNode(icon + " "));
+  row.appendChild(el("b", "", label));
+  row.appendChild(document.createTextNode(" "));
+  row.appendChild(el("span", cls, value));
+  return row;
+}
+
+function finish(){
+  const got = state.correct.reduce((a,b)=>a+b,0);
+  $("quiz").className = "hide";
+  $("results").className = "";
+
+  $("finalScore").textContent = got + "/" + QUESTIONS.length;
+  $("finalLabel").textContent =
+    got >= 9 ? "Excellent — you followed the whole session closely." :
+    got >= 7 ? "Good. A couple of spots to review." :
+    got >= 5 ? "Halfway there. Go back over the sections below." :
+               "Worth revisiting the booklet before the next session.";
+
+  const wrap = $("breakdown");
+  wrap.innerHTML = "";
+  const weak = [];
+
+  SECTIONS.forEach((name,k) => {
+    const c = state.correct[k], t = state.total[k];
+    const pct = Math.round(c/t*100);
+    const colour = pct === 100 ? "var(--teal)" : pct >= 50 ? "var(--gold)" : "var(--wrong)";
+    if(pct < 100) weak.push(name);
+
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML =
+      '<div class="top"><b></b><span></span></div>' +
+      '<div class="track"><i style="width:' + pct + '%;background:' + colour + '"></i></div>';
+    row.querySelector("b").textContent = name;
+    row.querySelector("span").textContent = c + " of " + t;
+    wrap.appendChild(row);
+  });
+
+  $("advice").textContent = weak.length === 0
+    ? "Nothing to revise — you got every section right. Bring a question of your own to the next session."
+    : "Focus your review on: " + weak.join(", ") + ". These are the parts of the booklet to read again before the next session.";
+
+  // Render Mistake Review Section
+  const reviewSec = $("reviewSection");
+  const wrongList = $("wrongList");
+  wrongList.innerHTML = "";
+  
+  if (state.wrongQuestions.length > 0) {
+    reviewSec.className = "review-wrap";
+    state.wrongQuestions.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "review-card";
+      card.appendChild(el("h4", "", item.question));
+      card.appendChild(ansLine("\u274c", "Your answer:", item.selected, "w-val"));
+      card.appendChild(ansLine("\u2705", "Correct answer:", item.correct, "c-val"));
+      card.appendChild(el("div", "why-txt", item.why));
+      if(item.ar) card.appendChild(el("div", "ar why-ar", item.ar));
+      wrongList.appendChild(card);
+    });
+  } else {
+    reviewSec.className = "hide";
+  }
+
+  sendResult(got, weak);
+}
+
+/* ============================================================
+   RESULT CARD
+   The result screen is redrawn onto a canvas and sent with the
+   submission, so the teacher gets a picture of what the student saw
+   without the student having to screenshot anything.
+   Plain 2D canvas calls only — no library, and nothing newer than
+   fillRect, so old phone browsers still manage it.
+   ============================================================ */
+const CARD = {
+  w: 900, pad: 48, dpr: 2,
+  ink: "#16233F", soft: "#5B6472", teal: "#0E7C7B",
+  gold: "#C9963B", wrong: "#9C3B2E", paper: "#FAFAF7",
+  line: "#E2E5E9", white: "#ffffff",
+  body: '"Inter","Segoe UI",system-ui,sans-serif',
+  head: '"Fraunces",Georgia,serif'
+};
+
+/* Greedy word wrap. Returns the lines, it does not draw. */
+function wrapText(ctx, text, maxW){
+  const words = String(text).split(/\s+/);
+  const lines = [];
+  let line = "";
+  for(let i = 0; i < words.length; i++){
+    const test = line ? line + " " + words[i] : words[i];
+    if(line && ctx.measureText(test).width > maxW){ lines.push(line); line = words[i]; }
+    else line = test;
+  }
+  if(line) lines.push(line);
+  return lines;
+}
+
+async function resultImage(got){
+  const probe = document.createElement("canvas");
+  if(!probe.getContext) return "";                    // very old browser
+  if(document.fonts && document.fonts.ready){
+    try { await document.fonts.ready; } catch(e){}    // else canvas uses fallbacks
+  }
+
+  const W = CARD.w, PAD = CARD.pad, inner = W - PAD * 2;
+  const tall = document.createElement("canvas");
+  tall.width = W * CARD.dpr;
+  tall.height = 4200 * CARD.dpr;
+  const c = tall.getContext("2d");
+  if(!c) return "";
+  c.scale(CARD.dpr, CARD.dpr);
+  c.textBaseline = "top";
+  c.fillStyle = CARD.paper;
+  c.fillRect(0, 0, W, 4200);
+
+  let y = 0;
+
+  /* ---- navy header strip ---- */
+  c.fillStyle = CARD.ink;
+  c.fillRect(0, 0, W, 108);
+  c.fillStyle = "#ffffff";
+  c.font = "600 30px " + CARD.head;
+  c.fillText("PGteach", PAD, 26);
+  c.fillStyle = CARD.gold;
+  c.font = "600 17px " + CARD.body;
+  const lab = LECTURE.label + " \u00b7 " + LECTURE.title;
+  c.fillText(lab, PAD, 66);
+  y = 108 + 34;
+
+  const write = (text, font, colour, lh, maxW) => {
+    c.font = font; c.fillStyle = colour;
+    const lines = wrapText(c, text, maxW || inner);
+    for(let i = 0; i < lines.length; i++){
+      c.fillText(lines[i], PAD, y);
+      y += lh;
+    }
+  };
+
+  /* ---- who ---- */
+  write(state.name, "600 27px " + CARD.head, CARD.ink, 34);
+  y += 2;
+  write([state.klass, state.phone, state.date].filter(Boolean).join("  \u00b7  "),
+        "400 16px " + CARD.body, CARD.soft, 24);
+  y += 22;
+
+  /* ---- score box ---- */
+  const boxH = 118;
+  c.fillStyle = CARD.white;
+  c.fillRect(PAD, y, inner, boxH);
+  c.fillStyle = CARD.ink;
+  c.fillRect(PAD, y, 6, boxH);
+  c.font = "700 54px " + CARD.head;
+  c.fillText(got + " / " + QUESTIONS.length, PAD + 28, y + 22);
+  c.font = "400 15px " + CARD.body;
+  c.fillStyle = CARD.soft;
+  const pct = Math.round(got / QUESTIONS.length * 100);
+  c.fillText(pct + "% correct", PAD + 28, y + 84);
+  y += boxH + 34;
+
+  /* ---- section breakdown ---- */
+  write("Section breakdown", "600 20px " + CARD.head, CARD.ink, 30);
+  y += 6;
+  for(let k = 0; k < SECTIONS.length; k++){
+    const done = state.correct[k], tot = state.total[k];
+    const p = tot ? Math.round(done / tot * 100) : 0;
+    c.font = "500 16px " + CARD.body;
+    c.fillStyle = CARD.ink;
+    c.fillText(SECTIONS[k], PAD, y);
+    c.fillStyle = CARD.soft;
+    const tally = done + " of " + tot;
+    c.fillText(tally, W - PAD - c.measureText(tally).width, y);
+    y += 24;
+    c.fillStyle = CARD.line;
+    c.fillRect(PAD, y, inner, 9);
+    c.fillStyle = p === 100 ? CARD.teal : p >= 50 ? CARD.gold : CARD.wrong;
+    c.fillRect(PAD, y, inner * p / 100, 9);
+    y += 26;
+  }
+  y += 14;
+
+  /* ---- mistakes ---- */
+  if(state.wrongQuestions.length){
+    write("Questions to review", "600 20px " + CARD.head, CARD.ink, 30);
+    y += 6;
+    for(let i = 0; i < state.wrongQuestions.length; i++){
+      const w = state.wrongQuestions[i];
+      const top = y;
+      y += 16;
+      write((i + 1) + ". " + w.question, "600 16px " + CARD.body, CARD.ink, 23, inner - 40);
+      y += 4;
+      write("chose:  " + w.selected, "400 15px " + CARD.body, CARD.wrong, 22, inner - 40);
+      write("correct:  " + w.correct, "400 15px " + CARD.body, CARD.teal, 22, inner - 40);
+      y += 16;
+      c.fillStyle = CARD.wrong;              // left rule, drawn once the height is known
+      c.fillRect(PAD - 14, top, 4, y - top);
+      y += 12;
+    }
+  } else {
+    write("No mistakes — every section correct.", "400 16px " + CARD.body, CARD.teal, 24);
+    y += 10;
+  }
+
+  /* ---- footer ---- */
+  y += 10;
+  c.fillStyle = CARD.line;
+  c.fillRect(PAD, y, inner, 1);
+  y += 16;
+  write("Submitted " + new Date().toLocaleString(), "400 13px " + CARD.body, CARD.soft, 20);
+  y += PAD;
+
+  /* ---- crop to the height actually used ---- */
+  const out = document.createElement("canvas");
+  out.width = W * CARD.dpr;
+  out.height = Math.round(y) * CARD.dpr;
+  const oc = out.getContext("2d");
+  if(!oc) return "";
+  oc.drawImage(tall, 0, 0);
+
+  const url = out.toDataURL("image/png");
+  const b64 = String(url).split(",")[1] || "";
+  /* Apps Script accepts a large POST, but do not push our luck. */
+  return b64.length > 4000000 ? "" : b64;
+}
+
+/* ============================================================
+   DELIVERY
+
+   Submitting used to be fire-and-forget: mode:"no-cors" meant the browser
+   could not read the reply, so the page said "sent" the moment the request
+   left its hand — true or not. Thirty phones on one classroom network is
+   exactly the moment that lies, and the row never appears.
+
+   Apps Script does return CORS headers, so the reply IS readable. That is the
+   difference between "sent" and "saved", and it is what lets a retry be a
+   decision instead of a guess.
+
+   Four lines of defence:
+     1. POST with the screenshot, and read the reply
+     2. retry on failure, telling the student the truth while it happens
+     3. keep anything still unsent on the phone, and retry on the next visit
+     4. if the page is closing mid-flight, a beacon carries a slim copy
+
+   Every attempt carries the same `id`, and the Apps Script ignores an id it
+   has already stored, so retrying can never make two rows for one student.
+   ============================================================ */
+const QUEUE_KEY = "pgteach:unsent";
+const TRY_AFTER = [0, 5000, 15000];   /* ms before each attempt */
+/* Measured, not guessed. The cheapest possible round trip to Apps Script —
+   a duplicate id, so no row written and no image uploaded — already takes
+   2.0-2.7s. A real submission adds a ~340KB screenshot upload to Drive, and
+   the first one after a deploy also pays for the sheet reformat. At 12s the
+   page was giving up while the server was still working: the row landed and
+   the student was told the connection was slow. */
+const TRY_LIMIT = 30000;              /* abandon a single attempt after this */
+
+let pendingSend = null;               /* in flight, for the pagehide beacon */
+
+function newId(){
+  return "s" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+/* The screenshot is ~340KB — far past what a beacon (64KB) or localStorage
+   should carry. Both fall back to a copy without it: a row with no picture
+   beats no row at all. */
+function slim(p){
+  const c = {};
+  for(const k in p) c[k] = p[k];
+  c.image = "";
+  return c;
+}
+
+function queueRead(){
+  try { return JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]"); }
+  catch(e){ return []; }
+}
+function queueWrite(list){
+  try { localStorage.setItem(QUEUE_KEY, JSON.stringify(list.slice(-5))); }
+  catch(e){}                          /* private mode, quota — never fatal */
+}
+function queueAdd(p){
+  queueWrite(queueRead().filter(x => x.id !== p.id).concat([slim(p)]));
+}
+function queueDrop(id){
+  queueWrite(queueRead().filter(x => x.id !== id));
+}
+
+/* One attempt. Resolves with the parsed reply, throws on anything else. */
+async function postOnce(payload){
+  const ctl = typeof AbortController === "function" ? new AbortController() : null;
+  const timer = setTimeout(function(){ if(ctl) ctl.abort(); }, TRY_LIMIT);
+  try {
+    const res = await fetch(RESULTS_URL, {
+      method: "POST",
+      /* text/plain is CORS-safelisted, so there is no preflight to fail and
+         the reply comes back readable. Do not set application/json here. */
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      signal: ctl ? ctl.signal : undefined
+    });
+    let reply = null;
+    try { reply = JSON.parse(await res.text()); } catch(e){}
+    if(!reply || reply.ok !== true){
+      throw new Error(reply && reply.error ? reply.error : "unreadable reply");
+    }
+    return reply;
+  } finally { clearTimeout(timer); }
+}
+
+function say(box, colour, text){
+  box.className = "advice";
+  box.style.borderLeftColor = "var(--" + colour + ")";
+  box.textContent = text;
+}
+
+/* Tries, retries, and never claims more than it knows. */
+async function deliver(payload, box){
+  queueAdd(payload);                  /* survives a closed tab */
+  pendingSend = payload;
+
+  for(let i = 0; i < TRY_AFTER.length; i++){
+    if(TRY_AFTER[i]) await new Promise(r => setTimeout(r, TRY_AFTER[i]));
+    say(box, "gold", i === 0 ? "Saving your result\u2026"
+                             : "The connection is slow \u2014 trying again\u2026");
+    try {
+      const reply = await postOnce(payload);
+      queueDrop(payload.id);
+      pendingSend = null;
+      say(box, "teal", reply.duplicate
+        ? "Saved. Your teacher already had this one."
+        : "Saved. Your teacher has your result.");
+      return reply;
+    } catch(e){ /* try again, or fall out of the loop */ }
+  }
+
+  say(box, "wrong", "Not saved \u2014 the connection would not hold. "
+    + "Screenshot this page and send it to your teacher. It will also try "
+    + "again by itself the next time you open this page.");
+  return null;
+}
+
+/* Last-ditch: the page is closing while a submission is still in flight.
+   A beacon is delivered by the browser after the page is gone. */
+addEventListener("pagehide", function(){
+  if(!pendingSend || !RESULTS_URL) return;
+  try {
+    if(navigator.sendBeacon){
+      navigator.sendBeacon(RESULTS_URL, new Blob(
+        [JSON.stringify(slim(pendingSend))],
+        { type: "text/plain;charset=utf-8" }));
+    }
+  } catch(e){}
+});
+
+/* Anything left from an earlier visit goes out quietly on load. */
+(function retryUnsent(){
+  if(!RESULTS_URL) return;
+  queueRead().forEach(function(p){
+    postOnce(p).then(function(){ queueDrop(p.id); }).catch(function(){});
+  });
+})();
+
+/* ---- attempt integrity -------------------------------------------------
+   A browser tab cannot block a screenshot, a screen recording, or someone
+   walking away: those happen in the operating system, outside anything this
+   page is allowed to touch. So this does not pretend to prevent cheating. It
+   records the shape of the attempt — how long it took, how often the page was
+   left, how long it was hidden — and sends that with the score, so a teacher
+   comparing two results can see which one was taken in one sitting.
+
+   The overlay is the honest part of the deterrent: leaving is not blocked,
+   but it is obvious, and the student is told before they start. */
+function quizInProgress(){
+  return state.startedAt > 0 && $("quiz").className !== "hide";
+}
+
+function markAway(){
+  if(!quizInProgress() || state.awaySince) return;
+  state.awaySince = Date.now();
+  state.awayCount++;
+  const veil = $("awayVeil");
+  if(veil) veil.className = "awayveil on";
+}
+
+function markBack(){
+  if(state.awaySince){
+    state.awayMs += Date.now() - state.awaySince;
+    state.awaySince = 0;
+  }
+}
+
+function integritySummary(){
+  markBack();
+  if(!state.startedAt) return "";
+  const mins = Math.max(1, Math.round((Date.now() - state.startedAt) / 60000));
+  const away = Math.round(state.awayMs / 1000);
+  return state.awayCount === 0
+    ? ("one sitting, about " + mins + " min")
+    : ("left the page " + state.awayCount + " time(s), " + away
+       + "s away, about " + mins + " min in total");
+}
+
+/* The behavioural harness runs this script against a minimal DOM, so every
+   listener here is attached only if the host actually supports it. */
+if(typeof document.addEventListener === "function"){
+  document.addEventListener("visibilitychange", function(){
+    if(document.hidden) markAway();
+  });
+}
+if(typeof addEventListener === "function") addEventListener("blur", markAway);
+
+/* dismissing the veil is what counts as coming back */
+(function(){
+  const veil = $("awayVeil");
+  if(!veil) return;
+  veil.onclick = function(){
+    markBack();
+    veil.className = "awayveil";
+  };
+})();
+
+if(typeof addEventListener === "function"){
+  addEventListener("beforeunload", function(e){
+    if(!quizInProgress()) return;
+    e.preventDefault();
+    e.returnValue = "";
+    return "";
+  });
+}
+
+async function sendResult(got, weak){
+  const box = $("sendState");
+  if(!RESULTS_URL){ box.className = "hide"; return; }
+
+  box.className = "advice";
+  box.style.borderLeftColor = "var(--gold)";
+  box.textContent = "Sending your result to your teacher…";
+
+  /* A failed drawing must never cost us the submission itself. */
+  let image = "";
+  try { image = await resultImage(got); } catch(e){ image = ""; }
+
+  const payload = {
+    lecture: LECTURE.label,
+    name:   state.name,
+    class:  state.klass,
+    phone:  state.phone,
+    date:   state.date,
+    score:  got,
+    total:  QUESTIONS.length,
+    weak:   weak.join(", ") || "none",
+    sections: SECTIONS.map((s,k)=> s + ": " + state.correct[k] + "/" + state.total[k]).join(" | "),
+    wrongQuestions: state.wrongQuestions,
+    integrity: integritySummary(),
+    image: image        // base64 PNG, or "" if it could not be drawn
+  };
+
+    payload.id = newId();     /* one row per submission, however many attempts */
+    await deliver(payload, box);
+}
+
+$("restart").onclick = () => {
+  newAttempt();                 // reshuffles questions and options
+  $("results").className = "hide";
+  $("quiz").className = "";
+  render();
+};
+</script>
+</body>
+</html>
