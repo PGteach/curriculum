@@ -3,364 +3,169 @@
   "unit": "Information Technology and Society",
   "lessons": "Lessons 1-1 to 1-4",
   "minutes": 60,
-  "note": "Every item is from the textbook (Programming and Artificial Intelligence, Part One, Egyptian Baccalaureate 2nd Year, pp. 4-32) or the ministry's assessment book for Unit 1. MCQ options are written with the correct option FIRST; `pos` is the letter it is printed at, set by hand so the paper carries five of each letter and no pattern. The build moves it there and checks the balance.",
+  "note": "Every item comes from one of two sources and says which in `src`: the textbook's own questions (Programming and Artificial Intelligence, Part One, Egyptian Baccalaureate 2nd Year -- its Try, Worked Example, Exercise and exam-style questions), or the ministry's assessment book for the first term (Ar-EB Assessments 1), translated into the textbook's English. Nothing is invented. MCQ options are written with the correct option FIRST; `pos` is the letter it is printed at, set by hand so the paper carries five of each letter and no letter three times running. The build moves it there and checks the balance and the sources.",
   "levels": [
-    {
-      "name": "Level 1 · Remember",
-      "nameAr": "المستوى الأول — التذكر"
-    },
-    {
-      "name": "Level 2 · Understand",
-      "nameAr": "المستوى التاني — الفهم"
-    },
-    {
-      "name": "Level 3 · Apply and analyse",
-      "nameAr": "المستوى التالت — التطبيق والتحليل"
-    }
+    {"name": "Level 1 · Remember", "nameAr": "المستوى الأول — التذكر"},
+    {"name": "Level 2 · Understand", "nameAr": "المستوى التاني — الفهم"},
+    {"name": "Level 3 · Apply and analyse", "nameAr": "المستوى التالت — التطبيق والتحليل"}
   ],
   "mcq": [
-    {
-      "level": 0,
-      "lesson": "1-1",
-      "pos": "B",
-      "q": "The empirical observation that the number of transistors on an integrated circuit doubles approximately every two years is called:",
-      "o": [
-        "Moore's Law",
-        "Edge computing",
-        "Cloud computing",
-        "Quantum superposition"
-      ],
-      "src": "p.5 — Moore's Law"
-    },
-    {
-      "level": 0,
-      "lesson": "1-1",
-      "pos": "D",
-      "q": "The working style in which one works from home or other remote locations using the Internet is called:",
-      "o": [
-        "Remote work",
-        "Online learning",
-        "E-commerce",
-        "Cashless payment"
-      ],
-      "src": "p.9 — Try 1(3)"
-    },
-    {
-      "level": 0,
-      "lesson": "1-2",
-      "pos": "A",
-      "q": "The AI technology that uses deep learning to generate new data such as text and images is:",
-      "o": [
-        "Generative AI",
-        "Machine learning",
-        "Machine translation",
-        "A recommendation system"
-      ],
-      "src": "p.14 — Generative AI"
-    },
-    {
-      "level": 0,
-      "lesson": "1-2",
-      "pos": "C",
-      "q": "A system modelled after the workings of the nerve cells of the human brain is:",
-      "o": [
-        "A neural network",
-        "A recommendation system",
-        "An integrated circuit",
-        "A voice assistant"
-      ],
-      "src": "p.14 — Neural network"
-    },
-    {
-      "level": 0,
-      "lesson": "1-3",
-      "pos": "D",
-      "q": "A system that predicts preferences from past behaviour data and displays recommendations is:",
-      "o": [
-        "A recommendation system",
-        "A voice assistant",
-        "Machine translation",
-        "Face recognition"
-      ],
-      "src": "p.20 — Recommendation systems"
-    },
-    {
-      "level": 0,
-      "lesson": "1-4",
-      "pos": "B",
-      "q": "Bias in AI judgments caused by bias in the training data is called:",
-      "o": [
-        "Algorithmic bias",
-        "Hallucination",
-        "The black-box problem",
-        "Leakage current"
-      ],
-      "src": "p.27 — Algorithmic bias"
-    },
-    {
-      "level": 0,
-      "lesson": "1-4",
-      "pos": "A",
-      "q": "The principle of AI ethics that means being answerable for the AI's decisions is:",
-      "o": [
-        "Accountability",
-        "Transparency",
-        "Fairness",
-        "Privacy protection"
-      ],
-      "src": "p.28 — basic principles"
-    },
-    {
-      "level": 1,
-      "lesson": "1-1",
-      "pos": "C",
-      "q": "Which lists the stages of IT development in the correct chronological order?",
-      "o": [
-        "Birth of the computer → Commercialization of the Internet → Rise of smartphones → Spread of cloud computing",
-        "Birth of the computer → Rise of smartphones → Commercialization of the Internet → Spread of cloud computing",
-        "Commercialization of the Internet → Birth of the computer → Spread of cloud computing → Rise of smartphones",
-        "Rise of smartphones → Commercialization of the Internet → Birth of the computer → Spread of cloud computing"
-      ],
-      "src": "p.8 — Worked Example (1)"
-    },
-    {
-      "level": 1,
-      "lesson": "1-1",
-      "pos": "A",
-      "q": "Why does autonomous driving use edge computing?",
-      "o": [
-        "Data is processed on the vehicle itself, so decisions are made instantly",
-        "All data is sent to the cloud, which decides faster than the vehicle",
-        "Maps are stored on a remote server so the vehicle needs no memory",
-        "Digital information is overlaid on the driver's view of the road"
-      ],
-      "src": "p.7 — Autonomous driving; ministry assessment, lesson 1"
-    },
-    {
-      "level": 1,
-      "lesson": "1-2",
-      "pos": "D",
-      "q": "Which statement about deep learning is correct?",
-      "o": [
-        "It is an advanced technology within machine learning that uses neural networks and large-scale data",
-        "It is a separate field that replaced machine learning",
-        "It is the broadest term, and AI sits inside it",
-        "It is a kind of generative AI"
-      ],
-      "src": "p.15 — Worked Example (1) B"
-    },
-    {
-      "level": 1,
-      "lesson": "1-3",
-      "pos": "B",
-      "q": "Which is an example of AI used in agriculture?",
-      "o": [
-        "Detecting pests and diseases",
-        "Predictive maintenance",
-        "Optimisation of delivery routes",
-        "Drug-discovery support"
-      ],
-      "src": "p.21 — AI in industry"
-    },
-    {
-      "level": 1,
-      "lesson": "1-3",
-      "pos": "C",
-      "q": "Which of these is NOT something AI is good at?",
-      "o": [
-        "Final decision-making that bears responsibility for the result",
-        "Finding and classifying patterns in images and text",
-        "Recognition and generation of images, audio and text",
-        "Probabilistic reasoning and prediction based on data"
-      ],
-      "src": "p.21 — characteristics of AI; p.24 Exercise 2(1)"
-    },
-    {
-      "level": 1,
-      "lesson": "1-4",
-      "pos": "D",
-      "q": "Which of these is NOT an appropriate cause of algorithmic bias?",
-      "o": [
-        "The processing speed of the computer is slow",
-        "The training data is biased",
-        "Past discriminatory tendencies are reflected in the data",
-        "There is insufficient data on certain attributes"
-      ],
-      "src": "p.30 — Try 2(1)"
-    },
-    {
-      "level": 1,
-      "lesson": "1-4",
-      "pos": "A",
-      "q": "Disclosing an AI's decision-making process to users in an easy-to-understand way relates to which principle?",
-      "o": [
-        "Transparency",
-        "Fairness",
-        "Privacy protection",
-        "Accountability"
-      ],
-      "src": "p.32 — Exercise 3(1) b"
-    },
-    {
-      "level": 2,
-      "lesson": "1-1",
-      "pos": "C",
-      "q": "In a bookshop, a student pays with a QR code on her phone, then shares a photo of the book with her friends online. Which two social changes does this show?",
-      "o": [
-        "Cashless payment and SNS",
-        "E-commerce and online learning",
-        "Remote work and SNS",
-        "E-commerce and cashless payment"
-      ],
-      "src": "p.7 — social changes"
-    },
-    {
-      "level": 2,
-      "lesson": "1-2",
-      "pos": "B",
-      "q": "An app names a crop disease from a photograph, then writes a treatment plan. Which describes the two parts?",
-      "o": [
-        "Naming the disease classifies; writing the plan generates new data",
-        "Naming the disease generates new data; writing the plan classifies",
-        "Both parts classify, like a spam filter",
-        "Both parts generate new data, like ChatGPT"
-      ],
-      "src": "p.14 — machine learning and generative AI"
-    },
-    {
-      "level": 2,
-      "lesson": "1-3",
-      "pos": "D",
-      "q": "A hospital uses image-diagnosis AI to read X-rays. Why should a doctor still confirm the final diagnosis?",
-      "o": [
-        "Final decisions need someone responsible, and it can be unclear how the AI reached its judgment",
-        "Image-diagnosis AI cannot read X-ray images",
-        "A doctor always reads an image faster than an AI",
-        "The AI must be retrained before every patient"
-      ],
-      "src": "p.21 — Think It Through"
-    },
-    {
-      "level": 2,
-      "lesson": "1-4",
-      "pos": "A",
-      "q": "A hiring AI is never given applicants' gender, yet it still rates one gender lower. What best explains this?",
-      "o": [
-        "Another variable it uses stands in for gender — a proxy variable",
-        "The black-box problem makes it rate some applicants lower",
-        "It had too little processing power for some applicants",
-        "Removing gender from the data made the AI generate new data"
-      ],
-      "src": "p.27 — main causes of bias"
-    },
-    {
-      "level": 2,
-      "lesson": "1-4",
-      "pos": "C",
-      "q": "No one can explain why an AI rejected a job application, and no one will answer for the decision. Which TWO principles are missing?",
-      "o": [
-        "Transparency and accountability",
-        "Fairness and privacy protection",
-        "Privacy protection and transparency",
-        "Fairness and accountability"
-      ],
-      "src": "p.29 — Pause & Think"
-    },
-    {
-      "level": 2,
-      "lesson": "1-4",
-      "pos": "B",
-      "q": "Face-recognition cameras in a public square make it safer, but they can identify and track every person. Which statement is most appropriate?",
-      "o": [
-        "It raises a privacy issue that has to be balanced against safety and convenience",
-        "It raises no ethical issue as long as the cameras are accurate",
-        "It is algorithmic bias, because the cameras are in a public place",
-        "It is the black-box problem, because a camera cannot explain itself"
-      ],
-      "src": "p.28 — Think It Through"
-    }
+    {"level": 0, "lesson": "1-1", "pos": "B",
+     "q": "What is the empirical observation that describes the historical trend of the number of transistors on integrated circuits roughly doubling every two years?",
+     "o": ["Moore's Law", "Cloud computing", "Edge computing", "Quantum superposition"],
+     "src": "Ministry assessments, lesson 1-1, class tasks, MCQ 2; Book p.9 Try 1(1)"},
+    {"level": 0, "lesson": "1-1", "pos": "C",
+     "q": "What is the term for the working style in which a person does their work from home or another remote location using the Internet?",
+     "o": ["Remote work", "Online learning", "E-commerce", "Cashless payment"],
+     "src": "Ministry assessments, lesson 1-1, home tasks, MCQ 1; Book p.9 Try 1(3)"},
+    {"level": 0, "lesson": "1-2", "pos": "A",
+     "q": "When generative AI produces text that sounds plausible but is factually incorrect, this is called:",
+     "o": ["A hallucination", "Quantum superposition", "Edge computing", "The black-box problem"],
+     "src": "Ministry assessments, lesson 1-2, weekly model A, MCQ 4; Book p.16 Think It Through"},
+    {"level": 0, "lesson": "1-2", "pos": "D",
+     "q": "A method of machine learning that uses multi-layer neural networks to learn complex patterns, such as in image analysis and speech recognition, is:",
+     "o": ["Deep learning", "Artificial intelligence", "Generative AI", "Traditional programming"],
+     "src": "Ministry assessments, lesson 1-2, weekly model A, MCQ 2"},
+    {"level": 0, "lesson": "1-3", "pos": "C",
+     "q": "Which service automatically translates text into different languages?",
+     "o": ["Machine translation", "A recommendation system", "A voice assistant", "Face recognition"],
+     "src": "Ministry assessments, lesson 1-3, class tasks, MCQ 2"},
+    {"level": 0, "lesson": "1-4", "pos": "B",
+     "q": "The principle of AI ethics that means handling personal information appropriately and protecting it is:",
+     "o": ["Privacy protection", "Fairness", "Transparency", "Accountability"],
+     "src": "Ministry assessments, lesson 1-4, weekly model A, MCQ 3; Book p.30 Try 1(4)"},
+    {"level": 0, "lesson": "1-4", "pos": "A",
+     "q": "The technology that makes it possible for humans to understand why an AI made a particular judgment, and helps with the black-box problem, is:",
+     "o": ["Explainable AI (XAI)", "Edge computing", "Training data", "Algorithmic bias"],
+     "src": "Ministry assessments, lesson 1-4, weekly model A, MCQ 2; Book p.30 Try 1(2)"},
+
+    {"level": 1, "lesson": "1-1", "pos": "D",
+     "q": "Which lists the stages of IT development in the correct chronological order?",
+     "o": ["Birth of the computer → Commercialization of the Internet → Rise of smartphones → Spread of cloud computing",
+           "Birth of the computer → Rise of smartphones → Commercialization of the Internet → Spread of cloud computing",
+           "Commercialization of the Internet → Birth of the computer → Spread of cloud computing → Rise of smartphones",
+           "Rise of smartphones → Commercialization of the Internet → Birth of the computer → Spread of cloud computing"],
+     "src": "Book p.8 Worked Example (1)"},
+    {"level": 1, "lesson": "1-1", "pos": "B",
+     "q": "Which of the following is the precise meaning of AR (augmented reality)?",
+     "o": ["A technology that adds digital elements or information to a scene from the real world",
+           "A technology that places the user inside a virtual environment generated entirely by a computer",
+           "A computing approach that uses the properties of quantum mechanics to process information",
+           "A system for making payments with electronic money and QR codes"],
+     "src": "Ministry assessments, lesson 1-1, class tasks (period 2), MCQ 2; Book p.8 Worked Example (3)"},
+    {"level": 1, "lesson": "1-2", "pos": "C",
+     "q": "Which correctly describes the relationship between AI, machine learning, deep learning and generative AI?",
+     "o": ["AI > Machine learning > Deep learning > Generative AI",
+           "AI > Deep learning > Machine learning > Generative AI",
+           "Machine learning > AI > Generative AI > Deep learning",
+           "Generative AI > Deep learning > Machine learning > AI"],
+     "src": "Book p.16 Try 2(1)"},
+    {"level": 1, "lesson": "1-2", "pos": "A",
+     "q": "Which technology do most modern generative AI systems rely on to create new content?",
+     "o": ["Deep learning models and neural networks",
+           "Rules that are explicitly programmed by hand",
+           "Edge computing and Moore's Law",
+           "Fixed classical bits"],
+     "src": "Ministry assessments, lesson 1-2, class tasks (period 2), MCQ 1"},
+    {"level": 1, "lesson": "1-3", "pos": "D",
+     "q": "Which of the following is the main use of AI in agriculture?",
+     "o": ["Predicting harvest timing and detecting pests and diseases",
+           "Optimising delivery routes",
+           "Automating product quality inspection and predictive maintenance",
+           "Analysing medical images and supporting drug discovery"],
+     "src": "Ministry assessments, lesson 1-3, class tasks (period 2), MCQ 2; Book p.21"},
+    {"level": 1, "lesson": "1-3", "pos": "B",
+     "q": "What is meant by the black-box problem in AI?",
+     "o": ["It is unclear how the AI reached its judgment or decision",
+           "The AI generates incorrect information that seems convincing",
+           "Copyrighted works are used as training data",
+           "The training data is insufficient or does not represent reality"],
+     "src": "Ministry assessments, lesson 1-3, home tasks (period 2), MCQ 2; Book p.21 key terms"},
+    {"level": 1, "lesson": "1-4", "pos": "C",
+     "q": "Which of the following is NOT an appropriate cause of algorithmic bias?",
+     "o": ["The processing speed of the computer is slow",
+           "The training data is biased",
+           "Past discriminatory tendencies are reflected in the data",
+           "There is insufficient data on certain attributes"],
+     "src": "Book p.30 Try 2(1); Ministry assessments, lesson 1-4, class tasks, MCQ 1"},
+
+    {"level": 2, "lesson": "1-1", "pos": "D",
+     "q": "Which of the following is NOT an appropriate description of an emerging technology?",
+     "o": ["VR is a technology that dramatically improves the processing speed of a computer",
+           "Autonomous driving uses AI to drive a vehicle without human operation",
+           "AR is a technology that overlays digital information on real-world images",
+           "Quantum computing is expected to speed up computations that are difficult for traditional computers"],
+     "src": "Book p.9 Try 2(2)"},
+    {"level": 2, "lesson": "1-2", "pos": "A",
+     "q": "Which of the following is NOT an appropriate example of generative AI?",
+     "o": ["A spam filter", "ChatGPT", "Image generation AI", "Audio generation AI"],
+     "src": "Book p.16 Try 2(2); Ministry assessments, lesson 1-2, home tasks (period 2), MCQ 1"},
+    {"level": 2, "lesson": "1-3", "pos": "C",
+     "q": "Which of the following statements is NOT correct?",
+     "o": ["It is fine to leave ethical judgments entirely to AI",
+           "AI is good at probabilistic reasoning and prediction based on data",
+           "AI is good at recognising images and audio",
+           "AI judgments can become inaccurate when training data is biased"],
+     "src": "Book p.22 Worked Example (2)"},
+    {"level": 2, "lesson": "1-3", "pos": "D",
+     "q": "Which of the following is NOT an appropriate description of services that use AI?",
+     "o": ["Machine translation is a system in which humans manually translate foreign languages",
+           "A recommendation system predicts preferences from past behaviour data and displays recommendations",
+           "A voice assistant recognises a voice, understands commands and executes them",
+           "Face recognition automatically detects and identifies human faces in photographs"],
+     "src": "Book p.24 Exercise 2(2)"},
+    {"level": 2, "lesson": "1-4", "pos": "B",
+     "q": "What is the basic difference between responsibility and accountability, as explained in the lesson?",
+     "o": ["Responsibility sets out the roles and duties of each party; accountability identifies who can be held to account according to those roles",
+           "Responsibility means showing the decision process; accountability means processing speed",
+           "Accountability is the technology that explains the AI's logic; responsibility is collecting data",
+           "There is no difference; the two terms mean exactly the same"],
+     "src": "Ministry assessments, lesson 1-4, class tasks (period 2), MCQ 2"},
+    {"level": 2, "lesson": "1-4", "pos": "A",
+     "q": "Which of the following statements is correct?",
+     "o": ["Explainable AI (XAI) is a technology that makes it possible for humans to understand the AI's reasoning",
+           "Even if an AI's decision-making process is opaque, there is no problem as long as the result is correct",
+           "When an AI makes an incorrect judgment, who is responsible has already been clearly determined",
+           "Algorithmic bias is caused by the AI's processing speed"],
+     "src": "Book p.29 Worked Example (1); Book p.32 Exercise 3(2)"}
   ],
   "essay": [
-    {
-      "marks": 2,
-      "lesson": "1-4",
-      "lines": 7,
-      "q": "Define algorithmic bias, and give one example from the lesson.",
-      "model": "Algorithmic bias is bias in AI judgments caused by bias in the training data. Example: a hiring AI that unfairly evaluates a particular gender, or a face-recognition AI that is more likely to misidentify particular ethnic groups.",
-      "points": [
-        "Correct definition, linked to training data (1)",
-        "One of the book's two examples (1)"
-      ],
-      "src": "p.27"
-    },
-    {
-      "marks": 3,
-      "lesson": "1-1",
-      "lines": 10,
-      "q": "What is meant by Moore's Law? Is it a fixed law of physics? Explain your answer.",
-      "model": "Moore's Law is the observation that the number of transistors on an integrated circuit doubles approximately every two years. It is not a fixed law of physics: it is an empirical observation of what has happened, and in recent years it has been said to be approaching a physical limit.",
-      "points": [
-        "Transistors on an integrated circuit double (1)",
-        "Approximately every two years (1)",
-        "Not a law of physics — an empirical observation, said to be nearing a physical limit (1)"
-      ],
-      "src": "p.5; p.8 Worked Example (2) A-B; ministry assessment, lesson 1"
-    },
-    {
-      "marks": 3,
-      "lesson": "1-1",
-      "lines": 10,
-      "q": "Compare AR (augmented reality) and VR (virtual reality) in terms of what each one is and how it works.",
-      "model": "AR overlays digital information on real-world images, so the user still sees the real world with a digital layer added on top. VR immerses the user in a virtual space generated by a computer, replacing the real world with that space.",
-      "points": [
-        "AR overlays digital information on real-world images (1)",
-        "VR immerses the user in a computer-generated virtual space (1)",
-        "The contrast: AR adds to the real world; VR replaces it (1)"
-      ],
-      "src": "p.8 Worked Example (3); ministry assessment, lesson 1"
-    },
-    {
-      "marks": 3,
-      "lesson": "1-2",
-      "lines": 12,
-      "q": "Spam filters and product recommendations are both examples of machine learning, but they do different tasks. Explain what they have in common, and why neither of them is generative AI.",
-      "model": "Both learn patterns from data and use those patterns to make predictions and judgments — that is what makes them machine learning. Neither is generative AI because neither produces new data: a spam filter sorts existing email, and a recommendation predicts an interest, whereas generative AI generates new text, images or audio.",
-      "points": [
-        "Both learn patterns from data (1)",
-        "Both use them to make predictions or judgments (1)",
-        "Neither generates new data — they classify or predict (1)"
-      ],
-      "src": "p.13 Think It Through; p.16 Try 2(2)"
-    },
-    {
-      "marks": 3,
-      "lesson": "1-3 / 1-4",
-      "lines": 12,
-      "q": "A hospital wants to use image-diagnosis AI to detect diseases from X-ray images. Explain why the final diagnosis should be confirmed by a human doctor, referring to the black-box problem and to responsibility.",
-      "model": "The AI's decision-making process can be opaque — the black-box problem — so it is difficult to verify whether its result is correct. A wrong diagnosis can harm a patient, and final decision-making needs someone who is responsible for the result, which the AI cannot be. So a doctor should confirm it.",
-      "points": [
-        "Black box: how the AI decided is unclear, so the result is hard to verify (1)",
-        "A wrong result can harm the patient (1)",
-        "Final decisions need a responsible human; the AI cannot be answerable (1)"
-      ],
-      "src": "p.21 Think It Through; p.28 XAI and responsibility"
-    },
-    {
-      "marks": 6,
-      "lesson": "1-3 / 1-4",
-      "lines": 24,
-      "q": "Analyze why AI is well suited to some tasks but requires caution in others. In your answer, refer to what AI is good at (finding patterns, recognition, prediction) and to what needs caution (ethical judgments, privacy, final decision-making).",
-      "model": "AI is well suited to tasks built on patterns in data: it can find and classify patterns in complex data such as images and text, recognise and generate images, audio and text, and make probabilistic predictions based on data — for example a recommendation system or image-diagnosis AI. It requires caution where those strengths stop being enough. Ethical judgments can lead to discrimination or prejudice, especially when the training data is biased, so they should not be left entirely to AI. Judgments involving personal information raise privacy issues. And final decision-making needs someone who is responsible for the result, while the AI's reasoning may be a black box. So AI is a powerful tool for pattern-based tasks, but human judgment is still needed for ethics, privacy and responsibility.",
-      "points": [
-        "What AI is good at — patterns, recognition/generation, prediction — at least two (1)",
-        "Why: these tasks are based on patterns in data, with an example (1)",
-        "Ethical judgments: risk of discrimination or prejudice, linked to biased training data (1)",
-        "Privacy: judgments involving personal information (1)",
-        "Final decision-making: responsibility, and/or the black-box problem (1)",
-        "A conclusion that weighs the two sides — a tool for patterns, with human judgment kept for ethics, privacy and responsibility (1)"
-      ],
-      "marking": "Six points, one mark each. A plain list of strengths and cautions with no reasoning earns no more than 3.",
-      "src": "p.22 — Exam-style question [6]; p.27–28"
-    }
+    {"marks": 2, "lesson": "1-4", "lines": 7,
+     "q": "What is meant by algorithmic bias in AI systems? Give one example of it.",
+     "model": "Algorithmic bias is bias in AI judgments caused by bias in the training data. Example: a hiring AI that unfairly evaluates a particular gender, or a face-recognition AI that is more likely to misidentify particular ethnic groups.",
+     "points": ["Correct definition, linked to training data (1)", "One of the book's two examples (1)"],
+     "src": "Ministry assessments, lesson 1-4, class tasks, essay 1; Book p.27"},
+    {"marks": 3, "lesson": "1-1", "lines": 10,
+     "q": "What is meant by Moore's Law? Is it a fixed law of physics? Explain your answer.",
+     "model": "Moore's Law is the observation that the number of transistors on an integrated circuit doubles approximately every two years. It is not a fixed law of physics: it is an empirical observation of what has happened, and in recent years it has been said to be approaching a physical limit.",
+     "points": ["Transistors on an integrated circuit double (1)", "Approximately every two years (1)", "Not a law of physics — an empirical observation, said to be nearing a physical limit (1)"],
+     "src": "Ministry assessments, lesson 1-1, class tasks, essay 2; Book p.8 Worked Example (2) A-B"},
+    {"marks": 3, "lesson": "1-1", "lines": 10,
+     "q": "Briefly compare AR (augmented reality) and VR (virtual reality) in terms of definition and how they work.",
+     "model": "AR overlays digital information on real-world images, so the user still sees the real world with a digital layer added on top. VR immerses the user in a virtual space generated by a computer, replacing the real world with that space.",
+     "points": ["AR overlays digital information on real-world images (1)", "VR immerses the user in a computer-generated virtual space (1)", "The contrast: AR adds to the real world; VR replaces it (1)"],
+     "src": "Ministry assessments, lesson 1-1, class tasks (period 2), essay 2; Book p.8 Worked Example (3)"},
+    {"marks": 3, "lesson": "1-2", "lines": 12,
+     "q": "What is meant by a hallucination in generative AI? Explain why it is dangerous to use such output as the answer to a school report as-is, and state what learners should do instead.",
+     "model": "A hallucination is text produced by generative AI that sounds plausible but is factually incorrect. It is dangerous in a school report because the error looks convincing, so it can be copied in as fact without being noticed. Learners should check the output against reliable sources before using it.",
+     "points": ["Definition: plausible-sounding but factually incorrect output (1)", "Danger: it looks convincing, so errors go unnoticed into the report (1)", "What to do: verify the output and its sources before using it (1)"],
+     "src": "Book p.16 Think It Through; Ministry assessments, lesson 1-2, class tasks (period 2), essay 2, and weekly model A, essay 4"},
+    {"marks": 3, "lesson": "1-3", "lines": 12,
+     "q": "A hospital is considering using image-diagnosis AI to detect diseases from X-ray images. Explain why the final diagnosis should be confirmed by a human doctor rather than left to AI alone.",
+     "model": "It can be unclear how the AI reached its judgment — the black-box problem — so its result is hard to verify. A wrong diagnosis can harm a patient, and final decision-making needs someone who is responsible for the result, which the AI cannot be. So a doctor should confirm it.",
+     "points": ["How the AI decided can be unclear (black box), so the result is hard to verify (1)", "A wrong result can harm the patient (1)", "Final decisions need a responsible human; the AI cannot be answerable (1)"],
+     "src": "Book p.21 Think It Through; Ministry assessments, lesson 1-3, weekly model B, essay 4"},
+    {"marks": 6, "lesson": "1-3 / 1-4", "lines": 24,
+     "q": "Analyze why AI is well suited to some tasks but requires caution in others. In your answer, refer to what AI is good at (finding patterns, recognition, prediction) and to what needs caution (ethical judgments, privacy, final decision-making).",
+     "model": "AI is well suited to tasks built on patterns in data: it can find and classify patterns in complex data such as images and text, recognise and generate images, audio and text, and make probabilistic predictions based on data — for example a recommendation system or image-diagnosis AI. It requires caution where those strengths stop being enough. Ethical judgments can lead to discrimination or prejudice, especially when the training data is biased, so they should not be left entirely to AI. Judgments involving personal information raise privacy issues. And final decision-making needs someone who is responsible for the result, while the AI's reasoning may be a black box. So AI is a powerful tool for pattern-based tasks, but human judgment is still needed for ethics, privacy and responsibility.",
+     "points": [
+       "What AI is good at — patterns, recognition/generation, prediction — at least two (1)",
+       "Why: these tasks are based on patterns in data, with an example (1)",
+       "Ethical judgments: risk of discrimination or prejudice, linked to biased training data (1)",
+       "Privacy: judgments involving personal information (1)",
+       "Final decision-making: responsibility, and/or the black-box problem (1)",
+       "A conclusion that weighs the two sides — a tool for patterns, with human judgment kept for ethics, privacy and responsibility (1)"],
+     "marking": "Six points, one mark each. A plain list of strengths and cautions with no reasoning earns no more than 3.",
+     "src": "Book p.22 Exam-style question [6]; Ministry assessments, lesson 1-3, weekly model A, essay 4"}
   ]
 }

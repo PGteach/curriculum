@@ -419,12 +419,20 @@ title, the part dividers and the exam QR have no page.
 
 **The Unit 1 exam is printed, not online** -- the teacher's choice, because
 essay answers cannot be marked automatically. `lecture4/_teacher/unit1-exam.html`
-is the paper (6 pages) and `unit1-exam-key.html` the marking scheme (4 pages);
+is the paper (6 pages) and `unit1-exam-key.html` the marking scheme (5 pages);
 content in `unit1-exam.json`. Shape copied from the ministry's weekly
 assessments: four-option MCQ plus essay. 20 MCQ in three labelled levels
 (Remember 7, Understand 7, Apply and analyse 6), then 6 essays rising 2-3-3-3-3-6
 marks; 40 marks, 60 minutes, every lesson 1-1 to 1-4 at every level. The last
-essay is the book's own [6] exam-style question from lesson 1-3. A paper
+essay is the book's own [6] exam-style question from lesson 1-3.
+
+**Every item is sourced -- the teacher's rule.** Each question is either one of
+the textbook's own (Try, Worked Example, Exercise, exam-style) or an item from
+the ministry's assessment book in `data sources/`, translated into the book's
+English, and its `src` names which, down to the model and question number.
+`check_exam()` refuses any item whose `src` does not begin `Book p.` or
+`Ministry assessments`, and requires exactly five MCQ per lesson. The first
+draft had five scenarios written for it; all five were replaced. A paper
 cannot shuffle, so each MCQ's correct letter is set by hand in `pos`;
 `check_exam()` fails the build unless the letters are exactly five each, no
 letter runs three times in a row, both sections go easy to hard, and every

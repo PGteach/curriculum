@@ -493,6 +493,14 @@ def check_exam():
         assert n_pts == e["marks"], "essay points %d != marks %d: %s" % (n_pts, e["marks"], e["q"][:40])
     for L in ("1-1", "1-2", "1-3", "1-4"):
         assert any(L in q["lesson"] for q in mcq), "no MCQ on lesson " + L
+    # the teacher's rule: every item comes from the textbook's own questions
+    # or the ministry's assessment book, and says which. Nothing invented.
+    for item in mcq + essay:
+        src = item.get("src", "")
+        assert src.startswith(("Book p.", "Ministry assessments")), (
+            "exam item without a curriculum source: %s" % item["q"][:60])
+    for L in ("1-1", "1-2", "1-3", "1-4"):
+        assert sum(L in q["lesson"] for q in mcq) == 5, "lesson %s needs 5 MCQ" % L
     return total_mcq, total_essay
 
 
@@ -580,10 +588,14 @@ def exam_key(head, tail):
         o, k = placed(q)
         rows.append('<tr><td>%d</td><td class="let">%s</td><td>%s</td><td>%s</td></tr>'
                     % (i + 1, LETTERS[k], esc(o[k]), esc(q["lesson"] + " — " + q["src"])))
-    grid = ('<table class="answergrid"><tr><th style="width:8mm">Q</th><th>Ans</th>'
-            '<th>Correct option</th><th style="width:34%">Source</th></tr>' + ''.join(rows) + '</table>')
-    first = page(masthead_exam_key(total)
-                 + '<div class="keygroup">Section A &mdash; answers (1 mark each)</div>' + grid)
+    def grid(rs):
+        return ('<table class="answergrid"><tr><th style="width:8mm">Q</th><th>Ans</th>'
+                '<th>Correct option</th><th style="width:34%">Source</th></tr>' + ''.join(rs) + '</table>')
+    # two sheets: with every source cited in full, twenty rows do not fit
+    # under the masthead on one
+    first = (page(masthead_exam_key(total)
+                  + '<div class="keygroup">Section A &mdash; answers (1 mark each)</div>' + grid(rows[:11]))
+             + page('<div class="keygroup">Section A &mdash; answers, continued</div>' + grid(rows[11:])))
     essays = []
     for i, e in enumerate(EXAM["essay"]):
         n = len(EXAM["mcq"]) + i + 1
