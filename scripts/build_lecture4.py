@@ -230,7 +230,7 @@ def booklet(head, tail):
         '<tr><td>Finding and classifying patterns in data</td><td>Ethical judgments &mdash; discrimination, prejudice</td></tr>'
         '<tr><td>Recognising and generating images, audio, text</td><td>Personal information and privacy</td></tr>'
         '<tr><td>Prediction based on data</td><td>Biased training data</td></tr>'
-        '<tr><td></td><td>The black-box problem, and who is responsible</td></tr></table>'
+        '<tr><td></td><td>Black box, responsibility, copyright</td></tr></table>'
         '<p class="ar">العمود اليمين ده هو درس النهارده كله — هنفتح كل تحذير ونفهمه.</p>'
         '<h2>AI helps decide things about people</h2>'
         '<p>AI now helps make real decisions about people: selecting candidates for job interviews, '
@@ -367,7 +367,7 @@ def booklet(head, tail):
         '<h2>Unit 1 &middot; complete</h2>'
         '<table><tr><th>Lesson</th><th>What to know for the unit exam</th></tr>'
         '<tr><td class="k">1-1 How IT developed</td><td>Five stages, Moore&#8217;s Law, social changes, emerging technologies</td></tr>'
-        '<tr><td class="k">1-2 How AI works</td><td>AI &gt; machine learning &gt; deep learning &gt; generative AI, nested</td></tr>'
+        '<tr><td class="k">1-2 How AI works</td><td>AI &gt; machine learning &gt; deep learning &gt; generative AI; hidden layers</td></tr>'
         '<tr><td class="k">1-3 AI in life and industry</td><td>Where it is used, what it is good at, what needs caution</td></tr>'
         '<tr><td class="k">1-4 Ethical issues with AI</td><td>Bias, privacy, XAI and responsibility, the four principles</td></tr></table>'))
     p.append(page('<h2>Class work</h2><p class="ar">شغل الحصة — نحل دول سوا.</p>'

@@ -216,6 +216,7 @@ A(s("",
     '<li>Personal information and privacy</li>'
     '<li>Biased training data</li>'
     '<li>The black-box problem, and who is responsible</li>'
+    '<li>Copyright, when protected works are training data</li>'
     '</ul></div>'
     '</div>',
     sub("That right-hand column is today&#8217;s whole lesson. We open each caution up.",
@@ -480,7 +481,7 @@ A(s("",
     h2("Information technology and society, in four lessons", "max-width:28ch"),
     '<div class="rise timeline">'
     '<div class="tl"><h3>1-1 &#183; How IT developed</h3><p>Five stages, Moore&#8217;s Law, social changes, emerging technologies</p></div>'
-    '<div class="tl"><h3>1-2 &#183; How AI works</h3><p>AI &#8594; machine learning &#8594; deep learning &#8594; generative AI, nested</p></div>'
+    '<div class="tl"><h3>1-2 &#183; How AI works</h3><p>AI &#8594; machine learning &#8594; deep learning &#8594; generative AI, nested; neural networks and their hidden layers</p></div>'
     '<div class="tl"><h3>1-3 &#183; AI in daily life and industry</h3><p>Where it is used, what it is good at, what needs caution</p></div>'
     '<div class="tl"><h3>1-4 &#183; Ethical issues with AI</h3><p>Bias, privacy, XAI and responsibility, the four principles</p></div>'
     '</div>',

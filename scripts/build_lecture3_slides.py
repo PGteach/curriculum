@@ -673,7 +673,13 @@ A(s("",
     fig(NEURAL),
     sub("It is the core technology behind the recent jump in what AI can do.",
         "max-width:58ch;margin-top:.5rem"),
-    ar("الشبكة العصبية متصممة على فكرة خلايا المخ. مفيش جزء منها ذكي لوحده — الذكاء بييجي من ربط أجزاء بسيطة كتير مع بعض. ودي التقنية اللي شايلة تقدّم الـ AI الحديث.")))
+    # the layer names are not in the English book, but the ministry's
+    # assessments ask for them ("the layers between the input and output
+    # layers are called ..."), so they are taught here
+    sub("The columns have names: the <b>input layer</b>, the <b>hidden layers</b> in between, and the "
+        "<b>output layer</b>. Training changes the <b>weight</b> &#8212; the strength &#8212; of each connection.",
+        "max-width:62ch;margin-top:.4rem;font-size:clamp(13px,1.4vw,18px)"),
+    ar("طبقة الإدخال، وبعدها الطبقات المخفية (hidden layers)، وبعدها طبقة الإخراج — والتدريب بيغيّر وزن كل وصلة. الشبكة العصبية متصممة على فكرة خلايا المخ. مفيش جزء منها ذكي لوحده — الذكاء بييجي من ربط أجزاء بسيطة كتير مع بعض. ودي التقنية اللي شايلة تقدّم الـ AI الحديث.")))
 
 # 17 RARE CASES DIAGRAM
 A(s("",
@@ -890,6 +896,7 @@ A(s("",
     '<li><b>Final decisions</b> — who is responsible for the result?</li>'
     '<li><b>Biased training data</b> makes judgments inaccurate</li>'
     '<li><b>Hallucination</b>, and the <b>black-box problem</b></li>'
+    '<li><b>Copyright</b> &#8212; rights issues when copyrighted works are used as training data</li>'
     '</ul></div>'
     '</div>',
     ar("العمود الشمال بييجي سؤال 'اختر اللي الـ AI شاطر فيه'، واليمين بييجي 'اختر اللي مش من دواعي الحذر'. ذاكرهم مقابل بعض.")))
