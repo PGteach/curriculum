@@ -244,22 +244,19 @@ def booklet(head, tail):
         'identifying individuals through face recognition, and determining how personal data is used. '
         'If the data it learned from was biased, it can be <b>unfair</b> &mdash; and it can be hard to '
         'know <b>why</b> it decided at all.</p>'
-        '<p class="ar">الـ AI بيساعد يقرر مين ياخد انترفيو، والكاميرا تقول انت مين، وبياناتك تتستخدم '
-        'إزاي. لو الداتا متحيزة ممكن يبقى ظالم، وساعات مش هتعرف قرر كده ليه.</p>'
+        '<p class="ar">الذكاء الاصطناعي النهارده بيساعد في قرارات بتأثر على الناس، وممكن يطلّع نتايج مش عادلة.</p>'
         '<div class="summary"><p><b>Today&#8217;s question.</b> What ethical issues arise as AI spreads, '
         'and what principles should guide how we use it?</p>'
-        '<p class="ar">سؤال النهارده: إيه المشاكل الأخلاقية اللي بتظهر مع انتشار الـ AI، وإيه المبادئ '
-        'اللي لازم تمشّي استخدامه؟</p></div>'
+        '<p class="ar">السؤال الرئيسي: إيه القضايا الأخلاقية اللي بتظهر مع انتشار الذكاء الاصطناعي، وإيه المبادئ اللي المفروض توجّه استخدامنا ليه؟</p></div>'
         '<div class="summary hw"><p><b>Explore &middot; in pairs.</b> A face-recognition AI is more '
         'likely to misidentify people from some ethnic groups than others. Predict who could be harmed '
         'by this, and how. Give a reason. Part 1 explains it.</p>'
-        '<p class="ar">مع زميلك: نظام تعرّف على الوجه بيغلط أكتر مع مجموعات معينة. مين ممكن يتأذي، '
-        'وإزاي؟ وليه؟</p></div>'))
+        '<p class="ar">قبل ما تكمّلوا، توقّعوا: مين ممكن يتضرر من ده، وإزاي؟ وقولوا سبب.</p></div>'))
     # slides 6-9: part 1, definition, diagram, the two places bias gets in
     p.append(page(
         '<h2>Part 1 &middot; Algorithmic bias</h2>'
         + term('Algorithmic bias', 'Bias in AI judgments caused by bias in the training data.',
-               'التحيز الخوارزمي: الـ AI بيحكم بشكل متحيز لأن الداتا اللي اتدرب عليها كانت متحيزة.')
+               'التحيز الخوارزمي: نمط في مخرجات الذكاء الاصطناعي ممكن يوصّل لنتايج مش عادلة أو بتضر، وممكن ييجي من البيانات أو طريقة تصميم النظام أو استخدامه والظروف البشرية والاجتماعية.')
         + '<table><tr><th>Example from the book</th><th>Who is treated unfairly</th></tr>'
         '<tr><td class="k">A hiring AI</td><td>Unfairly evaluates applicants of a particular gender</td></tr>'
         '<tr><td class="k">A face-recognition AI</td><td>Is more likely to misidentify particular ethnic groups</td></tr></table>'
@@ -270,8 +267,8 @@ def booklet(head, tail):
         '<tr><td>Past discriminatory tendencies reflected in the data</td><td>A <b>proxy variable</b> that '
         'indirectly stands in for a protected attribute</td></tr>'
         '<tr><td></td><td>The design of the model itself</td></tr></table>'
-        '<p class="ar">التحيز بيدخل من الداتا (داتا قليلة عن فئات، أو تمييز قديم جوه الداتا) أو من طريقة '
-        'بناء النظام (متغيرات غلط، متغير بديل، أو تصميم النموذج).</p>'))
+        '<p class="ar">الأسباب الرئيسية للتحيز: بيانات تدريب متحيزة (بيانات مش كفاية عن سمات معينة، أو بيانات شايلة نزعات '
+        'تمييزية قديمة)، أو طريقة بناء النظام (متغيرات مش مناسبة، أو متغير بديل بيمثّل سمة محمية بشكل غير مباشر، أو تصميم النموذج نفسه).</p>'))
     # slides 10-14: proxy variable, think it through, part 2 privacy, think it through
     p.append(page(
         '<h2>A proxy variable</h2>'
@@ -286,27 +283,27 @@ def booklet(head, tail):
         '<p class="ar">AI توظيف بيقيّم نوع معين أقل. إيه السبب الأرجح؟ واقترح إجراء واحد يصلّحه.</p></div>'
         '<h2>Part 2 &middot; Privacy</h2>'
         + term('Privacy', 'The appropriate handling and protection of personal data.',
-               'الخصوصية: التعامل الصح مع البيانات الشخصية وحمايتها.')
+               'الخصوصية: إننا نتعامل صح مع البيانات الشخصية ونحميها.')
         + '<table><tr><th>1 &middot; Surveillance</th><th>2 &middot; Mass collection</th></tr>'
         '<tr><td>Face-recognition cameras in public spaces</td><td>Large amounts of online behaviour data</td></tr>'
         '<tr><td>Can identify and track individuals</td><td>Collected and analysed</td></tr></table>'
         '<div class="summary"><p><b>Think it through.</b> Face recognition in public spaces can improve '
         'safety and convenience &mdash; and raise privacy concerns. How should the three be balanced, '
         'and which principle is closest to your view?</p>'
-        '<p class="ar">إزاي نوازن بين الأمان والراحة والخصوصية؟ وأنهي مبدأ أقرب لرأيك؟</p></div>'))
+        '<p class="ar">اشرح إزاي نوازن بين الراحة والأمان وحماية الخصوصية، وقول أنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي أقرب لرأيك.</p></div>'))
     # slides 15-18: part 3, black box vs XAI, the definition, who answers
     p.append(page(
         '<h2>Part 3 &middot; Explainable AI and responsibility</h2>'
         + dg(XAI)
         + term('Explainable AI (XAI)',
                'Technology that makes it possible for humans to understand why an AI made a particular judgment.',
-               'الـ XAI: تقنية بتخلي البني آدم يفهم الـ AI أخد الحكم ده ليه.')
+               'الذكاء الاصطناعي القابل للتفسير (XAI): تقنية بتخلّينا نفهم الذكاء الاصطناعي أخد الحكم ده ليه.')
         + '<p>When the decision-making process is opaque &mdash; a <b>black box</b> &mdash; it is difficult '
         'to verify whether the result is correct. So &#8220;the answer is right, so the process does not '
         'matter&#8221; is <b>false</b>.</p>'
         '<h2>It got it wrong. Who answers?</h2>'
         + dg(WHO)
-        + '<p class="ar">المطوّر والمشغّل والمستخدم كل واحد شايفها بشكل، ولسه مفيش معيار واضح متفق عليه.</p>'))
+        + '<p class="ar">مفيش توزيع واحد للمسؤولية ينفع في كل الحالات؛ ده بيختلف حسب النظام وطريقة استخدامه والقواعد الموجودة.</p>'))
     # slides 19-21: responsibility vs accountability, where it becomes real, pause & think
     p.append(page(
         '<h2>Responsibility is not accountability</h2>'
@@ -315,8 +312,8 @@ def booklet(head, tail):
         '<tr><td>Developer, operator, user &mdash; who does what</td><td>Knowing who can be held to account, '
         'according to their role</td></tr>'
         '<tr><td>Who answers when an AI judgment is wrong</td><td>One of the four principles of AI ethics</td></tr></table>'
-        '<p class="ar">المسؤولية = أدوار وواجبات كل طرف. المساءلة = إن فيه حد يتحاسب فعلاً حسب دوره، ودي '
-        'من المبادئ الأربعة. الوزارة بتسأل على الفرق ده.</p>'
+        '<p class="ar">المسؤولية: نحدد أدوار وواجبات كل طرف في تطوير النظام وتشغيله واستخدامه. المساءلة: نحدد '
+        'مين الجهات المسؤولة عن النظام وقراراته وتأثيره، ونقدر نحاسبها حسب دورها. المساءلة مش شرح القرار — دي وظيفة XAI.</p>'
         '<h2>Two places these questions are not theory</h2>'
         '<table><tr><th>Where</th><th>The question it raises</th></tr>'
         '<tr><td class="k">Face recognition</td><td>Useful at a gate &mdash; and it can track people, and '
@@ -326,7 +323,7 @@ def booklet(head, tail):
         '<p class="ar">التعرّف على الوجه: خصوصية وتحيز. التشخيص بالصور: صندوق أسود ومسؤولية.</p>'
         '<div class="summary"><p><b>Pause and think.</b> If no one can explain why an AI rejected '
         'someone&#8217;s job application, is that fair? Which principle is missing?</p>'
-        '<p class="ar">لو محدش يقدر يشرح الـ AI رفض طلب توظيف ليه، ده عادل؟ وأنهي مبدأ ناقص؟</p></div>'))
+        '<p class="ar">لو محدش قدر يشرح الذكاء الاصطناعي رفض طلب توظيف حد ليه، يبقى ده عادل؟ وأنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي ناقص هنا؟</p></div>'))
     # slides 22-25: part 4, the four principles, which principle is it, exam warning
     p.append(page(
         '<h2>Part 4 &middot; The four principles of AI ethics</h2>'
@@ -336,7 +333,7 @@ def booklet(head, tail):
         '<div class="pr"><h4>Privacy protection</h4><p>Handling personal information appropriately and protecting privacy</p></div>'
         '<div class="pr"><h4>Accountability</h4><p>Being answerable for the AI&#8217;s decisions</p></div>'
         '</div>'
-        '<p class="ar">احفظهم بالتعريف: العدالة، الشفافية، حماية الخصوصية، المساءلة.</p>'
+        '<p class="ar">المبادئ الأربعة: العدالة، والشفافية، وحماية الخصوصية، والمساءلة — احفظهم بالتعريف.</p>'
         '<h2>Which principle is it?</h2>'
         '<table><tr><th>Situation</th><th style="width:26%">Principle</th></tr>'
         '<tr><td>A hiring AI evaluates fairly regardless of gender</td><td>Fairness</td></tr>'
@@ -358,19 +355,18 @@ def booklet(head, tail):
         'case of an AI accused of bias &mdash; what group did it affect, and what data might have caused '
         'it? <b>Consider responsibility</b>: the developer, the company using it, or the operator. '
         '<b>Decide</b> one rule the company must follow before using it, justified with the principles.</p>'
-        '<p class="ar">دوّر على حالة حقيقية، حدد مسؤولية كل طرف، واقترح قاعدة واحدة وبرّرها بالمبادئ.</p></div>'
+        '<p class="ar">دوّر على حالة موثّقة، وفكّر في المسؤولية، وبعدين قرّر قاعدة واحدة وبرّرها بمبادئ أخلاقيات الذكاء الاصطناعي.</p></div>'
         '<h2>In a new context</h2>'
         '<div class="summary hw"><p>A school wants face-recognition cameras at its gate to record '
         'attendance automatically. Identify one practical benefit and one privacy concern. If the camera '
         'misidentifies a student, who should be responsible &mdash; the school, or the company that made '
         'the AI? Give a reason.</p>'
-        '<p class="ar">فايدة واحدة، ومشكلة خصوصية واحدة، ولو الكاميرا غلطت مين المسؤول وليه.</p></div>'
+        '<p class="ar">حدد فايدة واحدة للمدرسة ومشكلة واحدة في الخصوصية. وبعدين مين المفروض يبقى المسؤول؟ وقول السبب.</p></div>'
         '<h2>Key takeaway &middot; accurate is not enough</h2><div class="summary">'
         '<p>If training data is biased, an AI can reproduce that bias. Using AI responsibly means checking '
         'for bias, being able to explain decisions, and knowing who is accountable &mdash; guided by '
         'fairness, transparency, privacy protection and accountability.</p>'
-        '<p class="ar">الداتا المتحيزة بتطلّع AI متحيز. الاستخدام المسؤول = نراجع التحيز، ونشرح القرار، '
-        'ونعرف مين يتحاسب.</p></div>'
+        '<p class="ar">خلّي بالك: لو بيانات التدريب متحيزة، الذكاء الاصطناعي ممكن يكرر نفس التحيز.</p></div>'
         '<h2>Unit 1 &middot; complete</h2>'
         '<table><tr><th>Lesson</th><th>What to know for the unit exam</th></tr>'
         '<tr><td class="k">1-1 How IT developed</td><td>Five stages, Moore&#8217;s Law, social changes, emerging technologies</td></tr>'

@@ -412,6 +412,22 @@ foundations or extras. Two ideas the English book gives one line each get a
 slide, because the ministry's assessment book asks about them directly:
 responsibility against accountability, and the proxy variable.
 
+**The Arabic follows the Arabic textbook, said in Egyptian Arabic.** The
+Arabic book's lesson 1-4 is pp. 24-30 (PDF pages 25-31) of
+`data sources/Programming-ArtificialIntelligence-Ar-EB-part1_copy.pdf`. Every
+Arabic line that has a counterpart in the book -- definitions, the main
+question, the causes of bias, the four principles, Think it through, Think as
+an engineer, Apply it, Remember, the homework's own book questions -- carries
+the book's content in the book's order, in the Egyptian register the other
+lectures use (the teacher's instruction), keeping the book's terms verbatim:
+التحيز الخوارزمي, السمة المحمية, متغير بديل, and the principles' names. Lines with no
+counterpart in the book are the teacher's own commentary. The Arabic book *is*
+readable: render a page with PyMuPDF (`page.get_pixmap(dpi=120)`) and read
+the image; `get_text()` comes out in visual order with broken lam-alef, so use
+it only to find pages. In the booklet the Arabic sits under full English and
+pages 1 and 7 had 3px and 12px to spare, so a few booklet lines carry the
+book's first clause only; the deck carries them whole.
+
 **The booklet follows the deck section by section, in the same order** --
 also the teacher's instruction. `booklet()` in `build_lecture4.py` carries the
 slide numbers each page covers in its comments; keep them in step. Only the

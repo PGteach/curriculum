@@ -20,8 +20,9 @@ accountability, and the proxy variable as a cause of bias.
 
 The helpers, the photo CSS, port_lightbox(), the exam-code gate and the
 build block are copied unchanged from build_lecture3_slides.py, which is
-where they were proven. Arabic is teaching commentary in the register the
-other lectures use, and needs a teacher's read-through.
+where they were proven. The Arabic follows the Arabic textbook's lesson 1-4
+(pp. 24-30) point by point -- its definitions, questions and Think boxes --
+said in Egyptian Arabic, with the book's own terms kept as they are.
 """
 import io, re
 from pathlib import Path
@@ -234,14 +235,14 @@ A(s("",
     '</div>',
     sub("If the data it learned from was biased, it can be <b>unfair</b>. And it can be hard to know <b>why</b> it decided at all.",
         "max-width:58ch;margin-top:1rem"),
-    ar("الـ AI بيساعد يقرر مين ياخد انترفيو، والكاميرا تقول انت مين، وبياناتك تتستخدم إزاي. لو الداتا اللي اتعلم منها متحيزة، ممكن يبقى ظالم — وساعات مش هتعرف قرر كده ليه أصلاً.")))
+    ar("الذكاء الاصطناعي النهارده بيساعد في قرارات بتأثر على الناس، زي فرز طلبات التوظيف، والتعرف على الأشخاص، وتحليل البيانات الشخصية. ولو البيانات أو طريقة تصميم النظام أو استخدامه فيها انحياز، ممكن يطلّع نتايج مش عادلة — وساعات يبقى صعب نفسّر هو وصل للقرار ده على أساس إيه.")))
 
 # 4 guiding question
 A(s("dark",
     eyebrow("Today&#8217;s question"),
     h2("What ethical issues arise as AI spreads &#8212; and what principles should guide how we use it?",
        "max-width:26ch"),
-    ar("سؤال النهارده: إيه المشاكل الأخلاقية اللي بتظهر مع انتشار الـ AI، وإيه المبادئ اللي لازم تمشّي استخدامه؟")))
+    ar("السؤال الرئيسي: إيه القضايا الأخلاقية اللي بتظهر مع انتشار الذكاء الاصطناعي، وإيه المبادئ اللي المفروض توجّه استخدامنا ليه؟")))
 
 # 5 explore
 A(s("",
@@ -250,7 +251,7 @@ A(s("",
     sub("A face-recognition AI is more likely to <b>misidentify</b> people from some ethnic groups than others. With your partner, predict: <b>who could be harmed</b> by this, and how? Give a reason.",
         "max-width:56ch;margin-top:1rem"),
     sub("Keep your answer. It is exactly what Part 1 explains.", "margin-top:.8rem;color:var(--soft)"),
-    ar("مع زميلك: نظام تعرّف على الوجه بيغلط أكتر مع ناس من مجموعات معينة. توقّعوا: مين ممكن يتأذي من ده، وإزاي؟ وليه؟ احتفظوا بالإجابة — الجزء الأول بيشرحها بالظبط.")))
+    ar("مع زميلك، بصّوا على الموقف ده: ذكاء اصطناعي للتعرف على الوجه بيغلط في التعرف على ناس من مجموعات عرقية معينة أكتر من غيرهم. قبل ما تكمّلوا، توقّعوا: مين ممكن يتضرر من ده، وإزاي؟ وقولوا سبب.")))
 
 # ---------------- part 1: algorithmic bias ----------------
 A(s("dark",
@@ -267,7 +268,7 @@ A(s("",
     '<tr><td>A hiring AI</td><td>Unfairly evaluates applicants of a particular gender</td></tr>'
     '<tr><td>A face-recognition AI</td><td>Is more likely to misidentify particular ethnic groups</td></tr>'
     '</table>',
-    ar("التحيز الخوارزمي يعني الـ AI يحكم بشكل متحيز لأن الداتا اللي اتدرب عليها كانت متحيزة. الكتاب بيدي مثالين: AI توظيف بيظلم نوع معين، و AI تعرّف على الوجه بيغلط أكتر مع مجموعات معينة.")))
+    ar("التحيز في أنظمة الذكاء الاصطناعي يعني انحراف أو نمط ممكن يوصّل لنتايج مش عادلة أو بتضر. وممكن ييجي من البيانات، أو من تصميم النظام، أو من طريقة استخدامه والظروف البشرية والاجتماعية حواليه. مثال: نظام توظيف بيفضّل فئة على غيرها من غير وجه حق، أو نظام تعرف على الوجه دقته بتقل مع فئة معينة.")))
 
 A(s("",
     eyebrow("1 &#183; See it happen"),
@@ -289,7 +290,7 @@ A(s("",
     '<li>The <b>design of the model</b> itself</li>'
     '</ul></div>'
     '</div>',
-    ar("التحيز بيدخل من مكانين: من الداتا نفسها — داتا قليلة عن فئات معينة، أو داتا فيها تمييز قديم — أو من طريقة بناء النظام: اختيار متغيرات غلط، أو متغير بديل، أو تصميم النموذج نفسه.")))
+    ar("الأسباب الرئيسية للتحيز: أولًا بيانات التدريب نفسها تبقى متحيزة — بيانات مش كفاية عن سمات معينة، أو بيانات شايلة نزعات تمييزية قديمة. وتانيًا طريقة بناء النظام: متغيرات مش مناسبة، أو متغير بديل بيمثّل سمة محمية بشكل غير مباشر، أو تصميم النموذج نفسه.")))
 
 A(s("",
     eyebrow("1 &#183; The one students skip"),
@@ -299,7 +300,7 @@ A(s("",
     '<div class="rise" style="margin-top:1rem;padding:clamp(12px,1.5vw,22px);background:var(--teal-pale);border-radius:12px;max-width:64ch">'
     '<p style="font-size:clamp(13px,1.45vw,19px)">A hiring AI is never told an applicant&#8217;s gender. But it is given another detail that <b>goes closely with gender</b>. It can still learn the old bias through that detail &#8212; the detail is standing in for gender. <span style="color:var(--soft)">(Our example, to show the idea.)</span></p>'
     '</div>',
-    ar("الـ protected attribute حاجة ممنوع القرار يميّز بيها، زي النوع أو المجموعة العرقية. لو شلتها من الداتا مش كفاية: لو فيه متغير تاني مرتبط بيها أوي، الـ AI هيتعلم التحيز من خلاله — ده الـ proxy variable، المتغير البديل.")))
+    ar("السمة المحمية حاجة ممنوع القرار يميّز بيها، زي النوع أو المجموعة العرقية. لو شلتها من البيانات مش كفاية: لو فيه متغير تاني مرتبط بيها أوي، الـ AI هيتعلم التحيز من خلاله — ده اللي الكتاب بيسميه «متغير بديل» — بيمثّل السمة المحمية بشكل غير مباشر.")))
 
 A(s("dark",
     eyebrow("Think it through"),
@@ -311,7 +312,7 @@ A(s("dark",
 A(s("dark",
     eyebrow("Part 2"),
     h2("Privacy", "font-size:clamp(30px,5.5vw,72px)"),
-    ar("الجزء التاني: الخصوصية.")))
+    ar("الجزء التاني: قضايا الخصوصية.")))
 
 A(s("",
     eyebrow("2 &#183; New issues"),
@@ -327,19 +328,19 @@ A(s("",
     '<li>Collected and <b>analysed</b></li>'
     '</ul></div>'
     '</div>',
-    ar("الخصوصية يعني بياناتك الشخصية تتعامل صح وتتحمى. الـ AI عمل مشكلتين جداد: كاميرات تعرّف على الوجه في الأماكن العامة تقدر تعرف الناس وتتتبعهم، وجمع كميات ضخمة من بيانات سلوكك على النت وتحليلها.")))
+    ar("تطور الذكاء الاصطناعي طلّع قضايا جديدة في الخصوصية:<br>① المراقبة بالتعرف على الوجه: الكاميرات في الأماكن العامة تقدر تتعرف على الناس وتتتبعهم.<br>② الجمع الجماعي للبيانات الشخصية: بيتجمع ويتحلل كميات ضخمة من بيانات سلوكنا على الإنترنت.")))
 
 A(s("dark",
     eyebrow("Think it through"),
     h2("Face recognition in public spaces can improve safety and convenience &#8212; and raise privacy concerns. How should the three be balanced?",
        "max-width:27ch"),
-    ar("التعرّف على الوجه في الأماكن العامة بيحسّن الأمان والراحة، بس بيعمل مشكلة خصوصية. إزاي نوازن بين التلاتة؟ وأنهي مبدأ من مبادئ أخلاقيات الـ AI أقرب لرأيك؟")))
+    ar("لما بنستخدم التعرف على الوجه في الأماكن العامة، الأمان والراحة بيتحسنوا، بس في نفس الوقت بتظهر مخاوف على الخصوصية. اشرح إزاي نوازن بين الراحة والأمان وحماية الخصوصية، وقول أنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي أقرب لرأيك.")))
 
 # ---------------- part 3: XAI and responsibility ----------------
 A(s("dark",
     eyebrow("Part 3"),
     h2("Explainable AI and responsibility", "font-size:clamp(28px,5vw,64px);max-width:18ch"),
-    ar("الجزء التالت: الـ AI القابل للتفسير، والمسؤولية.")))
+    ar("الجزء التالت: الذكاء الاصطناعي القابل للتفسير (XAI) والمسؤولية.")))
 
 A(s("",
     eyebrow("3 &#183; The black box, and the answer to it"),
@@ -356,13 +357,13 @@ A(s("",
     '<div class="rise" style="margin-top:1rem;padding:clamp(12px,1.5vw,22px);background:var(--teal-pale);border-radius:12px;max-width:64ch">'
     '<p style="font-size:clamp(13px,1.45vw,19px)">When the decision-making process is opaque &#8212; a <b>black box</b> &#8212; it is difficult to verify whether the result is correct. So &#8220;the answer is right, so the process does not matter&#8221; is <b>false</b>.</p>'
     '</div>',
-    ar("الـ XAI تقنية بتخلي البني آدم يفهم الـ AI أخد الحكم ده ليه. ولو العملية مقفولة (صندوق أسود)، صعب تتأكد النتيجة صح. عشان كده جملة «طالما النتيجة صح مفيش مشكلة» غلط — وبتيجي في الامتحان.")))
+    ar("الذكاء الاصطناعي القابل للتفسير (XAI): أساليب بتساعدنا نفهم إيه العوامل اللي خلّت النظام يوصل للنتيجة أو القرار ده. ولما طريقة الوصول للنتيجة تبقى مش واضحة، بيبقى صعب نقيّمها أو نكتشف فيها غلط أو تحيز. عشان كده جملة «طالما النتيجة صح مفيش مشكلة» غلط — وبتيجي في الامتحان.")))
 
 A(s("",
     eyebrow("3 &#183; Responsibility"),
     h2("It got it wrong. Who answers?"),
     fig(WHO),
-    ar("لما الـ AI يغلط، مين المسؤول؟ المطوّر اللي عمله، ولا الشركة اللي بتشغّله، ولا المستخدم؟ كل واحد شايفها بشكل، ولسه مفيش معيار واضح متفق عليه — ودي نقطة امتحان.")))
+    ar("المسؤولية: إننا نحدد أدوار وواجبات كل طرف ليه علاقة بتطوير النظام وتشغيله واستخدامه — المطوّر، والجهة اللي بتشغّله، والمستخدم. ومفيش توزيع واحد للمسؤولية ينفع في كل الحالات؛ ده بيختلف حسب النظام وطريقة استخدامه والقواعد الموجودة.")))
 
 A(s("",
     eyebrow("3 &#183; Two words that sound the same"),
@@ -379,7 +380,7 @@ A(s("",
     '<li>One of the four principles of AI ethics</li>'
     '</ul></div>'
     '</div>',
-    ar("المسؤولية = أدوار وواجبات كل طرف (المطوّر والمشغّل والمستخدم). المساءلة = إن فيه حد يتحاسب فعلاً على قرارات الـ AI حسب دوره — ودي من المبادئ الأربعة. الوزارة بتسأل على الفرق ده.")))
+    ar("المسؤولية: إننا نحدد أدوار وواجبات كل طرف في تطوير النظام وتشغيله واستخدامه.<br>المساءلة: إننا نحدد مين الجهات المسؤولة عن النظام وقراراته وتأثيره، ونقدر نحاسبها حسب دورها.<br>خد بالك: المساءلة مش إنك تشرح القرار — دي وظيفة الذكاء الاصطناعي القابل للتفسير (XAI) — المساءلة إننا نعرف مين اللي يتحاسب على النتيجة.")))
 
 A(s("",
     eyebrow("3 &#183; Where it becomes real"),
@@ -399,13 +400,13 @@ A(s("dark",
     eyebrow("Pause & think"),
     h2("If no one can explain why an AI rejected someone&#8217;s job application, is that fair? Which principle is missing?",
        "max-width:27ch"),
-    ar("لو محدش يقدر يشرح الـ AI رفض طلب توظيف حد ليه، ده عادل؟ وأنهي مبدأ ناقص هنا؟")))
+    ar("لو محدش قدر يشرح الذكاء الاصطناعي رفض طلب توظيف حد ليه، يبقى ده عادل؟ وأنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي ناقص هنا؟")))
 
 # ---------------- part 4: the four principles ----------------
 A(s("dark",
     eyebrow("Part 4"),
     h2("The four principles of AI ethics", "font-size:clamp(28px,5vw,64px);max-width:18ch"),
-    ar("الجزء الرابع: المبادئ الأربعة لأخلاقيات الذكاء الاصطناعي.")))
+    ar("الجزء الرابع: المبادئ الأساسية لأخلاقيات الذكاء الاصطناعي.")))
 
 A(s("",
     eyebrow("4 &#183; Learn these four exactly"),
@@ -420,7 +421,7 @@ A(s("",
     '<div class="card"><div class="ico">&#9989;</div><div class="role">Principle 4</div>'
     '<h3>Accountability</h3><p>Being answerable for the AI&#8217;s decisions</p></div>'
     '</div>',
-    ar("المبادئ الأربعة بالحرف من الكتاب: العدالة (مفيش تمييز ظالم)، الشفافية (عملية القرار واضحة)، حماية الخصوصية (البيانات الشخصية تتعامل صح)، المساءلة (فيه حد مسؤول عن القرار). احفظهم بالتعريف.")))
+    ar("العدالة: إننا منميّزش ظلم ضد أي شخص أو مجموعة.<br>الشفافية: نوفّر معلومات واضحة ومناسبة عن النظام، وإزاي بيتستخدم، وإزاي بياخد القرار، وحدوده إيه.<br>حماية الخصوصية: نتعامل مع المعلومات الشخصية بشكل مناسب ونحمي خصوصية الناس.<br>المساءلة: نحدد مين الجهات المسؤولة عن النظام وقراراته وتأثيره، ونقدر نحاسبها حسب دورها.")))
 
 A(s("",
     eyebrow("4 &#183; Your turn"),
@@ -444,7 +445,7 @@ A(s("",
     '<li class="no">&#8220;Who is responsible when an AI is wrong has already been clearly determined.&#8221; &#8212; <b>false</b>: views differ and no clear standard exists yet.</li>'
     '<li class="no">&#8220;Algorithmic bias is caused by the AI&#8217;s processing speed.&#8221; &#8212; <b>false</b>: it comes from bias in the training data.</li>'
     '</ul>',
-    ar("تلات جمل شكلها صح وهي غلط، وبييجوا في الامتحان: «طالما النتيجة صح العملية مش مهمة» غلط، «المسؤولية متحددة بوضوح» غلط، «التحيز سببه سرعة المعالجة» غلط — سببه الداتا.")))
+    ar("تلات جمل شكلها صح وهي غلط، وبييجوا في الامتحان: «حتى لو طريقة القرار مش واضحة، مفيش مشكلة طالما النتيجة صح» ✗، «مين المسؤول لما الـ AI يغلط متحدد بوضوح» ✗، «التحيز الخوارزمي سببه سرعة معالجة الذكاء الاصطناعي» ✗ — سببه البيانات.")))
 
 A(s("",
     eyebrow("Think as an engineer"),
@@ -456,7 +457,7 @@ A(s("",
     '</ul>',
     sub("Stuck? If the training data reflects past bias, the AI can repeat it &#8212; one fix is to check the data and test the results across different groups.",
         "max-width:60ch;margin-top:.8rem;color:var(--soft)"),
-    ar("فكّر كمهندس: دوّر على حالة حقيقية لـ AI اتهم بالتحيز، حدد مسؤولية كل طرف، واقترح قاعدة واحدة الشركة لازم تمشي عليها قبل ما تستخدمه — وبرّرها بالمبادئ.")))
+    ar("فكّر كمهندس — ابحث وبعدين قرّر: دوّر على حالة موثّقة اتّهموا فيها نظام ذكاء اصطناعي إنه طلّع نتايج مش عادلة أو متحيزة. فكّر في المسؤولية: المطوّر، ولا الشركة اللي بتستخدمه، ولا المشغّل؟ وبعدين قرّر قاعدة واحدة لازم الشركة تمشي عليها عشان النظام يبقى أعدل، وبرّرها بمبادئ أخلاقيات الذكاء الاصطناعي.")))
 
 A(s("",
     eyebrow("In a new context"),
@@ -467,13 +468,13 @@ A(s("",
     '<li>Identify <b>one privacy concern</b>.</li>'
     '<li>If the camera <b>misidentifies a student</b>, who should be responsible &#8212; the school, or the company that made the AI? Give a reason.</li>'
     '</ul>',
-    ar("مدرسة عايزة كاميرات تعرّف على الوجه على البوابة تسجّل الحضور. اذكر فايدة واحدة ومشكلة خصوصية واحدة. ولو الكاميرا غلطت في طالب، مين المسؤول: المدرسة ولا الشركة؟ وليه؟")))
+    ar("مدرسة عايزة تستخدم كاميرات تعرف على الوجه على البوابة عشان تسجّل الحضور أوتوماتيك. حدد فايدة واحدة للمدرسة، ومشكلة واحدة ليها علاقة بالخصوصية. وبعدين: لو الكاميرا غلطت في التعرف على طالب، مين المفروض يبقى المسؤول — المدرسة، ولا الشركة اللي عملت الذكاء الاصطناعي؟ وقول السبب.")))
 
 A(s("",
     eyebrow("Key takeaway &middot; lesson 1-4"),
     h2("Accurate is not enough", "max-width:28ch"),
     '<div class="rise statement">If training data is biased, an AI can reproduce that bias. Using AI responsibly means <em>checking for bias</em>, being able to <em>explain decisions</em>, and knowing <em>who is accountable</em> &#8212; guided by fairness, transparency, privacy protection and accountability.</div>',
-    ar("الخلاصة: لو الداتا متحيزة، الـ AI هيكرر التحيز. الاستخدام المسؤول يعني نراجع التحيز، ونقدر نشرح القرار، ونعرف مين يتحاسب — بالمبادئ الأربعة.")))
+    ar("خلّي بالك: لو بيانات التدريب متحيزة، الذكاء الاصطناعي ممكن يكرر نفس التحيز. واستخدام الذكاء الاصطناعي بمسؤولية يعني نراجع التحيز، ونقدر نشرح القرارات، ونعرف مين المسؤول — ماشيين بالعدالة والشفافية وحماية الخصوصية والمساءلة.")))
 
 # unit wrap — this lesson closes Unit 1, and the unit exam covers all four
 A(s("",

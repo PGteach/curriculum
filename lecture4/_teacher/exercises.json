@@ -6,13 +6,13 @@
       {
         "part": 1,
         "heading": "Lesson 1-4 · Ethical Issues with AI",
-        "headingAr": "الدرس 1-4 — القضايا الأخلاقية للذكاء الاصطناعي",
+        "headingAr": "الدرس 1-4 — القضايا الأخلاقية المتعلقة بالذكاء الاصطناعي",
         "exercises": [
           {
             "n": 1,
             "type": "truefalse",
             "prompt": "Write ✓ if the statement is true, ✗ if it is false.",
-            "promptAr": "اكتب ✓ لو الجملة صح، و ✗ لو غلط.",
+            "promptAr": "حط ✓ لو الجملة صح، و ✗ لو غلط.",
             "statements": [
               "Algorithmic bias is bias in AI judgments caused by bias in the training data.",
               "Even if an AI's decision-making process is opaque, there is no problem as long as the result is correct.",
@@ -25,7 +25,7 @@
             "n": 2,
             "type": "match",
             "prompt": "Match each description to the most appropriate principle of AI ethics.",
-            "promptAr": "صِل كل وصف بالمبدأ الصح من مبادئ أخلاقيات الـ AI.",
+            "promptAr": "وصّل كل وصف بأنسب مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي.",
             "left": [
               "Not unjustly discriminating against any particular person or group",
               "Showing the AI's decision-making process and inner workings clearly",
@@ -86,7 +86,7 @@
             "n": 5,
             "type": "fill",
             "prompt": "Fill in ( a ) to ( c ).",
-            "promptAr": "كمّل ( أ ) لـ ( ج ).",
+            "promptAr": "املا الفراغات من ( أ ) لـ ( ج ).",
             "passage": "As AI technology spreads widely in society, attention has been drawn to various ethical issues. For example, there is the issue of ( a ), in which bias arises in AI judgments due to bias in the training data. For the black-box problem, where it is unclear why an AI made a particular judgment, a technology called ( b ) is being researched. Furthermore, when an AI makes an incorrect judgment, ( c ) is questioned, but no clear standard has yet been established among developers, users and operators.",
             "src": "p.31–32 — Exercise 2"
           },
@@ -94,7 +94,7 @@
             "n": 6,
             "type": "category",
             "prompt": "Write A, B, C or D: A = Fairness, B = Transparency, C = Privacy protection, D = Accountability.",
-            "promptAr": "اكتب A أو B أو C أو D: A العدالة، B الشفافية، C حماية الخصوصية، D المساءلة.",
+            "promptAr": "حدد أنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي مرتبط بيها أكتر: A العدالة، B الشفافية، C حماية الخصوصية، D المساءلة.",
             "items": [
               "Ensuring that a hiring AI evaluates fairly regardless of gender.",
               "Disclosing the AI's decision-making process to users in an easy-to-understand way.",
@@ -154,7 +154,7 @@
             "n": 10,
             "type": "short",
             "prompt": "The development of AI has given rise to new privacy issues. Name and explain the two described in the lesson.",
-            "promptAr": "تطور الـ AI عمل مشاكل خصوصية جديدة. اذكر واشرح الاتنين اللي في الدرس.",
+            "promptAr": "تطور الذكاء الاصطناعي طلّع قضايا جديدة في الخصوصية. اذكر القضيتين واشرحهم.",
             "questions": [
               {
                 "q": "Issue 1:",
@@ -239,7 +239,7 @@
             "n": 14,
             "type": "extended",
             "prompt": "Analyze how algorithmic bias can arise in an AI system, and how it can be reduced. In your answer, refer to the cause of bias (biased or insufficient training data) and to how the principles of fairness and transparency help address it.",
-            "promptAr": "حلّل إزاي التحيز الخوارزمي بيحصل في نظام AI، وإزاي نقلله. اتكلم عن السبب (داتا متحيزة أو ناقصة) وإزاي مبدأ العدالة والشفافية بيساعدوا.",
+            "promptAr": "حلّل إزاي التحيز الخوارزمي ممكن يحصل في نظام ذكاء اصطناعي، وإزاي نقلله. في إجابتك: اتكلم عن سبب التحيز (بيانات تدريب متحيزة أو مش كفاية)، وإزاي مبدأ العدالة ومبدأ الشفافية بيساعدوا في علاجه.",
             "marks": 6,
             "lines": 9,
             "src": "p.30 — Exam-style question [6]"
@@ -257,7 +257,7 @@
             "n": 16,
             "type": "extended",
             "prompt": "A school wants to use face-recognition cameras at its gate to record attendance automatically. Identify one practical benefit and one privacy concern. If the camera misidentifies a student, who should be responsible — the school, or the company that made the AI? Give a reason.",
-            "promptAr": "مدرسة عايزة كاميرات تعرّف على الوجه على البوابة تسجّل الحضور. اذكر فايدة واحدة ومشكلة خصوصية واحدة. ولو الكاميرا غلطت في طالب، مين المسؤول: المدرسة ولا الشركة؟ وليه؟",
+            "promptAr": "مدرسة عايزة تستخدم كاميرات تعرف على الوجه على البوابة عشان تسجّل الحضور أوتوماتيك. حدد فايدة واحدة للمدرسة، ومشكلة واحدة ليها علاقة بالخصوصية. وبعدين: لو الكاميرا غلطت في التعرف على طالب، مين المفروض يبقى المسؤول — المدرسة، ولا الشركة اللي عملت الذكاء الاصطناعي؟ وقول السبب.",
             "marks": 4,
             "lines": 6,
             "src": "p.31 — In a New Context"
@@ -266,7 +266,7 @@
             "n": 17,
             "type": "extended",
             "prompt": "Find one documented case where an AI system was accused of being unfair or biased. Record the source (a news report, study or official statement). What group did it affect, and what data might have caused it?",
-            "promptAr": "دوّر على حالة حقيقية موثّقة لنظام AI اتهم إنه ظالم أو متحيز. اكتب المصدر. أنهي فئة اتأثرت، وإيه الداتا اللي ممكن تكون السبب؟",
+            "promptAr": "دوّر على حالة موثّقة اتّهموا فيها نظام ذكاء اصطناعي إنه طلّع نتايج مش عادلة أو متحيزة، واكتب المصدر اللي استخدمته. أنهي فئة اتأثرت؟ وإيه العوامل في البيانات أو تصميم النظام أو استخدامه اللي ممكن تكون السبب؟",
             "marks": 4,
             "lines": 7,
             "src": "p.30–31 — Think as an Engineer"
@@ -275,7 +275,7 @@
             "n": 18,
             "type": "extended",
             "prompt": "Choose one place AI is used: hiring, face recognition, or recommendations. Suggest one rule, based on the principles of AI ethics, that would make it more trustworthy.",
-            "promptAr": "اختار مكان واحد بيتستخدم فيه الـ AI: التوظيف، التعرّف على الوجه، أو الترشيحات. اقترح قاعدة واحدة مبنية على مبادئ أخلاقيات الـ AI تخليه أجدر بالثقة.",
+            "promptAr": "اختار مكان واحد بيتستخدم فيه الذكاء الاصطناعي (التوظيف، أو التعرف على الوجه، أو الترشيحات). اقترح قاعدة واحدة مبنية على مبادئ أخلاقيات الذكاء الاصطناعي تخلّيه أجدر بالثقة.",
             "marks": 3,
             "lines": 5,
             "src": "p.32 — Reflect & Challenge"
