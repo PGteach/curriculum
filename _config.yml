@@ -1,0 +1,15 @@
+# GitHub Pages build settings.
+#
+# scripts/ holds the generators, and several of them carry their content in
+# plain text -- build_lecture3_quiz.py and build_lecture4_quiz.py write every
+# quiz answer, with its explanation, as a plaintext index before
+# protect_answers.py fingerprints it on the page. Served, that folder was an
+# answer key at /curriculum/scripts/build_lecture3_quiz.py, which made the
+# fingerprinting on the quiz page pointless. Nothing links into scripts/, so
+# excluding it costs the site nothing.
+#
+# _teacher/ folders need no entry: Jekyll already skips anything starting
+# with an underscore. Do NOT add a .nojekyll file -- that would switch all of
+# this off and publish the answer keys and the unit exam.
+exclude:
+  - scripts
