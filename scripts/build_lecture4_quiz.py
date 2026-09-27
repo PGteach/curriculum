@@ -9,7 +9,7 @@ protect_answers turns them into fingerprints before publishing.
 Lecture 4's paper: 24 questions. Eighteen on lesson 1-4, Ethical Issues with
 AI (textbook pp. 26-32), and six reviewing lessons 1-1 to 1-3 -- curriculum
 only, nothing from the programming foundations of lecture 1, because the
-printed unit exam is what this rehearses.
+printed chapter exam is what this rehearses.
 
 Every question has four options, and every wrong option is something from
 the same lesson a student who half-knows could genuinely pick: the other

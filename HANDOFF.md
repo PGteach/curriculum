@@ -39,8 +39,8 @@ lecture4/slides/index.html    30 slides, lesson 1-4 Ethical Issues with AI; exam
 lecture4/quiz/index.html      24 questions, 4 options each: 18 on lesson 1-4, 6 Unit 1 review
 lecture4/handout/index.html   10-page booklet, same sections in the same order as the deck
 lecture4/homework/index.html  12-page take-home sheet, 20 exercises; Part 4 is a Unit 1 review
-lecture4/_teacher/            answer key + UNIT 1 EXAM paper + its marking scheme (unpublished)
-scripts/build_lecture4.py         booklet, homework, answer key, unit exam, exam key
+lecture4/_teacher/            answer key + CHAPTER 1 EXAM paper + its marking scheme (unpublished)
+scripts/build_lecture4.py         booklet, homework, answer key, chapter exam, exam key
 scripts/build_lecture4_slides.py  the deck, from scripts/lecture4_slides_base.html
 scripts/build_lecture4_quiz.py    the quiz (then run protect_answers.py 4)
 _config.yml                   excludes scripts/ from the published site -- see below
@@ -404,7 +404,7 @@ in `exercise()`); five answers attached to the wrong question; two exercises
 that were the same task; the template's demo pages leaking in (QR sheet found
 from the wrong `<section>`). None of those are visible to the checker.
 
-## Lecture 4, and the Unit 1 exam
+## Lecture 4, and the Chapter 1 exam
 
 Lecture 4 is lesson 1-4, Ethical Issues with AI (pp. 26-32), accent `#A63D5B`,
 and it closes Unit 1. **Curriculum only** -- the teacher's instruction: no
@@ -433,10 +433,10 @@ also the teacher's instruction. `booklet()` in `build_lecture4.py` carries the
 slide numbers each page covers in its comments; keep them in step. Only the
 title, the part dividers and the exam QR have no page.
 
-**The Unit 1 exam is printed, not online** -- the teacher's choice, because
-essay answers cannot be marked automatically. `lecture4/_teacher/unit1-exam.html`
-is the paper (6 pages) and `unit1-exam-key.html` the marking scheme (5 pages);
-content in `unit1-exam.json`. Shape copied from the ministry's weekly
+**The Chapter 1 exam is printed, not online** -- the teacher's choice, because
+essay answers cannot be marked automatically. `lecture4/_teacher/chapter1-exam.html`
+is the paper (6 pages) and `chapter1-exam-key.html` the marking scheme (5 pages);
+content in `chapter1-exam.json`. Shape copied from the ministry's weekly
 assessments: four-option MCQ plus essay. 20 MCQ in three labelled levels
 (Remember 7, Understand 7, Apply and analyse 6), then 6 essays rising 2-3-3-3-3-6
 marks; 40 marks, 60 minutes, every lesson 1-1 to 1-4 at every level. The last

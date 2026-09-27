@@ -13,7 +13,7 @@ top of an already-built deck would drop the lightbox dialog.
 Content is Lesson 1-4, Ethical Issues with AI, textbook pp. 26-32, and
 nothing outside the curriculum: the recap is lesson 1-3's own list of
 cautions, and the closing map is Unit 1's four lessons, because this lesson
-closes the unit and the unit exam covers all four. Two ideas the English
+closes the unit and the chapter exam covers all four. Two ideas the English
 book states in one line are given a slide each, because the ministry's
 assessment book asks about them directly: responsibility against
 accountability, and the proxy variable as a cause of bias.
@@ -476,7 +476,7 @@ A(s("",
     '<div class="rise statement">If training data is biased, an AI can reproduce that bias. Using AI responsibly means <em>checking for bias</em>, being able to <em>explain decisions</em>, and knowing <em>who is accountable</em> &#8212; guided by fairness, transparency, privacy protection and accountability.</div>',
     ar("خلّي بالك: لو بيانات التدريب متحيزة، الذكاء الاصطناعي ممكن يكرر نفس التحيز. واستخدام الذكاء الاصطناعي بمسؤولية يعني نراجع التحيز، ونقدر نشرح القرارات، ونعرف مين المسؤول — ماشيين بالعدالة والشفافية وحماية الخصوصية والمساءلة.")))
 
-# unit wrap — this lesson closes Unit 1, and the unit exam covers all four
+# unit wrap — this lesson closes Unit 1, and the chapter exam covers all four
 A(s("",
     eyebrow("Unit 1 &#183; complete"),
     h2("Information technology and society, in four lessons", "max-width:28ch"),
@@ -486,7 +486,7 @@ A(s("",
     '<div class="tl"><h3>1-3 &#183; AI in daily life and industry</h3><p>Where it is used, what it is good at, what needs caution</p></div>'
     '<div class="tl"><h3>1-4 &#183; Ethical issues with AI</h3><p>Bias, privacy, XAI and responsibility, the four principles</p></div>'
     '</div>',
-    ar("خلصنا الوحدة الأولى: 1-1 تطور تكنولوجيا المعلومات، 1-2 إزاي الـ AI بيشتغل، 1-3 الـ AI في الحياة والصناعة، 1-4 القضايا الأخلاقية. امتحان الوحدة على الأربعة.")))
+    ar("خلصنا الوحدة الأولى: 1-1 تطور تكنولوجيا المعلومات، 1-2 إزاي الـ AI بيشتغل، 1-3 الـ AI في الحياة والصناعة، 1-4 القضايا الأخلاقية. امتحان الشابتر الأول على الأربعة.")))
 
 # QR — must stay last
 A(s("dark",

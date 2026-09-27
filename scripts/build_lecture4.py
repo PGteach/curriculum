@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Generate Lecture 4's printed material, and the Unit 1 exam.
+"""Generate Lecture 4's printed material, and the Chapter 1 exam.
 
     python scripts/build_lecture4.py
 
@@ -8,10 +8,10 @@ Writes:
     lecture4/handout/index.html            student booklet: lesson 1-4 + class work
     lecture4/homework/index.html           take-home exercises
     lecture4/_teacher/answer-key.html      key to the class work and homework
-    lecture4/_teacher/unit1-exam.html      the Unit 1 exam paper, to print
-    lecture4/_teacher/unit1-exam-key.html  its marking scheme
+    lecture4/_teacher/chapter1-exam.html      the Chapter 1 exam paper, to print
+    lecture4/_teacher/chapter1-exam-key.html  its marking scheme
 
-Content comes from lecture4/_teacher/exercises.json and unit1-exam.json. Both
+Content comes from lecture4/_teacher/exercises.json and chapter1-exam.json. Both
 live under _teacher/ on purpose: Jekyll does not serve underscore-prefixed
 paths, and this script is itself unpublished (scripts/ is excluded in
 _config.yml), so neither the exam nor its answers has a public URL. The exam
@@ -36,7 +36,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 T = ROOT / "lecture4" / "_teacher"
 DATA = json.loads((T / "exercises.json").read_text(encoding="utf-8"))
-EXAM = json.loads((T / "unit1-exam.json").read_text(encoding="utf-8"))
+EXAM = json.loads((T / "chapter1-exam.json").read_text(encoding="utf-8"))
 EX = {x["n"]: x for x in DATA["SHEET"]["parts"][0]["exercises"]}
 
 TITLE = "Can we trust it?"
@@ -60,7 +60,7 @@ HW_SECTIONS = [
     # Unit 1 ideas the lectures teach but no earlier homework or quiz
     # practised -- found by checking every concept in the ministry's
     # assessment book -- set here because this is the homework done right
-    # before the unit exam. Every item is a ministry assessment question.
+    # before the chapter exam. Every item is a ministry assessment question.
     ("Part 4 &middot; Unit 1 review",
      "الجزء الرابع — مراجعة الوحدة الأولى",
      [[19, 20], [21, 22], [23, 24]]),
@@ -368,7 +368,7 @@ def booklet(head, tail):
         'fairness, transparency, privacy protection and accountability.</p>'
         '<p class="ar">خلّي بالك: لو بيانات التدريب متحيزة، الذكاء الاصطناعي ممكن يكرر نفس التحيز.</p></div>'
         '<h2>Unit 1 &middot; complete</h2>'
-        '<table><tr><th>Lesson</th><th>What to know for the unit exam</th></tr>'
+        '<table><tr><th>Lesson</th><th>What to know for the Chapter 1 exam</th></tr>'
         '<tr><td class="k">1-1 How IT developed</td><td>Five stages, Moore&#8217;s Law, social changes, emerging technologies</td></tr>'
         '<tr><td class="k">1-2 How AI works</td><td>AI &gt; machine learning &gt; deep learning &gt; generative AI; hidden layers</td></tr>'
         '<tr><td class="k">1-3 AI in life and industry</td><td>Where it is used, what it is good at, what needs caution</td></tr>'
@@ -651,8 +651,8 @@ if __name__ == "__main__":
         (ROOT / 'lecture4/handout/index.html', booklet(head, tail)),
         (ROOT / 'lecture4/homework/index.html', homework(head, tail)),
         (ROOT / 'lecture4/_teacher/answer-key.html', key(head, tail)),
-        (ROOT / 'lecture4/_teacher/unit1-exam.html', exam_paper(head, tail)),
-        (ROOT / 'lecture4/_teacher/unit1-exam-key.html', exam_key(head, tail)),
+        (ROOT / 'lecture4/_teacher/chapter1-exam.html', exam_paper(head, tail)),
+        (ROOT / 'lecture4/_teacher/chapter1-exam-key.html', exam_key(head, tail)),
     ]
     for path, html in outs:
         # the template ships author instructions in HTML comments; not ours to publish
