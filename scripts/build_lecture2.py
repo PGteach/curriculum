@@ -778,6 +778,19 @@ def build_key(head, tail):
             % "\n".join(body)) + tail
 
 
+
+def name(html, title):
+    """Give a printed document its own name. The browser saves a PDF under
+    the page title, and the shared template script used to set every
+    document's title to "Lecture N Handout", so homework and keys saved
+    under the booklet's name. data-title on <body> is what that script now
+    reads; the static <title> is set too, for before the script runs."""
+    from html import escape as _e
+    html = re.sub(r"<title>.*?</title>", "<title>" + _e(title) + "</title>", html, count=1)
+    assert html.count("<body>") == 1, "expected one bare <body>"
+    return html.replace("<body>", '<body data-title="' + _e(title, quote=True) + '">', 1)
+
+
 def main():
     head, tail, qr = shell()
     targets = {
@@ -788,12 +801,9 @@ def main():
         ROOT / "lecture2" / "_teacher" / "answer-key.html": build_key(head, tail),
     }
     for path, html in targets.items():
-        if path.name == "answer-key.html":
-            html = html.replace("<title>Lecture 2 Handout",
-                                "<title>Lecture 2 Answer Key")
-        elif "homework" in path.parts:
-            html = html.replace("<title>Lecture 2 Handout",
-                                "<title>Lecture 2 Homework")
+        kind = ("Answer Key" if path.name == "answer-key.html"
+                else "Homework" if "homework" in path.parts else "Booklet")
+        html = name(html, "Lecture 2 %s — %s" % (kind, SHEET["title"]))
         path.parent.mkdir(parents=True, exist_ok=True)
         with io.open(path, "w", encoding="utf-8", newline="\n") as fh:
             fh.write(html)

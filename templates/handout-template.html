@@ -357,7 +357,12 @@ function applyAccent(){
   if(printBtn) printBtn.onclick = () => window.print();
 
   applyAccent();
-  document.title = LECTURE.label + " Handout — " + LECTURE.title + " · PGteach";
+  /* The browser names a saved or printed PDF after the title, so every
+     document names itself through data-title on the body element. Without it all
+     of them -- homework, answer key, exam -- saved as "Handout". */
+  const named = (document.body && document.body.getAttribute)
+    ? document.body.getAttribute("data-title") : null;
+  document.title = named || (LECTURE.label + " Handout — " + LECTURE.title + " · PGteach");
 
   const brand = document.getElementById('brand');
   if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;

@@ -645,16 +645,33 @@ def masthead_exam_key(total):
             + ' &middot; %d marks</div>' % (total[0] + total[1]) + teacher_warn())
 
 
+
+def name(html, title):
+    """Give a printed document its own name. The browser saves a PDF under
+    the page title, and the shared template script used to set every
+    document's title to "Lecture N Handout", so homework and keys saved
+    under the booklet's name. data-title on <body> is what that script now
+    reads; the static <title> is set too, for before the script runs."""
+    from html import escape as _e
+    html = re.sub(r"<title>.*?</title>", "<title>" + _e(title) + "</title>", html, count=1)
+    assert html.count("<body>") == 1, "expected one bare <body>"
+    return html.replace("<body>", '<body data-title="' + _e(title, quote=True) + '">', 1)
+
+
 if __name__ == "__main__":
     head, tail = shell()
+    L4 = "Lecture 4 %s — " + TITLE
+    # not EX: that name is the module's exercise table, and this is module scope
+    EXAM_NAME = EXAM["title"] + " — %s"
     outs = [
-        (ROOT / 'lecture4/handout/index.html', booklet(head, tail)),
-        (ROOT / 'lecture4/homework/index.html', homework(head, tail)),
-        (ROOT / 'lecture4/_teacher/answer-key.html', key(head, tail)),
-        (ROOT / 'lecture4/_teacher/chapter1-exam.html', exam_paper(head, tail)),
-        (ROOT / 'lecture4/_teacher/chapter1-exam-key.html', exam_key(head, tail)),
+        (ROOT / 'lecture4/handout/index.html', booklet(head, tail), L4 % "Booklet"),
+        (ROOT / 'lecture4/homework/index.html', homework(head, tail), L4 % "Homework"),
+        (ROOT / 'lecture4/_teacher/answer-key.html', key(head, tail), L4 % "Answer Key"),
+        (ROOT / 'lecture4/_teacher/chapter1-exam.html', exam_paper(head, tail), EXAM_NAME % EXAM["unit"]),
+        (ROOT / 'lecture4/_teacher/chapter1-exam-key.html', exam_key(head, tail), EXAM_NAME % "Marking scheme"),
     ]
-    for path, html in outs:
+    for path, html, title in outs:
+        html = name(html, title)
         # the template ships author instructions in HTML comments; not ours to publish
         html = re.sub(r'<!--.*?-->', '', html, flags=re.DOTALL)
         assert not re.search(r"\{[%{]", html), "Liquid delimiter in " + path.name

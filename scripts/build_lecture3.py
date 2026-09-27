@@ -228,10 +228,23 @@ def key(head,tail):
    b.append('<div class="key">'+answer_html(n)+'</div></div>')
   pages.append(page(''.join(b)))
  return head+''.join(pages)+tail
+def name(html, title):
+    """Give a printed document its own name. The browser saves a PDF under
+    the page title, and the shared template script used to set every
+    document's title to "Lecture N Handout", so homework and keys saved
+    under the booklet's name. data-title on <body> is what that script now
+    reads; the static <title> is set too, for before the script runs."""
+    from html import escape as _e
+    html = re.sub(r"<title>.*?</title>", "<title>" + _e(title) + "</title>", html, count=1)
+    assert html.count("<body>") == 1, "expected one bare <body>"
+    return html.replace("<body>", '<body data-title="' + _e(title, quote=True) + '">', 1)
+
 head,tail,qr=shell()
 for path,html in [(ROOT/'lecture3/handout/index.html',booklet(head,tail,qr)),(ROOT/'lecture3/homework/index.html',homework(head,tail,qr)),(ROOT/'lecture3/_teacher/answer-key.html',key(head,tail))]:
  # the template ships author instructions in HTML comments; they are not ours
  # to publish, and lecture2's generated pages carry none.
  html=re.sub(r'<!--.*?-->','',html,flags=re.DOTALL)
+ kind='Answer Key' if path.name=='answer-key.html' else 'Homework' if 'homework' in path.parts else 'Booklet'
+ html=name(html,'Lecture 3 '+kind+' — How does it learn?')
  with io.open(path,'w',encoding='utf-8',newline='\n') as f:f.write(html)
  print(path.relative_to(ROOT))
