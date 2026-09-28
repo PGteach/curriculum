@@ -433,6 +433,12 @@ also the teacher's instruction. `booklet()` in `build_lecture4.py` carries the
 slide numbers each page covers in its comments; keep them in step. Only the
 title, the part dividers and the exam QR have no page.
 
+**One deliberate exception: slide 10.** Its proxy-variable example is the real
+Amazon CV case (the word "women's" standing in for gender, Reuters 2018),
+added after the booklet had been printed and handed out, at the teacher's
+request -- so the booklet keeps the book's general wording there. Do not
+"fix" the mismatch by editing the printed booklet.
+
 **The Chapter 1 exam is printed, not online** -- the teacher's choice, because
 essay answers cannot be marked automatically. `lecture4/_teacher/chapter1-exam.html`
 is the paper (6 pages) and `chapter1-exam-key.html` the marking scheme (5 pages);
