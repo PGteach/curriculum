@@ -35,7 +35,7 @@ scripts/build_lecture3.py         booklet, homework, answer key
 scripts/build_lecture3_slides.py  the deck, from scripts/lecture3_slides_base.html
 scripts/build_lecture3_quiz.py    the quiz (then run protect_answers.py 3)
 
-lecture4/slides/index.html    30 slides, lesson 1-4 Ethical Issues with AI; exam code covered
+lecture4/slides/index.html    27 slides, lesson 1-4 Ethical Issues with AI; 2 videos, photos, tap-to-reveal
 lecture4/quiz/index.html      24 questions, 4 options each: 18 on lesson 1-4, 6 Unit 1 review
 lecture4/handout/index.html   10-page booklet, same sections in the same order as the deck
 lecture4/homework/index.html  12-page take-home sheet, 20 exercises; Part 4 is a Unit 1 review
@@ -438,6 +438,22 @@ Amazon CV case (the word "women's" standing in for gender, Reuters 2018),
 added after the booklet had been printed and handed out, at the teacher's
 request -- so the booklet keeps the book's general wording there. Do not
 "fix" the mismatch by editing the printed booklet.
+
+**Deck changes after printing (2026-09-28), all slide-only.** At the teacher's
+request: the four part-divider slides (a title and nothing else) and the photo
+slide "Two places these questions are not theory" (our own connection, not the
+book's) were removed; photos now sit on the slides they explain (Explore:
+face recognition; Privacy: a public-domain street CCTV camera and a data
+centre, with the book's two issues as captions). Two videos were added, each
+with a watch-for question: *Gender Shades* (MIT Media Lab) straight after the
+students predict face-recognition bias, and Code.org's *AI: Training Data &
+Bias* after the causes. They load only when clicked (a poster until then, so a
+slow connection does not stall the deck), stop when the slide changes, and do
+not steal the space key; ids and channels are in `media/SOURCES.md`. **Nobody
+has watched them from this repo -- preview before class.** "Which principle is
+it?" and the exam-warning statements are tap-to-reveal, and a hands-up question
+("would you let an AI decide who gets the job?") opens and closes the lesson.
+Behaviour checked in Chrome: 11 assertions, all passing.
 
 **The Chapter 1 exam is printed, not online** -- the teacher's choice, because
 essay answers cannot be marked automatically. `lecture4/_teacher/chapter1-exam.html`

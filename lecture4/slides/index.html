@@ -307,6 +307,27 @@ tr:last-child td{border-bottom:0}
   #zoom img{max-height:60vh}
 }
 @media print{#zoom{display:none!important}}
+/* ---------- video: a poster until clicked, then the player ---------- */
+.vid{position:relative; width:min(680px,100%); aspect-ratio:16/9; margin:.9rem 0 .3rem;
+  border-radius:12px; overflow:hidden; background:#16233F; cursor:pointer}
+.vid img{width:100%; height:100%; object-fit:cover; display:block; opacity:.82}
+.vid .play{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:clamp(52px,6vw,78px); height:clamp(52px,6vw,78px); border-radius:50%;
+  background:var(--teal); color:#fff; font-size:clamp(20px,2.4vw,32px);
+  display:flex; align-items:center; justify-content:center; box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.vid .vcap{position:absolute; left:0; right:0; bottom:0; padding:.55rem .9rem;
+  background:linear-gradient(transparent,rgba(0,0,0,.78)); color:#fff; font-size:clamp(12px,1.3vw,16px)}
+.vid iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+.vid:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+/* ---------- tap to reveal ---------- */
+td.reveal{cursor:pointer; transition:filter .25s}
+td.reveal:not(.shown){filter:blur(7px); user-select:none}
+.check li.rv{cursor:pointer}
+.check li.rv::before{content:"?"; color:var(--gold)}
+.check li.rv.shown::before{content:"\2715"; color:var(--wrong)}
+.check li.rv:not(.shown) .ans{filter:blur(7px); user-select:none}
+.check li.rv .ans{transition:filter .25s}
+@media print{.vid{display:none} td.reveal,.check li.rv .ans{filter:none!important}}
 /* ---------- exam code, covered until the teacher reveals it ---------- */
 .qrgate{position:relative;cursor:pointer}
 .qrgate .qrhide{
@@ -323,6 +344,7 @@ tr:last-child td{border-bottom:0}
 @media print{.qrgate .qrhide{display:none}}
 /* ---------- photo slides ---------- */
 .shots{display:grid; gap:.85rem; margin:1rem 0 .35rem}
+.shots.two{grid-template-columns:repeat(2,1fr)}
 .shots.three{grid-template-columns:repeat(3,1fr)}
 .shots.four{grid-template-columns:repeat(4,1fr)}
 @media (max-width:900px){.shots.three,.shots.four{grid-template-columns:repeat(2,1fr)}}
@@ -363,6 +385,7 @@ tr:last-child td{border-bottom:0}
     <h2 class="rise" style="max-width:22ch">AI helps decide things about people</h2>
     <div class="rise fields"><span class="chip">who gets a job interview</span><span class="chip">who a camera says you are</span><span class="chip">how your personal data is used</span></div>
     <p class="rise sub" style="max-width:58ch;margin-top:1rem">If the data it learned from was biased, it can be <b>unfair</b>. And it can be hard to know <b>why</b> it decided at all.</p>
+    <div class="rise" style="margin-top:1rem;padding:clamp(12px,1.5vw,22px);background:var(--gold-pale);border-radius:12px;max-width:62ch"><p style="font-size:clamp(14px,1.6vw,21px)"><b>Hands up:</b> would you let an AI decide who gets the job? Remember your answer &#8212; we ask again at the end.</p></div>
     <p class="rise arline ar">الذكاء الاصطناعي النهارده بيساعد في قرارات بتأثر على الناس، زي فرز طلبات التوظيف، والتعرف على الأشخاص، وتحليل البيانات الشخصية. ولو البيانات أو طريقة تصميم النظام أو استخدامه فيها انحياز، ممكن يطلّع نتايج مش عادلة — وساعات يبقى صعب نفسّر هو وصل للقرار ده على أساس إيه.</p>
   </section>
 
@@ -376,18 +399,23 @@ tr:last-child td{border-bottom:0}
     <div class="rise eyebrow">Explore &#183; in pairs</div>
     <h2 class="rise" style="max-width:20ch">Before you read on</h2>
     <p class="rise sub" style="max-width:56ch;margin-top:1rem">A face-recognition AI is more likely to <b>misidentify</b> people from some ethnic groups than others. With your partner, predict: <b>who could be harmed</b> by this, and how? Give a reason.</p>
-    <p class="rise sub" style="margin-top:.8rem;color:var(--soft)">Keep your answer. It is exactly what Part 1 explains.</p>
+    <div class="rise shots" style="max-width:420px"><figure class="shot"><img src="media/Face_detection.jpg" alt="Face recognition at work" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Face recognition at work</b>Each box is a face the system found. Would it find every face equally well?<span class="ar">كل مربع وش النظام لقاه. هل هيلاقي كل الوشوش بنفس الدقة؟</span></figcaption></figure></div>
+    <p class="rise credit">Photos: Wikimedia Commons &#183; public domain or Creative Commons. Used for teaching.</p>
+    <p class="rise sub" style="margin-top:.6rem;color:var(--soft)">Keep your answer. It is exactly what Part 1 explains.</p>
     <p class="rise arline ar">مع زميلك، بصّوا على الموقف ده: ذكاء اصطناعي للتعرف على الوجه بيغلط في التعرف على ناس من مجموعات عرقية معينة أكتر من غيرهم. قبل ما تكمّلوا، توقّعوا: مين ممكن يتضرر من ده، وإزاي؟ وقولوا سبب.</p>
   </section>
 
-  <section class="slide dark">
-    <div class="rise eyebrow">Part 1</div>
-    <h2 class="rise" style="font-size:clamp(30px,5.5vw,72px)">Algorithmic bias</h2>
-    <p class="rise arline ar">الجزء الأول: التحيز الخوارزمي.</p>
+  <section class="slide">
+    <div class="rise eyebrow">Watch &#183; the real study</div>
+    <h2 class="rise" style="max-width:26ch">Was your prediction right?</h2>
+    <div class="rise vid" data-yt="TWWsW1w-BVo" role="button" tabindex="0" aria-label="Play video: Gender Shades"><img src="https://i.ytimg.com/vi/TWWsW1w-BVo/hqdefault.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="play">&#9654;</span><span class="vcap"><b>Gender Shades</b> &#183; MIT Media Lab</span></div>
+    <p class="rise sub" style="max-width:62ch;margin-top:.5rem"><b>While you watch:</b> which faces did the systems get wrong most often &#8212; and why would the training data cause that?</p>
+    <p class="rise credit">Video: MIT Media Lab, on YouTube &#183; <a href="https://www.youtube.com/watch?v=TWWsW1w-BVo" target="_blank" rel="noopener">open it on YouTube</a> if it will not play here. Not from the textbook.</p>
+    <p class="rise arline ar">بعد التوقع ده، نشوف الدليل: باحثة في MIT جرّبت أنظمة التعرف على الوجه. وانتو بتتفرجوا: أنهي وشوش الأنظمة غلطت فيها أكتر؟ وليه بيانات التدريب ممكن تكون السبب؟</p>
   </section>
 
   <section class="slide">
-    <div class="rise eyebrow">1 &#183; The definition</div>
+    <div class="rise eyebrow">Part 1 &#183; Algorithmic bias</div>
     <h2 class="rise" style="max-width:24ch">Bias in, bias out</h2>
     <div class="rise statement"><em>Algorithmic bias</em> &#8212; bias in AI judgments caused by bias in the training data.</div>
     <table class="rise"><tr><th>Example from the book</th><th>Who is treated unfairly</th></tr><tr><td>A hiring AI</td><td>Unfairly evaluates applicants of a particular gender</td></tr><tr><td>A face-recognition AI</td><td>Is more likely to misidentify particular ethnic groups</td></tr></table>
@@ -440,6 +468,15 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="slide">
+    <div class="rise eyebrow">Watch &#183; how data becomes bias</div>
+    <h2 class="rise" style="max-width:26ch">Where does the bias come from?</h2>
+    <div class="rise vid" data-yt="x2mRoFNm22g" role="button" tabindex="0" aria-label="Play video: AI: Training Data &amp; Bias"><img src="https://i.ytimg.com/vi/x2mRoFNm22g/hqdefault.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="play">&#9654;</span><span class="vcap"><b>AI: Training Data &amp; Bias</b> &#183; Code.org</span></div>
+    <p class="rise sub" style="max-width:62ch;margin-top:.5rem"><b>While you watch:</b> listen for the cause from the last slide &#8212; what is wrong with the data the AI learned from?</p>
+    <p class="rise credit">Video: Code.org, on YouTube &#183; <a href="https://www.youtube.com/watch?v=x2mRoFNm22g" target="_blank" rel="noopener">open it on YouTube</a> if it will not play here. Not from the textbook.</p>
+    <p class="rise arline ar">الفيديو ده بيشرح إزاي بيانات التدريب بتأثر على قرارات الـ AI. وانتو بتتفرجوا: دوّروا على السبب اللي في السلايد اللي فاتت — إيه الغلط في البيانات اللي اتعلم منها؟</p>
+  </section>
+
+  <section class="slide">
     <div class="rise eyebrow">1 &#183; The one students skip</div>
     <h2 class="rise" style="max-width:24ch">A proxy variable</h2>
     <p class="rise sub" style="max-width:58ch;margin-top:.6rem">A <b>protected attribute</b> is something a decision must not discriminate on &#8212; gender, or ethnic group. Removing it from the data is <b>not enough</b>.</p>
@@ -453,17 +490,12 @@ tr:last-child td{border-bottom:0}
     <p class="rise arline ar">AI توظيف طلع بيقيّم نوع معين أقل. إيه السبب الأرجح؟ واقترح إجراء واحد يصلّح ده.</p>
   </section>
 
-  <section class="slide dark">
-    <div class="rise eyebrow">Part 2</div>
-    <h2 class="rise" style="font-size:clamp(30px,5.5vw,72px)">Privacy</h2>
-    <p class="rise arline ar">الجزء التاني: قضايا الخصوصية.</p>
-  </section>
-
   <section class="slide">
-    <div class="rise eyebrow">2 &#183; New issues</div>
+    <div class="rise eyebrow">Part 2 &#183; Privacy</div>
     <h2 class="rise" style="max-width:24ch">AI created new privacy problems</h2>
     <div class="rise statement"><em>Privacy</em> &#8212; the appropriate handling and protection of personal data.</div>
-    <div class="rise vs"><div class="pane a"><h3>1 &#183; Surveillance</h3><ul><li>Face-recognition cameras in <b>public spaces</b></li><li>Can <b>identify and track</b> individuals</li></ul></div><div class="pane b"><h3>2 &#183; Mass collection</h3><ul><li>Large amounts of <b>online behaviour data</b></li><li>Collected and <b>analysed</b></li></ul></div></div>
+    <div class="rise shots two"><figure class="shot"><img src="media/CCTV_camera_Round_Church_Street_Cambridge.jpg" alt="1 &#183; Surveillance" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>1 &#183; Surveillance</b>Face-recognition cameras in public spaces can <b>identify and track</b> individuals.<span class="ar">كاميرات التعرف على الوجه في الأماكن العامة تقدر تتعرف على الناس وتتتبعهم.</span></figcaption></figure><figure class="shot"><img src="media/Datacenter-telecom.jpg" alt="2 &#183; Mass collection" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>2 &#183; Mass collection</b>Large amounts of <b>online behaviour data</b> are collected and analysed.<span class="ar">كميات ضخمة من بيانات سلوكك على الإنترنت بتتجمع وتتحلل.</span></figcaption></figure></div>
+    <p class="rise credit">Photos: Wikimedia Commons &#183; public domain or Creative Commons. Used for teaching.</p>
     <p class="rise arline ar">تطور الذكاء الاصطناعي طلّع قضايا جديدة في الخصوصية:<br>① المراقبة بالتعرف على الوجه: الكاميرات في الأماكن العامة تقدر تتعرف على الناس وتتتبعهم.<br>② الجمع الجماعي للبيانات الشخصية: بيتجمع ويتحلل كميات ضخمة من بيانات سلوكنا على الإنترنت.</p>
   </section>
 
@@ -473,14 +505,8 @@ tr:last-child td{border-bottom:0}
     <p class="rise arline ar">لما بنستخدم التعرف على الوجه في الأماكن العامة، الأمان والراحة بيتحسنوا، بس في نفس الوقت بتظهر مخاوف على الخصوصية. اشرح إزاي نوازن بين الراحة والأمان وحماية الخصوصية، وقول أنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي أقرب لرأيك.</p>
   </section>
 
-  <section class="slide dark">
-    <div class="rise eyebrow">Part 3</div>
-    <h2 class="rise" style="font-size:clamp(28px,5vw,64px);max-width:18ch">Explainable AI and responsibility</h2>
-    <p class="rise arline ar">الجزء التالت: الذكاء الاصطناعي القابل للتفسير (XAI) والمسؤولية.</p>
-  </section>
-
   <section class="slide">
-    <div class="rise eyebrow">3 &#183; The black box, and the answer to it</div>
+    <div class="rise eyebrow">Part 3 &#183; Explainable AI and responsibility</div>
     <h2 class="rise">Why did it decide that?</h2>
     <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 900 270" role="img" aria-label="A black box shows only the answer; explainable AI also shows the reasons">
   <text x="30" y="26" font-size="13" font-weight="600" fill="#9C3B2E">Black box &#8212; the answer, and nothing else</text>
@@ -565,28 +591,14 @@ tr:last-child td{border-bottom:0}
     <p class="rise arline ar">المسؤولية: إننا نحدد أدوار وواجبات كل طرف في تطوير النظام وتشغيله واستخدامه.<br>المساءلة: إننا نحدد مين الجهات المسؤولة عن النظام وقراراته وتأثيره، ونقدر نحاسبها حسب دورها.<br>خد بالك: المساءلة مش إنك تشرح القرار — دي وظيفة الذكاء الاصطناعي القابل للتفسير (XAI) — المساءلة إننا نعرف مين اللي يتحاسب على النتيجة.</p>
   </section>
 
-  <section class="slide">
-    <div class="rise eyebrow">3 &#183; Where it becomes real</div>
-    <h2 class="rise">Two places these questions are not theory</h2>
-    <div class="rise shots"><figure class="shot"><img src="media/Face_detection.jpg" alt="Face recognition" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Face recognition</b>Useful at a gate &#8212; and it can track people, and misidentify some groups more than others.<span class="ar">مفيد على البوابة — بس ممكن يتتبع الناس، ويغلط مع مجموعات أكتر من غيرها.</span></figcaption></figure><figure class="shot"><img src="media/Chest_Xray_PA_3-8-2010.png" alt="Image-diagnosis AI" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Image-diagnosis AI</b>If its result is wrong, who is answerable &#8212; and can anyone see why it decided?<span class="ar">لو النتيجة غلط، مين يتحاسب؟ وحد يقدر يشوف هو قرر كده ليه؟</span></figcaption></figure></div>
-    <p class="rise credit">Photos: Wikimedia Commons &#183; public domain or Creative Commons. Used for teaching.</p>
-    <p class="rise arline ar">مثالين حقيقيين: التعرّف على الوجه (خصوصية وتحيز)، والتشخيص بالصور (صندوق أسود ومسؤولية). اسأل الطلبة: كل صورة فيهم بتلمس أنهي مشكلة من اللي فاتوا؟</p>
-  </section>
-
   <section class="slide dark">
     <div class="rise eyebrow">Pause & think</div>
     <h2 class="rise" style="max-width:27ch">If no one can explain why an AI rejected someone&#8217;s job application, is that fair? Which principle is missing?</h2>
     <p class="rise arline ar">لو محدش قدر يشرح الذكاء الاصطناعي رفض طلب توظيف حد ليه، يبقى ده عادل؟ وأنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي ناقص هنا؟</p>
   </section>
 
-  <section class="slide dark">
-    <div class="rise eyebrow">Part 4</div>
-    <h2 class="rise" style="font-size:clamp(28px,5vw,64px);max-width:18ch">The four principles of AI ethics</h2>
-    <p class="rise arline ar">الجزء الرابع: المبادئ الأساسية لأخلاقيات الذكاء الاصطناعي.</p>
-  </section>
-
   <section class="slide">
-    <div class="rise eyebrow">4 &#183; Learn these four exactly</div>
+    <div class="rise eyebrow">Part 4 &#183; The four principles of AI ethics</div>
     <h2 class="rise" style="max-width:26ch">Four principles for using AI appropriately</h2>
     <div class="rise kit"><div class="card"><div class="ico">&#9878;</div><div class="role">Principle 1</div><h3>Fairness</h3><p>Not unjustly discriminating against any particular person or group</p></div><div class="card"><div class="ico">&#128269;</div><div class="role">Principle 2</div><h3>Transparency</h3><p>Showing the AI&#8217;s decision-making process and inner workings clearly</p></div><div class="card"><div class="ico">&#128274;</div><div class="role">Principle 3</div><h3>Privacy protection</h3><p>Handling personal information appropriately and protecting privacy</p></div><div class="card"><div class="ico">&#9989;</div><div class="role">Principle 4</div><h3>Accountability</h3><p>Being answerable for the AI&#8217;s decisions</p></div></div>
     <p class="rise arline ar">العدالة: إننا منميّزش ظلم ضد أي شخص أو مجموعة.<br>الشفافية: نوفّر معلومات واضحة ومناسبة عن النظام، وإزاي بيتستخدم، وإزاي بياخد القرار، وحدوده إيه.<br>حماية الخصوصية: نتعامل مع المعلومات الشخصية بشكل مناسب ونحمي خصوصية الناس.<br>المساءلة: نحدد مين الجهات المسؤولة عن النظام وقراراته وتأثيره، ونقدر نحاسبها حسب دورها.</p>
@@ -595,15 +607,16 @@ tr:last-child td{border-bottom:0}
   <section class="slide">
     <div class="rise eyebrow">4 &#183; Your turn</div>
     <h2 class="rise">Which principle is it?</h2>
-    <table class="rise"><tr><th>Situation</th><th>Principle</th></tr><tr><td>A hiring AI evaluates fairly regardless of gender</td><td>Fairness</td></tr><tr><td>The AI&#8217;s decision-making process is disclosed to users in an easy-to-understand way</td><td>Transparency</td></tr><tr><td>Collected personal data is not used for other purposes than originally intended</td><td>Privacy protection</td></tr><tr><td>Someone is answerable when an AI&#8217;s diagnostic result turns out to be wrong</td><td>Accountability</td></tr></table>
-    <p class="rise sub" style="max-width:60ch;margin-top:.8rem;color:var(--soft)">Cover the right-hand column and answer first. These four are the book&#8217;s own exercise.</p>
-    <p class="rise arline ar">غطّوا العمود اليمين وجاوبوا الأول. الأربع مواقف دول هما تمرين الكتاب نفسه، وبييجوا كسؤال توصيل.</p>
+    <table class="rise"><tr><th>Situation</th><th>Principle</th></tr><tr><td>A hiring AI evaluates fairly regardless of gender</td><td class="reveal">Fairness</td></tr><tr><td>The AI&#8217;s decision-making process is disclosed to users in an easy-to-understand way</td><td class="reveal">Transparency</td></tr><tr><td>Collected personal data is not used for other purposes than originally intended</td><td class="reveal">Privacy protection</td></tr><tr><td>Someone is answerable when an AI&#8217;s diagnostic result turns out to be wrong</td><td class="reveal">Accountability</td></tr></table>
+    <p class="rise sub" style="max-width:60ch;margin-top:.8rem;color:var(--soft)">Answer first, then tap a blurred cell to reveal it. These four are the book&#8217;s own exercise.</p>
+    <p class="rise arline ar">جاوبوا الأول، وبعدين دوسوا على الخانة المتغبّشة تظهر الإجابة. الأربع مواقف دول هما تمرين الكتاب نفسه، وبييجوا كسؤال توصيل.</p>
   </section>
 
   <section class="slide">
     <div class="rise eyebrow">Exam warning</div>
-    <h2 class="rise" style="max-width:26ch">Three sentences that look right but are wrong</h2>
-    <ul class="rise check"><li class="no">&#8220;Even if an AI&#8217;s process is opaque, there is no problem as long as the result is correct.&#8221; &#8212; <b>false</b>: an opaque result cannot be verified.</li><li class="no">&#8220;Who is responsible when an AI is wrong has already been clearly determined.&#8221; &#8212; <b>false</b>: views differ and no clear standard exists yet.</li><li class="no">&#8220;Algorithmic bias is caused by the AI&#8217;s processing speed.&#8221; &#8212; <b>false</b>: it comes from bias in the training data.</li></ul>
+    <h2 class="rise" style="max-width:26ch">True or false?</h2>
+    <p class="rise sub" style="max-width:60ch;margin-top:.4rem;color:var(--soft)">All three sound right. Vote with your hands, then tap each one.</p>
+    <ul class="rise check"><li class="reveal rv">&#8220;Even if an AI&#8217;s process is opaque, there is no problem as long as the result is correct.&#8221; <span class="ans">&#8212; <b>false</b>: an opaque result cannot be verified.</span></li><li class="reveal rv">&#8220;Who is responsible when an AI is wrong has already been clearly determined.&#8221; <span class="ans">&#8212; <b>false</b>: views differ and no clear standard exists yet.</span></li><li class="reveal rv">&#8220;Algorithmic bias is caused by the AI&#8217;s processing speed.&#8221; <span class="ans">&#8212; <b>false</b>: it comes from bias in the training data.</span></li></ul>
     <p class="rise arline ar">تلات جمل شكلها صح وهي غلط، وبييجوا في الامتحان: «حتى لو طريقة القرار مش واضحة، مفيش مشكلة طالما النتيجة صح» ✗، «مين المسؤول لما الـ AI يغلط متحدد بوضوح» ✗، «التحيز الخوارزمي سببه سرعة معالجة الذكاء الاصطناعي» ✗ — سببه البيانات.</p>
   </section>
 
@@ -626,7 +639,7 @@ tr:last-child td{border-bottom:0}
   <section class="slide">
     <div class="rise eyebrow">Key takeaway &middot; lesson 1-4</div>
     <h2 class="rise" style="max-width:28ch">Accurate is not enough</h2>
-    <div class="rise statement">If training data is biased, an AI can reproduce that bias. Using AI responsibly means <em>checking for bias</em>, being able to <em>explain decisions</em>, and knowing <em>who is accountable</em> &#8212; guided by fairness, transparency, privacy protection and accountability.</div>
+    <p class="rise sub" style="max-width:60ch;margin-bottom:.6rem"><b>Hands up again:</b> would you let an AI decide who gets the job <i>now</i> &#8212; and on what condition?</p><div class="rise statement">If training data is biased, an AI can reproduce that bias. Using AI responsibly means <em>checking for bias</em>, being able to <em>explain decisions</em>, and knowing <em>who is accountable</em> &#8212; guided by fairness, transparency, privacy protection and accountability.</div>
     <p class="rise arline ar">خلّي بالك: لو بيانات التدريب متحيزة، الذكاء الاصطناعي ممكن يكرر نفس التحيز. واستخدام الذكاء الاصطناعي بمسؤولية يعني نراجع التحيز، ونقدر نشرح القرارات، ونعرف مين المسؤول — ماشيين بالعدالة والشفافية وحماية الخصوصية والمساءلة.</p>
   </section>
 
@@ -950,6 +963,39 @@ addEventListener('touchend', e => {
   addEventListener('keydown', function(e){
     if(zoomOpen && zoomOpen()) return;
     if(e.key === 'e' || e.key === 'E') reveal();
+  });
+})();
+
+/* ---- videos and tap-to-reveal ------------------------------------------
+   A video is a poster until clicked, so a slow school connection does not
+   stall the deck; leaving the slide puts the poster back, which stops it.
+   Enter/space on a focused poster plays it without also turning the slide. */
+(function(){
+  if(!document.querySelectorAll) return;
+  function play(el){
+    if(el.getAttribute('data-on')) return;
+    el.setAttribute('data-on', '1');
+    el.setAttribute('data-poster', el.innerHTML);
+    el.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' +
+      el.getAttribute('data-yt') + '?autoplay=1&rel=0" title="' +
+      (el.getAttribute('aria-label') || 'video') +
+      '" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+  }
+  function stopAll(){
+    document.querySelectorAll('.vid[data-on]').forEach(function(el){
+      el.innerHTML = el.getAttribute('data-poster');
+      el.removeAttribute('data-on');
+    });
+  }
+  document.querySelectorAll('.vid').forEach(function(el){
+    el.addEventListener('click', function(){ play(el); });
+    el.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); e.stopPropagation(); play(el); }
+    });
+  });
+  addEventListener('hashchange', stopAll);
+  document.querySelectorAll('.reveal').forEach(function(el){
+    el.addEventListener('click', function(){ el.classList.add('shown'); });
   });
 })();
 

@@ -138,6 +138,7 @@ WHO = '''
 PHOTO_CSS = """
 /* ---------- photo slides ---------- */
 .shots{display:grid; gap:.85rem; margin:1rem 0 .35rem}
+.shots.two{grid-template-columns:repeat(2,1fr)}
 .shots.three{grid-template-columns:repeat(3,1fr)}
 .shots.four{grid-template-columns:repeat(4,1fr)}
 @media (max-width:900px){.shots.three,.shots.four{grid-template-columns:repeat(2,1fr)}}
@@ -191,6 +192,24 @@ def fig(svg):
 
 
 
+
+def video(ytid, title, source, eyebrow_t, heading, watch_for, arline):
+    """A video that loads only when clicked -- a poster, then the player.
+    Leaving the slide stops it (see VIDEO_JS). The link underneath is the
+    fallback for a classroom where the embed is blocked."""
+    return s("",
+        eyebrow(eyebrow_t),
+        h2(heading, "max-width:26ch"),
+        '<div class="rise vid" data-yt="%s" role="button" tabindex="0" aria-label="Play video: %s">'
+        '<img src="https://i.ytimg.com/vi/%s/hqdefault.jpg" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">'
+        '<span class="play">&#9654;</span>'
+        '<span class="vcap"><b>%s</b> &#183; %s</span></div>' % (ytid, title, ytid, title, source),
+        sub("<b>While you watch:</b> " + watch_for, "max-width:62ch;margin-top:.5rem"),
+        '<p class="rise credit">Video: %s, on YouTube &#183; '
+        '<a href="https://www.youtube.com/watch?v=%s" target="_blank" rel="noopener">open it on YouTube</a> '
+        'if it will not play here. Not from the textbook.</p>' % (source, ytid),
+        ar(arline))
+
 SLIDES = []
 A = SLIDES.append
 
@@ -235,6 +254,8 @@ A(s("",
     '</div>',
     sub("If the data it learned from was biased, it can be <b>unfair</b>. And it can be hard to know <b>why</b> it decided at all.",
         "max-width:58ch;margin-top:1rem"),
+    '<div class="rise" style="margin-top:1rem;padding:clamp(12px,1.5vw,22px);background:var(--gold-pale);border-radius:12px;max-width:62ch">'
+    '<p style="font-size:clamp(14px,1.6vw,21px)"><b>Hands up:</b> would you let an AI decide who gets the job? Remember your answer &#8212; we ask again at the end.</p></div>',
     ar("الذكاء الاصطناعي النهارده بيساعد في قرارات بتأثر على الناس، زي فرز طلبات التوظيف، والتعرف على الأشخاص، وتحليل البيانات الشخصية. ولو البيانات أو طريقة تصميم النظام أو استخدامه فيها انحياز، ممكن يطلّع نتايج مش عادلة — وساعات يبقى صعب نفسّر هو وصل للقرار ده على أساس إيه.")))
 
 # 4 guiding question
@@ -250,17 +271,24 @@ A(s("",
     h2("Before you read on", "max-width:20ch"),
     sub("A face-recognition AI is more likely to <b>misidentify</b> people from some ethnic groups than others. With your partner, predict: <b>who could be harmed</b> by this, and how? Give a reason.",
         "max-width:56ch;margin-top:1rem"),
-    sub("Keep your answer. It is exactly what Part 1 explains.", "margin-top:.8rem;color:var(--soft)"),
+    '<div class="rise shots" style="max-width:420px">'
+    + shot("Face_detection.jpg", "Face recognition at work",
+           "Each box is a face the system found. Would it find every face equally well?",
+           "كل مربع وش النظام لقاه. هل هيلاقي كل الوشوش بنفس الدقة؟")
+    + '</div>',
+    CREDIT,
+    sub("Keep your answer. It is exactly what Part 1 explains.", "margin-top:.6rem;color:var(--soft)"),
     ar("مع زميلك، بصّوا على الموقف ده: ذكاء اصطناعي للتعرف على الوجه بيغلط في التعرف على ناس من مجموعات عرقية معينة أكتر من غيرهم. قبل ما تكمّلوا، توقّعوا: مين ممكن يتضرر من ده، وإزاي؟ وقولوا سبب.")))
 
+A(video("TWWsW1w-BVo", "Gender Shades", "MIT Media Lab",
+          "Watch &#183; the real study", "Was your prediction right?",
+          "which faces did the systems get wrong most often &#8212; and why would the training data cause that?",
+          "بعد التوقع ده، نشوف الدليل: باحثة في MIT جرّبت أنظمة التعرف على الوجه. وانتو بتتفرجوا: أنهي وشوش الأنظمة غلطت فيها أكتر؟ وليه بيانات التدريب ممكن تكون السبب؟"))
+
 # ---------------- part 1: algorithmic bias ----------------
-A(s("dark",
-    eyebrow("Part 1"),
-    h2("Algorithmic bias", "font-size:clamp(30px,5.5vw,72px)"),
-    ar("الجزء الأول: التحيز الخوارزمي.")))
 
 A(s("",
-    eyebrow("1 &#183; The definition"),
+    eyebrow("Part 1 &#183; Algorithmic bias"),
     h2("Bias in, bias out", "max-width:24ch"),
     '<div class="rise statement"><em>Algorithmic bias</em> &#8212; bias in AI judgments caused by bias in the training data.</div>',
     '<table class="rise">'
@@ -292,6 +320,11 @@ A(s("",
     '</div>',
     ar("الأسباب الرئيسية للتحيز: أولًا بيانات التدريب نفسها تبقى متحيزة — بيانات مش كفاية عن سمات معينة، أو بيانات شايلة نزعات تمييزية قديمة. وتانيًا طريقة بناء النظام: متغيرات مش مناسبة، أو متغير بديل بيمثّل سمة محمية بشكل غير مباشر، أو تصميم النموذج نفسه.")))
 
+A(video("x2mRoFNm22g", "AI: Training Data &amp; Bias", "Code.org",
+          "Watch &#183; how data becomes bias", "Where does the bias come from?",
+          "listen for the cause from the last slide &#8212; what is wrong with the data the AI learned from?",
+          "الفيديو ده بيشرح إزاي بيانات التدريب بتأثر على قرارات الـ AI. وانتو بتتفرجوا: دوّروا على السبب اللي في السلايد اللي فاتت — إيه الغلط في البيانات اللي اتعلم منها؟"))
+
 A(s("",
     eyebrow("1 &#183; The one students skip"),
     h2("A proxy variable", "max-width:24ch"),
@@ -312,25 +345,20 @@ A(s("dark",
     ar("AI توظيف طلع بيقيّم نوع معين أقل. إيه السبب الأرجح؟ واقترح إجراء واحد يصلّح ده.")))
 
 # ---------------- part 2: privacy ----------------
-A(s("dark",
-    eyebrow("Part 2"),
-    h2("Privacy", "font-size:clamp(30px,5.5vw,72px)"),
-    ar("الجزء التاني: قضايا الخصوصية.")))
 
 A(s("",
-    eyebrow("2 &#183; New issues"),
+    eyebrow("Part 2 &#183; Privacy"),
     h2("AI created new privacy problems", "max-width:24ch"),
     '<div class="rise statement"><em>Privacy</em> &#8212; the appropriate handling and protection of personal data.</div>',
-    '<div class="rise vs">'
-    '<div class="pane a"><h3>1 &#183; Surveillance</h3><ul>'
-    '<li>Face-recognition cameras in <b>public spaces</b></li>'
-    '<li>Can <b>identify and track</b> individuals</li>'
-    '</ul></div>'
-    '<div class="pane b"><h3>2 &#183; Mass collection</h3><ul>'
-    '<li>Large amounts of <b>online behaviour data</b></li>'
-    '<li>Collected and <b>analysed</b></li>'
-    '</ul></div>'
-    '</div>',
+    '<div class="rise shots two">'
+    + shot("CCTV_camera_Round_Church_Street_Cambridge.jpg", "1 &#183; Surveillance",
+           "Face-recognition cameras in public spaces can <b>identify and track</b> individuals.",
+           "كاميرات التعرف على الوجه في الأماكن العامة تقدر تتعرف على الناس وتتتبعهم.")
+    + shot("Datacenter-telecom.jpg", "2 &#183; Mass collection",
+           "Large amounts of <b>online behaviour data</b> are collected and analysed.",
+           "كميات ضخمة من بيانات سلوكك على الإنترنت بتتجمع وتتحلل.")
+    + '</div>',
+    CREDIT,
     ar("تطور الذكاء الاصطناعي طلّع قضايا جديدة في الخصوصية:<br>① المراقبة بالتعرف على الوجه: الكاميرات في الأماكن العامة تقدر تتعرف على الناس وتتتبعهم.<br>② الجمع الجماعي للبيانات الشخصية: بيتجمع ويتحلل كميات ضخمة من بيانات سلوكنا على الإنترنت.")))
 
 A(s("dark",
@@ -340,13 +368,9 @@ A(s("dark",
     ar("لما بنستخدم التعرف على الوجه في الأماكن العامة، الأمان والراحة بيتحسنوا، بس في نفس الوقت بتظهر مخاوف على الخصوصية. اشرح إزاي نوازن بين الراحة والأمان وحماية الخصوصية، وقول أنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي أقرب لرأيك.")))
 
 # ---------------- part 3: XAI and responsibility ----------------
-A(s("dark",
-    eyebrow("Part 3"),
-    h2("Explainable AI and responsibility", "font-size:clamp(28px,5vw,64px);max-width:18ch"),
-    ar("الجزء التالت: الذكاء الاصطناعي القابل للتفسير (XAI) والمسؤولية.")))
 
 A(s("",
-    eyebrow("3 &#183; The black box, and the answer to it"),
+    eyebrow("Part 3 &#183; Explainable AI and responsibility"),
     h2("Why did it decide that?"),
     fig(XAI),
     ar("لو الـ AI صندوق أسود بيديك النتيجة بس، محدش يقدر يتأكد هي صح ولا عادلة. الـ XAI بيطلّع الأسباب كمان — فبني آدم يقدر يراجعها.")))
@@ -385,19 +409,6 @@ A(s("",
     '</div>',
     ar("المسؤولية: إننا نحدد أدوار وواجبات كل طرف في تطوير النظام وتشغيله واستخدامه.<br>المساءلة: إننا نحدد مين الجهات المسؤولة عن النظام وقراراته وتأثيره، ونقدر نحاسبها حسب دورها.<br>خد بالك: المساءلة مش إنك تشرح القرار — دي وظيفة الذكاء الاصطناعي القابل للتفسير (XAI) — المساءلة إننا نعرف مين اللي يتحاسب على النتيجة.")))
 
-A(s("",
-    eyebrow("3 &#183; Where it becomes real"),
-    h2("Two places these questions are not theory"),
-    '<div class="rise shots">'
-    + shot("Face_detection.jpg", "Face recognition",
-           "Useful at a gate &#8212; and it can track people, and misidentify some groups more than others.",
-           "مفيد على البوابة — بس ممكن يتتبع الناس، ويغلط مع مجموعات أكتر من غيرها.")
-    + shot("Chest_Xray_PA_3-8-2010.png", "Image-diagnosis AI",
-           "If its result is wrong, who is answerable &#8212; and can anyone see why it decided?",
-           "لو النتيجة غلط، مين يتحاسب؟ وحد يقدر يشوف هو قرر كده ليه؟")
-    + '</div>',
-    CREDIT,
-    ar("مثالين حقيقيين: التعرّف على الوجه (خصوصية وتحيز)، والتشخيص بالصور (صندوق أسود ومسؤولية). اسأل الطلبة: كل صورة فيهم بتلمس أنهي مشكلة من اللي فاتوا؟")))
 
 A(s("dark",
     eyebrow("Pause & think"),
@@ -406,13 +417,9 @@ A(s("dark",
     ar("لو محدش قدر يشرح الذكاء الاصطناعي رفض طلب توظيف حد ليه، يبقى ده عادل؟ وأنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي ناقص هنا؟")))
 
 # ---------------- part 4: the four principles ----------------
-A(s("dark",
-    eyebrow("Part 4"),
-    h2("The four principles of AI ethics", "font-size:clamp(28px,5vw,64px);max-width:18ch"),
-    ar("الجزء الرابع: المبادئ الأساسية لأخلاقيات الذكاء الاصطناعي.")))
 
 A(s("",
-    eyebrow("4 &#183; Learn these four exactly"),
+    eyebrow("Part 4 &#183; The four principles of AI ethics"),
     h2("Four principles for using AI appropriately", "max-width:26ch"),
     '<div class="rise kit">'
     '<div class="card"><div class="ico">&#9878;</div><div class="role">Principle 1</div>'
@@ -431,22 +438,23 @@ A(s("",
     h2("Which principle is it?"),
     '<table class="rise">'
     '<tr><th>Situation</th><th>Principle</th></tr>'
-    '<tr><td>A hiring AI evaluates fairly regardless of gender</td><td>Fairness</td></tr>'
-    '<tr><td>The AI&#8217;s decision-making process is disclosed to users in an easy-to-understand way</td><td>Transparency</td></tr>'
-    '<tr><td>Collected personal data is not used for other purposes than originally intended</td><td>Privacy protection</td></tr>'
-    '<tr><td>Someone is answerable when an AI&#8217;s diagnostic result turns out to be wrong</td><td>Accountability</td></tr>'
+    '<tr><td>A hiring AI evaluates fairly regardless of gender</td><td class="reveal">Fairness</td></tr>'
+    '<tr><td>The AI&#8217;s decision-making process is disclosed to users in an easy-to-understand way</td><td class="reveal">Transparency</td></tr>'
+    '<tr><td>Collected personal data is not used for other purposes than originally intended</td><td class="reveal">Privacy protection</td></tr>'
+    '<tr><td>Someone is answerable when an AI&#8217;s diagnostic result turns out to be wrong</td><td class="reveal">Accountability</td></tr>'
     '</table>',
-    sub("Cover the right-hand column and answer first. These four are the book&#8217;s own exercise.",
+    sub("Answer first, then tap a blurred cell to reveal it. These four are the book&#8217;s own exercise.",
         "max-width:60ch;margin-top:.8rem;color:var(--soft)"),
-    ar("غطّوا العمود اليمين وجاوبوا الأول. الأربع مواقف دول هما تمرين الكتاب نفسه، وبييجوا كسؤال توصيل.")))
+    ar("جاوبوا الأول، وبعدين دوسوا على الخانة المتغبّشة تظهر الإجابة. الأربع مواقف دول هما تمرين الكتاب نفسه، وبييجوا كسؤال توصيل.")))
 
 A(s("",
     eyebrow("Exam warning"),
-    h2("Three sentences that look right but are wrong", "max-width:26ch"),
+    h2("True or false?", "max-width:26ch"),
+    sub("All three sound right. Vote with your hands, then tap each one.", "max-width:60ch;margin-top:.4rem;color:var(--soft)"),
     '<ul class="rise check">'
-    '<li class="no">&#8220;Even if an AI&#8217;s process is opaque, there is no problem as long as the result is correct.&#8221; &#8212; <b>false</b>: an opaque result cannot be verified.</li>'
-    '<li class="no">&#8220;Who is responsible when an AI is wrong has already been clearly determined.&#8221; &#8212; <b>false</b>: views differ and no clear standard exists yet.</li>'
-    '<li class="no">&#8220;Algorithmic bias is caused by the AI&#8217;s processing speed.&#8221; &#8212; <b>false</b>: it comes from bias in the training data.</li>'
+    '<li class="reveal rv">&#8220;Even if an AI&#8217;s process is opaque, there is no problem as long as the result is correct.&#8221; <span class="ans">&#8212; <b>false</b>: an opaque result cannot be verified.</span></li>'
+    '<li class="reveal rv">&#8220;Who is responsible when an AI is wrong has already been clearly determined.&#8221; <span class="ans">&#8212; <b>false</b>: views differ and no clear standard exists yet.</span></li>'
+    '<li class="reveal rv">&#8220;Algorithmic bias is caused by the AI&#8217;s processing speed.&#8221; <span class="ans">&#8212; <b>false</b>: it comes from bias in the training data.</span></li>'
     '</ul>',
     ar("تلات جمل شكلها صح وهي غلط، وبييجوا في الامتحان: «حتى لو طريقة القرار مش واضحة، مفيش مشكلة طالما النتيجة صح» ✗، «مين المسؤول لما الـ AI يغلط متحدد بوضوح» ✗، «التحيز الخوارزمي سببه سرعة معالجة الذكاء الاصطناعي» ✗ — سببه البيانات.")))
 
@@ -476,6 +484,7 @@ A(s("",
 A(s("",
     eyebrow("Key takeaway &middot; lesson 1-4"),
     h2("Accurate is not enough", "max-width:28ch"),
+    '<p class="rise sub" style="max-width:60ch;margin-bottom:.6rem"><b>Hands up again:</b> would you let an AI decide who gets the job <i>now</i> &#8212; and on what condition?</p>'
     '<div class="rise statement">If training data is biased, an AI can reproduce that bias. Using AI responsibly means <em>checking for bias</em>, being able to <em>explain decisions</em>, and knowing <em>who is accountable</em> &#8212; guided by fairness, transparency, privacy protection and accountability.</div>',
     ar("خلّي بالك: لو بيانات التدريب متحيزة، الذكاء الاصطناعي ممكن يكرر نفس التحيز. واستخدام الذكاء الاصطناعي بمسؤولية يعني نراجع التحيز، ونقدر نشرح القرارات، ونعرف مين المسؤول — ماشيين بالعدالة والشفافية وحماية الخصوصية والمساءلة.")))
 
@@ -621,6 +630,74 @@ def gate_js(out):
  return out.replace(anchor, hook.strip() + chr(10) + chr(10) + anchor, 1)
 
 
+ENGAGE_CSS = """
+/* ---------- video: a poster until clicked, then the player ---------- */
+.vid{position:relative; width:min(680px,100%); aspect-ratio:16/9; margin:.9rem 0 .3rem;
+  border-radius:12px; overflow:hidden; background:#16233F; cursor:pointer}
+.vid img{width:100%; height:100%; object-fit:cover; display:block; opacity:.82}
+.vid .play{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:clamp(52px,6vw,78px); height:clamp(52px,6vw,78px); border-radius:50%;
+  background:var(--teal); color:#fff; font-size:clamp(20px,2.4vw,32px);
+  display:flex; align-items:center; justify-content:center; box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.vid .vcap{position:absolute; left:0; right:0; bottom:0; padding:.55rem .9rem;
+  background:linear-gradient(transparent,rgba(0,0,0,.78)); color:#fff; font-size:clamp(12px,1.3vw,16px)}
+.vid iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+.vid:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+/* ---------- tap to reveal ---------- */
+td.reveal{cursor:pointer; transition:filter .25s}
+td.reveal:not(.shown){filter:blur(7px); user-select:none}
+.check li.rv{cursor:pointer}
+.check li.rv::before{content:"?"; color:var(--gold)}
+.check li.rv.shown::before{content:"\\2715"; color:var(--wrong)}
+.check li.rv:not(.shown) .ans{filter:blur(7px); user-select:none}
+.check li.rv .ans{transition:filter .25s}
+@media print{.vid{display:none} td.reveal,.check li.rv .ans{filter:none!important}}
+"""
+
+
+def engage_js(out):
+    """Videos load on click and stop when the slide changes; blurred answers
+    show on tap. Written not to assume a full DOM -- the behavioural harness
+    runs this against a stub, and a call it lacks fails CI."""
+    hook = """
+/* ---- videos and tap-to-reveal ------------------------------------------
+   A video is a poster until clicked, so a slow school connection does not
+   stall the deck; leaving the slide puts the poster back, which stops it.
+   Enter/space on a focused poster plays it without also turning the slide. */
+(function(){
+  if(!document.querySelectorAll) return;
+  function play(el){
+    if(el.getAttribute('data-on')) return;
+    el.setAttribute('data-on', '1');
+    el.setAttribute('data-poster', el.innerHTML);
+    el.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' +
+      el.getAttribute('data-yt') + '?autoplay=1&rel=0" title="' +
+      (el.getAttribute('aria-label') || 'video') +
+      '" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+  }
+  function stopAll(){
+    document.querySelectorAll('.vid[data-on]').forEach(function(el){
+      el.innerHTML = el.getAttribute('data-poster');
+      el.removeAttribute('data-on');
+    });
+  }
+  document.querySelectorAll('.vid').forEach(function(el){
+    el.addEventListener('click', function(){ play(el); });
+    el.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); e.stopPropagation(); play(el); }
+    });
+  });
+  addEventListener('hashchange', stopAll);
+  document.querySelectorAll('.reveal').forEach(function(el){
+    el.addEventListener('click', function(){ el.classList.add('shown'); });
+  });
+})();
+"""
+    anchor = "const start = parseInt(location.hash"
+    assert out.count(anchor) == 1
+    return out.replace(anchor, hook.strip() + chr(10) + chr(10) + anchor, 1)
+
+
 body = "\n\n".join(SLIDES)
 BASE = "scripts/lecture4_slides_base.html"
 src = io.open(BASE, encoding="utf-8").read()
@@ -632,6 +709,9 @@ close = "\n</div>\n\n" if "</div>" in tail else "\n"
 out = src[:start] + "\n\n" + body + close + src[end:]
 out = port_lightbox(out)
 out = gate_js(out)
+out = engage_js(out)
+if ".vid{" not in out:
+    out = out.replace("</style>", ENGAGE_CSS.strip() + chr(10) + "</style>", 1)
 if ".qrgate{" not in out:
     out = out.replace("</style>", GATE_CSS.strip() + chr(10) + "</style>", 1)
 if ".shots{" not in out:
