@@ -438,10 +438,10 @@ A(s("",
     h2("Which principle is it?"),
     '<table class="rise">'
     '<tr><th>Situation</th><th>Principle</th></tr>'
-    '<tr><td>A hiring AI evaluates fairly regardless of gender</td><td class="reveal">Fairness</td></tr>'
-    '<tr><td>The AI&#8217;s decision-making process is disclosed to users in an easy-to-understand way</td><td class="reveal">Transparency</td></tr>'
-    '<tr><td>Collected personal data is not used for other purposes than originally intended</td><td class="reveal">Privacy protection</td></tr>'
-    '<tr><td>Someone is answerable when an AI&#8217;s diagnostic result turns out to be wrong</td><td class="reveal">Accountability</td></tr>'
+    '<tr><td>A hiring AI evaluates fairly regardless of gender</td><td class="reveal"><span>Fairness</span></td></tr>'
+    '<tr><td>The AI&#8217;s decision-making process is disclosed to users in an easy-to-understand way</td><td class="reveal"><span>Transparency</span></td></tr>'
+    '<tr><td>Collected personal data is not used for other purposes than originally intended</td><td class="reveal"><span>Privacy protection</span></td></tr>'
+    '<tr><td>Someone is answerable when an AI&#8217;s diagnostic result turns out to be wrong</td><td class="reveal"><span>Accountability</span></td></tr>'
     '</table>',
     sub("Answer first, then tap a blurred cell to reveal it. These four are the book&#8217;s own exercise.",
         "max-width:60ch;margin-top:.8rem;color:var(--soft)"),
@@ -644,14 +644,36 @@ ENGAGE_CSS = """
 .vid iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
 .vid:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
 /* ---------- tap to reveal ---------- */
-td.reveal{cursor:pointer; transition:filter .25s}
-td.reveal:not(.shown){filter:blur(7px); user-select:none}
+/* Hidden: blurred, breathing gently so it reads as "tap me". Revealed: the
+   blur clears as the word pops in with a small overshoot, a gold flash
+   behind it fades, and it settles in the lecture colour -- each on its own
+   tap. The base stylesheet turns every animation off under
+   prefers-reduced-motion. */
+@keyframes revealPop{
+  0%  {transform:scale(.6); opacity:.2; filter:blur(8px)}
+  55% {transform:scale(1.18); opacity:1; filter:blur(0)}
+  75% {transform:scale(.96)}
+  100%{transform:scale(1)}
+}
+@keyframes revealFlash{0%{background:var(--gold-pale)} 100%{background:transparent}}
+@keyframes revealStamp{
+  0%  {transform:scale(2.4) rotate(-25deg); opacity:0}
+  60% {transform:scale(.9) rotate(4deg); opacity:1}
+  100%{transform:scale(1) rotate(0)}
+}
+@keyframes hintBreathe{0%,100%{opacity:.55} 50%{opacity:.9}}
+td.reveal{cursor:pointer}
+td.reveal span{display:inline-block}
+td.reveal:not(.shown) span{filter:blur(7px); user-select:none; animation:hintBreathe 2.4s ease-in-out infinite}
+td.reveal.shown{animation:revealFlash 1.1s ease-out}
+td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; color:var(--teal); font-weight:600}
 .check li.rv{cursor:pointer}
-.check li.rv::before{content:"?"; color:var(--gold)}
-.check li.rv.shown::before{content:"\\2715"; color:var(--wrong)}
-.check li.rv:not(.shown) .ans{filter:blur(7px); user-select:none}
-.check li.rv .ans{transition:filter .25s}
-@media print{.vid{display:none} td.reveal,.check li.rv .ans{filter:none!important}}
+.check li.rv::before{content:"?"; color:var(--gold); display:inline-block}
+.check li.rv.shown::before{content:"\\2715"; color:var(--wrong); animation:revealStamp .5s cubic-bezier(.2,.8,.3,1.2) both}
+.check li.rv .ans{display:inline-block}
+.check li.rv:not(.shown) .ans{filter:blur(7px); user-select:none; animation:hintBreathe 2.4s ease-in-out infinite}
+.check li.rv.shown .ans{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) .12s both}
+@media print{.vid{display:none} td.reveal span,.check li.rv .ans{filter:none!important;animation:none!important}}
 """
 
 
