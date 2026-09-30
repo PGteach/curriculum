@@ -307,6 +307,112 @@ tr:last-child td{border-bottom:0}
   #zoom img{max-height:60vh}
 }
 @media print{#zoom{display:none!important}}
+/* ---- side visuals (see VIZ in the builder) ---- */
+.split{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:clamp(28px,4vw,80px); align-items:center}
+.split>.main{min-width:0}
+.viz{max-width:520px; width:100%; justify-self:center; cursor:pointer; -webkit-tap-highlight-color:transparent}
+.viz svg{width:100%; height:auto; display:block; overflow:visible}
+@media(max-width:1000px){.split{display:block} .split>.viz{display:none}}
+.vcap{margin-top:.8rem; text-align:center; font-size:clamp(13px,1.2vw,17px); color:var(--soft); line-height:1.5}
+.vcap b{display:block; color:var(--ink); font-weight:600}
+.vcap span{display:block; font-size:.92em}
+.dark .vcap{color:#AAB6CC} .dark .vcap b{color:var(--paper)}
+.viz .lbl{font:600 13px Inter,system-ui,sans-serif; fill:var(--soft)}
+.viz .lbl.mid{text-anchor:middle} .viz .lbl.sm2{font-size:11px}
+.viz .ntext{font:600 15px Inter,system-ui,sans-serif; fill:var(--ink); text-anchor:middle}
+.viz .ntext.sm{font-size:12px; font-weight:500; fill:var(--soft)}
+.dark .viz .ntext{fill:var(--paper)} .dark .viz .ntext.ink{fill:var(--ink)}
+.viz .node rect{fill:var(--white); stroke:var(--line); stroke-width:1.5}
+.dark .viz .node rect{fill:#1F2E4F; stroke:#3A4867}
+.viz .node rect.core,.dark .viz .node rect.core{fill:var(--gold-pale); stroke:var(--gold)}
+.viz .wire{stroke:var(--teal); stroke-width:3; fill:none; stroke-dasharray:6 7}
+.dark .viz .wire{stroke:var(--gold)}
+.viz .tA,.viz .node rect.tA{fill:var(--teal)} .viz .tB,.viz .node rect.tB{fill:var(--gold)}
+.viz .node rect.bar{stroke:none}
+.viz .eye{fill:var(--white)} .viz .mouth{stroke:var(--white); stroke-width:1.8; fill:none; stroke-linecap:round}
+.viz .vk{stroke:var(--teal); stroke-width:3.5; fill:none; stroke-linecap:round; stroke-linejoin:round}
+.viz .vx{stroke:var(--wrong); stroke-width:3.5; fill:none; stroke-linecap:round}
+.viz .scan{fill:var(--wrong); opacity:0}
+.viz .qmark{font:700 44px Fraunces,serif; fill:var(--gold); text-anchor:middle}
+.viz .bar{rx:3}
+.viz .glass{fill:var(--white); stroke:var(--teal); stroke-width:2}
+.viz .blackbox{fill:var(--ink); opacity:0}
+.viz .bbq{font:700 40px Fraunces,serif; fill:var(--paper); text-anchor:middle; opacity:0}
+.viz .bbl{opacity:0}
+/* rows, tiles, chips */
+.drow{display:flex; align-items:center; gap:.7rem; background:var(--white); border:1px solid var(--line); border-radius:12px; padding:.75rem 1rem; margin-bottom:.65rem; font-size:clamp(14px,1.3vw,18px)}
+.drow .dico{font-size:1.5em} .drow .dai{background:var(--gold-pale); color:var(--ink); font-weight:700; border-radius:8px; padding:.15rem .5rem; font-size:.85em}
+.drow .darrow{color:var(--teal); font-weight:700} .drow .dt{color:var(--ink)}
+.tiles{display:grid; grid-template-columns:1fr 1fr; gap:.8rem}
+.tile{background:#1F2E4F; border:1px solid #3A4867; border-radius:14px; padding:1rem; text-align:center; color:var(--paper)}
+.tile span{display:block; font-size:2em; line-height:1.2} .tile b{display:block; margin-top:.3rem; font-size:clamp(14px,1.3vw,18px)}
+.tile i{display:block; font-style:normal; color:#AAB6CC; font-size:clamp(12px,1.05vw,15px)}
+.pchip{display:flex; align-items:center; gap:.8rem; background:var(--white); border:1px solid var(--line); border-left:4px solid var(--gold); border-radius:12px; padding:.8rem 1rem; margin-bottom:.6rem; font-weight:600; font-size:clamp(15px,1.4vw,20px); color:var(--ink)}
+.pchip span{font-size:1.3em}
+/* CV card */
+.cv{background:var(--white); border:1px solid var(--line); border-radius:14px; padding:1.1rem 1.2rem; font-size:clamp(13px,1.2vw,16px); box-shadow:0 1px 2px rgba(22,35,63,.05)}
+.cvh{font:600 1.2em Fraunces,serif; color:var(--ink); margin-bottom:.6rem}
+.cvl{display:flex; align-items:center; gap:.6rem; padding:.4rem 0; border-bottom:1px dashed var(--line); color:var(--soft); position:relative}
+.cvl span{min-width:6.5em} .cvl i{flex:1; height:8px; border-radius:4px; background:var(--line)}
+.cvl.gone span,.cvl.gone i{text-decoration:line-through; opacity:.35}
+.cvl.gone em{font-style:normal; font-size:.8em; font-weight:700; color:var(--wrong); border:1.5px solid var(--wrong); border-radius:6px; padding:0 .35rem}
+.cvl.hot{color:var(--ink); border-radius:8px; padding:.45rem .5rem; margin:.3rem -.5rem; background:var(--gold-pale)}
+.cvl.hot b{color:var(--wrong)}
+.score{display:flex; align-items:center; gap:.7rem; margin-top:.8rem; font-weight:600; color:var(--ink)}
+.meter{flex:1; height:12px; border-radius:6px; background:var(--line); overflow:hidden}
+.meter .fill{height:100%; width:28%; background:var(--wrong); border-radius:6px}
+/* rings */
+.viz .track{fill:none; stroke:#3A4867; stroke-width:12}
+.viz .ring{fill:none; stroke:var(--gold); stroke-width:12; stroke-linecap:round; transform:rotate(-90deg); transform-origin:100px 100px; stroke-dasharray:503; stroke-dashoffset:0}
+.viz .big{font:700 46px Fraunces,serif; fill:var(--paper); text-anchor:middle}
+.viz .small{font:500 15px Inter,system-ui,sans-serif; fill:#AAB6CC; text-anchor:middle}
+.timer,.unit{max-width:320px}
+.tps{display:flex; justify-content:center; gap:.5rem; margin-top:.9rem}
+.tps span{border:1px solid #3A4867; border-radius:99px; padding:.25rem .8rem; color:var(--paper); font-size:clamp(13px,1.15vw,16px)}
+.unit .track{stroke:var(--line)} .unit .big{fill:var(--ink)} .unit .small{fill:var(--soft)} .unit .ring{stroke:var(--teal)}
+.usteps{display:flex; justify-content:center; gap:.45rem; margin-top:.8rem}
+.ustep{border:1px solid var(--line); background:var(--white); border-radius:99px; padding:.2rem .7rem; font-weight:600; color:var(--ink); font-size:clamp(13px,1.1vw,15px)}
+.ustep b{color:var(--teal); margin-right:.25rem}
+
+/* motion: only on the slide being shown, so opening the slide plays it */
+@keyframes vIn{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+@keyframes vPop{0%{opacity:0; transform:scale(.3)} 70%{opacity:1; transform:scale(1.25)} 100%{transform:scale(1)}}
+@keyframes vDash{to{stroke-dashoffset:-26}}
+@keyframes vScan{0%{opacity:.85; transform:translateY(0)} 90%{opacity:.85; transform:translateY(190px)} 100%{opacity:0; transform:translateY(190px)}}
+@keyframes vGrowY{from{transform:scaleY(0)} to{transform:scaleY(1)}}
+@keyframes vGrowX{from{transform:scaleX(0)} to{transform:scaleX(1)}}
+@keyframes vBreathe{0%,100%{opacity:.35; transform:scale(.92)} 50%{opacity:1; transform:scale(1.08)}}
+@keyframes vStrike{from{opacity:1; text-decoration-color:transparent} to{opacity:.35}}
+@keyframes vGlow{0%,100%{box-shadow:0 0 0 0 rgba(201,150,59,0)} 50%{box-shadow:0 0 0 6px rgba(201,150,59,.35)}}
+@keyframes vDrop{from{width:88%; background:var(--teal)} to{width:28%; background:var(--wrong)}}
+@keyframes vRing{from{stroke-dashoffset:0} to{stroke-dashoffset:503}}
+@keyframes vRingFill{from{stroke-dashoffset:503} to{stroke-dashoffset:0}}
+@keyframes vHideBox{0%,45%{opacity:1} 100%{opacity:0}}
+@keyframes vShowThen{0%,45%{opacity:1} 60%,100%{opacity:0}}
+@keyframes vLateIn{0%,55%{opacity:0} 100%{opacity:1}}
+.slide.on .viz .wire{animation:vDash 1s linear infinite}
+.slide.on .viz .n1{animation:vIn .45s .2s both} .slide.on .viz .n2{animation:vIn .45s .6s both} .slide.on .viz .n3{animation:vIn .45s 1s both}
+.slide.on .viz .qmark{animation:vBreathe 2.2s 1.4s ease-in-out infinite both; transform-box:fill-box; transform-origin:center}
+.slide.on .viz .scan{animation:vScan 1.6s .3s ease-in-out both}
+.slide.on .viz .vk,.slide.on .viz .vx{animation:vPop .45s cubic-bezier(.2,.8,.3,1.2) both; transform-box:fill-box; transform-origin:center}
+.slide.on .viz .grow{animation:vGrowY .6s cubic-bezier(.2,.8,.3,1) both; transform-box:fill-box; transform-origin:bottom}
+.slide.on .viz svg[aria-label^="A black box"] .grow{animation-name:vGrowX; transform-origin:left}
+.slide.on .viz .drow,.slide.on .viz .tile,.slide.on .viz .pchip,.slide.on .viz .ustep,.slide.on .viz .tps span{animation:vIn .45s both}
+.slide.on .viz .blackbox{animation:vHideBox 2s .2s ease-in both; opacity:0}
+.slide.on .viz .bbq{animation:vHideBox 2s .2s ease-in both; opacity:0}
+.slide.on .viz .bbl{animation:vShowThen 2s .2s both; opacity:0}
+.slide.on .viz .xail{animation:vLateIn 2.2s .2s both}
+.slide.on .viz .cvl.gone span,.slide.on .viz .cvl.gone i{animation:vStrike .5s .5s both}
+.slide.on .viz .cvl.gone em{animation:vPop .45s .9s both; display:inline-block}
+.slide.on .viz .cvl.hot{animation:vGlow 1.2s 1.4s 2 ease-in-out both}
+.slide.on .viz .meter .fill{animation:vDrop 1s 2.2s cubic-bezier(.3,.7,.3,1) both}
+.slide.on .viz .ring{animation:vRing 60s .4s linear both}
+.slide.on .unit .ring{animation:vRingFill 1.6s .3s cubic-bezier(.3,.7,.3,1) both}
+
+/* the two videos: bigger on a wide screen, as long as the slide still fits */
+@media(min-width:1001px){.slide .vid{width:min(100%, 960px, calc((100vh - 380px) * 16 / 9))}}
+@media print{.slide.on .viz *{animation:none!important} .viz .blackbox,.viz .bbq,.viz .bbl{opacity:0!important}}
+
 /* ---------- video: a poster until clicked, then the player ---------- */
 .vid{position:relative; width:min(680px,100%); aspect-ratio:16/9; margin:.9rem 0 .3rem;
   border-radius:12px; overflow:hidden; background:#16233F; cursor:pointer}
@@ -388,9 +494,12 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
 <div id="stage">
 
   <section class="slide dark">
-    <div class="rise eyebrow" id="lectureBadge">Programming &amp; Artificial Intelligence</div>
-    <h2 class="rise" style="font-size:clamp(34px,6vw,86px);max-width:18ch">Can we trust it?</h2>
-    <p class="rise sub" style="max-width:56ch;margin-top:1rem">AI now helps make real decisions about people. Today: when is that fair, and who answers when it goes wrong?</p>
+    <div class="split"><div class="main">
+      <div class="rise eyebrow" id="lectureBadge">Programming &amp; Artificial Intelligence</div>
+      <h2 class="rise" style="font-size:clamp(34px,6vw,86px);max-width:18ch">Can we trust it?</h2>
+      <p class="rise sub" style="max-width:56ch;margin-top:1rem">AI now helps make real decisions about people. Today: when is that fair, and who answers when it goes wrong?</p>
+    </div>
+    <aside class="rise viz"><svg viewBox="0 0 400 220" role="img" aria-label="Data goes into an AI, which makes a decision about a person"><path class="wire" d="M92 110 H168"/><path class="wire" d="M232 110 H308"/><g class="node n1"><rect x="20" y="75" width="72" height="70" rx="12"/><text x="56" y="115" class="ntext">Data</text></g><g class="node n2"><rect x="168" y="75" width="64" height="70" rx="12" class="core"/><text x="200" y="115" class="ntext ink">AI</text></g><g class="node n3"><rect x="308" y="75" width="72" height="70" rx="12"/><text x="344" y="106" class="ntext">Decision</text><text x="344" y="126" class="ntext sm">about you</text></g><text x="344" y="190" class="qmark">?</text></svg><p class="vcap"><b>Fair? And who answers if it is wrong?</b><span dir="rtl">عادل؟ ولو غلط، مين المسؤول؟</span></p></aside></div>
     <p class="rise arline ar">الـ AI بقى بيساعد ياخد قرارات حقيقية عن ناس. النهارده هنشوف: إمتى ده يبقى عادل، ولما يغلط مين اللي يتحاسب؟</p>
   </section>
 
@@ -403,17 +512,23 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
   </section>
 
   <section class="slide">
-    <div class="rise eyebrow">This is already happening</div>
-    <h2 class="rise" style="max-width:22ch">AI helps decide things about people</h2>
-    <div class="rise fields"><span class="chip">who gets a job interview</span><span class="chip">who a camera says you are</span><span class="chip">how your personal data is used</span></div>
-    <p class="rise sub" style="max-width:58ch;margin-top:1rem">If the data it learned from was biased, it can be <b>unfair</b>. And it can be hard to know <b>why</b> it decided at all.</p>
-    <div class="rise" style="margin-top:1rem;padding:clamp(12px,1.5vw,22px);background:var(--gold-pale);border-radius:12px;max-width:62ch"><p style="font-size:clamp(14px,1.6vw,21px)"><b>Hands up:</b> would you let an AI decide who gets the job? Remember your answer &#8212; we ask again at the end.</p></div>
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">This is already happening</div>
+      <h2 class="rise" style="max-width:22ch">AI helps decide things about people</h2>
+      <div class="rise fields"><span class="chip">who gets a job interview</span><span class="chip">who a camera says you are</span><span class="chip">how your personal data is used</span></div>
+      <p class="rise sub" style="max-width:58ch;margin-top:1rem">If the data it learned from was biased, it can be <b>unfair</b>. And it can be hard to know <b>why</b> it decided at all.</p>
+      <div class="rise" style="margin-top:1rem;padding:clamp(12px,1.5vw,22px);background:var(--gold-pale);border-radius:12px;max-width:62ch"><p style="font-size:clamp(14px,1.6vw,21px)"><b>Hands up:</b> would you let an AI decide who gets the job? Remember your answer &#8212; we ask again at the end.</p></div>
+    </div>
+    <aside class="rise viz"><div class="drow" style="animation-delay:0.50s"><span class="dico">&#128196;</span><span class="dai">AI</span><span class="darrow">&#8594;</span><span class="dt">Who gets a job interview</span></div><div class="drow" style="animation-delay:1.05s"><span class="dico">&#128247;</span><span class="dai">AI</span><span class="darrow">&#8594;</span><span class="dt">What a camera says you are</span></div><div class="drow" style="animation-delay:1.60s"><span class="dico">&#128451;</span><span class="dai">AI</span><span class="darrow">&#8594;</span><span class="dt">How your personal data is used</span></div><p class="vcap"><b>Real decisions, about real people.</b><span dir="rtl">قرارات حقيقية، عن ناس حقيقيين.</span></p></aside></div>
     <p class="rise arline ar">الذكاء الاصطناعي النهارده بيساعد في قرارات بتأثر على الناس، زي فرز طلبات التوظيف، والتعرف على الأشخاص، وتحليل البيانات الشخصية. ولو البيانات أو طريقة تصميم النظام أو استخدامه فيها انحياز، ممكن يطلّع نتايج مش عادلة — وساعات يبقى صعب نفسّر هو وصل للقرار ده على أساس إيه.</p>
   </section>
 
   <section class="slide dark">
-    <div class="rise eyebrow">Today&#8217;s question</div>
-    <h2 class="rise" style="max-width:26ch">What ethical issues arise as AI spreads &#8212; and what principles should guide how we use it?</h2>
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">Today&#8217;s question</div>
+      <h2 class="rise" style="max-width:26ch">What ethical issues arise as AI spreads &#8212; and what principles should guide how we use it?</h2>
+    </div>
+    <aside class="rise viz"><div class="tiles"><div class="tile" style="animation-delay:0.40s"><span>&#9878;</span><b>Bias</b><i>Is it fair?</i></div><div class="tile" style="animation-delay:0.85s"><span>&#128274;</span><b>Privacy</b><i>Is our data safe?</i></div><div class="tile" style="animation-delay:1.30s"><span>&#11035;</span><b>Black box</b><i>Why did it decide?</i></div><div class="tile" style="animation-delay:1.75s"><span>&#128587;</span><b>Responsibility</b><i>Who answers?</i></div></div><p class="vcap"><b>Four issues today &#8212; one principle for each.</b><span dir="rtl">أربع مشاكل النهارده، ولكل واحدة مبدأ.</span></p></aside></div>
     <p class="rise arline ar">السؤال الرئيسي: إيه القضايا الأخلاقية اللي بتظهر مع انتشار الذكاء الاصطناعي، وإيه المبادئ اللي المفروض توجّه استخدامنا ليه؟</p>
   </section>
 
@@ -427,12 +542,15 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
   </section>
 
   <section class="slide">
-    <div class="rise eyebrow">Explore &#183; in pairs</div>
-    <h2 class="rise" style="max-width:20ch">Before you read on</h2>
-    <p class="rise sub" style="max-width:56ch;margin-top:1rem">A face-recognition AI is more likely to <b>misidentify</b> people from some ethnic groups than others. With your partner, predict: <b>who could be harmed</b> by this, and how? Give a reason.</p>
-    <div class="rise shots" style="max-width:420px"><figure class="shot"><img src="media/Face_detection.jpg" alt="Face recognition at work" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Face recognition at work</b>Each box is a face the system found. Would it find every face equally well?<span class="ar">كل مربع وش النظام لقاه. هل هيلاقي كل الوشوش بنفس الدقة؟</span></figcaption></figure></div>
-    <p class="rise credit">Photos: Wikimedia Commons &#183; public domain or Creative Commons. Used for teaching.</p>
-    <p class="rise sub" style="margin-top:.6rem;color:var(--soft)">Keep your answer. It is exactly what Part 1 explains.</p>
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">Explore &#183; in pairs</div>
+      <h2 class="rise" style="max-width:20ch">Before you read on</h2>
+      <p class="rise sub" style="max-width:56ch;margin-top:1rem">A face-recognition AI is more likely to <b>misidentify</b> people from some ethnic groups than others. With your partner, predict: <b>who could be harmed</b> by this, and how? Give a reason.</p>
+      <div class="rise shots" style="max-width:420px"><figure class="shot"><img src="media/Face_detection.jpg" alt="Face recognition at work" loading="lazy" referrerpolicy="no-referrer"><figcaption class="cap"><b>Face recognition at work</b>Each box is a face the system found. Would it find every face equally well?<span class="ar">كل مربع وش النظام لقاه. هل هيلاقي كل الوشوش بنفس الدقة؟</span></figcaption></figure></div>
+      <p class="rise credit">Photos: Wikimedia Commons &#183; public domain or Creative Commons. Used for teaching.</p>
+      <p class="rise sub" style="margin-top:.6rem;color:var(--soft)">Keep your answer. It is exactly what Part 1 explains.</p>
+    </div>
+    <aside class="rise viz"><svg viewBox="0 0 400 260" role="img" aria-label="A face-recognition system checks two groups of faces and makes more mistakes with group B"><text x="18" y="74" class="lbl">Group A</text><text x="18" y="179" class="lbl">Group B</text><g><circle cx="95" cy="70" r="15" class="tA"/><circle cx="90" cy="67" r="1.8" class="eye"/><circle cx="100" cy="67" r="1.8" class="eye"/><path d="M89 75 q6 5 12 0" class="mouth"/><path class="vk" style="animation-delay:1.60s" d="M88 100 l5 5 l9 -10"/></g><g><circle cx="155" cy="70" r="15" class="tA"/><circle cx="150" cy="67" r="1.8" class="eye"/><circle cx="160" cy="67" r="1.8" class="eye"/><path d="M149 75 q6 5 12 0" class="mouth"/><path class="vk" style="animation-delay:1.72s" d="M148 100 l5 5 l9 -10"/></g><g><circle cx="215" cy="70" r="15" class="tA"/><circle cx="210" cy="67" r="1.8" class="eye"/><circle cx="220" cy="67" r="1.8" class="eye"/><path d="M209 75 q6 5 12 0" class="mouth"/><path class="vk" style="animation-delay:1.84s" d="M208 100 l5 5 l9 -10"/></g><g><circle cx="275" cy="70" r="15" class="tA"/><circle cx="270" cy="67" r="1.8" class="eye"/><circle cx="280" cy="67" r="1.8" class="eye"/><path d="M269 75 q6 5 12 0" class="mouth"/><path class="vk" style="animation-delay:1.96s" d="M268 100 l5 5 l9 -10"/></g><g><circle cx="335" cy="70" r="15" class="tA"/><circle cx="330" cy="67" r="1.8" class="eye"/><circle cx="340" cy="67" r="1.8" class="eye"/><path d="M329 75 q6 5 12 0" class="mouth"/><path class="vk" style="animation-delay:2.08s" d="M328 100 l5 5 l9 -10"/></g><g><circle cx="95" cy="175" r="15" class="tB"/><circle cx="90" cy="172" r="1.8" class="eye"/><circle cx="100" cy="172" r="1.8" class="eye"/><path d="M89 180 q6 5 12 0" class="mouth"/><path class="vk" style="animation-delay:2.30s" d="M88 205 l5 5 l9 -10"/></g><g><circle cx="155" cy="175" r="15" class="tB"/><circle cx="150" cy="172" r="1.8" class="eye"/><circle cx="160" cy="172" r="1.8" class="eye"/><path d="M149 180 q6 5 12 0" class="mouth"/><path class="vx" style="animation-delay:2.42s" d="M149 200 l12 12 M161 200 l-12 12"/></g><g><circle cx="215" cy="175" r="15" class="tB"/><circle cx="210" cy="172" r="1.8" class="eye"/><circle cx="220" cy="172" r="1.8" class="eye"/><path d="M209 180 q6 5 12 0" class="mouth"/><path class="vk" style="animation-delay:2.54s" d="M208 205 l5 5 l9 -10"/></g><g><circle cx="275" cy="175" r="15" class="tB"/><circle cx="270" cy="172" r="1.8" class="eye"/><circle cx="280" cy="172" r="1.8" class="eye"/><path d="M269 180 q6 5 12 0" class="mouth"/><path class="vx" style="animation-delay:2.66s" d="M269 200 l12 12 M281 200 l-12 12"/></g><g><circle cx="335" cy="175" r="15" class="tB"/><circle cx="330" cy="172" r="1.8" class="eye"/><circle cx="340" cy="172" r="1.8" class="eye"/><path d="M329 180 q6 5 12 0" class="mouth"/><path class="vx" style="animation-delay:2.78s" d="M329 200 l12 12 M341 200 l-12 12"/></g><rect class="scan" x="60" y="30" width="330" height="4" rx="2"/></svg><p class="vcap"><b>Same system &#8212; more mistakes for one group.</b><span dir="rtl">نفس النظام، بس بيغلط أكتر مع مجموعة واحدة.</span></p></aside></div>
     <p class="rise arline ar">مع زميلك، بصّوا على الموقف ده: ذكاء اصطناعي للتعرف على الوجه بيغلط في التعرف على ناس من مجموعات عرقية معينة أكتر من غيرهم. قبل ما تكمّلوا، توقّعوا: مين ممكن يتضرر من ده، وإزاي؟ وقولوا سبب.</p>
   </section>
 
@@ -446,10 +564,13 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
   </section>
 
   <section class="slide">
-    <div class="rise eyebrow">Part 1 &#183; Algorithmic bias &#8594; Fairness</div>
-    <h2 class="rise" style="max-width:24ch">Bias in, bias out</h2>
-    <div class="rise statement"><em>Algorithmic bias</em> &#8212; bias in AI judgments caused by bias in the training data.</div>
-    <table class="rise"><tr><th>Example from the book</th><th>Who is treated unfairly</th></tr><tr><td>A hiring AI</td><td>Unfairly evaluates applicants of a particular gender</td></tr><tr><td>A face-recognition AI</td><td>Is more likely to misidentify particular ethnic groups</td></tr></table>
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">Part 1 &#183; Algorithmic bias &#8594; Fairness</div>
+      <h2 class="rise" style="max-width:24ch">Bias in, bias out</h2>
+      <div class="rise statement"><em>Algorithmic bias</em> &#8212; bias in AI judgments caused by bias in the training data.</div>
+      <table class="rise"><tr><th>Example from the book</th><th>Who is treated unfairly</th></tr><tr><td>A hiring AI</td><td>Unfairly evaluates applicants of a particular gender</td></tr><tr><td>A face-recognition AI</td><td>Is more likely to misidentify particular ethnic groups</td></tr></table>
+    </div>
+    <aside class="rise viz"><svg viewBox="0 0 400 230" role="img" aria-label="Biased training data goes into an AI, and its judgments come out biased"><g class="node n1"><rect x="14" y="60" width="104" height="90" rx="12"/><circle cx="34" cy="88" r="6" class="tA"/><circle cx="50" cy="88" r="6" class="tA"/><circle cx="66" cy="88" r="6" class="tA"/><circle cx="82" cy="88" r="6" class="tA"/><circle cx="98" cy="88" r="6" class="tB"/><circle cx="34" cy="106" r="6" class="tA"/><circle cx="50" cy="106" r="6" class="tA"/><circle cx="66" cy="106" r="6" class="tA"/><circle cx="82" cy="106" r="6" class="tA"/><circle cx="98" cy="106" r="6" class="tB"/><text x="66" y="175" class="lbl mid">Training data</text></g><path class="wire" d="M122 105 H164"/><g class="node n2"><rect x="164" y="70" width="72" height="70" rx="12" class="core"/><text x="200" y="110" class="ntext ink">AI</text><text x="200" y="175" class="lbl mid">learns</text></g><path class="wire" d="M240 105 H282"/><g class="node n3"><rect x="282" y="60" width="104" height="90" rx="12"/><rect class="bar tA grow" x="306" y="76" width="22" height="60" style="animation-delay:1.9s"/><rect class="bar tB grow" x="340" y="118" width="22" height="18" style="animation-delay:2.1s"/><text x="334" y="175" class="lbl mid">Judgments</text></g></svg><p class="vcap"><b>Bias in the data &#8594; bias in the judgments.</b><span dir="rtl">تحيز في البيانات ← تحيز في الأحكام.</span></p></aside></div>
     <p class="rise arline ar">التحيز في أنظمة الذكاء الاصطناعي يعني انحراف أو نمط ممكن يوصّل لنتايج مش عادلة أو بتضر. وممكن ييجي من البيانات، أو من تصميم النظام، أو من طريقة استخدامه والظروف البشرية والاجتماعية حواليه. مثال: نظام توظيف بيفضّل فئة على غيرها من غير وجه حق، أو نظام تعرف على الوجه دقته بتقل مع فئة معينة.</p>
   </section>
 
@@ -508,16 +629,22 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
   </section>
 
   <section class="slide">
-    <div class="rise eyebrow">1 &#183; The one students skip</div>
-    <h2 class="rise" style="max-width:24ch">A proxy variable</h2>
-    <p class="rise sub" style="max-width:58ch;margin-top:.6rem">A <b>protected attribute</b> is something a decision must not discriminate on &#8212; gender, or ethnic group. Removing it from the data is <b>not enough</b>.</p>
-    <div class="rise" style="margin-top:1rem;padding:clamp(12px,1.5vw,22px);background:var(--teal-pale);border-radius:12px;max-width:64ch"><p style="font-size:clamp(13px,1.45vw,19px)"><b>A real case.</b> Amazon built an AI to sort job CVs. It learned from ten years of past CVs &#8212; mostly from men. Nobody told it anyone&#8217;s gender. But CVs containing the word <b>&#8220;women&#8217;s&#8221;</b> &#8212; as in <i>&#8220;captain of the women&#8217;s chess club&#8221;</i> &#8212; had rarely been accepted before, so it learned to <b>mark them down</b>. The word was standing in for gender. Amazon scrapped the tool. <span style="color:var(--soft)">(Reported by Reuters, 2018 &#8212; not from the textbook.)</span></p></div>
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">1 &#183; The one students skip</div>
+      <h2 class="rise" style="max-width:24ch">A proxy variable</h2>
+      <p class="rise sub" style="max-width:58ch;margin-top:.6rem">A <b>protected attribute</b> is something a decision must not discriminate on &#8212; gender, or ethnic group. Removing it from the data is <b>not enough</b>.</p>
+      <div class="rise" style="margin-top:1rem;padding:clamp(12px,1.5vw,22px);background:var(--teal-pale);border-radius:12px;max-width:64ch"><p style="font-size:clamp(13px,1.45vw,19px)"><b>A real case.</b> Amazon built an AI to sort job CVs. It learned from ten years of past CVs &#8212; mostly from men. Nobody told it anyone&#8217;s gender. But CVs containing the word <b>&#8220;women&#8217;s&#8221;</b> &#8212; as in <i>&#8220;captain of the women&#8217;s chess club&#8221;</i> &#8212; had rarely been accepted before, so it learned to <b>mark them down</b>. The word was standing in for gender. Amazon scrapped the tool. <span style="color:var(--soft)">(Reported by Reuters, 2018 &#8212; not from the textbook.)</span></p></div>
+    </div>
+    <aside class="rise viz"><div class="cv"><div class="cvh">CV</div><div class="cvl"><span>Name</span><i></i></div><div class="cvl gone"><span>Gender</span><i></i><em>removed</em></div><div class="cvl"><span>Experience</span><i></i></div><div class="cvl hot"><span>&#8220;captain of the <b>women&#8217;s</b> chess club&#8221;</span></div><div class="score"><span>AI score</span><div class="meter"><div class="fill"></div></div></div></div><p class="vcap"><b>The word still points to gender.</b><span dir="rtl">الكلمة لسه بتشاور على النوع.</span></p></aside></div>
     <p class="rise arline ar">السمة المحمية حاجة ممنوع القرار يميّز بيها، زي النوع. أمازون عملت AI يفرز الـ CVs، واتعلم من CVs قديمة أغلبها لرجالة. محدش قاله المتقدم ولد ولا بنت — بس أي CV فيه كلمة women's (زي «كابتن فريق الشطرنج للبنات») كان نادر يتقبل، فبقى ينزّل تقييمه. الكلمة فضحت إنها بنت: ده «المتغير البديل».</p>
   </section>
 
   <section class="slide dark">
-    <div class="rise eyebrow">Think it through</div>
-    <h2 class="rise" style="max-width:27ch">A hiring AI was found to rate applicants of one gender lower. What is the most likely cause &#8212; and one measure to fix it?</h2>
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">Think it through</div>
+      <h2 class="rise" style="max-width:27ch">A hiring AI was found to rate applicants of one gender lower. What is the most likely cause &#8212; and one measure to fix it?</h2>
+    </div>
+    <aside class="rise viz timer"><svg viewBox="0 0 200 200" role="img" aria-label="One minute to think"><circle cx="100" cy="100" r="80" class="track"/><circle cx="100" cy="100" r="80" class="ring"/><text x="100" y="98" class="big">1</text><text x="100" y="126" class="small">minute</text></svg><div class="tps"><span style="animation-delay:.3s">Think</span><span style="animation-delay:.6s">Pair</span><span style="animation-delay:.9s">Share</span></div><p class="vcap"><b>Think alone first, then tell your partner.</b><span dir="rtl">فكّر لوحدك الأول، وبعدين قول لزميلك.</span></p></aside></div>
     <p class="rise arline ar">AI توظيف طلع بيقيّم نوع معين أقل. إيه السبب الأرجح؟ واقترح إجراء واحد يصلّح ده.</p>
   </section>
 
@@ -531,8 +658,11 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
   </section>
 
   <section class="slide dark">
-    <div class="rise eyebrow">Think it through</div>
-    <h2 class="rise" style="max-width:27ch">Face recognition in public spaces can improve safety and convenience &#8212; and raise privacy concerns. How should the three be balanced?</h2>
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">Think it through</div>
+      <h2 class="rise" style="max-width:27ch">Face recognition in public spaces can improve safety and convenience &#8212; and raise privacy concerns. How should the three be balanced?</h2>
+    </div>
+    <aside class="rise viz timer"><svg viewBox="0 0 200 200" role="img" aria-label="One minute to think"><circle cx="100" cy="100" r="80" class="track"/><circle cx="100" cy="100" r="80" class="ring"/><text x="100" y="98" class="big">1</text><text x="100" y="126" class="small">minute</text></svg><div class="tps"><span style="animation-delay:.3s">Think</span><span style="animation-delay:.6s">Pair</span><span style="animation-delay:.9s">Share</span></div><p class="vcap"><b>Think alone first, then tell your partner.</b><span dir="rtl">فكّر لوحدك الأول، وبعدين قول لزميلك.</span></p></aside></div>
     <p class="rise arline ar">لما بنستخدم التعرف على الوجه في الأماكن العامة، الأمان والراحة بيتحسنوا، بس في نفس الوقت بتظهر مخاوف على الخصوصية. اشرح إزاي نوازن بين الراحة والأمان وحماية الخصوصية، وقول أنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي أقرب لرأيك.</p>
   </section>
 
@@ -577,10 +707,13 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
   </section>
 
   <section class="slide">
-    <div class="rise eyebrow">3 &#183; The definition</div>
-    <h2 class="rise" style="max-width:24ch">Seeing why it decided</h2>
-    <div class="rise statement" style="font-size:clamp(20px,3vw,40px)"><em>Explainable AI (XAI)</em> &#8212; technology that makes it possible for humans to understand why an AI made a particular judgment.</div>
-    <div class="rise" style="margin-top:1rem;padding:clamp(12px,1.5vw,22px);background:var(--teal-pale);border-radius:12px;max-width:64ch"><p style="font-size:clamp(13px,1.45vw,19px)">When the decision-making process is opaque &#8212; a <b>black box</b> &#8212; it is difficult to verify whether the result is correct. So &#8220;the answer is right, so the process does not matter&#8221; is <b>false</b>.</p></div>
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">3 &#183; The definition</div>
+      <h2 class="rise" style="max-width:24ch">Seeing why it decided</h2>
+      <div class="rise statement" style="font-size:clamp(20px,3vw,40px)"><em>Explainable AI (XAI)</em> &#8212; technology that makes it possible for humans to understand why an AI made a particular judgment.</div>
+      <div class="rise" style="margin-top:1rem;padding:clamp(12px,1.5vw,22px);background:var(--teal-pale);border-radius:12px;max-width:64ch"><p style="font-size:clamp(13px,1.45vw,19px)">When the decision-making process is opaque &#8212; a <b>black box</b> &#8212; it is difficult to verify whether the result is correct. So &#8220;the answer is right, so the process does not matter&#8221; is <b>false</b>.</p></div>
+    </div>
+    <aside class="rise viz"><svg viewBox="0 0 400 240" role="img" aria-label="A black box hides why the AI decided; XAI shows which factors led to the judgment"><text x="20" y="118" class="ntext" text-anchor="start">Input</text><path class="wire" d="M72 112 H130"/><rect x="130" y="52" width="140" height="120" rx="12" class="glass"/><rect class="bar tA grow" x="150" y="80" width="80" height="14" style="animation-delay:2.2s"/><rect class="bar tA grow" x="150" y="105" width="52" height="14" style="animation-delay:2.4s"/><rect class="bar tB grow" x="150" y="130" width="28" height="14" style="animation-delay:2.6s"/><text x="240" y="92" class="lbl sm2">A</text><text x="210" y="117" class="lbl sm2">B</text><text x="186" y="142" class="lbl sm2">C</text><rect x="130" y="52" width="140" height="120" rx="12" class="blackbox"/><text x="200" y="120" class="bbq">?</text><path class="wire" d="M270 112 H314"/><text x="326" y="118" class="ntext" text-anchor="start">Result</text><text x="200" y="205" class="lbl mid bbl">Black box</text><text x="200" y="205" class="lbl mid xail">XAI: the factors behind it</text></svg><p class="vcap"><b>XAI shows why it made that judgment.</b><span dir="rtl">الـ XAI بيورّينا ليه أخد القرار ده.</span></p></aside></div>
     <p class="rise arline ar">الذكاء الاصطناعي القابل للتفسير (XAI): أساليب بتساعدنا نفهم إيه العوامل اللي خلّت النظام يوصل للنتيجة أو القرار ده. ولما طريقة الوصول للنتيجة تبقى مش واضحة، بيبقى صعب نقيّمها أو نكتشف فيها غلط أو تحيز. عشان كده جملة «طالما النتيجة صح مفيش مشكلة» غلط — وبتيجي في الامتحان.</p>
   </section>
 
@@ -623,8 +756,11 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
   </section>
 
   <section class="slide dark">
-    <div class="rise eyebrow">Pause & think</div>
-    <h2 class="rise" style="max-width:27ch">If no one can explain why an AI rejected someone&#8217;s job application, is that fair? Which principle is missing?</h2>
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">Pause & think</div>
+      <h2 class="rise" style="max-width:27ch">If no one can explain why an AI rejected someone&#8217;s job application, is that fair? Which principle is missing?</h2>
+    </div>
+    <aside class="rise viz timer"><svg viewBox="0 0 200 200" role="img" aria-label="One minute to think"><circle cx="100" cy="100" r="80" class="track"/><circle cx="100" cy="100" r="80" class="ring"/><text x="100" y="98" class="big">1</text><text x="100" y="126" class="small">minute</text></svg><div class="tps"><span style="animation-delay:.3s">Think</span><span style="animation-delay:.6s">Pair</span><span style="animation-delay:.9s">Share</span></div><p class="vcap"><b>Think alone first, then tell your partner.</b><span dir="rtl">فكّر لوحدك الأول، وبعدين قول لزميلك.</span></p></aside></div>
     <p class="rise arline ar">لو محدش قدر يشرح الذكاء الاصطناعي رفض طلب توظيف حد ليه، يبقى ده عادل؟ وأنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي ناقص هنا؟</p>
   </section>
 
@@ -668,16 +804,22 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
   </section>
 
   <section class="slide">
-    <div class="rise eyebrow">Key takeaway &middot; lesson 1-4</div>
-    <h2 class="rise" style="max-width:28ch">Accurate is not enough</h2>
-    <p class="rise sub" style="max-width:60ch;margin-bottom:.6rem"><b>Hands up again:</b> would you let an AI decide who gets the job <i>now</i> &#8212; and on what condition?</p><div class="rise statement">If training data is biased, an AI can reproduce that bias. Using AI responsibly means <em>checking for bias</em>, being able to <em>explain decisions</em>, and knowing <em>who is accountable</em> &#8212; guided by fairness, transparency, privacy protection and accountability.</div>
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">Key takeaway &middot; lesson 1-4</div>
+      <h2 class="rise" style="max-width:28ch">Accurate is not enough</h2>
+      <p class="rise sub" style="max-width:60ch;margin-bottom:.6rem"><b>Hands up again:</b> would you let an AI decide who gets the job <i>now</i> &#8212; and on what condition?</p><div class="rise statement">If training data is biased, an AI can reproduce that bias. Using AI responsibly means <em>checking for bias</em>, being able to <em>explain decisions</em>, and knowing <em>who is accountable</em> &#8212; guided by fairness, transparency, privacy protection and accountability.</div>
+    </div>
+    <aside class="rise viz"><div class="pchip" style="animation-delay:0.60s"><span>&#9878;</span>Fairness</div><div class="pchip" style="animation-delay:1.00s"><span>&#128269;</span>Transparency</div><div class="pchip" style="animation-delay:1.40s"><span>&#128274;</span>Privacy protection</div><div class="pchip" style="animation-delay:1.80s"><span>&#9989;</span>Accountability</div><p class="vcap"><b>Four principles for using AI responsibly.</b><span dir="rtl">أربع مبادئ عشان نستخدم الذكاء الاصطناعي بمسؤولية.</span></p></aside></div>
     <p class="rise arline ar">خلّي بالك: لو بيانات التدريب متحيزة، الذكاء الاصطناعي ممكن يكرر نفس التحيز. واستخدام الذكاء الاصطناعي بمسؤولية يعني نراجع التحيز، ونقدر نشرح القرارات، ونعرف مين المسؤول — ماشيين بالعدالة والشفافية وحماية الخصوصية والمساءلة.</p>
   </section>
 
   <section class="slide">
-    <div class="rise eyebrow">Unit 1 &#183; complete</div>
-    <h2 class="rise" style="max-width:28ch">Information technology and society, in four lessons</h2>
-    <div class="rise timeline"><div class="tl"><h3>1-1 &#183; How IT developed</h3><p>Five stages, Moore&#8217;s Law, social changes, emerging technologies</p></div><div class="tl"><h3>1-2 &#183; How AI works</h3><p>AI &#8594; machine learning &#8594; deep learning &#8594; generative AI, nested; neural networks and their hidden layers</p></div><div class="tl"><h3>1-3 &#183; AI in daily life and industry</h3><p>Where it is used, what it is good at, what needs caution</p></div><div class="tl"><h3>1-4 &#183; Ethical issues with AI</h3><p>Bias, privacy, XAI and responsibility, the four principles</p></div></div>
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">Unit 1 &#183; complete</div>
+      <h2 class="rise" style="max-width:28ch">Information technology and society, in four lessons</h2>
+      <div class="rise timeline"><div class="tl"><h3>1-1 &#183; How IT developed</h3><p>Five stages, Moore&#8217;s Law, social changes, emerging technologies</p></div><div class="tl"><h3>1-2 &#183; How AI works</h3><p>AI &#8594; machine learning &#8594; deep learning &#8594; generative AI, nested; neural networks and their hidden layers</p></div><div class="tl"><h3>1-3 &#183; AI in daily life and industry</h3><p>Where it is used, what it is good at, what needs caution</p></div><div class="tl"><h3>1-4 &#183; Ethical issues with AI</h3><p>Bias, privacy, XAI and responsibility, the four principles</p></div></div>
+    </div>
+    <aside class="rise viz unit"><svg viewBox="0 0 200 200" role="img" aria-label="Unit 1: four of four lessons complete"><circle cx="100" cy="100" r="80" class="track"/><circle cx="100" cy="100" r="80" class="ring done"/><text x="100" y="98" class="big">4/4</text><text x="100" y="126" class="small">lessons</text></svg><div class="usteps"><div class="ustep" style="animation-delay:0.50s"><b>&#10003;</b>1-1</div><div class="ustep" style="animation-delay:0.90s"><b>&#10003;</b>1-2</div><div class="ustep" style="animation-delay:1.30s"><b>&#10003;</b>1-3</div><div class="ustep" style="animation-delay:1.70s"><b>&#10003;</b>1-4</div></div><p class="vcap"><b>Unit 1 complete. Next: the Chapter 1 exam.</b><span dir="rtl">خلّصنا الوحدة الأولى. اللي جاي: امتحان الفصل الأول.</span></p></aside></div>
     <p class="rise arline ar">خلصنا الوحدة الأولى: 1-1 تطور تكنولوجيا المعلومات، 1-2 إزاي الـ AI بيشتغل، 1-3 الـ AI في الحياة والصناعة، 1-4 القضايا الأخلاقية. امتحان الشابتر الأول على الأربعة.</p>
   </section>
 
@@ -1028,6 +1170,15 @@ addEventListener('touchend', e => {
   document.querySelectorAll('.reveal').forEach(function(el){
     el.addEventListener('click', function(){ el.classList.add('shown'); });
   });
+  /* tapping a drawing plays it again: a fresh copy restarts every animation */
+  function replay(){
+    var el = this;
+    if(!el.cloneNode || !el.parentNode) return;
+    var copy = el.cloneNode(true);
+    el.parentNode.replaceChild(copy, el);
+    copy.addEventListener('click', replay);
+  }
+  document.querySelectorAll('.viz').forEach(function(el){ el.addEventListener('click', replay); });
 })();
 
 const start = parseInt(location.hash.slice(1), 10);

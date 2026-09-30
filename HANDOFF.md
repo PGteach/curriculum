@@ -465,6 +465,20 @@ Part 3 is XAI, Part 4 is responsibility, and Part 5 is "Back to the four
 principles". Each part's eyebrow names its principle. The deck has 28 slides, but the
 booklet has no map sheet, so the booklet and deck differ by that one slide.
 
+**Side drawings (2026-09-30), slide-only.** On a screen at least 1000px wide,
+the 12 slides whose content sat in the left half get an animated explainer on
+the right, from `VIZ` in the builder. Each drawing is keyed to a heading, and
+`with_viz` asserts that each key matches only one slide. The drawings: the
+face scan (group B gets more crosses), the data → AI → decision flow, the four
+issue tiles, bias in → bias out, the CV with gender removed but "women's"
+still marking it down, the black box that opens into the factors (XAI), a
+one-minute think-pair-share ring on the three dark question slides, and the
+principle chips and 4/4 ring at the close. Each drawing plays when its slide
+opens and replays when tapped. Under 1000px the drawings are hidden. The final
+frame of every animation is the element's resting style, so with reduced
+motion and in print each drawing shows complete. The two videos also grow on
+wide screens, up to what still fits the height.
+
 **The Chapter 1 exam is printed, not online** -- the teacher's choice, because
 essay answers cannot be marked automatically. `lecture4/_teacher/chapter1-exam.html`
 is the paper (6 pages) and `chapter1-exam-key.html` the marking scheme (5 pages);

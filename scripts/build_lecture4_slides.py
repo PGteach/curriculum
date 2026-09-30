@@ -166,7 +166,223 @@ CREDIT = ('<p class="rise credit">Photos: Wikimedia Commons &#183; public domain
           'Creative Commons. Used for teaching.</p>')
 
 
+
+# ---------------- side visuals ----------------
+# A slide whose content fills only the left half of a wide screen gets an
+# animated explainer on the right. Each drawing plays once when the slide
+# opens and again when tapped. Under 1000px wide the drawing is hidden and
+# the slide keeps its one-column layout, because the drawing adds to the
+# content and never replaces it. The final frame of every animation is the
+# element's own style, so with reduced motion (every animation off) and in
+# print the drawing shows complete.
+
+def vcap(en, arabic):
+    return '<p class="vcap"><b>%s</b><span dir="rtl">%s</span></p>' % (en, arabic)
+
+
+def face(x, y, tone, mark, d):
+    """A face at (x, y), coloured by group, with the system's verdict (a
+    tick or a cross) popping in after delay d seconds."""
+    m = ('<path class="vk" style="animation-delay:%.2fs" d="M%d %d l5 5 l9 -10"/>' % (d, x - 7, y + 30)
+         if mark == "ok" else
+         '<path class="vx" style="animation-delay:%.2fs" d="M%d %d l12 12 M%d %d l-12 12"/>' % (d, x - 6, y + 25, x + 6, y + 25))
+    return ('<g><circle cx="%d" cy="%d" r="15" class="%s"/>'
+            '<circle cx="%d" cy="%d" r="1.8" class="eye"/><circle cx="%d" cy="%d" r="1.8" class="eye"/>'
+            '<path d="M%d %d q6 5 12 0" class="mouth"/>%s</g>'
+            % (x, y, tone, x - 5, y - 3, x + 5, y - 3, x - 6, y + 5, m))
+
+
+def v_scan():
+    a = "".join(face(95 + 60 * k, 70, "tA", "ok", 1.6 + .12 * k) for k in range(5))
+    marks_b = ["ok", "no", "ok", "no", "no"]
+    b = "".join(face(95 + 60 * k, 175, "tB", marks_b[k], 2.3 + .12 * k) for k in range(5))
+    return ('<aside class="rise viz">'
+            '<svg viewBox="0 0 400 260" role="img" aria-label="A face-recognition system checks two groups of faces and makes more mistakes with group B">'
+            '<text x="18" y="74" class="lbl">Group A</text><text x="18" y="179" class="lbl">Group B</text>'
+            + a + b +
+            '<rect class="scan" x="60" y="30" width="330" height="4" rx="2"/>'
+            '</svg>'
+            + vcap("Same system &#8212; more mistakes for one group.",
+                   "نفس النظام، بس بيغلط أكتر مع مجموعة واحدة.")
+            + '</aside>')
+
+
+def v_flow_trust():
+    return ('<aside class="rise viz">'
+            '<svg viewBox="0 0 400 220" role="img" aria-label="Data goes into an AI, which makes a decision about a person">'
+            '<path class="wire" d="M92 110 H168"/><path class="wire" d="M232 110 H308"/>'
+            '<g class="node n1"><rect x="20" y="75" width="72" height="70" rx="12"/><text x="56" y="115" class="ntext">Data</text></g>'
+            '<g class="node n2"><rect x="168" y="75" width="64" height="70" rx="12" class="core"/><text x="200" y="115" class="ntext ink">AI</text></g>'
+            '<g class="node n3"><rect x="308" y="75" width="72" height="70" rx="12"/><text x="344" y="106" class="ntext">Decision</text><text x="344" y="126" class="ntext sm">about you</text></g>'
+            '<text x="344" y="190" class="qmark">?</text>'
+            '</svg>'
+            + vcap("Fair? And who answers if it is wrong?",
+                   "عادل؟ ولو غلط، مين المسؤول؟")
+            + '</aside>')
+
+
+def v_decides():
+    rows = [("&#128196;", "Who gets a job interview"),
+            ("&#128247;", "What a camera says you are"),
+            ("&#128451;", "How your personal data is used")]
+    out = []
+    for k, (ico, t) in enumerate(rows):
+        out.append('<div class="drow" style="animation-delay:%.2fs"><span class="dico">%s</span>'
+                   '<span class="dai">AI</span><span class="darrow">&#8594;</span>'
+                   '<span class="dt">%s</span></div>' % (.5 + .55 * k, ico, t))
+    return ('<aside class="rise viz">' + "".join(out)
+            + vcap("Real decisions, about real people.",
+                   "قرارات حقيقية، عن ناس حقيقيين.")
+            + '</aside>')
+
+
+def v_issues():
+    tiles = [("&#9878;", "Bias", "Is it fair?"),
+             ("&#128274;", "Privacy", "Is our data safe?"),
+             ("&#11035;", "Black box", "Why did it decide?"),
+             ("&#128587;", "Responsibility", "Who answers?")]
+    out = "".join('<div class="tile" style="animation-delay:%.2fs"><span>%s</span><b>%s</b><i>%s</i></div>'
+                  % (.4 + .45 * k, ico, t, q) for k, (ico, t, q) in enumerate(tiles))
+    return ('<aside class="rise viz"><div class="tiles">' + out + '</div>'
+            + vcap("Four issues today &#8212; one principle for each.",
+                   "أربع مشاكل النهارده، ولكل واحدة مبدأ.")
+            + '</aside>')
+
+
+def v_bias_flow():
+    dots = []
+    for k in range(10):
+        cx, cy = 34 + (k % 5) * 16, 88 + (k // 5) * 18
+        tone = "tB" if k in (4, 9) else "tA"
+        dots.append('<circle cx="%d" cy="%d" r="6" class="%s"/>' % (cx, cy, tone))
+    return ('<aside class="rise viz">'
+            '<svg viewBox="0 0 400 230" role="img" aria-label="Biased training data goes into an AI, and its judgments come out biased">'
+            '<g class="node n1"><rect x="14" y="60" width="104" height="90" rx="12"/>' + "".join(dots) +
+            '<text x="66" y="175" class="lbl mid">Training data</text></g>'
+            '<path class="wire" d="M122 105 H164"/>'
+            '<g class="node n2"><rect x="164" y="70" width="72" height="70" rx="12" class="core"/><text x="200" y="110" class="ntext ink">AI</text>'
+            '<text x="200" y="175" class="lbl mid">learns</text></g>'
+            '<path class="wire" d="M240 105 H282"/>'
+            '<g class="node n3"><rect x="282" y="60" width="104" height="90" rx="12"/>'
+            '<rect class="bar tA grow" x="306" y="76" width="22" height="60" style="animation-delay:1.9s"/>'
+            '<rect class="bar tB grow" x="340" y="118" width="22" height="18" style="animation-delay:2.1s"/>'
+            '<text x="334" y="175" class="lbl mid">Judgments</text></g>'
+            '</svg>'
+            + vcap("Bias in the data &#8594; bias in the judgments.",
+                   "تحيز في البيانات ← تحيز في الأحكام.")
+            + '</aside>')
+
+
+def v_proxy():
+    return ('<aside class="rise viz"><div class="cv">'
+            '<div class="cvh">CV</div>'
+            '<div class="cvl"><span>Name</span><i></i></div>'
+            '<div class="cvl gone"><span>Gender</span><i></i><em>removed</em></div>'
+            '<div class="cvl"><span>Experience</span><i></i></div>'
+            '<div class="cvl hot"><span>&#8220;captain of the <b>women&#8217;s</b> chess club&#8221;</span></div>'
+            '<div class="score"><span>AI score</span><div class="meter"><div class="fill"></div></div></div>'
+            '</div>'
+            + vcap("The word still points to gender.",
+                   "الكلمة لسه بتشاور على النوع.")
+            + '</aside>')
+
+
+def v_timer():
+    return ('<aside class="rise viz timer">'
+            '<svg viewBox="0 0 200 200" role="img" aria-label="One minute to think">'
+            '<circle cx="100" cy="100" r="80" class="track"/>'
+            '<circle cx="100" cy="100" r="80" class="ring"/>'
+            '<text x="100" y="98" class="big">1</text><text x="100" y="126" class="small">minute</text>'
+            '</svg>'
+            '<div class="tps"><span style="animation-delay:.3s">Think</span><span style="animation-delay:.6s">Pair</span><span style="animation-delay:.9s">Share</span></div>'
+            + vcap("Think alone first, then tell your partner.",
+                   "فكّر لوحدك الأول، وبعدين قول لزميلك.")
+            + '</aside>')
+
+
+def v_xai():
+    return ('<aside class="rise viz">'
+            '<svg viewBox="0 0 400 240" role="img" aria-label="A black box hides why the AI decided; XAI shows which factors led to the judgment">'
+            '<text x="20" y="118" class="ntext" text-anchor="start">Input</text>'
+            '<path class="wire" d="M72 112 H130"/>'
+            '<rect x="130" y="52" width="140" height="120" rx="12" class="glass"/>'
+            '<rect class="bar tA grow" x="150" y="80" width="80" height="14" style="animation-delay:2.2s"/>'
+            '<rect class="bar tA grow" x="150" y="105" width="52" height="14" style="animation-delay:2.4s"/>'
+            '<rect class="bar tB grow" x="150" y="130" width="28" height="14" style="animation-delay:2.6s"/>'
+            '<text x="240" y="92" class="lbl sm2">A</text><text x="210" y="117" class="lbl sm2">B</text><text x="186" y="142" class="lbl sm2">C</text>'
+            '<rect x="130" y="52" width="140" height="120" rx="12" class="blackbox"/>'
+            '<text x="200" y="120" class="bbq">?</text>'
+            '<path class="wire" d="M270 112 H314"/>'
+            '<text x="326" y="118" class="ntext" text-anchor="start">Result</text>'
+            '<text x="200" y="205" class="lbl mid bbl">Black box</text>'
+            '<text x="200" y="205" class="lbl mid xail">XAI: the factors behind it</text>'
+            '</svg>'
+            + vcap("XAI shows why it made that judgment.",
+                   "الـ XAI بيورّينا ليه أخد القرار ده.")
+            + '</aside>')
+
+
+def v_principles():
+    items = [("&#9878;", "Fairness"), ("&#128269;", "Transparency"),
+             ("&#128274;", "Privacy protection"), ("&#9989;", "Accountability")]
+    out = "".join('<div class="pchip" style="animation-delay:%.2fs"><span>%s</span>%s</div>'
+                  % (.6 + .4 * k, ico, t) for k, (ico, t) in enumerate(items))
+    return ('<aside class="rise viz">' + out
+            + vcap("Four principles for using AI responsibly.",
+                   "أربع مبادئ عشان نستخدم الذكاء الاصطناعي بمسؤولية.")
+            + '</aside>')
+
+
+def v_unit():
+    steps = ["1-1", "1-2", "1-3", "1-4"]
+    out = "".join('<div class="ustep" style="animation-delay:%.2fs"><b>&#10003;</b>%s</div>'
+                  % (.5 + .4 * k, t) for k, t in enumerate(steps))
+    return ('<aside class="rise viz unit">'
+            '<svg viewBox="0 0 200 200" role="img" aria-label="Unit 1: four of four lessons complete">'
+            '<circle cx="100" cy="100" r="80" class="track"/>'
+            '<circle cx="100" cy="100" r="80" class="ring done"/>'
+            '<text x="100" y="98" class="big">4/4</text><text x="100" y="126" class="small">lessons</text>'
+            '</svg><div class="usteps">' + out + '</div>'
+            + vcap("Unit 1 complete. Next: the Chapter 1 exam.",
+                   "خلّصنا الوحدة الأولى. اللي جاي: امتحان الفصل الأول.")
+            + '</aside>')
+
+
+# heading text (unique to one slide) -> its drawing
+VIZ = {
+    "Can we trust it?": v_flow_trust,
+    "AI helps decide things about people": v_decides,
+    "What ethical issues arise as AI spreads": v_issues,
+    "Before you read on": v_scan,
+    "Bias in, bias out": v_bias_flow,
+    "A proxy variable": v_proxy,
+    "A hiring AI was found to rate": v_timer,
+    "Face recognition in public spaces can improve": v_timer,
+    "If no one can explain why an AI rejected": v_timer,
+    "Seeing why it decided": v_xai,
+    "Accurate is not enough": v_principles,
+    "Information technology and society, in four lessons": v_unit,
+}
+VIZ_USED = []
+
+
+def with_viz(parts):
+    """Put a slide's content beside its drawing; the Arabic line stays below
+    both, full width, where it is on every other slide."""
+    heads = [p for p in parts if p.startswith(("<h1", "<h2"))]
+    hit = [k for k in VIZ if any(k in h for h in heads)]
+    if not hit:
+        return parts
+    assert len(hit) == 1, hit
+    VIZ_USED.append(hit[0])
+    main = [p for p in parts if "arline" not in p]
+    rest = [p for p in parts if "arline" in p]
+    return ['<div class="split"><div class="main">\n      ' + "\n      ".join(main)
+            + '\n    </div>\n    ' + VIZ[hit[0]]() + '</div>'] + rest
+
+
 def s(cls, *parts):
+    parts = with_viz(list(parts))
     return '  <section class="slide%s">\n%s\n  </section>' % (
         (" " + cls) if cls else "", "\n".join("    " + p for p in parts))
 
@@ -653,6 +869,112 @@ def gate_js(out):
 
 
 ENGAGE_CSS = """
+/* ---- side visuals (see VIZ in the builder) ---- */
+.split{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:clamp(28px,4vw,80px); align-items:center}
+.split>.main{min-width:0}
+.viz{max-width:520px; width:100%; justify-self:center; cursor:pointer; -webkit-tap-highlight-color:transparent}
+.viz svg{width:100%; height:auto; display:block; overflow:visible}
+@media(max-width:1000px){.split{display:block} .split>.viz{display:none}}
+.vcap{margin-top:.8rem; text-align:center; font-size:clamp(13px,1.2vw,17px); color:var(--soft); line-height:1.5}
+.vcap b{display:block; color:var(--ink); font-weight:600}
+.vcap span{display:block; font-size:.92em}
+.dark .vcap{color:#AAB6CC} .dark .vcap b{color:var(--paper)}
+.viz .lbl{font:600 13px Inter,system-ui,sans-serif; fill:var(--soft)}
+.viz .lbl.mid{text-anchor:middle} .viz .lbl.sm2{font-size:11px}
+.viz .ntext{font:600 15px Inter,system-ui,sans-serif; fill:var(--ink); text-anchor:middle}
+.viz .ntext.sm{font-size:12px; font-weight:500; fill:var(--soft)}
+.dark .viz .ntext{fill:var(--paper)} .dark .viz .ntext.ink{fill:var(--ink)}
+.viz .node rect{fill:var(--white); stroke:var(--line); stroke-width:1.5}
+.dark .viz .node rect{fill:#1F2E4F; stroke:#3A4867}
+.viz .node rect.core,.dark .viz .node rect.core{fill:var(--gold-pale); stroke:var(--gold)}
+.viz .wire{stroke:var(--teal); stroke-width:3; fill:none; stroke-dasharray:6 7}
+.dark .viz .wire{stroke:var(--gold)}
+.viz .tA,.viz .node rect.tA{fill:var(--teal)} .viz .tB,.viz .node rect.tB{fill:var(--gold)}
+.viz .node rect.bar{stroke:none}
+.viz .eye{fill:var(--white)} .viz .mouth{stroke:var(--white); stroke-width:1.8; fill:none; stroke-linecap:round}
+.viz .vk{stroke:var(--teal); stroke-width:3.5; fill:none; stroke-linecap:round; stroke-linejoin:round}
+.viz .vx{stroke:var(--wrong); stroke-width:3.5; fill:none; stroke-linecap:round}
+.viz .scan{fill:var(--wrong); opacity:0}
+.viz .qmark{font:700 44px Fraunces,serif; fill:var(--gold); text-anchor:middle}
+.viz .bar{rx:3}
+.viz .glass{fill:var(--white); stroke:var(--teal); stroke-width:2}
+.viz .blackbox{fill:var(--ink); opacity:0}
+.viz .bbq{font:700 40px Fraunces,serif; fill:var(--paper); text-anchor:middle; opacity:0}
+.viz .bbl{opacity:0}
+/* rows, tiles, chips */
+.drow{display:flex; align-items:center; gap:.7rem; background:var(--white); border:1px solid var(--line); border-radius:12px; padding:.75rem 1rem; margin-bottom:.65rem; font-size:clamp(14px,1.3vw,18px)}
+.drow .dico{font-size:1.5em} .drow .dai{background:var(--gold-pale); color:var(--ink); font-weight:700; border-radius:8px; padding:.15rem .5rem; font-size:.85em}
+.drow .darrow{color:var(--teal); font-weight:700} .drow .dt{color:var(--ink)}
+.tiles{display:grid; grid-template-columns:1fr 1fr; gap:.8rem}
+.tile{background:#1F2E4F; border:1px solid #3A4867; border-radius:14px; padding:1rem; text-align:center; color:var(--paper)}
+.tile span{display:block; font-size:2em; line-height:1.2} .tile b{display:block; margin-top:.3rem; font-size:clamp(14px,1.3vw,18px)}
+.tile i{display:block; font-style:normal; color:#AAB6CC; font-size:clamp(12px,1.05vw,15px)}
+.pchip{display:flex; align-items:center; gap:.8rem; background:var(--white); border:1px solid var(--line); border-left:4px solid var(--gold); border-radius:12px; padding:.8rem 1rem; margin-bottom:.6rem; font-weight:600; font-size:clamp(15px,1.4vw,20px); color:var(--ink)}
+.pchip span{font-size:1.3em}
+/* CV card */
+.cv{background:var(--white); border:1px solid var(--line); border-radius:14px; padding:1.1rem 1.2rem; font-size:clamp(13px,1.2vw,16px); box-shadow:0 1px 2px rgba(22,35,63,.05)}
+.cvh{font:600 1.2em Fraunces,serif; color:var(--ink); margin-bottom:.6rem}
+.cvl{display:flex; align-items:center; gap:.6rem; padding:.4rem 0; border-bottom:1px dashed var(--line); color:var(--soft); position:relative}
+.cvl span{min-width:6.5em} .cvl i{flex:1; height:8px; border-radius:4px; background:var(--line)}
+.cvl.gone span,.cvl.gone i{text-decoration:line-through; opacity:.35}
+.cvl.gone em{font-style:normal; font-size:.8em; font-weight:700; color:var(--wrong); border:1.5px solid var(--wrong); border-radius:6px; padding:0 .35rem}
+.cvl.hot{color:var(--ink); border-radius:8px; padding:.45rem .5rem; margin:.3rem -.5rem; background:var(--gold-pale)}
+.cvl.hot b{color:var(--wrong)}
+.score{display:flex; align-items:center; gap:.7rem; margin-top:.8rem; font-weight:600; color:var(--ink)}
+.meter{flex:1; height:12px; border-radius:6px; background:var(--line); overflow:hidden}
+.meter .fill{height:100%; width:28%; background:var(--wrong); border-radius:6px}
+/* rings */
+.viz .track{fill:none; stroke:#3A4867; stroke-width:12}
+.viz .ring{fill:none; stroke:var(--gold); stroke-width:12; stroke-linecap:round; transform:rotate(-90deg); transform-origin:100px 100px; stroke-dasharray:503; stroke-dashoffset:0}
+.viz .big{font:700 46px Fraunces,serif; fill:var(--paper); text-anchor:middle}
+.viz .small{font:500 15px Inter,system-ui,sans-serif; fill:#AAB6CC; text-anchor:middle}
+.timer,.unit{max-width:320px}
+.tps{display:flex; justify-content:center; gap:.5rem; margin-top:.9rem}
+.tps span{border:1px solid #3A4867; border-radius:99px; padding:.25rem .8rem; color:var(--paper); font-size:clamp(13px,1.15vw,16px)}
+.unit .track{stroke:var(--line)} .unit .big{fill:var(--ink)} .unit .small{fill:var(--soft)} .unit .ring{stroke:var(--teal)}
+.usteps{display:flex; justify-content:center; gap:.45rem; margin-top:.8rem}
+.ustep{border:1px solid var(--line); background:var(--white); border-radius:99px; padding:.2rem .7rem; font-weight:600; color:var(--ink); font-size:clamp(13px,1.1vw,15px)}
+.ustep b{color:var(--teal); margin-right:.25rem}
+
+/* motion: only on the slide being shown, so opening the slide plays it */
+@keyframes vIn{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+@keyframes vPop{0%{opacity:0; transform:scale(.3)} 70%{opacity:1; transform:scale(1.25)} 100%{transform:scale(1)}}
+@keyframes vDash{to{stroke-dashoffset:-26}}
+@keyframes vScan{0%{opacity:.85; transform:translateY(0)} 90%{opacity:.85; transform:translateY(190px)} 100%{opacity:0; transform:translateY(190px)}}
+@keyframes vGrowY{from{transform:scaleY(0)} to{transform:scaleY(1)}}
+@keyframes vGrowX{from{transform:scaleX(0)} to{transform:scaleX(1)}}
+@keyframes vBreathe{0%,100%{opacity:.35; transform:scale(.92)} 50%{opacity:1; transform:scale(1.08)}}
+@keyframes vStrike{from{opacity:1; text-decoration-color:transparent} to{opacity:.35}}
+@keyframes vGlow{0%,100%{box-shadow:0 0 0 0 rgba(201,150,59,0)} 50%{box-shadow:0 0 0 6px rgba(201,150,59,.35)}}
+@keyframes vDrop{from{width:88%; background:var(--teal)} to{width:28%; background:var(--wrong)}}
+@keyframes vRing{from{stroke-dashoffset:0} to{stroke-dashoffset:503}}
+@keyframes vRingFill{from{stroke-dashoffset:503} to{stroke-dashoffset:0}}
+@keyframes vHideBox{0%,45%{opacity:1} 100%{opacity:0}}
+@keyframes vShowThen{0%,45%{opacity:1} 60%,100%{opacity:0}}
+@keyframes vLateIn{0%,55%{opacity:0} 100%{opacity:1}}
+.slide.on .viz .wire{animation:vDash 1s linear infinite}
+.slide.on .viz .n1{animation:vIn .45s .2s both} .slide.on .viz .n2{animation:vIn .45s .6s both} .slide.on .viz .n3{animation:vIn .45s 1s both}
+.slide.on .viz .qmark{animation:vBreathe 2.2s 1.4s ease-in-out infinite both; transform-box:fill-box; transform-origin:center}
+.slide.on .viz .scan{animation:vScan 1.6s .3s ease-in-out both}
+.slide.on .viz .vk,.slide.on .viz .vx{animation:vPop .45s cubic-bezier(.2,.8,.3,1.2) both; transform-box:fill-box; transform-origin:center}
+.slide.on .viz .grow{animation:vGrowY .6s cubic-bezier(.2,.8,.3,1) both; transform-box:fill-box; transform-origin:bottom}
+.slide.on .viz svg[aria-label^="A black box"] .grow{animation-name:vGrowX; transform-origin:left}
+.slide.on .viz .drow,.slide.on .viz .tile,.slide.on .viz .pchip,.slide.on .viz .ustep,.slide.on .viz .tps span{animation:vIn .45s both}
+.slide.on .viz .blackbox{animation:vHideBox 2s .2s ease-in both; opacity:0}
+.slide.on .viz .bbq{animation:vHideBox 2s .2s ease-in both; opacity:0}
+.slide.on .viz .bbl{animation:vShowThen 2s .2s both; opacity:0}
+.slide.on .viz .xail{animation:vLateIn 2.2s .2s both}
+.slide.on .viz .cvl.gone span,.slide.on .viz .cvl.gone i{animation:vStrike .5s .5s both}
+.slide.on .viz .cvl.gone em{animation:vPop .45s .9s both; display:inline-block}
+.slide.on .viz .cvl.hot{animation:vGlow 1.2s 1.4s 2 ease-in-out both}
+.slide.on .viz .meter .fill{animation:vDrop 1s 2.2s cubic-bezier(.3,.7,.3,1) both}
+.slide.on .viz .ring{animation:vRing 60s .4s linear both}
+.slide.on .unit .ring{animation:vRingFill 1.6s .3s cubic-bezier(.3,.7,.3,1) both}
+
+/* the two videos: bigger on a wide screen, as long as the slide still fits */
+@media(min-width:1001px){.slide .vid{width:min(100%, 960px, calc((100vh - 380px) * 16 / 9))}}
+@media print{.slide.on .viz *{animation:none!important} .viz .blackbox,.viz .bbq,.viz .bbl{opacity:0!important}}
+
 /* ---------- video: a poster until clicked, then the player ---------- */
 .vid{position:relative; width:min(680px,100%); aspect-ratio:16/9; margin:.9rem 0 .3rem;
   border-radius:12px; overflow:hidden; background:#16233F; cursor:pointer}
@@ -735,6 +1057,15 @@ def engage_js(out):
   document.querySelectorAll('.reveal').forEach(function(el){
     el.addEventListener('click', function(){ el.classList.add('shown'); });
   });
+  /* tapping a drawing plays it again: a fresh copy restarts every animation */
+  function replay(){
+    var el = this;
+    if(!el.cloneNode || !el.parentNode) return;
+    var copy = el.cloneNode(true);
+    el.parentNode.replaceChild(copy, el);
+    copy.addEventListener('click', replay);
+  }
+  document.querySelectorAll('.viz').forEach(function(el){ el.addEventListener('click', replay); });
 })();
 """
     anchor = "const start = parseInt(location.hash"
