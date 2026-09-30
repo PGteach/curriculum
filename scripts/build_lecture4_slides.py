@@ -265,6 +265,26 @@ A(s("dark",
        "max-width:26ch"),
     ar("السؤال الرئيسي: إيه القضايا الأخلاقية اللي بتظهر مع انتشار الذكاء الاصطناعي، وإيه المبادئ اللي المفروض توجّه استخدامنا ليه؟")))
 
+# 4b the four principles up front: the map for the lecture. Part 4 comes
+#    back to them once every issue has been seen.
+A(s("",
+    eyebrow("Today&#8217;s map &#183; four principles"),
+    h2("Four principles guide how we use AI", "max-width:26ch"),
+    sub("Each part of today meets one ethical issue &#8212; and the principle that answers it.",
+        "max-width:56ch;margin-top:.6rem"),
+    '<div class="rise kit">'
+    '<div class="card"><div class="ico">&#9878;</div><div class="role">Part 1 &#183; Bias</div>'
+    '<h3>Fairness</h3><p>Is anyone unjustly discriminated against?</p></div>'
+    '<div class="card"><div class="ico">&#128274;</div><div class="role">Part 2 &#183; Privacy</div>'
+    '<h3>Privacy protection</h3><p>Is personal information handled appropriately?</p></div>'
+    '<div class="card"><div class="ico">&#128269;</div><div class="role">Part 3 &#183; XAI</div>'
+    '<h3>Transparency</h3><p>Can we see how it made its decision?</p></div>'
+    '<div class="card"><div class="ico">&#9989;</div><div class="role">Part 3 &#183; Responsibility</div>'
+    '<h3>Accountability</h3><p>Who is answerable for its decisions?</p></div>'
+    '</div>',
+    sub("Keep these four in mind. At the end, you will match situations to them.", "margin-top:.6rem;color:var(--soft)"),
+    ar("قبل ما نبدأ، دي الخريطة بتاعة المحاضرة: أربع مبادئ بتوجّه استخدامنا للذكاء الاصطناعي. كل جزء هنشوف فيه مشكلة أخلاقية والمبدأ اللي بيحلها: التحيز ← العدالة، الخصوصية ← حماية الخصوصية، الذكاء الاصطناعي القابل للتفسير ← الشفافية، المسؤولية ← المساءلة. خلّوهم في دماغكم، وفي الآخر هنرجعلهم كلهم مع بعض.")))
+
 # 5 explore
 A(s("",
     eyebrow("Explore &#183; in pairs"),
@@ -288,7 +308,7 @@ A(video("TWWsW1w-BVo", "Gender Shades", "MIT Media Lab",
 # ---------------- part 1: algorithmic bias ----------------
 
 A(s("",
-    eyebrow("Part 1 &#183; Algorithmic bias"),
+    eyebrow("Part 1 &#183; Algorithmic bias &#8594; Fairness"),
     h2("Bias in, bias out", "max-width:24ch"),
     '<div class="rise statement"><em>Algorithmic bias</em> &#8212; bias in AI judgments caused by bias in the training data.</div>',
     '<table class="rise">'
@@ -347,7 +367,7 @@ A(s("dark",
 # ---------------- part 2: privacy ----------------
 
 A(s("",
-    eyebrow("Part 2 &#183; Privacy"),
+    eyebrow("Part 2 &#183; Privacy &#8594; Privacy protection"),
     h2("AI created new privacy problems", "max-width:24ch"),
     '<div class="rise statement"><em>Privacy</em> &#8212; the appropriate handling and protection of personal data.</div>',
     '<div class="rise shots two">'
@@ -370,7 +390,7 @@ A(s("dark",
 # ---------------- part 3: XAI and responsibility ----------------
 
 A(s("",
-    eyebrow("Part 3 &#183; Explainable AI and responsibility"),
+    eyebrow("Part 3 &#183; XAI &#8594; Transparency &#183; Responsibility &#8594; Accountability"),
     h2("Why did it decide that?"),
     fig(XAI),
     ar("لو الـ AI صندوق أسود بيديك النتيجة بس، محدش يقدر يتأكد هي صح ولا عادلة. الـ XAI بيطلّع الأسباب كمان — فبني آدم يقدر يراجعها.")))
@@ -419,7 +439,7 @@ A(s("dark",
 # ---------------- part 4: the four principles ----------------
 
 A(s("",
-    eyebrow("Part 4 &#183; The four principles of AI ethics"),
+    eyebrow("Part 4 &#183; Back to the four principles"),
     h2("Four principles for using AI appropriately", "max-width:26ch"),
     '<div class="rise kit">'
     '<div class="card"><div class="ico">&#9878;</div><div class="role">Principle 1</div>'

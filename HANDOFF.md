@@ -453,7 +453,16 @@ not steal the space key; ids and channels are in `media/SOURCES.md`. **Nobody
 has watched them from this repo -- preview before class.** "Which principle is
 it?" and the exam-warning statements are tap-to-reveal, and a hands-up question
 ("would you let an AI decide who gets the job?") opens and closes the lesson.
-Behaviour checked in Chrome: 11 assertions, all passing.
+Behaviour checked in Chrome: 11 assertions, all passing. Each reveal has its
+own animation: the hidden answer breathes under its blur, then pops in when
+tapped, and the true/false cross stamps in. Print shows every answer plainly.
+
+**The four principles come first (2026-09-30), slide-only.** A "Today's map"
+slide right after the guiding question pairs each part with its principle
+(bias → fairness, privacy → privacy protection, XAI → transparency,
+responsibility → accountability). Each part's eyebrow names its principle, and
+Part 4 is now "Back to the four principles". The deck has 28 slides, but the
+booklet has no map sheet, so the booklet and deck differ by that one slide.
 
 **The Chapter 1 exam is printed, not online** -- the teacher's choice, because
 essay answers cannot be marked automatically. `lecture4/_teacher/chapter1-exam.html`
