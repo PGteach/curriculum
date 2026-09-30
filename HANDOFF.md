@@ -460,8 +460,9 @@ tapped, and the true/false cross stamps in. Print shows every answer plainly.
 **The four principles come first (2026-09-30), slide-only.** A "Today's map"
 slide right after the guiding question pairs each part with its principle
 (bias → fairness, privacy → privacy protection, XAI → transparency,
-responsibility → accountability). Each part's eyebrow names its principle, and
-Part 4 is now "Back to the four principles". The deck has 28 slides, but the
+responsibility → accountability). The parts are numbered one issue each:
+Part 3 is XAI, Part 4 is responsibility, and Part 5 is "Back to the four
+principles". Each part's eyebrow names its principle. The deck has 28 slides, but the
 booklet has no map sheet, so the booklet and deck differ by that one slide.
 
 **The Chapter 1 exam is printed, not online** -- the teacher's choice, because

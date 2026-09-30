@@ -265,7 +265,7 @@ A(s("dark",
        "max-width:26ch"),
     ar("السؤال الرئيسي: إيه القضايا الأخلاقية اللي بتظهر مع انتشار الذكاء الاصطناعي، وإيه المبادئ اللي المفروض توجّه استخدامنا ليه؟")))
 
-# 4b the four principles up front: the map for the lecture. Part 4 comes
+# 4b the four principles up front: the map for the lecture. Part 5 comes
 #    back to them once every issue has been seen.
 A(s("",
     eyebrow("Today&#8217;s map &#183; four principles"),
@@ -279,7 +279,7 @@ A(s("",
     '<h3>Privacy protection</h3><p>Is personal information handled appropriately?</p></div>'
     '<div class="card"><div class="ico">&#128269;</div><div class="role">Part 3 &#183; XAI</div>'
     '<h3>Transparency</h3><p>Can we see how it made its decision?</p></div>'
-    '<div class="card"><div class="ico">&#9989;</div><div class="role">Part 3 &#183; Responsibility</div>'
+    '<div class="card"><div class="ico">&#9989;</div><div class="role">Part 4 &#183; Responsibility</div>'
     '<h3>Accountability</h3><p>Who is answerable for its decisions?</p></div>'
     '</div>',
     sub("Keep these four in mind. At the end, you will match situations to them.", "margin-top:.6rem;color:var(--soft)"),
@@ -387,10 +387,10 @@ A(s("dark",
        "max-width:27ch"),
     ar("لما بنستخدم التعرف على الوجه في الأماكن العامة، الأمان والراحة بيتحسنوا، بس في نفس الوقت بتظهر مخاوف على الخصوصية. اشرح إزاي نوازن بين الراحة والأمان وحماية الخصوصية، وقول أنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي أقرب لرأيك.")))
 
-# ---------------- part 3: XAI and responsibility ----------------
+# ---------------- part 3: XAI ----------------
 
 A(s("",
-    eyebrow("Part 3 &#183; XAI &#8594; Transparency &#183; Responsibility &#8594; Accountability"),
+    eyebrow("Part 3 &#183; Explainable AI &#8594; Transparency"),
     h2("Why did it decide that?"),
     fig(XAI),
     ar("لو الـ AI صندوق أسود بيديك النتيجة بس، محدش يقدر يتأكد هي صح ولا عادلة. الـ XAI بيطلّع الأسباب كمان — فبني آدم يقدر يراجعها.")))
@@ -406,14 +406,16 @@ A(s("",
     '</div>',
     ar("الذكاء الاصطناعي القابل للتفسير (XAI): أساليب بتساعدنا نفهم إيه العوامل اللي خلّت النظام يوصل للنتيجة أو القرار ده. ولما طريقة الوصول للنتيجة تبقى مش واضحة، بيبقى صعب نقيّمها أو نكتشف فيها غلط أو تحيز. عشان كده جملة «طالما النتيجة صح مفيش مشكلة» غلط — وبتيجي في الامتحان.")))
 
+# ---------------- part 4: responsibility ----------------
+
 A(s("",
-    eyebrow("3 &#183; Responsibility"),
+    eyebrow("Part 4 &#183; Responsibility &#8594; Accountability"),
     h2("It got it wrong. Who answers?"),
     fig(WHO),
     ar("المسؤولية: إننا نحدد أدوار وواجبات كل طرف ليه علاقة بتطوير النظام وتشغيله واستخدامه — المطوّر، والجهة اللي بتشغّله، والمستخدم. ومفيش توزيع واحد للمسؤولية ينفع في كل الحالات؛ ده بيختلف حسب النظام وطريقة استخدامه والقواعد الموجودة.")))
 
 A(s("",
-    eyebrow("3 &#183; Two words that sound the same"),
+    eyebrow("4 &#183; Two words that sound the same"),
     h2("Responsibility is not accountability", "max-width:24ch"),
     '<div class="rise vs">'
     '<div class="pane a"><h3>Responsibility</h3><ul>'
@@ -436,10 +438,10 @@ A(s("dark",
        "max-width:27ch"),
     ar("لو محدش قدر يشرح الذكاء الاصطناعي رفض طلب توظيف حد ليه، يبقى ده عادل؟ وأنهي مبدأ من مبادئ أخلاقيات الذكاء الاصطناعي ناقص هنا؟")))
 
-# ---------------- part 4: the four principles ----------------
+# ---------------- part 5: the four principles ----------------
 
 A(s("",
-    eyebrow("Part 4 &#183; Back to the four principles"),
+    eyebrow("Part 5 &#183; Back to the four principles"),
     h2("Four principles for using AI appropriately", "max-width:26ch"),
     '<div class="rise kit">'
     '<div class="card"><div class="ico">&#9878;</div><div class="role">Principle 1</div>'
@@ -454,7 +456,7 @@ A(s("",
     ar("العدالة: إننا منميّزش ظلم ضد أي شخص أو مجموعة.<br>الشفافية: نوفّر معلومات واضحة ومناسبة عن النظام، وإزاي بيتستخدم، وإزاي بياخد القرار، وحدوده إيه.<br>حماية الخصوصية: نتعامل مع المعلومات الشخصية بشكل مناسب ونحمي خصوصية الناس.<br>المساءلة: نحدد مين الجهات المسؤولة عن النظام وقراراته وتأثيره، ونقدر نحاسبها حسب دورها.")))
 
 A(s("",
-    eyebrow("4 &#183; Your turn"),
+    eyebrow("5 &#183; Your turn"),
     h2("Which principle is it?"),
     '<table class="rise">'
     '<tr><th>Situation</th><th>Principle</th></tr>'
