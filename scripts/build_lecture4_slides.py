@@ -875,10 +875,10 @@ ENGAGE_CSS = """
 .viz{max-width:520px; width:100%; justify-self:center; cursor:pointer; -webkit-tap-highlight-color:transparent}
 .viz svg{width:100%; height:auto; display:block; overflow:visible}
 @media(max-width:1000px){.split{display:block} .split>.viz{display:none}}
-.vcap{margin-top:.8rem; text-align:center; font-size:clamp(13px,1.2vw,17px); color:var(--soft); line-height:1.5}
-.vcap b{display:block; color:var(--ink); font-weight:600}
-.vcap span{display:block; font-size:.92em}
-.dark .vcap{color:#AAB6CC} .dark .vcap b{color:var(--paper)}
+p.vcap{margin-top:.8rem; text-align:center; font-size:clamp(13px,1.2vw,17px); color:var(--soft); line-height:1.5}
+p.vcap b{display:block; color:var(--ink); font-weight:600}
+p.vcap span{display:block; font-size:.92em}
+.dark p.vcap{color:#AAB6CC} .dark p.vcap b{color:var(--paper)}
 .viz .lbl{font:600 13px Inter,system-ui,sans-serif; fill:var(--soft)}
 .viz .lbl.mid{text-anchor:middle} .viz .lbl.sm2{font-size:11px}
 .viz .ntext{font:600 15px Inter,system-ui,sans-serif; fill:var(--ink); text-anchor:middle}

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 5 Booklet — Is this connection safe?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}
+.dg{margin:3mm 0 4mm}.dg svg{display:block;width:100%;height:auto}
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}
+.principles .pr{border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:1.5mm;padding:2.5mm 3.5mm;background:#FCFCFA}
+.principles .pr h4{font-size:10.5pt;margin-bottom:1mm}.principles .pr p{font-size:9.5pt;margin:0}
+</style>
+</head>
+<body data-title="Lecture 5 Booklet — Is this connection safe?">
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">Is this connection safe?</h1><div class="docsub">Student Booklet &middot; Lecture 5</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><h2>Unit 2 &middot; Cybersecurity</h2><table><tr><th style="width:14%">Lesson</th><th>Topic</th></tr><tr><td class="k">2-1 &middot; today</td><td>Cryptographic technologies and authentication</td></tr><tr><td class="k">2-2</td><td>Network security design</td></tr><tr><td class="k">2-3</td><td>Incident response and risk management</td></tr></table><h2>Every login hides three jobs</h2><p>Every time you log in to a bank app, buy something online, or open a website with a padlock in the address bar, hidden technologies keep your information safe: messages are <b>scrambled</b> so no one else can read them, the website <b>proves that it is genuine</b>, and your <b>identity is checked</b> before you are let in. Without them, passwords could be stolen and private data read.</p><p class="ar">فيه كذا تقنية بتحمي الاتصال: TLS بيشفّر البيانات، والمتصفح بيتأكد من شهادة الموقع، والخدمة بتتأكد من هويتك — بس ده مش معناه إن محتوى الموقع موثوق أو إن الحماية مطلقة.</p><div class="summary"><p><b>Today&#8217;s question.</b> How do cryptographic technologies and authentication work together to keep online communication and services secure?</p><p class="ar">السؤال الرئيسي: إزاي تقنيات التشفير والمصادقة بتشتغل مع بعض عشان تحافظ على أمان الاتصال والخدمات عبر الإنترنت؟</p></div><table><tr><th>Technology</th><th>Threat it answers</th></tr><tr><td class="k">Encryption</td><td>Eavesdropping &mdash; content read by a third party</td></tr><tr><td class="k">Digital certificate</td><td>Impersonation &mdash; a fake site</td></tr><tr><td class="k">Digital signature</td><td>Tampering &mdash; data altered on the way</td></tr><tr><td class="k">Multi-factor authentication</td><td>Unauthorized login</td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="summary hw"><p><b>Explore &middot; in pairs.</b> You send your password to your bank. Predict what three things must be true so that no one can read it, change it, or receive it by pretending to be your bank.</p><p class="ar">توقّعوا: إيه التلات حاجات اللي لازم يتحققوا عشان محدش يقرا الباسورد، ولا يغيّره، ولا ياخده وهو بيضحك عليك إنه البنك؟</p></div><h2>Part 1 &middot; Encryption</h2><div class="term"><h4>Encryption</h4><p>Scrambles a message so that only someone with the right key can read it &mdash; it keeps content private.</p><p class="ar">التشفير بيحافظ على خصوصية المحتوى: محدش يقدر يقرا الرسالة غير اللي معاه المفتاح الصح.</p></div><h2>One key, or a pair of keys</h2><div class="dg"><svg viewBox="0 0 900 300" role="img" aria-label="Common-key cryptography uses one key to lock and unlock; public-key cryptography locks with a public key and unlocks with a different private key">
+  <rect x="20" y="16" width="420" height="268" rx="12" fill="var(--teal)" opacity=".08" stroke="var(--teal)" stroke-width="2"/>
+  <text x="230" y="48" text-anchor="middle" font-size="19" font-weight="700" fill="var(--ink)">Common-key cryptography</text>
+  <text x="230" y="72" text-anchor="middle" font-size="14" fill="var(--soft)">also called symmetric-key</text>
+  <g transform="translate(70,98)">
+    <circle cx="22" cy="22" r="16" fill="none" stroke="var(--teal)" stroke-width="6"/>
+    <rect x="36" y="18" width="70" height="9" rx="3" fill="var(--teal)"/>
+    <rect x="88" y="27" width="8" height="13" fill="var(--teal)"/><rect x="100" y="27" width="6" height="9" fill="var(--teal)"/>
+  </g>
+  <text x="190" y="122" font-size="16" fill="var(--ink)">one key</text>
+  <text x="190" y="144" font-size="16" fill="var(--ink)">locks <tspan font-weight="700">and</tspan> unlocks</text>
+  <line x1="40" y1="176" x2="420" y2="176" stroke="var(--line)" stroke-width="1.5"/>
+  <text x="44" y="206" font-size="16" fill="var(--ink)"><tspan font-weight="700" fill="var(--teal)">+</tspan> fast &#8212; exchanges data quickly</text>
+  <text x="44" y="238" font-size="16" fill="var(--ink)"><tspan font-weight="700" fill="#9C3B2E">&#8722;</tspan> both sides need the same key:</text>
+  <text x="64" y="262" font-size="16" fill="var(--ink)">how do you share it safely?</text>
+
+  <rect x="460" y="16" width="420" height="268" rx="12" fill="var(--gold)" opacity=".10" stroke="var(--gold)" stroke-width="2"/>
+  <text x="670" y="48" text-anchor="middle" font-size="19" font-weight="700" fill="var(--ink)">Public-key cryptography</text>
+  <text x="670" y="72" text-anchor="middle" font-size="14" fill="var(--soft)">a pair of linked keys</text>
+  <g transform="translate(490,90)">
+    <circle cx="18" cy="18" r="13" fill="none" stroke="var(--gold)" stroke-width="5"/>
+    <rect x="29" y="15" width="54" height="7" rx="3" fill="var(--gold)"/>
+    <rect x="70" y="22" width="6" height="10" fill="var(--gold)"/>
+  </g>
+  <text x="590" y="113" font-size="16" fill="var(--ink)"><tspan font-weight="700">public key</tspan> locks</text>
+  <g transform="translate(490,132)">
+    <circle cx="18" cy="18" r="13" fill="none" stroke="var(--ink)" stroke-width="5"/>
+    <rect x="29" y="15" width="54" height="7" rx="3" fill="var(--ink)"/>
+    <rect x="70" y="22" width="6" height="10" fill="var(--ink)"/>
+  </g>
+  <text x="590" y="155" font-size="16" fill="var(--ink)"><tspan font-weight="700">private key</tspan> unlocks</text>
+  <line x1="480" y1="176" x2="860" y2="176" stroke="var(--line)" stroke-width="1.5"/>
+  <text x="484" y="206" font-size="16" fill="var(--ink)"><tspan font-weight="700" fill="var(--teal)">+</tspan> the public key can be given to anyone</text>
+  <text x="484" y="230" font-size="16" fill="var(--ink)"><tspan font-weight="700" fill="var(--teal)">+</tspan> shares a key safely</text>
+  <text x="484" y="262" font-size="16" fill="var(--ink)"><tspan font-weight="700" fill="#9C3B2E">&#8722;</tspan> slow for large amounts of data</text>
+</svg></div><p><b>Common-key (symmetric-key) cryptography</b> exchanges data quickly; <b>public-key cryptography</b> shares a key safely.</p><p class="ar">التشفير المتماثل بيبادل البيانات بسرعة، والتشفير بالمفتاح العام بيشارك المفتاح بأمان.</p><h2>Which key does what</h2><table><tr><th></th><th>Locks / signs with</th><th>Unlocks / verifies with</th></tr><tr><td class="k">Encryption (public-key)</td><td>the receiver&#8217;s public key</td><td>the receiver&#8217;s private key</td></tr><tr><td class="k">Digital signature</td><td>the sender&#8217;s private key</td><td>the sender&#8217;s public key</td></tr></table><p class="ar">في التوقيع الرقمي الاتجاه بيتعكس: المفتاح الخاص بيوقّع والعام بيتحقق.</p><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 2 &middot; HTTPS and the TLS handshake</h2><div class="term"><h4>HTTPS (HTTP Secure)</h4><p>A communication protocol that adds TLS encryption to HTTP. It provides encryption, detection of tampering and verification of the communication partner, protecting users from eavesdropping, tampering and impersonation. Setting up the secure connection is the <b>TLS handshake</b>.</p><p class="ar">HTTPS: بروتوكول HTTP منقول عبر اتصال TLS مؤمَّن. وخطوات إنشاء الاتصال الآمن اسمها مصافحة TLS.</p></div><h2>Three stages, two kinds of key</h2><div class="dg"><svg viewBox="0 0 900 360" role="img" aria-label="HTTPS in three stages: the server sends its certificate and public key, the browser sends a common key locked with that public key, then data flows locked with the common key">
+  <rect x="20" y="10" width="170" height="52" rx="10" fill="#fff" stroke="var(--ink)" stroke-width="2"/>
+  <text x="105" y="43" text-anchor="middle" font-size="18" font-weight="700" fill="var(--ink)">Browser</text>
+  <rect x="710" y="10" width="170" height="52" rx="10" fill="var(--ink)"/>
+  <text x="795" y="43" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">Web server</text>
+  <line x1="105" y1="62" x2="105" y2="350" stroke="var(--line)" stroke-width="2" stroke-dasharray="5 6"/>
+  <line x1="795" y1="62" x2="795" y2="350" stroke="var(--line)" stroke-width="2" stroke-dasharray="5 6"/>
+
+  <circle cx="40" cy="112" r="15" fill="var(--teal)"/><text x="40" y="118" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">1</text>
+  <text x="450" y="94" text-anchor="middle" font-size="16" font-weight="700" fill="var(--ink)">digital certificate + public key</text>
+  <line x1="780" y1="112" x2="124" y2="112" stroke="var(--gold)" stroke-width="3"/>
+  <polygon points="118,112 130,105 130,119" fill="var(--gold)"/>
+  <text x="450" y="138" text-anchor="middle" font-size="14" fill="var(--soft)">the browser checks the certificate with a certificate authority (CA)</text>
+
+  <circle cx="40" cy="202" r="15" fill="var(--teal)"/><text x="40" y="208" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">2</text>
+  <text x="450" y="184" text-anchor="middle" font-size="16" font-weight="700" fill="var(--ink)">common key, locked with the server&#8217;s public key</text>
+  <line x1="120" y1="202" x2="776" y2="202" stroke="var(--gold)" stroke-width="3"/>
+  <polygon points="782,202 770,195 770,209" fill="var(--gold)"/>
+  <text x="450" y="228" text-anchor="middle" font-size="14" fill="var(--soft)">the server unlocks it with its private key &#8212; now both have the common key</text>
+
+  <circle cx="40" cy="292" r="15" fill="var(--teal)"/><text x="40" y="298" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">3</text>
+  <text x="450" y="274" text-anchor="middle" font-size="16" font-weight="700" fill="var(--ink)">data, locked with the shared common key</text>
+  <line x1="124" y1="292" x2="776" y2="292" stroke="var(--teal)" stroke-width="3"/>
+  <polygon points="118,292 130,285 130,299" fill="var(--teal)"/><polygon points="782,292 770,285 770,299" fill="var(--teal)"/>
+  <text x="450" y="318" text-anchor="middle" font-size="14" fill="var(--soft)">fast, in both directions, for the rest of the session</text>
+
+  <rect x="230" y="334" width="190" height="22" rx="6" fill="var(--gold)" opacity=".25"/>
+  <text x="325" y="350" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">1&#8211;2 public-key</text>
+  <rect x="480" y="334" width="190" height="22" rx="6" fill="var(--teal)" opacity=".18"/>
+  <text x="575" y="350" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">3 common-key</text>
+</svg></div><table><tr><th style="width:20%">Stage</th><th>What happens</th><th style="width:20%">Method</th></tr><tr><td class="k">1 Connection</td><td>The server sends a digital certificate and a public key; the browser verifies the server through a certificate authority (CA).</td><td>Public-key</td></tr><tr><td class="k">2 Key exchange</td><td>The browser creates a common key, encrypts it with the server&#8217;s public key and sends it; the server decrypts it with its private key.</td><td>Public-key</td></tr><tr><td class="k">3 Data</td><td>Data is encrypted and exchanged using the shared common key.</td><td>Common-key</td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="summary"><p><b>Why not public-key for everything?</b> Public-key cryptography shares keys safely but is slow; common-key cryptography exchanges large amounts of data quickly. This division of roles gives both <b>security</b> and <b>speed</b>. The common key for one connection is a <b>session key</b>; current versions of TLS agree on it by Diffie-Hellman key agreement.</p><p class="ar">آليات المفتاح العام للمصادقة والاتفاق الآمن على مفاتيح الجلسة، والتشفير المتماثل لحماية بيانات الجلسة بسرعة.</p></div><h2>Who vouches for the website?</h2><div class="term"><h4>Digital certificate</h4><p>Verifies that the communication partner is authentic. A certificate authority (CA) vouches that a site is genuine.</p><p class="ar">الشهادة الرقمية بتساعد المتصفح يتأكد من هوية الخادم وارتباط الشهادة باسم النطاق اللي بيتصل بيه.</p></div><p>During the handshake the browser checks that the certificate is <b>valid</b>, that it leads back to an authority it trusts (the <b>chain of trust</b>), and that it <b>matches the name</b> of the site.</p><p class="ar">المتصفح بيتأكد من صلاحيتها وسلسلة الثقة وملاءمتها لاسم الموقع.</p><h2>Proving who sent it, and that it was not changed</h2><div class="term"><h4>Digital signature</h4><p>Detects data tampering or impersonation of the sender, and makes it impossible for the sender to deny having sent the data afterward: <b>non-repudiation</b>.</p><p class="ar">التوقيع الرقمي بيكشف التلاعب وانتحال الشخصية، وبيوفّر دليل بيدعم عدم التنصل.</p></div><table><tr><th>Digital certificate</th><th>Digital signature</th></tr><tr><td>Is the other side genuine?</td><td>Was this data altered, and who sent it?</td></tr><tr><td>Stops a fake website</td><td>Detects tampering; gives non-repudiation</td></tr></table><div class="summary"><p><b>The padlock.</b> It shows the connection is encrypted and the site matches its certificate. It does <b>not</b> mean the content can be trusted completely, or that protection is absolute.</p><p class="ar">القفل مش معناه إن محتوى الموقع موثوق أو إن الحماية مطلقة.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 3 &middot; Authentication</h2><div class="dg"><svg viewBox="0 0 900 230" role="img" aria-label="The three factors of authentication: knowledge, possession and biometric, with the book's examples of each">
+  <rect x="20" y="14" width="270" height="200" rx="12" fill="var(--teal)" opacity=".09" stroke="var(--teal)" stroke-width="2"/>
+  <text x="155" y="50" text-anchor="middle" font-size="20" font-weight="700" fill="var(--ink)">Knowledge</text>
+  <text x="155" y="76" text-anchor="middle" font-size="14" fill="var(--soft)">something the user knows</text>
+  <text x="155" y="122" text-anchor="middle" font-size="16" fill="var(--ink)">password</text>
+  <text x="155" y="150" text-anchor="middle" font-size="16" fill="var(--ink)">secret question</text>
+
+  <rect x="315" y="14" width="270" height="200" rx="12" fill="var(--gold)" opacity=".12" stroke="var(--gold)" stroke-width="2"/>
+  <text x="450" y="50" text-anchor="middle" font-size="20" font-weight="700" fill="var(--ink)">Possession</text>
+  <text x="450" y="76" text-anchor="middle" font-size="14" fill="var(--soft)">something the user has</text>
+  <text x="450" y="114" text-anchor="middle" font-size="16" fill="var(--ink)">one-time password</text>
+  <text x="450" y="140" text-anchor="middle" font-size="16" fill="var(--ink)">SMS code &#183; phone notification</text>
+  <text x="450" y="166" text-anchor="middle" font-size="16" fill="var(--ink)">smart card &#183; IC card</text>
+
+  <rect x="610" y="14" width="270" height="200" rx="12" fill="var(--ink)" opacity=".07" stroke="var(--ink)" stroke-width="2"/>
+  <text x="745" y="50" text-anchor="middle" font-size="20" font-weight="700" fill="var(--ink)">Biometric</text>
+  <text x="745" y="76" text-anchor="middle" font-size="14" fill="var(--soft)">a feature of the user&#8217;s body</text>
+  <text x="745" y="122" text-anchor="middle" font-size="16" fill="var(--ink)">fingerprint</text>
+  <text x="745" y="150" text-anchor="middle" font-size="16" fill="var(--ink)">face recognition</text>
+</svg></div><p class="ar">المعرفة (كلمة مرور، سؤال سري) &middot; الحيازة (كلمة مرور لمرة واحدة، SMS، بطاقة ذكية) &middot; السمات الحيوية (بصمة، وجه).</p><div class="term"><h4>Multi-factor authentication (MFA)</h4><p>Combining two or more of the three factors: knowledge, possession, biometric. With one factor, breaking it lets an attacker in; with several, even if one is broken, another can still prevent access.</p><p class="ar">لو عامل واحد واتكسر، اللي هاجم يدخل. لكن عامل تاني مستقل بيقلل احتمال الدخول غير المصرح به.</p></div><table><tr><th>Two-factor authentication (2FA)</th><th>Multi-factor authentication (MFA)</th></tr><tr><td>Exactly two independent factors, from two different categories</td><td>Two or more independent factors, from different categories</td></tr></table><table><tr><th>Service</th><th>Authentication used</th><th style="width:28%">Factors</th></tr><tr><td class="k">Online banking</td><td>Password + one-time password</td><td>knowledge + possession</td></tr><tr><td class="k">SNS login</td><td>Password + SMS authentication</td><td>knowledge + possession</td></tr><tr><td class="k">Online shopping</td><td>Password + one-time code from 3-D Secure</td><td>knowledge + possession</td></tr><tr><td class="k">Company laptop login</td><td>Smart card + fingerprint authentication</td><td>possession + biometric</td></tr></table><div class="summary"><p><b>Exam warning.</b> Two passwords, or a password and a secret question, are <b>not</b> multi-factor: both are knowledge, the same factor twice (two-step authentication).</p><p class="ar">كلمتين مرور مش مصادقة ثنائية — الاتنين من عامل المعرفة.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="summary hw"><p><b>Pause and think.</b> If a password is leaked, why can a second factor sent to a phone still keep the account safe?</p><p class="ar">لو كلمة المرور اتسربت، ليه عامل تاني بيتبعت على الموبايل لسه ممكن يحمي الحساب؟</p></div><h2>Part 4 &middot; Layers, not one lock</h2><table><tr><th>Technology</th><th>Effect</th></tr><tr><td class="k">Encryption (common-key, public-key)</td><td>Prevents communication content from being read by third parties</td></tr><tr><td class="k">Digital signature</td><td>Detects data tampering or impersonation of the sender; non-repudiation</td></tr><tr><td class="k">Digital certificate</td><td>Verifies that the communication partner is authentic</td></tr><tr><td class="k">Multi-factor authentication</td><td>Prevents unauthorized logins</td></tr></table><h2>One online purchase</h2><div class="dg"><svg viewBox="0 0 900 250" role="img" aria-label="Buying online: HTTPS encryption, the digital certificate, multi-factor login and a digital signature each stop a different threat">
+  <g font-size="15">
+    <rect x="10" y="12" width="205" height="226" rx="12" fill="#fff" stroke="var(--line)" stroke-width="2"/>
+    <circle cx="40" cy="44" r="16" fill="var(--teal)"/><text x="40" y="50" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">1</text>
+    <text x="112" y="92" text-anchor="middle" font-weight="700" fill="var(--ink)">You open the site</text>
+    <text x="112" y="132" text-anchor="middle" font-size="17" font-weight="700" fill="var(--teal)">Encryption</text>
+    <text x="112" y="182" text-anchor="middle" fill="var(--soft)">stops</text>
+    <text x="112" y="206" text-anchor="middle" font-weight="600" fill="#9C3B2E">eavesdropping</text>
+
+    <rect x="232" y="12" width="205" height="226" rx="12" fill="#fff" stroke="var(--line)" stroke-width="2"/>
+    <circle cx="262" cy="44" r="16" fill="var(--teal)"/><text x="262" y="50" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">2</text>
+    <text x="334" y="92" text-anchor="middle" font-weight="700" fill="var(--ink)">Browser checks it</text>
+    <text x="334" y="132" text-anchor="middle" font-size="17" font-weight="700" fill="var(--teal)">Digital certificate</text>
+    <text x="334" y="182" text-anchor="middle" fill="var(--soft)">stops</text>
+    <text x="334" y="206" text-anchor="middle" font-weight="600" fill="#9C3B2E">a fake site</text>
+
+    <rect x="454" y="12" width="205" height="226" rx="12" fill="#fff" stroke="var(--line)" stroke-width="2"/>
+    <circle cx="484" cy="44" r="16" fill="var(--teal)"/><text x="484" y="50" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">3</text>
+    <text x="556" y="92" text-anchor="middle" font-weight="700" fill="var(--ink)">You log in</text>
+    <text x="556" y="124" text-anchor="middle" font-size="17" font-weight="700" fill="var(--teal)">Multi-factor</text>
+    <text x="556" y="146" text-anchor="middle" font-size="17" font-weight="700" fill="var(--teal)">authentication</text>
+    <text x="556" y="182" text-anchor="middle" fill="var(--soft)">stops</text>
+    <text x="556" y="206" text-anchor="middle" font-weight="600" fill="#9C3B2E">unauthorized login</text>
+
+    <rect x="676" y="12" width="214" height="226" rx="12" fill="#fff" stroke="var(--line)" stroke-width="2"/>
+    <circle cx="706" cy="44" r="16" fill="var(--teal)"/><text x="706" y="50" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">4</text>
+    <text x="783" y="92" text-anchor="middle" font-weight="700" fill="var(--ink)">You send the order</text>
+    <text x="783" y="132" text-anchor="middle" font-size="17" font-weight="700" fill="var(--teal)">Digital signature</text>
+    <text x="783" y="182" text-anchor="middle" fill="var(--soft)">detects</text>
+    <text x="783" y="206" text-anchor="middle" font-weight="600" fill="#9C3B2E">tampering</text>
+  </g>
+</svg></div><p class="ar">الجمع ده بيقلل مخاطر التنصت والتلاعب وانتحال الهوية والدخول غير المصرح به في نفس الوقت، من غير ما نفترض إن أي تقنية بتمنع الخطر منع مطلق.</p><table><tr><th>Looks right, but is false</th><th>Why</th></tr><tr><td>Digital signatures improve communication speed.</td><td>They detect tampering and impersonation.</td></tr><tr><td>One strong technology is enough.</td><td>Security comes from combining several.</td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Think as an engineer</h2><div class="summary hw"><p>A school portal lets students check grades and pay fees. Password only, or a password plus a one-time password sent to the phone? <b>Collect data</b> from ten classmates. <b>Analyze the stakeholders</b> &mdash; a student, the school, a student with no smartphone. <b>Decide</b>, with two reasons.</p><p class="ar">اجمع بيانات، وحلّل أصحاب المصلحة، وبعدين قرّر واذكر سببين.</p></div><h2>In a new context</h2><div class="summary hw"><p>A small online shop wants to secure both customer login and payment. Name two security technologies it should use and say where each one helps, then identify one threat that could still remain.</p><p class="ar">سمّي تقنيتين أمان وبيّن كل واحدة بتساعد فين، وحدد تهديد واحد ممكن يفضل موجود.</p></div><h2>Key takeaway &middot; share the key safely, move the data quickly</h2><div class="summary"><p>HTTPS uses public-key cryptography to share a key safely and common-key cryptography to move data quickly. Services stay safe by layering encryption, certificates, signatures and multi-factor authentication.</p><p class="ar">افتكر: آليات المفتاح العام للمصادقة ومفاتيح الجلسة، والتشفير المتماثل لبيانات الجلسة. والخدمات بتفضل آمنة بتكديس التشفير والشهادات والتوقيعات والمصادقة الثنائية.</p></div><h2>Lesson question &mdash; answered</h2><p>HTTPS combines public-key cryptography, to share a key safely, with common-key cryptography, to exchange data quickly, so communication is both secure and fast. Services stay safe by combining encryption (hides content), digital certificates (prove a site is genuine), digital signatures (detect tampering) and multi-factor authentication (blocks unauthorized logins), so many threats are addressed at the same time.</p><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Class work</h2><p class="ar">شغل الحصة — نحل دول سوا.</p><div class="ex"><div class="exhead"><span class="exn">1</span><span class="exq">Write ✓ if the statement is true, ✗ if it is false.</span></div><p class="ar">حط ✓ لو الجملة صح، و ✗ لو غلط.</p><div class="src">p.36 — Worked Example (1) A-D</div><table class="tftbl"><tr><th style="width:14%">&#10003; / &#10005;</th><th>Statement</th></tr><tr><td class="blank"></td><td>HTTPS communication uses both public-key cryptography and common-key cryptography.</td></tr><tr><td class="blank"></td><td>HTTPS communication exchanges all data using public-key cryptography.</td></tr><tr><td class="blank"></td><td>Multi-factor authentication is a method that combines two or more of the three factors of authentication.</td></tr><tr><td class="blank"></td><td>An example of multi-factor authentication is setting two passwords.</td></tr></table></div><div class="ex"><div class="exhead"><span class="exn">2</span><span class="exq">Match each need to the most appropriate security technology.</span></div><p class="ar">وصّل كل احتياج بأنسب تقنية أمان.</p><div class="src">p.36 — Worked Example (2)</div><table class="matchtbl"><tr><th>Description</th><th style="width:18%">Letter</th></tr><tr><td>I want to prevent communication content from being read by third parties.</td><td class="blank"></td></tr><tr><td>I want to verify that data has not been altered during communication.</td><td class="blank"></td></tr><tr><td>I want to verify that the communication partner is authentic.</td><td class="blank"></td></tr></table><p class="optlead">Choose from:</p><div class="fields"><span class="chip"><b>A</b> Digital certificate</span><span class="chip"><b>B</b> Encryption</span><span class="chip"><b>C</b> Digital signature</span></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Class work</h2><p class="ar">كمّل مع زميلك.</p><div class="ex"><div class="exhead"><span class="exn">3</span><span class="exq">Answer the following questions.</span></div><p class="ar">جاوب على الأسئلة دي.</p><div class="src">p.37 — Try 1</div><ol class="qs"><li>In HTTPS communication, what cryptographic method is used so that the browser and server can safely share a common key?<div class="rule tight"></div></li><li>In HTTPS communication, what cryptographic method is used for data communication after the common key has been shared?<div class="rule tight"></div></li><li>Briefly explain the reason for combining the methods in 1 and 2, based on the characteristics of each.<div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="ex"><div class="exhead"><span class="exn">4</span><span class="exq">Answer the following questions.</span></div><p class="ar">جاوب على الأسئلة دي.</p><div class="src">p.37-38 — Try 2</div><ol class="qs"><li>For each service, write which combination of factors it uses —<span class="opt">A: knowledge + possession,</span><span class="opt">B: knowledge + biometric,</span><span class="opt">C: biometric + possession. (a) Password + one-time password (b) Password + fingerprint authentication (c) Password + SMS authentication (d) Face recognition + smart card</span><div class="rule tight"></div></li><li>Choose the one that is NOT an appropriate description of combinations of security technologies.<span class="opt">A: Encryption is a technology that prevents communication content from being read by third parties.</span><span class="opt">B: Digital signatures are a technology that improves communication speed.</span><span class="opt">C: Digital certificates are a system for verifying that the communication partner is authentic.</span><span class="opt">D: By combining multiple security technologies, various threats can be addressed.</span><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>What to revise</h2><div class="summary"><p>Learn first which key does what in the three stages of HTTPS, and why: public-key to share the key safely, common-key to move the data quickly. Then the four technologies and the threat each stops, and the three factors with an example of each &mdash; and why two passwords are not multi-factor.</p><p class="ar">احفظ الأول مراحل HTTPS التلاتة وكل مرحلة بأنهي مفتاح وليه، وبعدين التقنيات الأربعة وكل واحدة بتوقف أنهي تهديد، والعوامل التلاتة بمثال لكل واحد — وليه كلمتين مرور مش مصادقة ثنائية.</p></div><div class="summary hw"><p><b>The exam is done in class.</b> Your teacher will show the code to scan during the lesson.</p><p class="ar">الامتحان بيتحل في الحصة. المدرّس هيعرض الكود تمسحوه وقتها.</p></div><h2>My notes</h2><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 5;
+const LECTURE_TITLE = "Is this connection safe?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#2D7A4B";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
+  applyAccent();
+  /* The browser names a saved or printed PDF after the title, so every
+     document names itself through data-title on the body element. Without it all
+     of them -- homework, answer key, exam -- saved as "Handout". */
+  const named = (document.body && document.body.getAttribute)
+    ? document.body.getAttribute("data-title") : null;
+  document.title = named || (LECTURE.label + " Handout — " + LECTURE.title + " · PGteach");
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+})();
+</script>
+</body>
+</html>

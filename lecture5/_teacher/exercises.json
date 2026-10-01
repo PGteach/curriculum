@@ -1,0 +1,429 @@
+{
+ "SHEET": {
+  "lecture": 5,
+  "title": "Is this connection safe?",
+  "parts": [
+   {
+    "exercises": [
+     {
+      "n": 1,
+      "type": "truefalse",
+      "prompt": "Write ✓ if the statement is true, ✗ if it is false.",
+      "promptAr": "حط ✓ لو الجملة صح، و ✗ لو غلط.",
+      "statements": [
+       "HTTPS communication uses both public-key cryptography and common-key cryptography.",
+       "HTTPS communication exchanges all data using public-key cryptography.",
+       "Multi-factor authentication is a method that combines two or more of the three factors of authentication.",
+       "An example of multi-factor authentication is setting two passwords."
+      ],
+      "src": "p.36 — Worked Example (1) A-D"
+     },
+     {
+      "n": 2,
+      "type": "match",
+      "prompt": "Match each need to the most appropriate security technology.",
+      "promptAr": "وصّل كل احتياج بأنسب تقنية أمان.",
+      "left": [
+       "I want to prevent communication content from being read by third parties.",
+       "I want to verify that data has not been altered during communication.",
+       "I want to verify that the communication partner is authentic."
+      ],
+      "right": [
+       "Digital certificate",
+       "Encryption",
+       "Digital signature"
+      ],
+      "src": "p.36 — Worked Example (2)"
+     },
+     {
+      "n": 3,
+      "type": "short",
+      "prompt": "Answer the following questions.",
+      "promptAr": "جاوب على الأسئلة دي.",
+      "questions": [
+       {
+        "q": "In HTTPS communication, what cryptographic method is used so that the browser and server can safely share a common key?",
+        "lines": 1
+       },
+       {
+        "q": "In HTTPS communication, what cryptographic method is used for data communication after the common key has been shared?",
+        "lines": 1
+       },
+       {
+        "q": "Briefly explain the reason for combining the methods in 1 and 2, based on the characteristics of each.",
+        "lines": 2
+       }
+      ],
+      "src": "p.37 — Try 1"
+     },
+     {
+      "n": 4,
+      "type": "short",
+      "prompt": "Answer the following questions.",
+      "promptAr": "جاوب على الأسئلة دي.",
+      "questions": [
+       {
+        "q": "For each service, write which combination of factors it uses — A: knowledge + possession, B: knowledge + biometric, C: biometric + possession. (a) Password + one-time password (b) Password + fingerprint authentication (c) Password + SMS authentication (d) Face recognition + smart card",
+        "lines": 1
+       },
+       {
+        "q": "Choose the one that is NOT an appropriate description of combinations of security technologies. A: Encryption is a technology that prevents communication content from being read by third parties. B: Digital signatures are a technology that improves communication speed. C: Digital certificates are a system for verifying that the communication partner is authentic. D: By combining multiple security technologies, various threats can be addressed.",
+        "lines": 1
+       }
+      ],
+      "src": "p.37-38 — Try 2"
+     },
+     {
+      "n": 5,
+      "type": "fill",
+      "prompt": "Fill in ( a ) to ( c ).",
+      "promptAr": "املا الفراغات من ( أ ) لـ ( ج ).",
+      "passage": "HTTPS communication, used to access websites safely, combines multiple cryptographic technologies. First, the web server sends a ( a ) and a public key to the browser. The browser verifies whether the server is authentic through ( b ). Next, the browser creates a ( c ) for communication and encrypts it with the server's public key before sending. After this, all data communication is encrypted using this ( c ).",
+      "src": "p.39 — Exercise 2 (1)"
+     },
+     {
+      "n": 6,
+      "type": "short",
+      "prompt": "Answer the following questions.",
+      "promptAr": "جاوب على الأسئلة دي.",
+      "questions": [
+       {
+        "q": "Briefly explain the reason for using common-key cryptography rather than public-key cryptography for data communication.",
+        "lines": 2
+       },
+       {
+        "q": "From the TLS handshake, list three steps, in order, that set up a secure HTTPS connection.",
+        "lines": 3
+       }
+      ],
+      "src": "p.39 — Exercise 2 (2); Arabic book p.37 — Exercise 2"
+     },
+     {
+      "n": 7,
+      "type": "category",
+      "prompt": "For each threat, write the technology mainly used to address it — A: Encryption, B: Digital signature, C: Digital certificate, D: Multi-factor authentication.",
+      "promptAr": "لكل تهديد، اكتب التقنية اللي بتعالجه أساسًا.",
+      "items": [
+       "A password is leaked and unauthorized login occurs.",
+       "Data is altered during communication.",
+       "A user is led to a fake website.",
+       "Communication content is intercepted by a third party."
+      ],
+      "src": "p.40 — Exercise 3 (1)"
+     },
+     {
+      "n": 8,
+      "type": "short",
+      "prompt": "Choose the correct option.",
+      "promptAr": "اختار الإجابة الصح.",
+      "questions": [
+       {
+        "q": "Choose the one that is NOT an appropriate example of multi-factor authentication. A: Password + smartphone notification B: Password + secret question C: Fingerprint authentication + smart card D: Password + SMS authentication",
+        "lines": 1
+       },
+       {
+        "q": "Which is a correct example of a possession factor? A: Knowing a secret question B: A one-time password sent to the phone, or a smart card C: The user's fingerprint D: Recognising the user's face",
+        "lines": 1
+       },
+       {
+        "q": "Which is a WRONG example of two-factor authentication, because it uses the same category (knowledge)? A: Password + one-time password sent to the phone B: Password + fingerprint C: Password + a second secret password D: Password + a code from an authenticator app",
+        "lines": 1
+       }
+      ],
+      "src": "p.40 — Exercise 3 (2); Ministry assessments, form B and period 3"
+     },
+     {
+      "n": 9,
+      "type": "table",
+      "prompt": "Compare the three categories of authentication factor. Give one example of each.",
+      "promptAr": "قارن بين فئات عوامل المصادقة التلاتة، واذكر مثال لكل فئة.",
+      "head": [
+       "Factor",
+       "What it is",
+       "One example"
+      ],
+      "rows": [
+       [
+        "Knowledge",
+        "____",
+        "____"
+       ],
+       [
+        "Possession",
+        "____",
+        "____"
+       ],
+       [
+        "Biometric",
+        "____",
+        "____"
+       ]
+      ],
+      "src": "Ministry assessments, form B — essay 3"
+     },
+     {
+      "n": 10,
+      "type": "short",
+      "prompt": "Answer the following questions.",
+      "promptAr": "جاوب على الأسئلة دي.",
+      "questions": [
+       {
+        "q": "What is meant by two-factor authentication (2FA), and how does a second, independent factor reduce the risk of unauthorized login?",
+        "lines": 3
+       },
+       {
+        "q": "State the main differences between two-factor authentication (2FA) and multi-factor authentication (MFA), in the number and the categories of factors used.",
+        "lines": 3
+       }
+      ],
+      "src": "Ministry assessments, period 1 — home tasks"
+     },
+     {
+      "n": 11,
+      "type": "short",
+      "prompt": "Answer the following questions.",
+      "promptAr": "جاوب على الأسئلة دي.",
+      "questions": [
+       {
+        "q": "What is the main role of the digital certificate and the public-key mechanisms when a secure TLS connection starts?",
+        "lines": 3
+       },
+       {
+        "q": "Compare briefly the job of a digital signature and the job of a digital certificate.",
+        "lines": 3
+       }
+      ],
+      "src": "Ministry assessments, period 2 — performance tasks"
+     },
+     {
+      "n": 12,
+      "type": "extended",
+      "prompt": "Explain why HTTPS uses public-key cryptography to share the key but common-key cryptography to exchange the data. Refer to security and speed.",
+      "promptAr": "اشرح ليه HTTPS بيستخدم التشفير بالمفتاح العام عشان يشارك المفتاح، والتشفير المتماثل عشان يبادل البيانات. استعن بـ: الأمان والسرعة.",
+      "marks": 6,
+      "lines": 8,
+      "src": "p.37 — Exam-style question [6]"
+     },
+     {
+      "n": 13,
+      "type": "extended",
+      "prompt": "Explain why using public-key cryptography for all the data exchanged would be slow, and how TLS solves this problem by using session keys.",
+      "promptAr": "وضّح ليه استخدام التشفير بالمفتاح العام لكل البيانات المتبادلة بيبقى بطيء، وإزاي TLS بيحل المشكلة دي بمفاتيح الجلسة.",
+      "marks": 4,
+      "lines": 6,
+      "src": "Ministry assessments, form B — essay 2"
+     },
+     {
+      "n": 14,
+      "type": "extended",
+      "prompt": "If a password is leaked, why can a second factor sent to a phone still keep the account safe?",
+      "promptAr": "لو كلمة المرور اتسربت، ليه عامل تاني بيتبعت على الموبايل لسه ممكن يحمي الحساب؟",
+      "marks": 3,
+      "lines": 5,
+      "src": "p.36 — Pause & Think"
+     },
+     {
+      "n": 15,
+      "type": "extended",
+      "prompt": "Explain briefly how the different security technologies (encryption, certificates, two-factor authentication) are combined when a purchase is completed in an online shop.",
+      "promptAr": "اشرح باختصار إزاي تقنيات الأمان المختلفة (التشفير، والشهادات، والمصادقة الثنائية) بتتجمع مع بعض وانت بتكمّل عملية شرا من متجر إلكتروني.",
+      "marks": 4,
+      "lines": 6,
+      "src": "p.36 — Point 3(2); Ministry assessments, period 3 — home tasks"
+     },
+     {
+      "n": 16,
+      "type": "extended",
+      "prompt": "Discuss why advanced security measures such as TLS and two-factor authentication do not mean that protection is absolute, or that the website's content can be fully trusted.",
+      "promptAr": "ناقش ليه وسائل الأمان المتقدمة زي TLS والمصادقة الثنائية مش معناها إن الحماية مطلقة، أو إن محتوى الموقع موثوق تمامًا.",
+      "marks": 4,
+      "lines": 6,
+      "src": "Ministry assessments, form C — essay 4; Arabic book p.32 intro"
+     },
+     {
+      "n": 17,
+      "type": "extended",
+      "prompt": "A small online shop wants to secure both customer login and payment. Name two security technologies it should use and say where each one helps, then identify one threat that could still remain.",
+      "promptAr": "متجر إلكتروني صغير عايز يأمّن تسجيل دخول العملاء والدفع مع بعض. سمّي تقنيتين أمان لازم يستخدمهم وبيّن كل واحدة بتساعد فين، وبعدين حدد تهديد واحد ممكن يفضل موجود.",
+      "marks": 4,
+      "lines": 6,
+      "src": "p.39 — In a New Context"
+     },
+     {
+      "n": 18,
+      "type": "extended",
+      "prompt": "Think as an engineer. A school's online portal lets students check grades and pay fees. Password only, or a password plus a one-time password sent to the phone? For a student, the school, and a student with no smartphone, note one benefit and one drawback of a second factor. Then recommend one login method and give two reasons.",
+      "promptAr": "فكّر كمهندس: بوابة المدرسة الإلكترونية. كلمة مرور بس، ولا كلمة مرور + كلمة مرور لمرة واحدة على الموبايل؟ لكل واحد من: الطالب، والمدرسة، وطالب معندوش موبايل ذكي — اكتب فايدة وعيب. وبعدين اختار طريقة واحدة واذكر سببين.",
+      "marks": 4,
+      "lines": 8,
+      "src": "p.38 — Think as an Engineer"
+     },
+     {
+      "n": 19,
+      "type": "extended",
+      "prompt": "Challenge: suggest one extra security measure an online shop could add, and one threat it would still not remove.",
+      "promptAr": "التحدي: اقترح إجراء أمان إضافي واحد ممكن متجر إلكتروني يضيفه، وتهديد واحد هيفضل مش متشال.",
+      "marks": 2,
+      "lines": 4,
+      "src": "p.39 — Reflect & Challenge"
+     },
+     {
+      "n": 20,
+      "type": "extended",
+      "prompt": "Discuss: “Secure online communication and services depend on combining encryption and authentication, not on a single technology.” Show the role of each technology in the combination.",
+      "promptAr": "ناقش الجملة دي: «الاتصال والخدمات الآمنة عبر الإنترنت بتعتمد على الجمع بين التشفير والمصادقة، مش على تقنية واحدة.» ووضّح دور كل تقنية.",
+      "marks": 6,
+      "lines": 8,
+      "src": "p.34 Key Fact; Ministry assessments, form A — essay 4"
+     }
+    ]
+   }
+  ]
+ },
+ "ANSWERS": {
+  "1": [
+   "✓ — public-key for the key exchange, common-key for the data",
+   "✗ — exchanging all data with public-key would be slow, so common-key is used for the data",
+   "✓ — correct definition of multi-factor authentication",
+   "✗ — two passwords are both knowledge: the same factor twice (two-step authentication)"
+  ],
+  "2": [
+   "Prevent content being read → B (Encryption)",
+   "Verify data was not altered → C (Digital signature)",
+   "Verify the partner is authentic → A (Digital certificate)"
+  ],
+  "3": [
+   "1. Public-key cryptography",
+   "2. Common-key cryptography",
+   "3. Public-key shares a key safely but is slow; common-key exchanges large amounts of data quickly. Combined, the connection is both secure and fast."
+  ],
+  "4": [
+   "(1) a A, b B, c A, d C",
+   "(2) B — digital signatures detect tampering; they do not improve speed"
+  ],
+  "5": {
+   "a": "digital certificate",
+   "b": "a certificate authority (CA)",
+   "c": "common key"
+  },
+  "6": [
+   "1. Public-key cryptography is slow for large amounts of data; common-key exchanges data quickly, and the common key itself was shared safely by public-key.",
+   "2. (1) The server sends its digital certificate, and the browser checks it (valid, trusted authority, matches the site name). (2) The two sides agree the common key — session keys — using public-key mechanisms. (3) The data is exchanged, protected with common-key (symmetric) encryption."
+  ],
+  "7": [
+   "a D",
+   "b B",
+   "c C",
+   "d A"
+  ],
+  "8": [
+   "(1) B — a password and a secret question are both knowledge",
+   "(2) B",
+   "(3) C — two passwords are both knowledge"
+  ],
+  "9": [
+   "Knowledge — something the user knows — password, secret question",
+   "Possession — something the user has — one-time password, SMS code, smart card, smartphone",
+   "Biometric — a feature of the user's body — fingerprint, face recognition"
+  ],
+  "10": [
+   "1. 2FA uses two independent factors from two different categories to prove identity. If the password is leaked, the attacker still needs the second factor (for example a code on the owner's phone), so knowing the password alone is not enough to log in.",
+   "2. 2FA: exactly two factors, from two different categories. MFA: two or more independent factors, from different categories (knowledge, possession, biometric). Every 2FA is MFA; not every MFA is 2FA."
+  ],
+  "11": [
+   "1. The server sends its certificate; the browser checks it is valid, leads to a trusted authority and matches the site's name, so the server is the real one. Public-key mechanisms then let the two sides agree session keys safely.",
+   "2. A digital certificate verifies that the communication partner (the server) is authentic. A digital signature detects tampering with the data or impersonation of the sender, and gives non-repudiation."
+  ],
+  "12": {
+   "marks": 6,
+   "model": "HTTPS needs a common key on both sides, but sending it openly would let an eavesdropper copy it. Public-key cryptography solves this: the browser locks the common key with the server's public key, and only the server's private key can unlock it, so the key is shared safely. But public-key cryptography is slow, so exchanging all the data with it would make communication slow. Common-key cryptography is fast, so once the key is shared, all the data is exchanged with it. This division of roles gives both security and speed.",
+   "points": [
+    "Both sides need the same common key, and sharing it openly is not safe (1)",
+    "Public-key cryptography shares the key safely — public key locks, private key unlocks (1)",
+    "Public-key cryptography is slow for large amounts of data (1)",
+    "Common-key cryptography exchanges large amounts of data quickly (1)",
+    "So public-key is used only to share the key, common-key for the data (1)",
+    "Result: security and speed together (1)"
+   ]
+  },
+  "13": {
+   "marks": 4,
+   "model": "Public-key cryptography is slow, so using it for every piece of data exchanged would slow the connection. In the TLS handshake, public-key mechanisms are used only to authenticate and to agree session keys safely. A session key is a common (symmetric) key for that connection, and after the handshake the session data is protected with it, which is fast and efficient.",
+   "points": [
+    "Public-key cryptography is slow for large amounts of data (1)",
+    "Public-key mechanisms are used only in the handshake: authentication and agreeing the keys (1)",
+    "Session keys are common (symmetric) keys for the connection (1)",
+    "The session data is then protected by symmetric encryption, quickly (1)"
+   ]
+  },
+  "14": {
+   "marks": 3,
+   "model": "The second factor is a different category: possession. The attacker who has the leaked password still does not have the owner's phone, so cannot receive the code, and the login is blocked.",
+   "points": [
+    "The password is one factor (knowledge); breaking it alone is not enough (1)",
+    "The code goes to the owner's phone — a possession factor the attacker does not have (1)",
+    "So even with the password, the attacker cannot log in (1)"
+   ]
+  },
+  "15": {
+   "marks": 4,
+   "model": "When you open the shop, HTTPS starts and encryption stops third parties reading the content. The browser checks the digital certificate to confirm it is the genuine shop. At login, two-factor authentication (password plus an SMS code) blocks unauthorized logins. When the order is sent, a digital signature can be used so that tampering is detected.",
+   "points": [
+    "Encryption / HTTPS: content cannot be read by third parties (1)",
+    "Digital certificate: confirms the genuine shop (1)",
+    "Two-factor authentication at login: blocks unauthorized logins (1)",
+    "Digital signature on the order, or: together they address several threats at once (1)"
+   ]
+  },
+  "16": {
+   "marks": 4,
+   "model": "TLS protects the connection: the data cannot be read or changed on the way, and the certificate shows the server matches the site's name. It says nothing about whether what the site says or sells is honest. Two-factor authentication lowers the chance of unauthorized login but does not remove it. Each measure reduces risk rather than removing it, which is why services layer several and none is assumed to stop a threat absolutely.",
+   "points": [
+    "TLS / the padlock protects the connection, not the honesty of the content (1)",
+    "The certificate confirms the site matches its name, not that the site is trustworthy (1)",
+    "2FA reduces the chance of unauthorized login; it does not remove it (1)",
+    "Each measure reduces risk; none is absolute — so they are layered (1)"
+   ]
+  },
+  "17": {
+   "marks": 4,
+   "open": true,
+   "points": [
+    "A first technology named, with where it helps (e.g. multi-factor authentication — customer login) (1)",
+    "A second technology named, with where it helps (e.g. HTTPS encryption / certificate — payment details) (1)",
+    "Each placed correctly: login against payment (1)",
+    "One threat that could remain, with a reason (e.g. a customer tricked into giving away a code; none is absolute) (1)"
+   ]
+  },
+  "18": {
+   "marks": 4,
+   "open": true,
+   "points": [
+    "A benefit and a drawback for the student (1)",
+    "A benefit and a drawback for the school (1)",
+    "The student with no smartphone: the second factor is a barrier, and an alternative is needed (1)",
+    "A recommendation with two reasons (e.g. password + one-time password: a leaked password alone cannot open the account) (1)"
+   ]
+  },
+  "19": {
+   "marks": 2,
+   "open": true,
+   "points": [
+    "One extra measure that fits (e.g. multi-factor authentication for login, or a digital signature on orders) (1)",
+    "One threat it would still not remove, with a reason (1)"
+   ]
+  },
+  "20": {
+   "marks": 6,
+   "model": "Each technology covers a different threat. Encryption prevents the content being read by third parties. A digital certificate verifies that the other side is genuine, stopping a fake site. A digital signature detects tampering and impersonation of the sender, and gives non-repudiation. Multi-factor authentication prevents unauthorized logins even if a password leaks. No single one covers all four threats, so services combine them, and then eavesdropping, tampering, impersonation and unauthorized login are addressed at the same time.",
+   "points": [
+    "Encryption — stops eavesdropping (1)",
+    "Digital certificate — confirms the partner, stops a fake site (1)",
+    "Digital signature — detects tampering; non-repudiation (1)",
+    "Multi-factor authentication — stops unauthorized login (1)",
+    "No single technology covers every threat (1)",
+    "Combined, many threats are handled at the same time (1)"
+   ]
+  }
+ }
+}

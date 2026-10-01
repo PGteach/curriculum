@@ -502,6 +502,48 @@ essay has one marking point per mark. Writing space is roughly three to four
 lines per mark -- the first render gave a 3-mark answer four lines and left
 the pages half blank, which no gate caught.
 
+## Lecture 5 -- lesson 2-1, and Unit 2 begins
+
+Lecture 5 is lesson 2-1, Cryptographic Technologies and Authentication
+(English book pp. 33-40, Arabic book pp. 31-37), accent `#2D7A4B`, title
+"Is this connection safe?". It opens Unit 2, Cybersecurity. Generators:
+`build_lecture5_slides.py` (from `lecture5_slides_base.html`),
+`build_lecture5_quiz.py` followed by `protect_answers.py 5`, and
+`build_lecture5.py` for the booklet, homework and answer key. The helpers,
+lightbox, exam-code gate, video and reveal code and side drawings are
+lecture 4's, unchanged.
+
+**The two books differ on the handshake, and the deck carries both.** The
+English book's stage 2 has the browser send a common key locked with the
+server's public key. The Arabic book has the two sides derive *session
+keys* in the handshake, and the ministry's assessment book asks about session
+keys, the certificate checks (validity, chain of trust, matching the site's
+name), 2FA against MFA, and "TLS and 2FA do not make protection absolute or
+content trustworthy". So the slides teach the English stages, with the book's
+own note that current TLS uses Diffie-Hellman key agreement, name the common
+key for one connection a session key, and give each ministry point its own
+line. 2FA vs MFA has a slide of its own.
+
+**Content:**
+- **Deck:** 30 slides. One video: Code.org, *The Internet: Encryption &
+  Public Keys* (ZghMPWGXexs, 6:40, confirmed by search; nobody has watched it
+  from this repo -- preview it). 11 side drawings.
+- **Quiz:** 20 questions, all on 2-1, each from the book or the ministry.
+- **Booklet:** 10 sheets, in the deck's order.
+- **Homework:** 16 exercises on 10 sheets, in three parts plus an optional
+  challenge.
+- **Answer key:** 7 sheets.
+
+Every exercise names its page or its ministry item.
+
+**SVG fills in the diagrams use `#fff`, never `var(--white)`**: the booklet
+template does not define `--white`, so the same diagram printed with black
+boxes.
+
+**The drawing caption is `p.vcap`, not `.vcap`.** The video poster's caption
+is also `.vcap`. The bare selector made the video title ink-on-dark, which
+was invisible on lecture 4's two videos. That is fixed in both decks.
+
 ## Unit 1 coverage against the ministry's assessments
 
 Every concept the ministry's assessment book asks about for Unit 1 (56, lessons
