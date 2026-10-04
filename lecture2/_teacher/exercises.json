@@ -320,5 +320,218 @@
    "marking": "Accept any of the four technologies. Look for three things: the technology named correctly, a realistic problem it addresses, and a risk that genuinely follows from that technology.",
    "example": "Autonomous driving could help elderly or disabled people travel independently. The risk is that the system may misjudge a situation it was never trained on, so some human oversight is still needed."
   }
+ },
+ "MODEL": {
+  "1": [
+   {
+    "q": "CPU",
+    "a": "Does the thinking — follows instructions one by one.",
+    "ar": "المعالج هو اللي بيفكّر وبينفّذ الأوامر واحدة واحدة."
+   },
+   {
+    "q": "RAM",
+    "a": "Holds only what you are using right now.",
+    "ar": "الرام بتشيل اللي شغال دلوقتي بس."
+   },
+   {
+    "q": "Storage",
+    "a": "Keeps your files even when the power is off.",
+    "ar": "التخزين بيحفظ ملفاتك حتى لو الكهربا قطعت."
+   },
+   {
+    "q": "Touchscreen",
+    "a": "Both takes input and shows output.",
+    "ar": "الشاشة اللمس بتاخد منك وبتعرضلك في نفس الوقت."
+   }
+  ],
+  "2": [
+   {
+    "q": "Speed",
+    "a": "RAM is faster; storage is slower.",
+    "ar": "الرام أسرع."
+   },
+   {
+    "q": "When the power goes off",
+    "a": "RAM loses everything; storage keeps everything.",
+    "ar": "الرام بتفضى لما الكهربا تقطع."
+   },
+   {
+    "q": "Which is bigger on a phone",
+    "a": "Storage is much bigger than RAM.",
+    "ar": "التخزين أكبر بكتير."
+   },
+   {
+    "q": "Where an unsaved file sits",
+    "a": "In RAM.",
+    "ar": "الملف اللي متسيفش لسه في الرام."
+   }
+  ],
+  "3": [
+   {
+    "q": "1. Which part was your work sitting in?",
+    "a": "In RAM.",
+    "ar": "الشغل كان في الرام لأنك مسيّفتوش."
+   },
+   {
+    "q": "2. Why did it disappear?",
+    "a": "RAM only holds data while the power is on, so when the battery died the unsaved work was wiped. Pressing Save copies it to storage, which keeps it.",
+    "ar": "الرام بتمسح كل حاجة لما الكهربا تقطع، والـ Save هو اللي بينقل الشغل للتخزين."
+   }
+  ],
+  "4": [
+   {
+    "q": "Input",
+    "a": "Microphone, mouse, camera.",
+    "ar": "دول بيدخّلوا بيانات للجهاز."
+   },
+   {
+    "q": "Output",
+    "a": "Printer, speakers.",
+    "ar": "دول بيطلّعوا نتيجة من الجهاز."
+   },
+   {
+    "q": "Both",
+    "a": "Touchscreen — you touch it (input) and it shows the screen (output).",
+    "ar": "الشاشة اللمس الاتنين مع بعض."
+   }
+  ],
+  "5": [
+   {
+    "q": "( a )",
+    "a": "personal computers (PCs)",
+    "ar": "في السبعينات والتمانينات الكمبيوتر الشخصي انتشر."
+   },
+   {
+    "q": "( b )",
+    "a": "the Internet",
+    "ar": "في التسعينات الإنترنت بقى تجاري."
+   },
+   {
+    "q": "( c )",
+    "a": "smartphones",
+    "ar": "في الألفينات ظهرت الموبايلات الذكية."
+   }
+  ],
+  "6": [
+   {
+    "q": "1.",
+    "a": "Cloud computing.",
+    "ar": "الحوسبة السحابية — من 2010 وطالع."
+   },
+   {
+    "q": "2.",
+    "a": "Approximately every two years.",
+    "ar": "قانون مور: كل سنتين تقريبًا."
+   },
+   {
+    "q": "3.",
+    "a": "Remote work.",
+    "ar": "الشغل من البيت = العمل عن بُعد."
+   },
+   {
+    "q": "4.",
+    "a": "Autonomous driving.",
+    "ar": "العربية اللي بتسوق نفسها = القيادة الذاتية."
+   }
+  ],
+  "7": [
+   {
+    "q": null,
+    "a": "1 Birth of the computer (1940s–60s) → 2 Commercialization of the Internet (1990s) → 3 Rise of smartphones (2000s) → 4 Spread of cloud computing (2010s onward).",
+    "ar": "الكمبيوتر ← الإنترنت ← الموبايل الذكي ← السحابة."
+   }
+  ],
+  "8": [
+   {
+    "q": "A. Moore's Law ...",
+    "a": "✓ True — the number of transistors doubles approximately every two years.",
+    "ar": "صح: ده تعريف قانون مور."
+   },
+   {
+    "q": "B. Approaching a physical limit",
+    "a": "✓ True — it has been said to be approaching a physical limit.",
+    "ar": "صح: الترانزستورات قربت توصل لأصغر حجم ممكن."
+   },
+   {
+    "q": "C. SNS spreads information rapidly",
+    "a": "✓ True.",
+    "ar": "صح: السوشيال بتنشر المعلومة بسرعة."
+   },
+   {
+    "q": "D. E-commerce = physical stores and cash",
+    "a": "✗ False — e-commerce is buying and selling through the Internet.",
+    "ar": "غلط: التجارة الإلكترونية على الإنترنت."
+   },
+   {
+    "q": "E. VR improves processing speed",
+    "a": "✗ False — that describes quantum computing. VR lets users immerse themselves in a virtual space.",
+    "ar": "غلط: السرعة دي الحوسبة الكمومية، والـ VR عالم افتراضي."
+   }
+  ],
+  "9": [
+   {
+    "q": "Overlays digital information on real-world images",
+    "a": "AR.",
+    "ar": "الواقع المعزز: بيحط معلومات فوق الصورة الحقيقية."
+   },
+   {
+    "q": "Uses AI to drive a vehicle without human operation",
+    "a": "Autonomous driving.",
+    "ar": "القيادة الذاتية."
+   },
+   {
+    "q": "Immerses users in a computer-generated virtual space",
+    "a": "VR.",
+    "ar": "الواقع الافتراضي: بتدخل جوه عالم متعمل بالكمبيوتر."
+   },
+   {
+    "q": "Speeds up computations difficult for traditional computers",
+    "a": "Quantum computing.",
+    "ar": "الحوسبة الكمومية."
+   }
+  ],
+  "10": [
+   {
+    "q": null,
+    "a": "Because a delay of even 0.1 seconds can lead to an accident. Sending the data to the cloud and waiting for the answer takes too long, so the decision must be made instantly on the vehicle itself, using edge computing.",
+    "ar": "جزء من الثانية ممكن يعمل حادثة، فلازم القرار يتاخد في العربية نفسها مش يستنى السحابة."
+   }
+  ],
+  "11": [
+   {
+    "q": "Taking classes through online learning",
+    "a": "C — healthcare and education.",
+    "ar": "التعليم أونلاين = تعليم."
+   },
+   {
+    "q": "Paying with a mobile payment app",
+    "a": "A — daily life.",
+    "ar": "الدفع بالموبايل = حياة يومية."
+   },
+   {
+    "q": "Sharing photos on SNS",
+    "a": "A — daily life.",
+    "ar": "السوشيال = حياة يومية."
+   },
+   {
+    "q": "A company introducing work-from-home",
+    "a": "B — industry and the economy.",
+    "ar": "الشركة والشغل = صناعة واقتصاد."
+   }
+  ],
+  "12": [
+   {
+    "q": null,
+    "a": "Cloud computing spread from the 2010s onward. Because storage and processing power can be rented over the Internet instead of owned, it made large-scale data analysis possible. That data and computing power in turn support AI, which needs both. It also changed IT into something delivered as a service over the Internet, rather than hardware each organisation must buy and maintain — so smaller organisations and individuals can now use computing power that once needed a large investment.",
+    "ar": "السحابة خلّت تحليل البيانات الضخمة ممكن، وده بيدعم الذكاء الاصطناعي، وخلّت التكنولوجيا خدمة بتأجّرها بدل ما تشتري أجهزة."
+   }
+  ],
+  "13": [
+   {
+    "q": null,
+    "a": "One possible answer. Autonomous driving could help elderly or disabled people travel independently. One risk is that the system may misjudge a situation it was never trained on, so some human oversight is still needed.",
+    "ar": "ده مثال لإجابة: تكنولوجيا، ومشكلة حقيقية بتحلها، وخطر فعلًا جاي منها."
+   }
+  ]
  }
 }

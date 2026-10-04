@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 3 Model Answers — How does it learn?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}
+.ma-ex{margin:0 0 4.5mm;break-inside:avoid}
+.ma-ex .exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.2mm}
+.ma-ex .exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}
+.ma-ex .exq{font-size:10.5pt;font-weight:600}
+.ma-body{margin-left:9.5mm}
+.ma-q{font-size:9.8pt;font-weight:600;margin:2mm 0 .4mm}
+.ma-a{font-size:10pt;margin:0}
+.ma-body .ar{font-size:9.5pt}
+</style>
+</head>
+<body data-title="Lecture 3 Model Answers — How does it learn?">
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">How does it learn?</h1><div class="docsub">Model Answers &middot; Lecture 3</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><div class="summary hw"><p>Check your own answers against these. Your words do not have to match &mdash; the idea does.</p><p class="ar">قارن إجاباتك بدول. مش لازم نفس الكلام بالحرف — المهم الفكرة.</p></div><h2>Class work</h2><div class="ma-ex"><div class="exhead"><span class="exn">1</span><span class="exq">Fill in ( a ) to ( d ) with the four layers, broadest first.</span></div><div class="ma-body"><p class="ma-q">( a )</p><p class="ma-a">AI</p><p class="ar">الذكاء الاصطناعي هو المجال الكبير.</p><p class="ma-q">( b )</p><p class="ma-a">machine learning</p><p class="ar">جواه تعلم الآلة، بيتعلم أنماط من البيانات.</p><p class="ma-q">( c )</p><p class="ma-a">deep learning</p><p class="ar">جواه التعلم العميق، بيستخدم الشبكات العصبية.</p><p class="ma-q">( d )</p><p class="ma-a">generative AI</p><p class="ar">ومبني عليه الذكاء الاصطناعي التوليدي.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">2</span><span class="exq">Write ✓ if the statement is true, ✗ if it is false.</span></div><div class="ma-body"><p class="ma-q">A. Machine learning makes AI work</p><p class="ma-a">✓ True — machine learning is one of the technologies that make AI work.</p><p class="ar">صح.</p><p class="ma-q">B. Deep learning is completely different from machine learning</p><p class="ma-a">✗ False — deep learning is an advanced kind of machine learning, inside it.</p><p class="ar">غلط: التعلم العميق جزء من تعلم الآلة.</p><p class="ma-q">C. Generative AI uses deep learning to generate new data</p><p class="ma-a">✓ True.</p><p class="ar">صح.</p><p class="ma-q">D. AI and machine learning mean the same</p><p class="ma-a">✗ False — AI is the broad field; machine learning is one technology inside it.</p><p class="ar">غلط: الذكاء الاصطناعي أوسع.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">3</span><span class="exq">Match each service to the AI technology it uses.</span></div><div class="ma-body"><p class="ma-q">YouTube recommends videos</p><p class="ma-a">Recommendation system.</p><p class="ar">ترشيح = نظام توصيات.</p><p class="ma-q">Speaking to a phone to check the weather</p><p class="ma-a">Voice assistant.</p><p class="ar">مساعد صوتي.</p><p class="ma-q">Turning a foreign website into your language</p><p class="ma-a">Machine translation.</p><p class="ar">ترجمة آلية.</p><p class="ma-q">A camera detecting a face</p><p class="ma-a">Face recognition.</p><p class="ar">التعرف على الوجه.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">4</span><span class="exq">Write ✓ if the statement is true, ✗ if it is false.</span></div><div class="ma-body"><p class="ma-q">A. Probabilistic reasoning and prediction</p><p class="ma-a">✓ True — AI is good at this.</p><p class="ar">صح.</p><p class="ma-q">B. Recognising images and audio</p><p class="ma-a">✓ True.</p><p class="ar">صح.</p><p class="ma-q">C. Leave ethical judgments entirely to AI</p><p class="ma-a">✗ False — ethical judgments can carry discrimination or prejudice, so they must not be left to AI.</p><p class="ar">غلط: الأحكام الأخلاقية محتاجة إنسان.</p><p class="ma-q">D. Biased training data makes judgments inaccurate</p><p class="ma-a">✓ True.</p><p class="ar">صح.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><div class="ma-ex"><div class="exhead"><span class="exn">1</span><span class="exq">Match each description to the most appropriate term.</span></div><div class="ma-body"><p class="ma-q">Learns patterns from data</p><p class="ma-a">C — machine learning.</p><p class="ar">تعلم الآلة بيتعلم أنماط.</p><p class="ma-q">Uses neural networks</p><p class="ma-a">A — deep learning.</p><p class="ar">التعلم العميق بيستخدم شبكات عصبية.</p><p class="ma-q">Generates new text or images</p><p class="ma-a">B — generative AI.</p><p class="ar">التوليدي بيعمل حاجة جديدة.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">2</span><span class="exq">Machine learning learns patterns from data. What two things does it use those patterns for?</span></div><div class="ma-body"><p class="ma-a">It uses the patterns to make predictions and judgments.</p><p class="ar">بيستخدم الأنماط عشان يتوقع ويحكم.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">3</span><span class="exq">Complete the table with one example of each, from the lesson.</span></div><div class="ma-body"><p class="ma-q">Machine learning</p><p class="ma-a">e.g. a spam filter, or product recommendations.</p><p class="ar">فلتر الرسائل المزعجة.</p><p class="ma-q">Deep learning</p><p class="ma-a">e.g. image analysis for autonomous driving, or speech synthesis.</p><p class="ar">تحليل الصور في القيادة الذاتية.</p><p class="ma-q">Generative AI</p><p class="ma-a">e.g. ChatGPT, or an image-generation AI.</p><p class="ar">ChatGPT.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">4</span><span class="exq">Explain what a neural network is.</span></div><div class="ma-body"><p class="ma-a">A neural network is a system modelled on the nerve cells of the human brain. Its connected components learn from data and can make complex judgments.</p><p class="ar">شبكة متقلدة على خلايا المخ العصبية، أجزاءها متوصلة ببعض وبتتعلم من البيانات.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">5</span><span class="exq">Sort the examples into Classifies or Generates.</span></div><div class="ma-body"><p class="ma-q">Classifies / predicts</p><p class="ma-a">Spam filter, product recommendation — they choose from answers that already exist.</p><p class="ar">دول بيختاروا من حاجات موجودة.</p><p class="ma-q">Generates</p><p class="ma-a">Text from ChatGPT, a new image from text — they make something new.</p><p class="ar">دول بيعملوا حاجة جديدة.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">6</span><span class="exq">Write ✓ if the statement is true, ✗ if it is false.</span></div><div class="ma-body"><p class="ma-q">A. Modelled on the brain&#x27;s nerve cells</p><p class="ma-a">✓ True.</p><p class="ar">صح.</p><p class="ma-q">B. ChatGPT is generative AI</p><p class="ma-a">✓ True.</p><p class="ar">صح.</p><p class="ma-q">C. A spam filter is generative AI</p><p class="ma-a">✗ False — a spam filter classifies email; it does not generate new data.</p><p class="ar">غلط: الفلتر بيصنّف مش بيولّد.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">7</span><span class="exq">Write A, B or C: A = machine learning, B = deep learning, C = generative AI.</span></div><div class="ma-body"><p class="ma-q">Sorting spam emails</p><p class="ma-a">A — machine learning.</p><p class="ar">تصنيف = تعلم الآلة.</p><p class="ma-q">Recognising pedestrians for autonomous driving</p><p class="ma-a">B — deep learning.</p><p class="ar">التعرف على الصور = تعلم عميق.</p><p class="ma-q">Generating an image from text</p><p class="ma-a">C — generative AI.</p><p class="ar">توليد صورة = توليدي.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">8</span><span class="exq">Answer with the correct term for each.</span></div><div class="ma-body"><p class="ma-q">1.</p><p class="ma-a">AI (Artificial Intelligence).</p><p class="ma-q">2.</p><p class="ma-a">Machine learning.</p><p class="ma-q">3.</p><p class="ma-a">Deep learning.</p><p class="ma-q">4.</p><p class="ma-a">Generative AI.</p><p class="ar">نفس ترتيب الدواير من الأوسع للأضيق.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">9</span><span class="exq">Choose the correct option in each.</span></div><div class="ma-body"><p class="ma-q">(1)</p><p class="ma-a">C — AI &gt; Machine learning &gt; Deep learning &gt; Generative AI.</p><p class="ar">من الأوسع للأضيق.</p><p class="ma-q">(2)</p><p class="ma-a">C — a spam filter classifies email; it does not generate new data.</p><p class="ar">الفلتر مش توليدي.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">10</span><span class="exq">A farmer uses AI to identify healthy and diseased crops in photographs. Explain what it needs to learn from and one reason its judgment might be wrong.</span></div><div class="ma-body"><p class="ma-a">It needs to learn from many photographs of healthy and diseased crops, so that it can find the pattern that separates them. Its judgment might be wrong if the data had too few examples, or examples that do not represent the crops it now sees — for example photos taken in different light or of a different disease.</p><p class="ar">لازم يتعلم من صور كتير لمحاصيل سليمة ومريضة، وممكن يغلط لو الصور قليلة أو مش شبه الواقع.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">11</span><span class="exq">Analyse the relationship between AI, machine learning, deep learning and generative AI. Use nested categories and give one example of each.</span></div><div class="ma-body"><p class="ma-a">The four are nested categories, not four separate technologies. AI is the broad field: technologies that perform intelligent human behaviour on a computer — for example speech recognition. Machine learning sits inside AI: it learns patterns from data to make predictions and judgments — for example a spam filter. Deep learning sits inside machine learning: it uses neural networks and large amounts of data — for example image analysis for autonomous driving. Generative AI is built on deep learning and generates new data — for example ChatGPT. Each layer is more specialised than the one before it.</p><p class="ar">أربع دواير جوه بعض: الذكاء الاصطناعي ← تعلم الآلة ← التعلم العميق ← التوليدي، ومثال لكل واحد.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">12</span><span class="exq">Answer with the correct term or industry.</span></div><div class="ma-body"><p class="ma-q">1.</p><p class="ma-a">Recommendation system.</p><p class="ma-q">2.</p><p class="ma-a">Voice assistant.</p><p class="ma-q">3.</p><p class="ma-a">Healthcare.</p><p class="ma-q">4.</p><p class="ma-a">Predictive maintenance.</p><p class="ar">التنبؤ بالأعطال قبل ما تحصل.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">13</span><span class="exq">Choose the correct option in each.</span></div><div class="ma-body"><p class="ma-q">(1)</p><p class="ma-a">B — finding and classifying patterns is something AI is good at, not a caution.</p><p class="ar">دي ميزة مش تحذير.</p><p class="ma-q">(2)</p><p class="ma-a">a D (logistics) · b A (healthcare) · c B (agriculture) · d C (manufacturing).</p><p class="ar">التوصيل لوجستيات، الأشعة طب، الآفات زراعة، الجودة صناعة.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">14</span><span class="exq">Write G if AI is good at it, or C if it requires caution.</span></div><div class="ma-body"><p class="ma-q">Finding patterns in images</p><p class="ma-a">G.</p><p class="ma-q">Deciding who is responsible</p><p class="ma-a">C.</p><p class="ar">المسؤولية محتاجة إنسان.</p><p class="ma-q">Predicting from past data</p><p class="ma-a">G.</p><p class="ma-q">A judgment involving private data</p><p class="ma-a">C.</p><p class="ar">الخصوصية تحذير.</p><p class="ma-q">Recognising speech</p><p class="ma-a">G.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">15</span><span class="exq">A school library wants to recommend books to a student based on what they borrowed before. Explain how the AI would work, and identify one caution the school should consider.</span></div><div class="ma-body"><p class="ma-a">It would use the student&#x27;s borrowing record as past behaviour data, find patterns across students, and predict books the student is likely to want. One caution: borrowing history is personal data, so the school must decide who may see it — and recommendations based only on the past can narrow what a student is shown.</p><p class="ar">بيستخدم سجل الاستعارة يتوقع اللي هيعجبك، بس السجل ده بيانات شخصية لازم تتحمي.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">16</span><span class="exq">Analyse why AI is well suited to some tasks but requires caution in others. Refer to what AI is good at (finding patterns, recognition, prediction) and to what needs caution (ethical judgments, privacy, final decision-making).</span></div><div class="ma-body"><p class="ma-a">AI is well suited to tasks that rest on data. It is good at finding and classifying patterns in complex data such as images and text, at recognising and generating images, audio and text, and at probabilistic reasoning and prediction from data — because each of these is learning a pattern from many examples. It needs caution where a pattern is not enough. Ethical judgments can carry discrimination or prejudice learned from the data. Judgments involving personal information raise privacy problems. And final decision-making needs someone who is responsible for the result, which an AI cannot be.</p><p class="ar">الذكاء الاصطناعي شاطر في الأنماط والتعرف والتوقع، بس محتاج حذر في الأخلاق والخصوصية والقرار النهائي.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">17</span><span class="exq">A hospital wants an image-diagnosis AI to detect disease from X-ray images. Explain why the final diagnosis should still be confirmed by a human doctor rather than left to the AI alone.</span></div><div class="ma-body"><p class="ma-a">A wrong diagnosis can seriously harm a patient, so a person must be responsible for the final decision. The AI also has limits: it is a black box, so it is not clear how it reached its judgment, and if its training data was biased it may be less accurate for some patients. Final decision-making is exactly what the book says requires caution, so a doctor should confirm the result.</p><p class="ar">التشخيص الغلط بيأذي المريض، والـ AI صندوق أسود وممكن بياناته متحيزة — فالدكتور لازم يأكد.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">18</span><span class="exq">Generative AI can produce text that sounds plausible but is factually incorrect — a hallucination. Explain why it is dangerous to hand such output in as a school report as it is, and state what you should do instead.</span></div><div class="ma-body"><p class="ma-a">A hallucination reads just as confidently as a correct answer, so neither the student nor the reader can tell it is wrong. The student, not the tool, is responsible for what they hand in, and a false fact passed on as true can mislead whoever reads the report. Instead, check every fact against the textbook or another reliable source before using it, and write the report in your own words.</p><p class="ar">الهلوسة شكلها مقنع زي الصح، وانت المسؤول عن اللي بتسلّمه — فراجع كل معلومة من مصدر موثوق.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">19</span><span class="exq">Generative AI can create text, images and audio. Suggest one genuinely helpful use, and one possible misuse, and say what makes the difference between them.</span></div><div class="ma-body"><p class="ma-a">One possible answer. A helpful use: making practice questions to revise from. A misuse: handing in generated text as your own work. The difference is whether the output is checked and whether you are honest about who wrote it.</p><p class="ar">مثال لإجابة: استخدام مفيد، وسوء استخدام، والفرق بينهم — المراجعة والأمانة.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">20</span><span class="exq">Research task. Find one documented case where a generative AI gave an answer that sounded correct but was wrong. Record where you found it — a news article, an official report, or your own tested prompt with a screenshot. Do not rely on an example given in class.</span></div><div class="ma-body"><p class="ma-a">This is a research task, so there is no single answer. A good answer names a real, checkable source (a news article, an official report, or a screenshot of a prompt you tested yourself), says what the AI answered, and says what the correct fact was.</p><p class="ar">مهمة بحث: لازم مصدر حقيقي يتراجع، ومش مثال من الحصة.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 3;
+const LECTURE_TITLE = "How does it learn?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#1D6FA5";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
+  applyAccent();
+  /* The browser names a saved or printed PDF after the title, so every
+     document names itself through data-title on the body element. Without it all
+     of them -- homework, answer key, exam -- saved as "Handout". */
+  const named = (document.body && document.body.getAttribute)
+    ? document.body.getAttribute("data-title") : null;
+  document.title = named || (LECTURE.label + " Handout — " + LECTURE.title + " · PGteach");
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+})();
+</script>
+</body>
+</html>

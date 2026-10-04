@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 2 Model Answers — How did we get here?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+/* ---------- exercises ---------- */
+.namebox{display:flex; gap:5mm; margin:0 0 6mm}
+.namebox > div{flex:1; display:flex; align-items:flex-end; gap:2mm}
+.namebox span{font-size:9pt; color:var(--soft); font-weight:600; white-space:nowrap}
+.namebox i{flex:1; border-bottom:1px solid var(--rule); height:6mm}
+.ex{margin:0 0 5mm; break-inside:avoid}
+.exhead{display:flex; gap:3mm; align-items:baseline; margin-bottom:1.5mm}
+.exn{
+  flex:0 0 auto; width:6.5mm; height:6.5mm; border-radius:50%;
+  background:var(--teal); color:#fff; font-size:9pt; font-weight:600;
+  display:flex; align-items:center; justify-content:center;
+}
+.exq{font-size:10.5pt; font-weight:600}
+.src{font-size:8pt; color:var(--soft); font-style:italic; margin:0 0 1.5mm 9.5mm}
+.srcinline{font-size:8pt; color:var(--soft); font-style:italic; margin-left:2mm}
+.passage{
+  font-size:10pt; line-height:1.9; background:#FCFCFA;
+  border:1px solid var(--line); border-radius:2mm; padding:3.5mm; margin:2mm 0 3mm;
+}
+td.blank{background:#FCFCFA}
+td.sortcell{height:26mm; background:#FCFCFA; vertical-align:top}
+ol.qs.lettered{list-style:none; margin-left:0}
+.marks{font-size:9pt; font-weight:600; color:var(--gold); margin-bottom:2mm}
+.matchtbl td,.ordtbl td,.tftbl td,.cattbl td{vertical-align:middle}
+.tiny{font-size:8pt; color:var(--soft); font-weight:400}
+.summary.hw{background:var(--teal-pale)}
+
+/* ---------- teacher key ---------- */
+.keysheet{min-height:auto}
+.teacherwarn{
+  background:#FBF0EE; border-left:3px solid #9C3B2E; color:#9C3B2E;
+  font-size:9.5pt; font-weight:600; padding:2.5mm 3.5mm; margin-bottom:6mm;
+}
+.keygroup{font-size:9.5pt; color:var(--soft); font-weight:600;
+  text-transform:uppercase; letter-spacing:.04em; margin:5mm 0 2mm}
+.key{margin-left:9.5mm; font-size:10pt}
+.key ul{margin-left:4mm}
+.key li{margin-bottom:1mm}
+.key .note{font-size:9.5pt; color:var(--soft); font-style:italic; margin-top:1.5mm}
+
+.ma-ex{margin:0 0 4.5mm;break-inside:avoid}
+.ma-ex .exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.2mm}
+.ma-ex .exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}
+.ma-ex .exq{font-size:10.5pt;font-weight:600}
+.ma-body{margin-left:9.5mm}
+.ma-q{font-size:9.8pt;font-weight:600;margin:2mm 0 .4mm}
+.ma-a{font-size:10pt;margin:0}
+.ma-body .ar{font-size:9.5pt}
+</style>
+</head>
+<body data-title="Lecture 2 Model Answers — How did we get here?">
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div>
+<h1 id="docTitle">How did we get here?</h1>
+<div class="docsub">Model Answers &middot; Lecture 2</div>
+<div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><div class="summary hw"><p>Check your own answers against these. Your words do not have to match &mdash; the idea does.</p><p class="ar">قارن إجاباتك بدول. مش لازم نفس الكلام بالحرف — المهم الفكرة.</p></div><h2>Class work</h2><div class="ma-ex"><div class="exhead"><span class="exn">1</span><span class="exq">Match each part to what it does.</span></div><div class="ma-body"><p class="ma-q">CPU</p><p class="ma-a">Does the thinking — follows instructions one by one.</p><p class="ar">المعالج هو اللي بيفكّر وبينفّذ الأوامر واحدة واحدة.</p><p class="ma-q">RAM</p><p class="ma-a">Holds only what you are using right now.</p><p class="ar">الرام بتشيل اللي شغال دلوقتي بس.</p><p class="ma-q">Storage</p><p class="ma-a">Keeps your files even when the power is off.</p><p class="ar">التخزين بيحفظ ملفاتك حتى لو الكهربا قطعت.</p><p class="ma-q">Touchscreen</p><p class="ma-a">Both takes input and shows output.</p><p class="ar">الشاشة اللمس بتاخد منك وبتعرضلك في نفس الوقت.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">2</span><span class="exq">Complete the table. Write RAM or Storage in each empty cell.</span></div><div class="ma-body"><p class="ma-q">Speed</p><p class="ma-a">RAM is faster; storage is slower.</p><p class="ar">الرام أسرع.</p><p class="ma-q">When the power goes off</p><p class="ma-a">RAM loses everything; storage keeps everything.</p><p class="ar">الرام بتفضى لما الكهربا تقطع.</p><p class="ma-q">Which is bigger on a phone</p><p class="ma-a">Storage is much bigger than RAM.</p><p class="ar">التخزين أكبر بكتير.</p><p class="ma-q">Where an unsaved file sits</p><p class="ma-a">In RAM.</p><p class="ar">الملف اللي متسيفش لسه في الرام.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">7</span><span class="exq">Put these four stages in the correct chronological order, writing 1 to 4.</span></div><div class="ma-body"><p class="ma-a">1 Birth of the computer (1940s–60s) → 2 Commercialization of the Internet (1990s) → 3 Rise of smartphones (2000s) → 4 Spread of cloud computing (2010s onward).</p><p class="ar">الكمبيوتر ← الإنترنت ← الموبايل الذكي ← السحابة.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">8</span><span class="exq">Write ✓ if the statement is true or ✗ if it is false.</span></div><div class="ma-body"><p class="ma-q">A. Moore&#x27;s Law ...</p><p class="ma-a">✓ True — the number of transistors doubles approximately every two years.</p><p class="ar">صح: ده تعريف قانون مور.</p><p class="ma-q">B. Approaching a physical limit</p><p class="ma-a">✓ True — it has been said to be approaching a physical limit.</p><p class="ar">صح: الترانزستورات قربت توصل لأصغر حجم ممكن.</p><p class="ma-q">C. SNS spreads information rapidly</p><p class="ma-a">✓ True.</p><p class="ar">صح: السوشيال بتنشر المعلومة بسرعة.</p><p class="ma-q">D. E-commerce = physical stores and cash</p><p class="ma-a">✗ False — e-commerce is buying and selling through the Internet.</p><p class="ar">غلط: التجارة الإلكترونية على الإنترنت.</p><p class="ma-q">E. VR improves processing speed</p><p class="ma-a">✗ False — that describes quantum computing. VR lets users immerse themselves in a virtual space.</p><p class="ar">غلط: السرعة دي الحوسبة الكمومية، والـ VR عالم افتراضي.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><div class="ma-ex"><div class="exhead"><span class="exn">3</span><span class="exq">You were writing on your laptop for an hour. The battery died before you pressed Save, and your work was gone.</span></div><div class="ma-body"><p class="ma-q">1. Which part was your work sitting in?</p><p class="ma-a">In RAM.</p><p class="ar">الشغل كان في الرام لأنك مسيّفتوش.</p><p class="ma-q">2. Why did it disappear?</p><p class="ma-a">RAM only holds data while the power is on, so when the battery died the unsaved work was wiped. Pressing Save copies it to storage, which keeps it.</p><p class="ar">الرام بتمسح كل حاجة لما الكهربا تقطع، والـ Save هو اللي بينقل الشغل للتخزين.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">4</span><span class="exq">Sort these into Input, Output, or Both.</span></div><div class="ma-body"><p class="ma-q">Input</p><p class="ma-a">Microphone, mouse, camera.</p><p class="ar">دول بيدخّلوا بيانات للجهاز.</p><p class="ma-q">Output</p><p class="ma-a">Printer, speakers.</p><p class="ar">دول بيطلّعوا نتيجة من الجهاز.</p><p class="ma-q">Both</p><p class="ma-a">Touchscreen — you touch it (input) and it shows the screen (output).</p><p class="ar">الشاشة اللمس الاتنين مع بعض.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">5</span><span class="exq">Fill in the blanks (a) to (c).</span></div><div class="ma-body"><p class="ma-q">( a )</p><p class="ma-a">personal computers (PCs)</p><p class="ar">في السبعينات والتمانينات الكمبيوتر الشخصي انتشر.</p><p class="ma-q">( b )</p><p class="ma-a">the Internet</p><p class="ar">في التسعينات الإنترنت بقى تجاري.</p><p class="ma-q">( c )</p><p class="ma-a">smartphones</p><p class="ar">في الألفينات ظهرت الموبايلات الذكية.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">6</span><span class="exq">Answer briefly.</span></div><div class="ma-body"><p class="ma-q">1.</p><p class="ma-a">Cloud computing.</p><p class="ar">الحوسبة السحابية — من 2010 وطالع.</p><p class="ma-q">2.</p><p class="ma-a">Approximately every two years.</p><p class="ar">قانون مور: كل سنتين تقريبًا.</p><p class="ma-q">3.</p><p class="ma-a">Remote work.</p><p class="ar">الشغل من البيت = العمل عن بُعد.</p><p class="ma-q">4.</p><p class="ma-a">Autonomous driving.</p><p class="ar">العربية اللي بتسوق نفسها = القيادة الذاتية.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">9</span><span class="exq">Match each description to the right technology.</span></div><div class="ma-body"><p class="ma-q">Overlays digital information on real-world images</p><p class="ma-a">AR.</p><p class="ar">الواقع المعزز: بيحط معلومات فوق الصورة الحقيقية.</p><p class="ma-q">Uses AI to drive a vehicle without human operation</p><p class="ma-a">Autonomous driving.</p><p class="ar">القيادة الذاتية.</p><p class="ma-q">Immerses users in a computer-generated virtual space</p><p class="ma-a">VR.</p><p class="ar">الواقع الافتراضي: بتدخل جوه عالم متعمل بالكمبيوتر.</p><p class="ma-q">Speeds up computations difficult for traditional computers</p><p class="ma-a">Quantum computing.</p><p class="ar">الحوسبة الكمومية.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">10</span><span class="exq">In autonomous driving, why is it necessary to process data instantly on the vehicle side using edge computing, rather than sending the data to the cloud for judgment? Explain your answer.</span></div><div class="ma-body"><p class="ma-a">Because a delay of even 0.1 seconds can lead to an accident. Sending the data to the cloud and waiting for the answer takes too long, so the decision must be made instantly on the vehicle itself, using edge computing.</p><p class="ar">جزء من الثانية ممكن يعمل حادثة، فلازم القرار يتاخد في العربية نفسها مش يستنى السحابة.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">11</span><span class="exq">For each item, write A, B or C.  A = Changes in daily life.  B = Changes in industry and the economy.  C = Changes in healthcare and education.</span></div><div class="ma-body"><p class="ma-q">Taking classes through online learning</p><p class="ma-a">C — healthcare and education.</p><p class="ar">التعليم أونلاين = تعليم.</p><p class="ma-q">Paying with a mobile payment app</p><p class="ma-a">A — daily life.</p><p class="ar">الدفع بالموبايل = حياة يومية.</p><p class="ma-q">Sharing photos on SNS</p><p class="ma-a">A — daily life.</p><p class="ar">السوشيال = حياة يومية.</p><p class="ma-q">A company introducing work-from-home</p><p class="ma-a">B — industry and the economy.</p><p class="ar">الشركة والشغل = صناعة واقتصاد.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">12</span><span class="exq">Analyse how the spread of cloud computing (from the 2010s onward) has changed the way information technology is used. In your answer, refer to: large-scale data analysis, AI, and &quot;IT as a service&quot;.</span></div><div class="ma-body"><p class="ma-a">Cloud computing spread from the 2010s onward. Because storage and processing power can be rented over the Internet instead of owned, it made large-scale data analysis possible. That data and computing power in turn support AI, which needs both. It also changed IT into something delivered as a service over the Internet, rather than hardware each organisation must buy and maintain — so smaller organisations and individuals can now use computing power that once needed a large investment.</p><p class="ar">السحابة خلّت تحليل البيانات الضخمة ممكن، وده بيدعم الذكاء الاصطناعي، وخلّت التكنولوجيا خدمة بتأجّرها بدل ما تشتري أجهزة.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">13</span><span class="exq">Choose one emerging technology from this lesson (autonomous driving, AR, VR, or quantum computing). Suggest one way it could help solve a real problem, and state one risk.</span></div><div class="ma-body"><p class="ma-a">One possible answer. Autonomous driving could help elderly or disabled people travel independently. One risk is that the system may misjudge a situation it was never trained on, so some human oversight is still needed.</p><p class="ar">ده مثال لإجابة: تكنولوجيا، ومشكلة حقيقية بتحلها، وخطر فعلًا جاي منها.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 2;
+const LECTURE_TITLE = "How did we get here?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#6A4C93";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
+  applyAccent();
+  /* The browser names a saved or printed PDF after the title, so every
+     document names itself through data-title on the body element. Without it all
+     of them -- homework, answer key, exam -- saved as "Handout". */
+  const named = (document.body && document.body.getAttribute)
+    ? document.body.getAttribute("data-title") : null;
+  document.title = named || (LECTURE.label + " Handout — " + LECTURE.title + " · PGteach");
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+})();
+</script>
+</body>
+</html>

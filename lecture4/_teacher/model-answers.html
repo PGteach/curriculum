@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 4 Model Answers — Can we trust it?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}
+.dg{margin:3mm 0 4mm}.dg svg{display:block;width:100%;height:auto}
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}
+.principles .pr{border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:1.5mm;padding:2.5mm 3.5mm;background:#FCFCFA}
+.principles .pr h4{font-size:10.5pt;margin-bottom:1mm}.principles .pr p{font-size:9.5pt;margin:0}
+/* ---------- exam paper ---------- */
+.examcover{border:1.5px solid var(--ink);border-radius:2mm;padding:3.5mm 4.5mm;margin:0 0 5mm}
+.examcover .facts{display:flex;gap:6mm;font-size:10pt;font-weight:600;margin-bottom:2mm}
+.examcover ul{margin:0 0 0 4.5mm;font-size:9.5pt}.examcover li{margin-bottom:.8mm}
+.examsec{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid var(--ink);padding-bottom:1mm;margin:0 0 3mm}
+.examsec h2{margin:0}.examsec .tot{font-size:10pt;font-weight:600}
+.lvl{font-size:9pt;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:.05em;margin:3.5mm 0 2mm}
+.lvl .ar{display:inline;margin-left:2mm;text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)}
+.mq{margin:0 0 3.2mm;break-inside:avoid}
+.mq .qline{display:flex;gap:2.5mm;font-size:10pt;font-weight:600;line-height:1.4}
+.mq .qn{flex:0 0 7mm}
+.mq .opts{display:grid;grid-template-columns:1fr 1fr;gap:.8mm 5mm;margin:1.4mm 0 0 9.5mm;font-size:9.5pt;line-height:1.35}
+.mq .opts.long{grid-template-columns:1fr}
+.mq .opts b{display:inline-block;width:5mm}
+.eq{margin:0 0 4mm;break-inside:avoid}
+.eq .qline{display:flex;gap:2.5mm;font-size:10.5pt;font-weight:600;line-height:1.4}
+.eq .qn{flex:0 0 7mm}.eq .mk{flex:0 0 auto;margin-left:auto;font-size:9pt;color:var(--gold);white-space:nowrap}
+.eq .rule{margin-left:9.5mm}
+.answergrid{width:100%;border-collapse:collapse;margin:2mm 0 4mm}
+.answergrid td,.answergrid th{border:1px solid var(--line);padding:.9mm 1.8mm;font-size:8.8pt;line-height:1.3;text-align:left}
+.answergrid td.let{font-weight:700;color:var(--teal);text-align:center;width:9mm}
+
+.ma-ex{margin:0 0 4.5mm;break-inside:avoid}
+.ma-ex .exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.2mm}
+.ma-ex .exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}
+.ma-ex .exq{font-size:10.5pt;font-weight:600}
+.ma-body{margin-left:9.5mm}
+.ma-q{font-size:9.8pt;font-weight:600;margin:2mm 0 .4mm}
+.ma-a{font-size:10pt;margin:0}
+.ma-body .ar{font-size:9.5pt}
+</style>
+</head>
+<body data-title="Lecture 4 Model Answers — Can we trust it?">
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">Can we trust it?</h1><div class="docsub">Model Answers &middot; Lecture 4</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><div class="summary hw"><p>Check your own answers against these. Your words do not have to match &mdash; the idea does.</p><p class="ar">قارن إجاباتك بدول. مش لازم نفس الكلام بالحرف — المهم الفكرة.</p></div><h2>Class work</h2><div class="ma-ex"><div class="exhead"><span class="exn">1</span><span class="exq">Write ✓ if the statement is true, ✗ if it is false.</span></div><div class="ma-body"><p class="ma-q">A. Algorithmic bias is bias caused by biased training data</p><p class="ma-a">✓ True — the definition of algorithmic bias.</p><p class="ar">صح.</p><p class="ma-q">B. An opaque process is no problem if the result is correct</p><p class="ma-a">✗ False — when the process is opaque, it is difficult to verify whether the result is correct.</p><p class="ar">غلط: من غير ما نفهم إزاي وصل، مش هنقدر نتأكد إنه صح.</p><p class="ma-q">C. XAI lets humans understand the AI&#x27;s reasoning</p><p class="ma-a">✓ True.</p><p class="ar">صح.</p><p class="ma-q">D. Responsibility has already been clearly determined</p><p class="ma-a">✗ False — views differ between the developer, the user and the operator, and no clear standard has been established.</p><p class="ar">غلط: لسه مفيش معيار واضح.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">2</span><span class="exq">Match each description to the most appropriate principle of AI ethics.</span></div><div class="ma-body"><p class="ma-q">Not unjustly discriminating against any person or group</p><p class="ma-a">C — Fairness.</p><p class="ar">العدالة.</p><p class="ma-q">Showing the decision-making process clearly</p><p class="ma-a">D — Transparency.</p><p class="ar">الشفافية.</p><p class="ma-q">Handling personal information appropriately</p><p class="ma-a">B — Privacy protection.</p><p class="ar">حماية الخصوصية.</p><p class="ma-q">Being answerable for the AI&#x27;s decisions</p><p class="ma-a">A — Accountability.</p><p class="ar">المساءلة.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">3</span><span class="exq">Answer the following questions.</span></div><div class="ma-body"><p class="ma-q">1.</p><p class="ma-a">Algorithmic bias.</p><p class="ma-q">2.</p><p class="ma-a">Explainable AI — XAI.</p><p class="ma-q">3.</p><p class="ma-a">Fairness.</p><p class="ma-q">4.</p><p class="ma-a">Privacy protection.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">4</span><span class="exq">Choose the correct option.</span></div><div class="ma-body"><p class="ma-q">(1)</p><p class="ma-a">C — the processing speed of the computer has nothing to do with bias.</p><p class="ar">التحيز من البيانات أو طريقة بناء النظام، مش من السرعة.</p><p class="ma-q">(2)</p><p class="ma-a">A and B — face-recognition tracking, and mass collection of online behaviour data.</p><p class="ar">دول مشكلتين الخصوصية في الدرس.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><div class="ma-ex"><div class="exhead"><span class="exn">1</span><span class="exq">Fill in ( a ) to ( c ).</span></div><div class="ma-body"><p class="ma-q">( a )</p><p class="ma-a">algorithmic bias</p><p class="ar">التحيز الخوارزمي.</p><p class="ma-q">( b )</p><p class="ma-a">explainable AI (XAI)</p><p class="ar">الذكاء الاصطناعي القابل للتفسير.</p><p class="ma-q">( c )</p><p class="ma-a">responsibility</p><p class="ar">المسؤولية.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">2</span><span class="exq">Choose the correct option.</span></div><div class="ma-body"><p class="ma-a">C — bias in training data can cause discriminatory bias in AI judgments.</p><p class="ar">باقي الاختيارات غلط: فيه مشاكل أخلاقية، والتحيز مش من السرعة، والغموض مشكلة.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">3</span><span class="exq">Answer the following questions.</span></div><div class="ma-body"><p class="ma-q">1. What is training data?</p><p class="ma-a">Training data is the set of examples an AI system learns its patterns from before it is used.</p><p class="ar">البيانات اللي الـ AI بيتعلم منها.</p><p class="ma-q">2. How does too little data on a group affect it?</p><p class="ma-a">With too little data on a group, the AI learns that group&#x27;s pattern poorly, so its judgments about that group are less accurate — it misjudges them more often.</p><p class="ar">لو بيانات مجموعة قليلة، هيغلط معاها أكتر.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">4</span><span class="exq">Explain the main causes of algorithmic bias. Give one cause that comes from the training data and one that comes from the way the system is built.</span></div><div class="ma-body"><p class="ma-q">A cause in the training data</p><p class="ma-a">Insufficient data on certain attributes, or past discriminatory tendencies reflected in the data. The AI learns whatever pattern is in the data, so it repeats that bias.</p><p class="ar">بيانات مش كفاية، أو بيانات فيها تمييز قديم.</p><p class="ma-q">A cause in the way the system is built</p><p class="ma-a">An inappropriate choice of variables, a proxy variable that indirectly stands in for a protected attribute, or the design of the model itself.</p><p class="ar">متغيرات غلط، أو متغير بديل، أو تصميم النموذج.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">5</span><span class="exq">The development of AI has given rise to new privacy issues. Name and explain the two described in the lesson.</span></div><div class="ma-body"><p class="ma-q">Issue 1</p><p class="ma-a">Surveillance through face-recognition technology: cameras in public spaces can identify and track individuals.</p><p class="ar">المراقبة بالتعرف على الوجه.</p><p class="ma-q">Issue 2</p><p class="ma-a">Mass collection of personal data: large amounts of online behaviour data are collected and analysed.</p><p class="ar">جمع كميات كبيرة من بيانات سلوكنا أونلاين.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">6</span><span class="exq">Answer about explainable AI.</span></div><div class="ma-body"><p class="ma-q">1. What is XAI?</p><p class="ma-a">Explainable AI is technology that makes it possible for humans to understand why an AI made a particular judgment.</p><p class="ar">تقنية بتخلينا نفهم الـ AI قرر ليه.</p><p class="ma-q">2. Why is a black box a problem even when the result is correct?</p><p class="ma-a">If the process is opaque, nobody can verify whether the result is correct. A right answer reached by chance cannot be told apart from a wrong one, and an unfair decision cannot be found or challenged.</p><p class="ar">من غير ما نشوف الأسباب، مش هنقدر نتأكد ولا نكتشف الظلم.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">7</span><span class="exq">Answer about responsibility and accountability.</span></div><div class="ma-body"><p class="ma-q">1. The three parties</p><p class="ma-a">The developer, the user and the operator.</p><p class="ar">المطوّر والمستخدم والمشغّل.</p><p class="ma-q">2. Responsibility compared with accountability</p><p class="ma-a">Responsibility is the roles and duties of each party — who does what, and who answers when a judgment is wrong. Accountability is being answerable for the AI&#x27;s decisions: knowing who can be held to account, according to those roles. Accountability is one of the four principles of AI ethics.</p><p class="ar">المسؤولية: أدوار وواجبات كل طرف. المساءلة: مين يتحاسب على القرار حسب دوره.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">8</span><span class="exq">Write A, B, C or D: A = Fairness, B = Transparency, C = Privacy protection, D = Accountability.</span></div><div class="ma-body"><p class="ma-q">a. A hiring AI evaluates fairly regardless of gender</p><p class="ma-a">A — Fairness.</p><p class="ma-q">b. The decision process is disclosed in an easy-to-understand way</p><p class="ma-a">B — Transparency.</p><p class="ma-q">c. Data is not used for other purposes</p><p class="ma-a">C — Privacy protection.</p><p class="ma-q">d. Someone answers when a diagnosis is wrong</p><p class="ma-a">D — Accountability.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">9</span><span class="exq">Complete the table: what each principle means, and one situation where it applies.</span></div><div class="ma-body"><p class="ma-q">Fairness</p><p class="ma-a">Not unjustly discriminating against any person or group — e.g. a hiring AI that evaluates fairly regardless of gender.</p><p class="ma-q">Transparency</p><p class="ma-a">Showing the decision-making process and inner workings clearly — e.g. telling users in plain language how the AI decides.</p><p class="ma-q">Privacy protection</p><p class="ma-a">Handling personal information appropriately — e.g. not using collected data for another purpose.</p><p class="ma-q">Accountability</p><p class="ma-a">Being answerable for the AI&#x27;s decisions — e.g. someone answers when a diagnostic result is wrong.</p><p class="ar">المبادئ الأربعة لازم تتحفظ بالتعريف.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">10</span><span class="exq">Analyze how algorithmic bias can arise in an AI system, and how it can be reduced. In your answer, refer to the cause of bias (biased or insufficient training data) and to how the principles of fairness and transparency help address it.</span></div><div class="ma-body"><p class="ma-a">Algorithmic bias arises because an AI learns its patterns from training data. If that data is biased — for example it contains too little data on certain groups, or it reflects past discrimination — the AI reproduces the same bias in its judgments. Bias can also enter through the way the system is built, such as a proxy variable that stands in for a protected attribute. It can be reduced by checking the training data for missing or unfair patterns and testing the AI&#x27;s results across different groups, which applies the principle of fairness; and by making the decision-making process visible, for example with explainable AI, which applies the principle of transparency and lets people find and correct unfair decisions.</p><p class="ar">السبب: البيانات. العلاج: نراجع البيانات ونختبر النتايج (عدالة)، ونوضّح طريقة القرار (شفافية).</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">11</span><span class="exq">A hiring AI was found to rate applicants of a particular gender lower. Using algorithmic bias and the principles of AI ethics, explain the most likely cause and one possible measure to address it.</span></div><div class="ma-body"><p class="ma-a">One possible answer. The most likely cause is that the training data reflected past bias — for example, the company&#x27;s past hiring decisions favoured one gender, or there was too little data on the other. One measure is to check the training data and test the AI&#x27;s results for each gender before using it, which applies the principle of fairness.</p><p class="ar">مثال لإجابة: السبب بيانات قديمة متحيزة، والإجراء مربوط بمبدأ.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">12</span><span class="exq">A school wants to use face-recognition cameras at its gate to record attendance automatically. Identify one practical benefit and one privacy concern. If the camera misidentifies a student, who should be responsible — the school, or the company that made the AI? Give a reason.</span></div><div class="ma-body"><p class="ma-a">One possible answer. Benefit: attendance is recorded automatically and quickly, which saves teachers&#x27; time. Privacy concern: students&#x27; faces are personal data, and they could be tracked or the data used for another purpose. Responsibility: the school, because it chose to use the system and operates it every day — though it is also reasonable to say the company, because it built the AI and chose its data. What matters is the reason.</p><p class="ar">الإجابتين صح في المسؤولية — المهم السبب.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">13</span><span class="exq">Unit review · lesson 1-1 · Quantum computing.</span></div><div class="ma-body"><p class="ma-q">(1)</p><p class="ma-a">B — a qubit uses superposition to be a mixture of 0 and 1 at the same time.</p><p class="ma-q">(2)</p><p class="ma-a">A classical bit holds one state at a time, 0 or 1. A qubit uses superposition, so it can be 0 and 1 at the same time. This is what lets quantum computers speed up computations that are difficult for traditional computers.</p><p class="ar">البت 0 أو 1، الكيوبت الاتنين مع بعض (التراكب).</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">14</span><span class="exq">Unit review · lesson 1-1 · Autonomous driving.</span></div><div class="ma-body"><p class="ma-q">(1)</p><p class="ma-a">B — autonomous driving.</p><p class="ma-q">(2)</p><p class="ma-a">Edge computing processes the data on the vehicle itself, immediately, instead of sending it to the cloud. Even a 0.1-second delay could cause an accident, so deciding on board makes the vehicle faster to react and therefore safer.</p><p class="ar">القرار في العربية نفسها أسرع، والسرعة هنا أمان.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">15</span><span class="exq">Unit review · lesson 1-2 · Neural networks.</span></div><div class="ma-body"><p class="ma-q">(1)</p><p class="ma-a">A — hidden layers.</p><p class="ma-q">(2)</p><p class="ma-a">Connected layers of units (artificial neurons) — an input layer, hidden layers and an output layer — whose connection weights change during training.</p><p class="ar">طبقة إدخال، وطبقات مخفية، وطبقة إخراج.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">16</span><span class="exq">Unit review · lesson 1-3 · Voice assistants.</span></div><div class="ma-body"><p class="ma-q">(1)</p><p class="ma-a">B — a voice assistant.</p><p class="ma-q">(2)</p><p class="ma-a">AI recognises the voice, understands the command and carries it out. Examples: Siri, Google Assistant.</p><p class="ar">بيتعرف على الصوت، ويفهم الأمر، وينفّذه.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">17</span><span class="exq">Unit review · lesson 1-3 · AI in agriculture.</span></div><div class="ma-body"><p class="ma-q">(1)</p><p class="ma-a">B — predicting harvest timing and detecting pests and diseases.</p><p class="ma-q">(2)</p><p class="ma-a">AI analyses data and images from the fields to predict when to harvest, and to detect pests and crop diseases early.</p><p class="ar">بيحلل صور الأرض يعرف ميعاد الحصاد ويكتشف الآفات بدري.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">18</span><span class="exq">Unit review · lesson 1-3 · Cautions when using AI.</span></div><div class="ma-body"><p class="ma-q">(1)</p><p class="ma-a">B — it is unclear how the AI reached its judgment. Option C is a different caution: copyright.</p><p class="ma-q">(2)</p><p class="ma-a">Black box: it is unclear how the AI reached its judgment, so its result is hard to verify. Rights issues: using copyrighted works as training data raises the question of whether the owners&#x27; rights are respected.</p><p class="ar">الصندوق الأسود: مش عارفين وصل إزاي. وحقوق الملكية لما أعمال محمية تتستخدم في التدريب.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ma-ex"><div class="exhead"><span class="exn">19</span><span class="exq">Find one documented case where an AI system was accused of being unfair or biased. Record the source (a news report, study or official statement). What group did it affect, and what data might have caused it?</span></div><div class="ma-body"><p class="ma-a">This is a research task, so there is no single answer. A good answer names a real, checkable source, says which group was affected, and links the cause to biased or insufficient training data — for example, Reuters reported in 2018 that Amazon&#x27;s hiring AI marked down CVs containing the word &quot;women&#x27;s&quot;, because it learned from ten years of mostly male CVs.</p><p class="ar">مهمة بحث: مصدر حقيقي، والمجموعة اللي اتضررت، والبيانات اللي سببت ده.</p></div></div><div class="ma-ex"><div class="exhead"><span class="exn">20</span><span class="exq">Choose one place AI is used: hiring, face recognition, or recommendations. Suggest one rule, based on the principles of AI ethics, that would make it more trustworthy.</span></div><div class="ma-body"><p class="ma-a">One possible answer. Use: hiring. Rule: before the AI is used, its results must be tested for each gender and age group, and any difference must be explained and corrected. Principle: fairness — no group may be unjustly discriminated against.</p><p class="ar">مثال: استخدام، وقاعدة واضحة، ومبدأ بيبررها.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 4;
+const LECTURE_TITLE = "Can we trust it?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#A63D5B";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
+  applyAccent();
+  /* The browser names a saved or printed PDF after the title, so every
+     document names itself through data-title on the body element. Without it all
+     of them -- homework, answer key, exam -- saved as "Handout". */
+  const named = (document.body && document.body.getAttribute)
+    ? document.body.getAttribute("data-title") : null;
+  document.title = named || (LECTURE.label + " Handout — " + LECTURE.title + " · PGteach");
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+})();
+</script>
+</body>
+</html>

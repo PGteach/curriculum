@@ -239,12 +239,13 @@ def name(html, title):
     assert html.count("<body>") == 1, "expected one bare <body>"
     return html.replace("<body>", '<body data-title="' + _e(title, quote=True) + '">', 1)
 
-head,tail,qr=shell()
-for path,html in [(ROOT/'lecture3/handout/index.html',booklet(head,tail,qr)),(ROOT/'lecture3/homework/index.html',homework(head,tail,qr)),(ROOT/'lecture3/_teacher/answer-key.html',key(head,tail))]:
- # the template ships author instructions in HTML comments; they are not ours
- # to publish, and lecture2's generated pages carry none.
- html=re.sub(r'<!--.*?-->','',html,flags=re.DOTALL)
- kind='Answer Key' if path.name=='answer-key.html' else 'Homework' if 'homework' in path.parts else 'Booklet'
- html=name(html,'Lecture 3 '+kind+' — How does it learn?')
- with io.open(path,'w',encoding='utf-8',newline='\n') as f:f.write(html)
- print(path.relative_to(ROOT))
+if __name__=="__main__":
+ head,tail,qr=shell()
+ for path,html in [(ROOT/'lecture3/handout/index.html',booklet(head,tail,qr)),(ROOT/'lecture3/homework/index.html',homework(head,tail,qr)),(ROOT/'lecture3/_teacher/answer-key.html',key(head,tail))]:
+  # the template ships author instructions in HTML comments; they are not ours
+  # to publish, and lecture2's generated pages carry none.
+  html=re.sub(r'<!--.*?-->','',html,flags=re.DOTALL)
+  kind='Answer Key' if path.name=='answer-key.html' else 'Homework' if 'homework' in path.parts else 'Booklet'
+  html=name(html,'Lecture 3 '+kind+' — How does it learn?')
+  with io.open(path,'w',encoding='utf-8',newline='\n') as f:f.write(html)
+  print(path.relative_to(ROOT))

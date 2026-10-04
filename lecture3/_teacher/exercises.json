@@ -473,5 +473,340 @@
    "marking": "How it works: it reads past borrowing, finds a pattern, predicts a preference. Caution: student borrowing history is personal data, or the recommendations narrow what a student is shown. Both parts needed for full marks.",
    "example": "It would use the student's borrowing record as past behaviour data, find patterns across students, and predict books they are likely to want. Caution: borrowing history is personal, so the school must decide who may see it."
   }
+ },
+ "MODEL": {
+  "1": [
+   {
+    "q": "( a )",
+    "a": "AI",
+    "ar": "الذكاء الاصطناعي هو المجال الكبير."
+   },
+   {
+    "q": "( b )",
+    "a": "machine learning",
+    "ar": "جواه تعلم الآلة، بيتعلم أنماط من البيانات."
+   },
+   {
+    "q": "( c )",
+    "a": "deep learning",
+    "ar": "جواه التعلم العميق، بيستخدم الشبكات العصبية."
+   },
+   {
+    "q": "( d )",
+    "a": "generative AI",
+    "ar": "ومبني عليه الذكاء الاصطناعي التوليدي."
+   }
+  ],
+  "2": [
+   {
+    "q": "A. Machine learning makes AI work",
+    "a": "✓ True — machine learning is one of the technologies that make AI work.",
+    "ar": "صح."
+   },
+   {
+    "q": "B. Deep learning is completely different from machine learning",
+    "a": "✗ False — deep learning is an advanced kind of machine learning, inside it.",
+    "ar": "غلط: التعلم العميق جزء من تعلم الآلة."
+   },
+   {
+    "q": "C. Generative AI uses deep learning to generate new data",
+    "a": "✓ True.",
+    "ar": "صح."
+   },
+   {
+    "q": "D. AI and machine learning mean the same",
+    "a": "✗ False — AI is the broad field; machine learning is one technology inside it.",
+    "ar": "غلط: الذكاء الاصطناعي أوسع."
+   }
+  ],
+  "3": [
+   {
+    "q": "Learns patterns from data",
+    "a": "C — machine learning.",
+    "ar": "تعلم الآلة بيتعلم أنماط."
+   },
+   {
+    "q": "Uses neural networks",
+    "a": "A — deep learning.",
+    "ar": "التعلم العميق بيستخدم شبكات عصبية."
+   },
+   {
+    "q": "Generates new text or images",
+    "a": "B — generative AI.",
+    "ar": "التوليدي بيعمل حاجة جديدة."
+   }
+  ],
+  "4": [
+   {
+    "q": null,
+    "a": "It uses the patterns to make predictions and judgments.",
+    "ar": "بيستخدم الأنماط عشان يتوقع ويحكم."
+   }
+  ],
+  "5": [
+   {
+    "q": "Machine learning",
+    "a": "e.g. a spam filter, or product recommendations.",
+    "ar": "فلتر الرسائل المزعجة."
+   },
+   {
+    "q": "Deep learning",
+    "a": "e.g. image analysis for autonomous driving, or speech synthesis.",
+    "ar": "تحليل الصور في القيادة الذاتية."
+   },
+   {
+    "q": "Generative AI",
+    "a": "e.g. ChatGPT, or an image-generation AI.",
+    "ar": "ChatGPT."
+   }
+  ],
+  "6": [
+   {
+    "q": null,
+    "a": "A neural network is a system modelled on the nerve cells of the human brain. Its connected components learn from data and can make complex judgments.",
+    "ar": "شبكة متقلدة على خلايا المخ العصبية، أجزاءها متوصلة ببعض وبتتعلم من البيانات."
+   }
+  ],
+  "7": [
+   {
+    "q": "Classifies / predicts",
+    "a": "Spam filter, product recommendation — they choose from answers that already exist.",
+    "ar": "دول بيختاروا من حاجات موجودة."
+   },
+   {
+    "q": "Generates",
+    "a": "Text from ChatGPT, a new image from text — they make something new.",
+    "ar": "دول بيعملوا حاجة جديدة."
+   }
+  ],
+  "8": [
+   {
+    "q": "A. Modelled on the brain's nerve cells",
+    "a": "✓ True.",
+    "ar": "صح."
+   },
+   {
+    "q": "B. ChatGPT is generative AI",
+    "a": "✓ True.",
+    "ar": "صح."
+   },
+   {
+    "q": "C. A spam filter is generative AI",
+    "a": "✗ False — a spam filter classifies email; it does not generate new data.",
+    "ar": "غلط: الفلتر بيصنّف مش بيولّد."
+   }
+  ],
+  "9": [
+   {
+    "q": "Sorting spam emails",
+    "a": "A — machine learning.",
+    "ar": "تصنيف = تعلم الآلة."
+   },
+   {
+    "q": "Recognising pedestrians for autonomous driving",
+    "a": "B — deep learning.",
+    "ar": "التعرف على الصور = تعلم عميق."
+   },
+   {
+    "q": "Generating an image from text",
+    "a": "C — generative AI.",
+    "ar": "توليد صورة = توليدي."
+   }
+  ],
+  "10": [
+   {
+    "q": null,
+    "a": "It needs to learn from many photographs of healthy and diseased crops, so that it can find the pattern that separates them. Its judgment might be wrong if the data had too few examples, or examples that do not represent the crops it now sees — for example photos taken in different light or of a different disease.",
+    "ar": "لازم يتعلم من صور كتير لمحاصيل سليمة ومريضة، وممكن يغلط لو الصور قليلة أو مش شبه الواقع."
+   }
+  ],
+  "11": [
+   {
+    "q": null,
+    "a": "The four are nested categories, not four separate technologies. AI is the broad field: technologies that perform intelligent human behaviour on a computer — for example speech recognition. Machine learning sits inside AI: it learns patterns from data to make predictions and judgments — for example a spam filter. Deep learning sits inside machine learning: it uses neural networks and large amounts of data — for example image analysis for autonomous driving. Generative AI is built on deep learning and generates new data — for example ChatGPT. Each layer is more specialised than the one before it.",
+    "ar": "أربع دواير جوه بعض: الذكاء الاصطناعي ← تعلم الآلة ← التعلم العميق ← التوليدي، ومثال لكل واحد."
+   }
+  ],
+  "13": [
+   {
+    "q": "1.",
+    "a": "AI (Artificial Intelligence).",
+    "ar": ""
+   },
+   {
+    "q": "2.",
+    "a": "Machine learning.",
+    "ar": ""
+   },
+   {
+    "q": "3.",
+    "a": "Deep learning.",
+    "ar": ""
+   },
+   {
+    "q": "4.",
+    "a": "Generative AI.",
+    "ar": "نفس ترتيب الدواير من الأوسع للأضيق."
+   }
+  ],
+  "14": [
+   {
+    "q": "(1)",
+    "a": "C — AI > Machine learning > Deep learning > Generative AI.",
+    "ar": "من الأوسع للأضيق."
+   },
+   {
+    "q": "(2)",
+    "a": "C — a spam filter classifies email; it does not generate new data.",
+    "ar": "الفلتر مش توليدي."
+   }
+  ],
+  "15": [
+   {
+    "q": null,
+    "a": "A hallucination reads just as confidently as a correct answer, so neither the student nor the reader can tell it is wrong. The student, not the tool, is responsible for what they hand in, and a false fact passed on as true can mislead whoever reads the report. Instead, check every fact against the textbook or another reliable source before using it, and write the report in your own words.",
+    "ar": "الهلوسة شكلها مقنع زي الصح، وانت المسؤول عن اللي بتسلّمه — فراجع كل معلومة من مصدر موثوق."
+   }
+  ],
+  "16": [
+   {
+    "q": null,
+    "a": "One possible answer. A helpful use: making practice questions to revise from. A misuse: handing in generated text as your own work. The difference is whether the output is checked and whether you are honest about who wrote it.",
+    "ar": "مثال لإجابة: استخدام مفيد، وسوء استخدام، والفرق بينهم — المراجعة والأمانة."
+   }
+  ],
+  "17": [
+   {
+    "q": null,
+    "a": "This is a research task, so there is no single answer. A good answer names a real, checkable source (a news article, an official report, or a screenshot of a prompt you tested yourself), says what the AI answered, and says what the correct fact was.",
+    "ar": "مهمة بحث: لازم مصدر حقيقي يتراجع، ومش مثال من الحصة."
+   }
+  ],
+  "18": [
+   {
+    "q": "YouTube recommends videos",
+    "a": "Recommendation system.",
+    "ar": "ترشيح = نظام توصيات."
+   },
+   {
+    "q": "Speaking to a phone to check the weather",
+    "a": "Voice assistant.",
+    "ar": "مساعد صوتي."
+   },
+   {
+    "q": "Turning a foreign website into your language",
+    "a": "Machine translation.",
+    "ar": "ترجمة آلية."
+   },
+   {
+    "q": "A camera detecting a face",
+    "a": "Face recognition.",
+    "ar": "التعرف على الوجه."
+   }
+  ],
+  "19": [
+   {
+    "q": "A. Probabilistic reasoning and prediction",
+    "a": "✓ True — AI is good at this.",
+    "ar": "صح."
+   },
+   {
+    "q": "B. Recognising images and audio",
+    "a": "✓ True.",
+    "ar": "صح."
+   },
+   {
+    "q": "C. Leave ethical judgments entirely to AI",
+    "a": "✗ False — ethical judgments can carry discrimination or prejudice, so they must not be left to AI.",
+    "ar": "غلط: الأحكام الأخلاقية محتاجة إنسان."
+   },
+   {
+    "q": "D. Biased training data makes judgments inaccurate",
+    "a": "✓ True.",
+    "ar": "صح."
+   }
+  ],
+  "20": [
+   {
+    "q": "1.",
+    "a": "Recommendation system.",
+    "ar": ""
+   },
+   {
+    "q": "2.",
+    "a": "Voice assistant.",
+    "ar": ""
+   },
+   {
+    "q": "3.",
+    "a": "Healthcare.",
+    "ar": ""
+   },
+   {
+    "q": "4.",
+    "a": "Predictive maintenance.",
+    "ar": "التنبؤ بالأعطال قبل ما تحصل."
+   }
+  ],
+  "21": [
+   {
+    "q": "(1)",
+    "a": "B — finding and classifying patterns is something AI is good at, not a caution.",
+    "ar": "دي ميزة مش تحذير."
+   },
+   {
+    "q": "(2)",
+    "a": "a D (logistics) · b A (healthcare) · c B (agriculture) · d C (manufacturing).",
+    "ar": "التوصيل لوجستيات، الأشعة طب، الآفات زراعة، الجودة صناعة."
+   }
+  ],
+  "22": [
+   {
+    "q": "Finding patterns in images",
+    "a": "G.",
+    "ar": ""
+   },
+   {
+    "q": "Deciding who is responsible",
+    "a": "C.",
+    "ar": "المسؤولية محتاجة إنسان."
+   },
+   {
+    "q": "Predicting from past data",
+    "a": "G.",
+    "ar": ""
+   },
+   {
+    "q": "A judgment involving private data",
+    "a": "C.",
+    "ar": "الخصوصية تحذير."
+   },
+   {
+    "q": "Recognising speech",
+    "a": "G.",
+    "ar": ""
+   }
+  ],
+  "23": [
+   {
+    "q": null,
+    "a": "AI is well suited to tasks that rest on data. It is good at finding and classifying patterns in complex data such as images and text, at recognising and generating images, audio and text, and at probabilistic reasoning and prediction from data — because each of these is learning a pattern from many examples. It needs caution where a pattern is not enough. Ethical judgments can carry discrimination or prejudice learned from the data. Judgments involving personal information raise privacy problems. And final decision-making needs someone who is responsible for the result, which an AI cannot be.",
+    "ar": "الذكاء الاصطناعي شاطر في الأنماط والتعرف والتوقع، بس محتاج حذر في الأخلاق والخصوصية والقرار النهائي."
+   }
+  ],
+  "24": [
+   {
+    "q": null,
+    "a": "A wrong diagnosis can seriously harm a patient, so a person must be responsible for the final decision. The AI also has limits: it is a black box, so it is not clear how it reached its judgment, and if its training data was biased it may be less accurate for some patients. Final decision-making is exactly what the book says requires caution, so a doctor should confirm the result.",
+    "ar": "التشخيص الغلط بيأذي المريض، والـ AI صندوق أسود وممكن بياناته متحيزة — فالدكتور لازم يأكد."
+   }
+  ],
+  "25": [
+   {
+    "q": null,
+    "a": "It would use the student's borrowing record as past behaviour data, find patterns across students, and predict books the student is likely to want. One caution: borrowing history is personal data, so the school must decide who may see it — and recommendations based only on the past can narrow what a student is shown.",
+    "ar": "بيستخدم سجل الاستعارة يتوقع اللي هيعجبك، بس السجل ده بيانات شخصية لازم تتحمي."
+   }
+  ]
  }
 }

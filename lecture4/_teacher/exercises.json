@@ -538,5 +538,320 @@
       "(1) B — it is unclear how the AI reached its judgment; option C is a different caution, copyright",
       "(2) Black box: it is unclear how the AI reached its judgment, so its result is hard to verify. Rights issues: using copyrighted works as training data raises the question of whether the owners' rights are respected."
     ]
+  },
+  "MODEL": {
+    "1": [
+      {
+        "q": "A. Algorithmic bias is bias caused by biased training data",
+        "a": "✓ True — the definition of algorithmic bias.",
+        "ar": "صح."
+      },
+      {
+        "q": "B. An opaque process is no problem if the result is correct",
+        "a": "✗ False — when the process is opaque, it is difficult to verify whether the result is correct.",
+        "ar": "غلط: من غير ما نفهم إزاي وصل، مش هنقدر نتأكد إنه صح."
+      },
+      {
+        "q": "C. XAI lets humans understand the AI's reasoning",
+        "a": "✓ True.",
+        "ar": "صح."
+      },
+      {
+        "q": "D. Responsibility has already been clearly determined",
+        "a": "✗ False — views differ between the developer, the user and the operator, and no clear standard has been established.",
+        "ar": "غلط: لسه مفيش معيار واضح."
+      }
+    ],
+    "2": [
+      {
+        "q": "Not unjustly discriminating against any person or group",
+        "a": "C — Fairness.",
+        "ar": "العدالة."
+      },
+      {
+        "q": "Showing the decision-making process clearly",
+        "a": "D — Transparency.",
+        "ar": "الشفافية."
+      },
+      {
+        "q": "Handling personal information appropriately",
+        "a": "B — Privacy protection.",
+        "ar": "حماية الخصوصية."
+      },
+      {
+        "q": "Being answerable for the AI's decisions",
+        "a": "A — Accountability.",
+        "ar": "المساءلة."
+      }
+    ],
+    "3": [
+      {
+        "q": "1.",
+        "a": "Algorithmic bias.",
+        "ar": ""
+      },
+      {
+        "q": "2.",
+        "a": "Explainable AI — XAI.",
+        "ar": ""
+      },
+      {
+        "q": "3.",
+        "a": "Fairness.",
+        "ar": ""
+      },
+      {
+        "q": "4.",
+        "a": "Privacy protection.",
+        "ar": ""
+      }
+    ],
+    "4": [
+      {
+        "q": "(1)",
+        "a": "C — the processing speed of the computer has nothing to do with bias.",
+        "ar": "التحيز من البيانات أو طريقة بناء النظام، مش من السرعة."
+      },
+      {
+        "q": "(2)",
+        "a": "A and B — face-recognition tracking, and mass collection of online behaviour data.",
+        "ar": "دول مشكلتين الخصوصية في الدرس."
+      }
+    ],
+    "5": [
+      {
+        "q": "( a )",
+        "a": "algorithmic bias",
+        "ar": "التحيز الخوارزمي."
+      },
+      {
+        "q": "( b )",
+        "a": "explainable AI (XAI)",
+        "ar": "الذكاء الاصطناعي القابل للتفسير."
+      },
+      {
+        "q": "( c )",
+        "a": "responsibility",
+        "ar": "المسؤولية."
+      }
+    ],
+    "6": [
+      {
+        "q": "a. A hiring AI evaluates fairly regardless of gender",
+        "a": "A — Fairness.",
+        "ar": ""
+      },
+      {
+        "q": "b. The decision process is disclosed in an easy-to-understand way",
+        "a": "B — Transparency.",
+        "ar": ""
+      },
+      {
+        "q": "c. Data is not used for other purposes",
+        "a": "C — Privacy protection.",
+        "ar": ""
+      },
+      {
+        "q": "d. Someone answers when a diagnosis is wrong",
+        "a": "D — Accountability.",
+        "ar": ""
+      }
+    ],
+    "7": [
+      {
+        "q": null,
+        "a": "C — bias in training data can cause discriminatory bias in AI judgments.",
+        "ar": "باقي الاختيارات غلط: فيه مشاكل أخلاقية، والتحيز مش من السرعة، والغموض مشكلة."
+      }
+    ],
+    "8": [
+      {
+        "q": "1. What is training data?",
+        "a": "Training data is the set of examples an AI system learns its patterns from before it is used.",
+        "ar": "البيانات اللي الـ AI بيتعلم منها."
+      },
+      {
+        "q": "2. How does too little data on a group affect it?",
+        "a": "With too little data on a group, the AI learns that group's pattern poorly, so its judgments about that group are less accurate — it misjudges them more often.",
+        "ar": "لو بيانات مجموعة قليلة، هيغلط معاها أكتر."
+      }
+    ],
+    "9": [
+      {
+        "q": "A cause in the training data",
+        "a": "Insufficient data on certain attributes, or past discriminatory tendencies reflected in the data. The AI learns whatever pattern is in the data, so it repeats that bias.",
+        "ar": "بيانات مش كفاية، أو بيانات فيها تمييز قديم."
+      },
+      {
+        "q": "A cause in the way the system is built",
+        "a": "An inappropriate choice of variables, a proxy variable that indirectly stands in for a protected attribute, or the design of the model itself.",
+        "ar": "متغيرات غلط، أو متغير بديل، أو تصميم النموذج."
+      }
+    ],
+    "10": [
+      {
+        "q": "Issue 1",
+        "a": "Surveillance through face-recognition technology: cameras in public spaces can identify and track individuals.",
+        "ar": "المراقبة بالتعرف على الوجه."
+      },
+      {
+        "q": "Issue 2",
+        "a": "Mass collection of personal data: large amounts of online behaviour data are collected and analysed.",
+        "ar": "جمع كميات كبيرة من بيانات سلوكنا أونلاين."
+      }
+    ],
+    "11": [
+      {
+        "q": "1. What is XAI?",
+        "a": "Explainable AI is technology that makes it possible for humans to understand why an AI made a particular judgment.",
+        "ar": "تقنية بتخلينا نفهم الـ AI قرر ليه."
+      },
+      {
+        "q": "2. Why is a black box a problem even when the result is correct?",
+        "a": "If the process is opaque, nobody can verify whether the result is correct. A right answer reached by chance cannot be told apart from a wrong one, and an unfair decision cannot be found or challenged.",
+        "ar": "من غير ما نشوف الأسباب، مش هنقدر نتأكد ولا نكتشف الظلم."
+      }
+    ],
+    "12": [
+      {
+        "q": "1. The three parties",
+        "a": "The developer, the user and the operator.",
+        "ar": "المطوّر والمستخدم والمشغّل."
+      },
+      {
+        "q": "2. Responsibility compared with accountability",
+        "a": "Responsibility is the roles and duties of each party — who does what, and who answers when a judgment is wrong. Accountability is being answerable for the AI's decisions: knowing who can be held to account, according to those roles. Accountability is one of the four principles of AI ethics.",
+        "ar": "المسؤولية: أدوار وواجبات كل طرف. المساءلة: مين يتحاسب على القرار حسب دوره."
+      }
+    ],
+    "13": [
+      {
+        "q": "Fairness",
+        "a": "Not unjustly discriminating against any person or group — e.g. a hiring AI that evaluates fairly regardless of gender.",
+        "ar": ""
+      },
+      {
+        "q": "Transparency",
+        "a": "Showing the decision-making process and inner workings clearly — e.g. telling users in plain language how the AI decides.",
+        "ar": ""
+      },
+      {
+        "q": "Privacy protection",
+        "a": "Handling personal information appropriately — e.g. not using collected data for another purpose.",
+        "ar": ""
+      },
+      {
+        "q": "Accountability",
+        "a": "Being answerable for the AI's decisions — e.g. someone answers when a diagnostic result is wrong.",
+        "ar": "المبادئ الأربعة لازم تتحفظ بالتعريف."
+      }
+    ],
+    "14": [
+      {
+        "q": null,
+        "a": "Algorithmic bias arises because an AI learns its patterns from training data. If that data is biased — for example it contains too little data on certain groups, or it reflects past discrimination — the AI reproduces the same bias in its judgments. Bias can also enter through the way the system is built, such as a proxy variable that stands in for a protected attribute. It can be reduced by checking the training data for missing or unfair patterns and testing the AI's results across different groups, which applies the principle of fairness; and by making the decision-making process visible, for example with explainable AI, which applies the principle of transparency and lets people find and correct unfair decisions.",
+        "ar": "السبب: البيانات. العلاج: نراجع البيانات ونختبر النتايج (عدالة)، ونوضّح طريقة القرار (شفافية)."
+      }
+    ],
+    "15": [
+      {
+        "q": null,
+        "a": "One possible answer. The most likely cause is that the training data reflected past bias — for example, the company's past hiring decisions favoured one gender, or there was too little data on the other. One measure is to check the training data and test the AI's results for each gender before using it, which applies the principle of fairness.",
+        "ar": "مثال لإجابة: السبب بيانات قديمة متحيزة، والإجراء مربوط بمبدأ."
+      }
+    ],
+    "16": [
+      {
+        "q": null,
+        "a": "One possible answer. Benefit: attendance is recorded automatically and quickly, which saves teachers' time. Privacy concern: students' faces are personal data, and they could be tracked or the data used for another purpose. Responsibility: the school, because it chose to use the system and operates it every day — though it is also reasonable to say the company, because it built the AI and chose its data. What matters is the reason.",
+        "ar": "الإجابتين صح في المسؤولية — المهم السبب."
+      }
+    ],
+    "17": [
+      {
+        "q": null,
+        "a": "This is a research task, so there is no single answer. A good answer names a real, checkable source, says which group was affected, and links the cause to biased or insufficient training data — for example, Reuters reported in 2018 that Amazon's hiring AI marked down CVs containing the word \"women's\", because it learned from ten years of mostly male CVs.",
+        "ar": "مهمة بحث: مصدر حقيقي، والمجموعة اللي اتضررت، والبيانات اللي سببت ده."
+      }
+    ],
+    "18": [
+      {
+        "q": null,
+        "a": "One possible answer. Use: hiring. Rule: before the AI is used, its results must be tested for each gender and age group, and any difference must be explained and corrected. Principle: fairness — no group may be unjustly discriminated against.",
+        "ar": "مثال: استخدام، وقاعدة واضحة، ومبدأ بيبررها."
+      }
+    ],
+    "19": [
+      {
+        "q": "(1)",
+        "a": "B — a qubit uses superposition to be a mixture of 0 and 1 at the same time.",
+        "ar": ""
+      },
+      {
+        "q": "(2)",
+        "a": "A classical bit holds one state at a time, 0 or 1. A qubit uses superposition, so it can be 0 and 1 at the same time. This is what lets quantum computers speed up computations that are difficult for traditional computers.",
+        "ar": "البت 0 أو 1، الكيوبت الاتنين مع بعض (التراكب)."
+      }
+    ],
+    "20": [
+      {
+        "q": "(1)",
+        "a": "B — autonomous driving.",
+        "ar": ""
+      },
+      {
+        "q": "(2)",
+        "a": "Edge computing processes the data on the vehicle itself, immediately, instead of sending it to the cloud. Even a 0.1-second delay could cause an accident, so deciding on board makes the vehicle faster to react and therefore safer.",
+        "ar": "القرار في العربية نفسها أسرع، والسرعة هنا أمان."
+      }
+    ],
+    "21": [
+      {
+        "q": "(1)",
+        "a": "A — hidden layers.",
+        "ar": ""
+      },
+      {
+        "q": "(2)",
+        "a": "Connected layers of units (artificial neurons) — an input layer, hidden layers and an output layer — whose connection weights change during training.",
+        "ar": "طبقة إدخال، وطبقات مخفية، وطبقة إخراج."
+      }
+    ],
+    "22": [
+      {
+        "q": "(1)",
+        "a": "B — a voice assistant.",
+        "ar": ""
+      },
+      {
+        "q": "(2)",
+        "a": "AI recognises the voice, understands the command and carries it out. Examples: Siri, Google Assistant.",
+        "ar": "بيتعرف على الصوت، ويفهم الأمر، وينفّذه."
+      }
+    ],
+    "23": [
+      {
+        "q": "(1)",
+        "a": "B — predicting harvest timing and detecting pests and diseases.",
+        "ar": ""
+      },
+      {
+        "q": "(2)",
+        "a": "AI analyses data and images from the fields to predict when to harvest, and to detect pests and crop diseases early.",
+        "ar": "بيحلل صور الأرض يعرف ميعاد الحصاد ويكتشف الآفات بدري."
+      }
+    ],
+    "24": [
+      {
+        "q": "(1)",
+        "a": "B — it is unclear how the AI reached its judgment. Option C is a different caution: copyright.",
+        "ar": ""
+      },
+      {
+        "q": "(2)",
+        "a": "Black box: it is unclear how the AI reached its judgment, so its result is hard to verify. Rights issues: using copyrighted works as training data raises the question of whether the owners' rights are respected.",
+        "ar": "الصندوق الأسود: مش عارفين وصل إزاي. وحقوق الملكية لما أعمال محمية تتستخدم في التدريب."
+      }
+    ]
   }
 }

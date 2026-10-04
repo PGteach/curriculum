@@ -502,6 +502,25 @@ essay has one marking point per mark. Writing space is roughly three to four
 lines per mark -- the first render gave a 3-mark answer four lines and left
 the pages half blank, which no gate caught.
 
+## Model answers for students (lectures 2-5)
+
+Each lecture has `_teacher/model-answers.html`. These are for the students,
+not the teacher: full sentences with an Egyptian-Arabic line saying why, and
+no marking points. The open tasks are labelled "One possible answer". They
+sit in `_teacher/`, so they have no URL before the homework is in. The
+teacher prints them and hands them out afterwards.
+
+The text is the `MODEL` block in each `exercises.json`. Lectures 2-4 build
+with `python scripts/build_model_answers.py [N]`. That script imports the
+lecture's own builder for its template, masthead and numbering, so an
+exercise is numbered exactly as on the student's sheet: lecture 2 by
+exercise number, lectures 3-4 by position. Lecture 5 builds its own model
+answers in `build_lecture5.py`. The `PAGES` lists were packed from measured
+heights and checked one sheet at a time.
+
+`build_lecture3.py` now guards its main. It used to build everything when
+imported.
+
 ## Lecture 5 -- lesson 2-1, and Unit 2 begins
 
 Lecture 5 is lesson 2-1, Cryptographic Technologies and Authentication
