@@ -59,6 +59,7 @@ HOMEWORK = [n for _, _, pages in HW_SECTIONS for g in pages for n in g]
 
 EXTRA_CSS = '''
 .namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}
+.key .mq-q{font-size:9.8pt;font-weight:600;margin:2.2mm 0 .4mm}.key .mq-a{font-size:10pt;margin:0}.key .ar{font-size:9.5pt}
 .dg{margin:3mm 0 4mm}.dg svg{display:block;width:100%;height:auto}
 .principles{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}
 .principles .pr{border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:1.5mm;padding:2.5mm 3.5mm;background:#FCFCFA}
@@ -432,6 +433,45 @@ def key(head, tail):
     return head + ''.join(pages) + tail
 
 
+# ------------------------------------------------------------ model answers
+# For the students, not the teacher: full sentences they can learn from, each
+# with an Arabic line saying why -- no marking points. It lives in _teacher/
+# so it has no public URL before the homework is in; the teacher prints it
+# and hands it out afterwards. Numbered exactly as the student's own sheets.
+MODEL_PAGES = [
+    ('class', [1]), ('class', [2, 3, 4]),
+    ('hw', [5, 6, 12]), ('hw', [13, 11, 9]), ('hw', [10, 8, 14]),
+    ('hw', [7, 15, 16]), ('hw', [17, 18, 19, 20]),
+]
+
+
+def model_answers(head, tail):
+    order = [n for kind, nums in MODEL_PAGES for n in nums]
+    assert order == IN_CLASS + HOMEWORK, "model answers out of the sheets' order"
+    pages, seen = [], set()
+    for kind, nums in MODEL_PAGES:
+        b = []
+        if not pages:
+            b.append(masthead('Model Answers'))
+            b.append('<div class="summary hw"><p>Check your own answers against these. Your words do '
+                     'not have to match &mdash; the idea does.</p>'
+                     '<p class="ar">قارن إجاباتك بدول. مش لازم نفس الكلام بالحرف — المهم الفكرة.</p></div>')
+        if kind not in seen:
+            b.append('<h2>%s</h2>' % ('Class work' if kind == 'class' else 'Homework'))
+            seen.add(kind)
+        for n in nums:
+            i = (IN_CLASS.index(n) + 1) if kind == 'class' else (HOMEWORK.index(n) + 1)
+            rows = ''.join(
+                ('<p class="mq-q">' + esc(r['q']) + '</p>' if r.get('q') else '')
+                + '<p class="mq-a">' + esc(r['a']) + '</p><p class="ar">' + esc(r['ar']) + '</p>'
+                for r in DATA['MODEL'][str(n)])
+            b.append('<div class="ex"><div class="exhead"><span class="exn">' + str(i) + '</span>'
+                     '<span class="exq">' + esc(EX[n]['prompt']) + '</span></div>'
+                     '<div class="key">' + rows + '</div></div>')
+        pages.append(page(''.join(b)))
+    return head + ''.join(pages) + tail
+
+
 def name(html, title):
     """Give a printed document its own name. The browser saves a PDF under
     the page title, and the shared template script used to set every
@@ -451,6 +491,7 @@ if __name__ == "__main__":
         (ROOT / 'lecture5/handout/index.html', booklet(head, tail), L5 % "Booklet"),
         (ROOT / 'lecture5/homework/index.html', homework(head, tail), L5 % "Homework"),
         (ROOT / 'lecture5/_teacher/answer-key.html', key(head, tail), L5 % "Answer Key"),
+        (ROOT / 'lecture5/_teacher/model-answers.html', model_answers(head, tail), L5 % "Model Answers"),
     ]
     for path, html, title in outs:
         html = name(html, title)

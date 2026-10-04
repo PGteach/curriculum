@@ -533,6 +533,10 @@ line. 2FA vs MFA has a slide of its own.
 - **Homework:** 16 exercises on 10 sheets, in three parts plus an optional
   challenge.
 - **Answer key:** 7 sheets.
+- **Model answers:** 7 sheets, for the students: full sentences with an Arabic
+  line each, numbered as their sheets (`MODEL` in exercises.json,
+  `lecture5/_teacher/model-answers.html`). In `_teacher/` so it has no URL
+  before the homework is in; the teacher prints it afterwards.
 
 Every exercise names its page or its ministry item.
 

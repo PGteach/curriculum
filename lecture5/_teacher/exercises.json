@@ -425,5 +425,247 @@
     "Combined, many threats are handled at the same time (1)"
    ]
   }
+ },
+ "MODEL": {
+  "1": [
+   {
+    "q": "A. HTTPS communication uses both public-key cryptography and common-key cryptography.",
+    "a": "✓ True. Public-key cryptography is used to share the common key safely, and common-key cryptography is used for the data.",
+    "ar": "صح: المفتاح العام عشان يشاركوا المفتاح بأمان، والتشفير المتماثل للبيانات."
+   },
+   {
+    "q": "B. HTTPS communication exchanges all data using public-key cryptography.",
+    "a": "✗ False. Exchanging all the data with public-key cryptography would be slow, so common-key cryptography is used for the data.",
+    "ar": "غلط: المفتاح العام بطيء مع البيانات الكتير، فالبيانات بتتبادل بالتشفير المتماثل."
+   },
+   {
+    "q": "C. Multi-factor authentication combines two or more of the three factors of authentication.",
+    "a": "✓ True. This is the definition of multi-factor authentication.",
+    "ar": "صح: ده تعريف المصادقة متعددة العوامل بالظبط."
+   },
+   {
+    "q": "D. An example of multi-factor authentication is setting two passwords.",
+    "a": "✗ False. Both passwords are knowledge — the same factor twice. This is two-step authentication, not multi-factor.",
+    "ar": "غلط: كلمتين المرور الاتنين من عامل المعرفة، يعني نفس العامل مرتين."
+   }
+  ],
+  "2": [
+   {
+    "q": "a. Prevent communication content being read by third parties.",
+    "a": "B — Encryption.",
+    "ar": "منع القراية = التشفير."
+   },
+   {
+    "q": "b. Verify that data has not been altered during communication.",
+    "a": "C — Digital signature.",
+    "ar": "التأكد إن البيانات متغيرتش = التوقيع الرقمي."
+   },
+   {
+    "q": "c. Verify that the communication partner is authentic.",
+    "a": "A — Digital certificate.",
+    "ar": "التأكد إن الطرف التاني حقيقي = الشهادة الرقمية."
+   }
+  ],
+  "3": [
+   {
+    "q": "1. Sharing the common key safely",
+    "a": "Public-key cryptography.",
+    "ar": "المتصفح بيقفل المفتاح المشترك بالمفتاح العام بتاع الخادم، ومحدش يفتحه غير المفتاح الخاص."
+   },
+   {
+    "q": "2. Data communication after the key is shared",
+    "a": "Common-key cryptography.",
+    "ar": "بعد ما الطرفين معاهم نفس المفتاح، البيانات بتتشفر بيه لأنه سريع."
+   },
+   {
+    "q": "3. Why combine them?",
+    "a": "Public-key cryptography can share a key safely but is slow; common-key cryptography exchanges large amounts of data quickly. Using each for what it does best makes the connection both secure and fast.",
+    "ar": "كل واحد بيتعمل اللي هو شاطر فيه: العام للأمان في مشاركة المفتاح، والمتماثل للسرعة في البيانات."
+   }
+  ],
+  "4": [
+   {
+    "q": "(1) Which combination of factors?",
+    "a": "a A (password = knowledge, one-time password = possession) · b B (password = knowledge, fingerprint = biometric) · c A (password = knowledge, SMS = possession) · d C (face = biometric, smart card = possession).",
+    "ar": "اسأل نفسك عن كل جزء: حاجة بتعرفها، ولا حاجة معاك، ولا حاجة في جسمك؟"
+   },
+   {
+    "q": "(2) NOT an appropriate description",
+    "a": "B. Digital signatures detect tampering and impersonation and give non-repudiation; they do not improve communication speed.",
+    "ar": "التوقيع الرقمي ملوش دعوة بالسرعة."
+   }
+  ],
+  "5": [
+   {
+    "q": "( a )",
+    "a": "digital certificate",
+    "ar": "الخادم بيبعت شهادته الرقمية ومفتاحه العام."
+   },
+   {
+    "q": "( b )",
+    "a": "a certificate authority (CA)",
+    "ar": "المتصفح بيتأكد من الخادم عن طريق جهة إصدار الشهادات."
+   },
+   {
+    "q": "( c )",
+    "a": "common key",
+    "ar": "المفتاح المشترك اللي كل البيانات بتتشفر بيه بعد كده."
+   }
+  ],
+  "6": [
+   {
+    "q": "1. Why common-key rather than public-key for the data?",
+    "a": "Public-key cryptography is slow for large amounts of data, while common-key cryptography exchanges data quickly. The common key itself was already shared safely using public-key cryptography, so using it for the data is both fast and safe.",
+    "ar": "المتماثل سريع، والمفتاح بتاعه اتشارك بأمان قبل كده بالمفتاح العام."
+   },
+   {
+    "q": "2. Three steps, in order",
+    "a": "(1) The server sends its digital certificate, and the browser checks it: is it valid, does it lead to a trusted authority, does it match the site's name? (2) The two sides agree the common key — the session key — using public-key mechanisms. (3) The data is exchanged, protected with common-key (symmetric) encryption.",
+    "ar": "الشهادة ← مفاتيح الجلسة ← تبادل البيانات بالتشفير المتماثل."
+   }
+  ],
+  "12": [
+   {
+    "q": null,
+    "a": "HTTPS needs the same common key on both sides, but sending that key openly would let an eavesdropper copy it. Public-key cryptography solves this: the browser locks the common key with the server's public key, and only the server's private key can unlock it, so the key is shared safely. However, public-key cryptography is slow, so exchanging all the data with it would make the connection slow. Common-key cryptography is fast, so once the key has been shared, all the data is exchanged with it. This division of roles gives HTTPS both security and speed.",
+    "ar": "الفكرة في ست نقط: لازم مفتاح مشترك ← إرساله مكشوف مش آمن ← المفتاح العام بيشاركه بأمان ← بس العام بطيء ← المتماثل سريع للبيانات ← النتيجة أمان وسرعة."
+   }
+  ],
+  "13": [
+   {
+    "q": null,
+    "a": "Public-key cryptography is slow, so using it for every piece of data would slow the whole connection down. TLS uses public-key mechanisms only during the handshake, to check the server and to agree session keys safely. A session key is a common (symmetric) key for that one connection. After the handshake, all the session data is protected with symmetric encryption using the session key, which is fast and efficient.",
+    "ar": "TLS بيستخدم المفتاح العام في المصافحة بس، وبعد كده مفاتيح الجلسة المتماثلة بتحمي البيانات بسرعة."
+   }
+  ],
+  "11": [
+   {
+    "q": "1. The role of the certificate and public-key mechanisms when TLS starts",
+    "a": "The server sends its digital certificate, and the browser checks that it is valid, leads back to a trusted certificate authority and matches the site's name — so the browser knows it is talking to the real server. Public-key mechanisms then let the two sides agree session keys safely.",
+    "ar": "الشهادة بتثبت إن الخادم حقيقي، وآليات المفتاح العام بتخلي الطرفين يتفقوا على مفاتيح الجلسة بأمان."
+   },
+   {
+    "q": "2. Digital signature compared with digital certificate",
+    "a": "A digital certificate answers: is the other side genuine? It verifies that the communication partner is authentic and stops a fake website. A digital signature answers: was this data altered, and who sent it? It detects tampering and impersonation of the sender, and gives non-repudiation — the sender cannot deny having sent it.",
+    "ar": "الشهادة عن الطرف التاني، والتوقيع عن البيانات نفسها ومين بعتها."
+   }
+  ],
+  "9": [
+   {
+    "q": "Knowledge",
+    "a": "Something the user knows — e.g. a password or a secret question.",
+    "ar": "المعرفة: حاجة بتعرفها."
+   },
+   {
+    "q": "Possession",
+    "a": "Something the user has — e.g. a one-time password sent to the phone, an SMS code, or a smart card.",
+    "ar": "الحيازة: حاجة معاك."
+   },
+   {
+    "q": "Biometric",
+    "a": "A feature of the user's body — e.g. a fingerprint or face recognition.",
+    "ar": "السمات الحيوية: حاجة في جسمك."
+   }
+  ],
+  "10": [
+   {
+    "q": "1. What 2FA means, and how a second factor reduces risk",
+    "a": "Two-factor authentication uses two independent factors from two different categories to prove who you are. If the password is leaked, the attacker still needs the second factor — for example a code sent to the owner's phone — so knowing the password alone is not enough to log in.",
+    "ar": "لو الباسورد اتسرب، اللي هاجم لسه محتاج العامل التاني اللي مش معاه."
+   },
+   {
+    "q": "2. 2FA compared with MFA",
+    "a": "2FA uses exactly two factors, from two different categories. MFA uses two or more independent factors from different categories (knowledge, possession, biometric). So every 2FA is MFA, but not every MFA is 2FA.",
+    "ar": "2FA = اتنين بالظبط، MFA = اتنين أو أكتر — والاتنين من فئات مختلفة."
+   }
+  ],
+  "8": [
+   {
+    "q": "1. NOT an appropriate example of MFA",
+    "a": "B — a password and a secret question are both knowledge.",
+    "ar": "الباسورد والسؤال السري الاتنين معرفة."
+   },
+   {
+    "q": "2. A possession factor",
+    "a": "B — a one-time password sent to the phone, or a smart card.",
+    "ar": "أ معرفة، وج ود سمات حيوية."
+   },
+   {
+    "q": "3. A WRONG example of 2FA",
+    "a": "C — password + a second secret password: both are knowledge.",
+    "ar": "نفس الفئة مرتين مش مصادقة ثنائية."
+   }
+  ],
+  "14": [
+   {
+    "q": null,
+    "a": "A password is only one factor: knowledge. The second factor is a different category: possession. The code goes to the owner's phone, which the attacker does not have, so even with the leaked password the attacker cannot complete the login.",
+    "ar": "عامل اتكسر، بس العامل التاني (الموبايل) مش مع اللي هاجم."
+   }
+  ],
+  "7": [
+   {
+    "q": "a. A password is leaked and unauthorized login occurs.",
+    "a": "D — Multi-factor authentication.",
+    "ar": "الدخول غير المصرح به = المصادقة متعددة العوامل."
+   },
+   {
+    "q": "b. Data is altered during communication.",
+    "a": "B — Digital signature.",
+    "ar": "التلاعب = التوقيع الرقمي."
+   },
+   {
+    "q": "c. A user is led to a fake website.",
+    "a": "C — Digital certificate.",
+    "ar": "الموقع المزيف = الشهادة الرقمية."
+   },
+   {
+    "q": "d. Communication content is intercepted by a third party.",
+    "a": "A — Encryption.",
+    "ar": "التنصت = التشفير."
+   }
+  ],
+  "15": [
+   {
+    "q": null,
+    "a": "When you open the shop, HTTPS begins, and encryption stops third parties from reading what you send. The browser checks the shop's digital certificate to confirm it is the genuine shop and not a fake one. When you log in, two-factor authentication — a password plus an SMS code — blocks unauthorized logins. When you send the order, a digital signature can be used so that any tampering is detected. Together they deal with several threats at the same time.",
+    "ar": "التشفير ← الشهادة ← المصادقة الثنائية ← التوقيع: كل خطوة بتقف قصاد تهديد مختلف."
+   }
+  ],
+  "16": [
+   {
+    "q": null,
+    "a": "TLS protects the connection: the data cannot be read or changed on the way, and the certificate shows that the server matches the site's name. But it says nothing about whether the site itself is honest, so its content is not automatically trustworthy. Two-factor authentication lowers the chance of an unauthorized login, but it does not remove it completely. Each measure reduces risk rather than removing it, which is why services layer several technologies and never assume that any one of them is absolute.",
+    "ar": "القفل بيحمي الاتصال، مش بيضمن إن الموقع نفسه أمين. وكل تقنية بتقلل الخطر، مفيش واحدة بتلغيه."
+   }
+  ],
+  "17": [
+   {
+    "q": null,
+    "a": "One possible answer. For customer login, the shop should use multi-factor authentication, such as a password plus an SMS code, so that a leaked password alone cannot open an account. For payment, it should use HTTPS: encryption stops the card details being read on the way, and the digital certificate shows customers they are on the real shop. One threat could still remain: a customer could be tricked into typing their password and code into a fake page, because no technology is absolute.",
+    "ar": "ده مثال لإجابة واحدة صح — أي تقنيتين مناسبتين مع مكانهم وتهديد باقي بيتقبلوا."
+   }
+  ],
+  "18": [
+   {
+    "q": null,
+    "a": "One possible answer. A student: a second factor keeps their grades and fee payments safe, but it takes a little longer to log in. The school: it protects student records and payments, but it must support the extra step. A student with no smartphone cannot receive the code, so the school needs another way, such as a code by SMS to a basic phone or a card. Recommendation: a password plus a one-time password, because a leaked password alone can no longer open an account, and the account holds money and private records — with another option for students without a smartphone.",
+    "ar": "مثال لإجابة: لازم فايدة وعيب لكل طرف، وبعدين قرار واحد بسببين."
+   }
+  ],
+  "19": [
+   {
+    "q": null,
+    "a": "One possible answer. Extra measure: a digital signature on each order, so that any change to an order on the way is detected. A threat it would still not remove: a customer whose password and code are stolen by a fake site — the signature protects the order, not the login.",
+    "ar": "أي إجراء مناسب مع تهديد فعلاً هيفضل موجود."
+   }
+  ],
+  "20": [
+   {
+    "q": null,
+    "a": "Each technology deals with a different threat. Encryption prevents communication content from being read by third parties. A digital certificate verifies that the other side is genuine, so a fake site is caught. A digital signature detects tampering and impersonation of the sender, and gives non-repudiation. Multi-factor authentication prevents unauthorized logins, even when a password leaks. No single technology covers all four threats, so services combine them, and eavesdropping, tampering, impersonation and unauthorized login are all dealt with at the same time.",
+    "ar": "أربع تقنيات لأربع تهديدات — ومفيش واحدة لوحدها بتغطيهم كلهم."
+   }
+  ]
  }
 }
