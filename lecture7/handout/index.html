@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 7 Booklet — When something goes wrong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}
+.key .mq-q{font-size:9.8pt;font-weight:600;margin:2.2mm 0 .4mm}.key .mq-a{font-size:10pt;margin:0}.key .ar{font-size:9.5pt}
+.dg{margin:3mm 0 4mm}.dg svg{display:block;width:100%;height:auto}
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}
+.principles .pr{border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:1.5mm;padding:2.5mm 3.5mm;background:#FCFCFA}
+.principles .pr h4{font-size:10.5pt;margin-bottom:1mm}.principles .pr p{font-size:9.5pt;margin:0}
+</style>
+</head>
+<body data-title="Lecture 7 Booklet — When something goes wrong">
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">When something goes wrong</h1><div class="docsub">Student Booklet &middot; Lecture 7</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><h2>Before we start &middot; lesson 2-2</h2><table><tr><th>Layer</th><th>Measure</th></tr><tr><td class="k">1 &middot; Network entry</td><td>Firewall</td></tr><tr><td class="k">2 &middot; Communication path</td><td>VPN</td></tr><tr><td class="k">3 &middot; Server placement</td><td>DMZ</td></tr><tr><td class="k">4 &middot; Endpoints</td><td>Antivirus, an updated OS</td></tr></table><p class="ar">حتى مع الدفاع في العمق ممكن يحصل حادث أمني؛ الدرس ده بينقلنا من الوقاية للاستجابة وإدارة المخاطر.</p><h2>A rushed reaction makes it worse</h2><p>Even a well-protected system can be attacked: data leaked, files tampered with, a service knocked offline. A rushed, unplanned reaction only makes the damage worse. Organizations follow a clear, ordered response so that damage is contained, the cause is removed, and the same problem does not return &mdash; and they decide in advance which risks to guard against first, because no team can fix everything at once.</p><div class="summary"><p><b>Today&#8217;s question.</b> When a security incident happens, how should an organization respond in order &mdash; and how does it decide which risks to address first?</p><p class="ar">السؤال الرئيسي: لما يحصل حادث أمني، المؤسسة تنظّم استجابتها إزاي بالترتيب، وتقرر أنهي مخاطر تعالجها الأول؟</p></div><div class="summary hw"><p><b>Explore &middot; in pairs.</b> A school computer is infected with malware that is spreading. Put these in order: restore the files from a backup &middot; unplug it from the network &middot; find out how it got in &middot; remove the malware.</p><p class="ar">رتّبوا الأربع خطوات دول قبل ما تكمّلوا.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 1 &middot; What is a security incident?</h2><div class="term"><h4>Security incident</h4><p>A situation in which actual damage occurs due to an information security problem.</p><p class="ar">الحادث الأمني: حدث بيأثر على سرية المعلومات أو سلامتها أو توافرها، أو بيهددها بجدية، أو بيخالف سياسة أمنية.</p></div><table><tr><th>Type</th><th>Description</th></tr><tr><td class="k">Information leak</td><td>Personal or confidential information is leaked to the outside</td></tr><tr><td class="k">Data tampering</td><td>Data within a system is altered without authorization</td></tr><tr><td class="k">Service outage</td><td>A service becomes unavailable due to attacks on the server, etc.</td></tr></table><table><tr><th>Is it a security incident?</th><th style="width:30%">Answer</th></tr><tr><td>Data was encrypted by a ransomware infection</td><td>Yes</td></tr><tr><td>Customer information was leaked through unauthorized access</td><td>Yes &mdash; an information leak</td></tr><tr><td>A software update was performed to add new features</td><td><b>No</b> &mdash; nothing was damaged</td></tr><tr><td>A web service became unavailable due to an attack on the server</td><td>Yes &mdash; a service outage</td></tr></table><h2>Part 2 &middot; Six stages, in order</h2><div class="dg"><svg viewBox="0 0 900 230" role="img" aria-label="The six stages of incident response in order: preparation, detection, containment, eradication, recovery, prevention of recurrence">
+  <g font-size="15" text-anchor="middle">
+    <line x1="80" y1="70" x2="820" y2="70" stroke="var(--line)" stroke-width="4"/>
+    <polygon points="832,70 818,62 818,78" fill="var(--line)"/>
+    <circle cx="80" cy="70" r="30" fill="var(--teal)"/><text x="80" y="77" font-size="20" font-weight="700" fill="#fff">1</text>
+    <circle cx="228" cy="70" r="30" fill="var(--teal)"/><text x="228" y="77" font-size="20" font-weight="700" fill="#fff">2</text>
+    <circle cx="376" cy="70" r="30" fill="var(--gold)"/><text x="376" y="77" font-size="20" font-weight="700" fill="#fff">3</text>
+    <circle cx="524" cy="70" r="30" fill="var(--gold)"/><text x="524" y="77" font-size="20" font-weight="700" fill="#fff">4</text>
+    <circle cx="672" cy="70" r="30" fill="var(--teal)"/><text x="672" y="77" font-size="20" font-weight="700" fill="#fff">5</text>
+    <circle cx="820" cy="70" r="30" fill="var(--teal)"/><text x="820" y="77" font-size="20" font-weight="700" fill="#fff">6</text>
+    <text x="80" y="128" font-weight="700" fill="var(--ink)">Preparation</text>
+    <text x="80" y="150" fill="var(--soft)">plan in advance</text>
+    <text x="228" y="128" font-weight="700" fill="var(--ink)">Detection</text>
+    <text x="228" y="150" fill="var(--soft)">find and confirm</text>
+    <text x="376" y="128" font-weight="700" fill="var(--ink)">Containment</text>
+    <text x="376" y="150" fill="var(--soft)">stop it spreading</text>
+    <text x="524" y="128" font-weight="700" fill="var(--ink)">Eradication</text>
+    <text x="524" y="150" fill="var(--soft)">remove the cause</text>
+    <text x="672" y="128" font-weight="700" fill="var(--ink)">Recovery</text>
+    <text x="672" y="150" fill="var(--soft)">back to normal</text>
+    <text x="820" y="128" font-weight="700" fill="var(--ink)">Prevention of</text>
+    <text x="820" y="148" font-weight="700" fill="var(--ink)">recurrence</text>
+    <text x="820" y="170" fill="var(--soft)">so it never returns</text>
+    <rect x="320" y="190" width="260" height="30" rx="8" fill="var(--gold)" opacity=".2"/>
+    <text x="450" y="211" font-weight="600" fill="var(--ink)">contain first, then eradicate</text>
+  </g>
+</svg></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><table><tr><th style="width:26%">Stage</th><th>What happens</th></tr><tr><td class="k">1 Preparation</td><td>Establish response procedures and structures in advance, in preparation for incidents</td></tr><tr><td class="k">2 Detection</td><td>Discover and confirm that an incident has occurred</td></tr><tr><td class="k">3 Containment</td><td>Limit the scope of impact so that damage does not spread further</td></tr><tr><td class="k">4 Eradication</td><td>Remove the cause of the incident (e.g. remove malware)</td></tr><tr><td class="k">5 Recovery</td><td>Return systems and services to their normal state (may restore from a clean backup)</td></tr><tr><td class="k">6 Prevention of recurrence</td><td>Analyze the cause and take measures so that the same incident does not occur again</td></tr></table><p class="ar">التحضير ← الاكتشاف ← الاحتواء ← إزالة التهديد (الاستئصال) ← الاستعادة ← الدروس المستفادة والتحسين.</p><div class="summary"><p><b>Stage 6 has two names.</b> The English book says <b>prevention of recurrence</b>; the Arabic book and the ministry say <b>lessons learned and improvement</b> &mdash; analyze what happened, document the lessons, improve the controls. Learn both.</p><p class="ar">المرحلة السادسة: "منع التكرار" = "الدروس المستفادة والتحسين".</p></div><h2>Contain first, then remove the cause</h2><div class="term"><h4>Containment &middot; eradication</h4><p>Containment limits the spread of damage; eradication removes the cause. Containment comes first. If recovery is performed without removing the cause, the same incident may occur again.</p><p class="ar">الاحتواء: الحد من انتشار الضرر. الاستئصال: إزالة السبب. الاحتواء الأول.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="summary hw"><p><b>Pause and think.</b> Why must containment come before eradication in the six-stage response?</p><p class="ar">ليه الاحتواء لازم ييجي قبل الاستئصال؟</p></div><h2>The order is a guide, not a cage</h2><p>The six stages give the general sequence, but in a real response some activities can <b>overlap</b> or <b>repeat</b>. For example, recovery can reveal traces of the threat that are still there &mdash; and the team goes back to containment or eradication.</p><p class="ar">الاستجابة الفعلية ممكن يحصل فيها تداخل أو تكرار؛ الاسترداد ممكن يكشف بقايا للتهديد فنرجع للاحتواء أو إزالة التهديد.</p><h2>Which stage is it?</h2><table><tr><th>Action</th><th style="width:30%">Stage</th></tr><tr><td>Establishing response procedures in advance</td><td>Preparation</td></tr><tr><td>Discovering and confirming that an incident has occurred</td><td>Detection</td></tr><tr><td>Disconnecting a malware-infected computer from the network</td><td>Containment</td></tr><tr><td>Removing the malware infection</td><td>Eradication</td></tr><tr><td>Restoring a clean system from a backup</td><td>Recovery</td></tr><tr><td>Analyzing the cause so it does not occur again</td><td>Prevention of recurrence</td></tr></table><div class="summary"><p><b>Why must the six stages go in order?</b> If recovery is done before eradication, the system is back but the cause is still there, so the same incident can happen again. Eradicate first, and recovery returns a clean system.</p><p class="ar">لو رجّعنا النظام قبل ما نشيل السبب، الحادث ممكن يتكرر.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 3 &middot; Risk = impact &times; likelihood</h2><div class="term"><h4>Risk</h4><p>The possibility of an information security problem occurring in the future, and its impact.</p><p class="ar">الخطر: احتمال إن يحصل حدث بيسبب ضرر، مع مراعاة احتمال وقوعه وحجم أثره.</p></div><table><tr><th>Factor</th><th>Meaning</th></tr><tr><td class="k">Impact</td><td>How much damage occurs if the risk actually materializes</td></tr><tr><td class="k">Likelihood</td><td>How high the probability is that the risk will actually materialize</td></tr></table><div class="dg"><svg viewBox="0 0 900 330" role="img" aria-label="Risk evaluation matrix: impact across, likelihood up; the score is impact times likelihood, and the high-high corner is addressed first">
+  <g font-size="15" text-anchor="middle">
+    <text x="60" y="170" transform="rotate(-90 60 170)" font-weight="700" fill="var(--ink)">Likelihood</text>
+    <text x="96" y="78" fill="var(--soft)">high 3</text>
+    <text x="96" y="168" fill="var(--soft)">medium 2</text>
+    <text x="96" y="258" fill="var(--soft)">low 1</text>
+    <rect x="140" y="40" width="160" height="80" rx="8" fill="var(--gold)" opacity=".35"/><text x="220" y="88" font-size="20" font-weight="700" fill="var(--ink)">3</text>
+    <rect x="310" y="40" width="160" height="80" rx="8" fill="#9C3B2E" opacity=".35"/><text x="390" y="88" font-size="20" font-weight="700" fill="var(--ink)">6</text>
+    <rect x="480" y="40" width="160" height="80" rx="8" fill="#9C3B2E" opacity=".75"/><text x="560" y="88" font-size="20" font-weight="700" fill="#fff">9</text>
+    <rect x="140" y="130" width="160" height="80" rx="8" fill="var(--teal)" opacity=".18"/><text x="220" y="178" font-size="20" font-weight="700" fill="var(--ink)">2</text>
+    <rect x="310" y="130" width="160" height="80" rx="8" fill="var(--gold)" opacity=".35"/><text x="390" y="178" font-size="20" font-weight="700" fill="var(--ink)">4</text>
+    <rect x="480" y="130" width="160" height="80" rx="8" fill="#9C3B2E" opacity=".35"/><text x="560" y="178" font-size="20" font-weight="700" fill="var(--ink)">6</text>
+    <rect x="140" y="220" width="160" height="80" rx="8" fill="var(--teal)" opacity=".18"/><text x="220" y="268" font-size="20" font-weight="700" fill="var(--ink)">1</text>
+    <rect x="310" y="220" width="160" height="80" rx="8" fill="var(--teal)" opacity=".18"/><text x="390" y="268" font-size="20" font-weight="700" fill="var(--ink)">2</text>
+    <rect x="480" y="220" width="160" height="80" rx="8" fill="var(--gold)" opacity=".35"/><text x="560" y="268" font-size="20" font-weight="700" fill="var(--ink)">3</text>
+    <text x="220" y="322" fill="var(--soft)">small 1</text>
+    <text x="390" y="322" fill="var(--soft)">medium 2</text>
+    <text x="560" y="322" fill="var(--soft)">large 3</text>
+    <text x="780" y="322" font-weight="700" fill="var(--ink)">Impact &#8594;</text>
+    <text x="770" y="70" font-weight="700" fill="#9C3B2E">address first</text>
+    <line x1="700" y1="76" x2="648" y2="80" stroke="#9C3B2E" stroke-width="2.5"/>
+    <text x="770" y="150" font-weight="700" fill="var(--ink)">risk size =</text>
+    <text x="770" y="174" font-weight="700" fill="var(--ink)">impact &#215; likelihood</text>
+  </g>
+</svg></div><p>Risks with both <b>high impact and high likelihood</b> are addressed first; it is difficult to address every risk at the same time, so priorities are set. High impact with low likelihood (3 &times; 1 = 3) is usually classed as medium.</p><p class="ar">التأثير العالي والاحتمالية العالية أعلى أولوية؛ ومش هنقدر نعالج كل المخاطر في نفس الوقت.</p><table><tr><th>Looks right, but is false</th><th>Why</th></tr><tr><td>The size of a risk can be determined by impact alone.</td><td>Impact and likelihood, multiplied.</td></tr><tr><td>It is enough to address only high-impact, or only high-likelihood, risks.</td><td>Both factors count.</td></tr><tr><td>All risks must be addressed simultaneously.</td><td>Set priorities.</td></tr><tr><td>Detection &rarr; Eradication &rarr; Containment &rarr; Recovery.</td><td>Containment comes before eradication.</td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Think as an engineer</h2><div class="summary hw"><p>Ransomware hits a school&#8217;s student records: files encrypted, staff locked out, the incident just detected. <b>Respond from here</b>: list the stages still to do. <b>Assess the risks</b>: another ransomware attack, or a brief power cut? <b>Decide</b>: the first three actions, and why order matters.</p><p class="ar">تلميح: لو رجّعت قبل ما تشيل السبب، البرمجية الخبيثة لسه موجودة.</p></div><h2>In a new context</h2><div class="summary hw"><p>An online shop has just detected that customer data has been leaked. Name the next two stages it should carry out and why, and identify one risk it should prioritize afterward.</p><p class="ar">حدد المرحلتين الجايين وليه، وخطر واحد ياخد الأولوية بعد كده.</p></div><h2>Key takeaway &middot; respond in order, fix the worst first</h2><div class="summary"><p>Follow the six stages in order (prepare &rarr; detect &rarr; contain &rarr; eradicate &rarr; recover &rarr; prevent), and prioritize risks by impact &times; likelihood.</p><p class="ar">اتبع المراحل الست بالترتيب مع إمكانية الرجوع لمرحلة سابقة، وحدد أولويات المخاطر بالتأثير × الاحتمالية.</p></div><h2>Unit 2 &middot; complete</h2><table><tr><th>Lesson</th><th>What to know</th></tr><tr><td class="k">2-1</td><td>HTTPS, common-key and public-key, certificates, signatures, multi-factor login</td></tr><tr><td class="k">2-2</td><td>Firewall, VPN, DMZ, defense in depth, zero trust</td></tr><tr><td class="k">2-3</td><td>Security incidents, the six stages, risk = impact &times; likelihood</td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Class work</h2><p class="ar">شغل الحصة — نحل دول سوا.</p><div class="ex"><div class="exhead"><span class="exn">1</span><span class="exq">Write ✓ if the statement is true, ✗ if it is false.</span></div><p class="ar">حط ✓ لو الجملة صح، و ✗ لو غلط.</p><div class="src">p.50-51 — Worked Example (1) A-D</div><table class="tftbl"><tr><th style="width:14%">&#10003; / &#10005;</th><th>Statement</th></tr><tr><td class="blank"></td><td>A security incident is a situation in which actual damage occurs due to an information security problem.</td></tr><tr><td class="blank"></td><td>In incident response, it is important first to prevent the spread of damage before removing the cause.</td></tr><tr><td class="blank"></td><td>The size of a risk can be determined by impact alone.</td></tr><tr><td class="blank"></td><td>The final stage of incident response is prevention of recurrence.</td></tr></table></div><div class="ex"><div class="exhead"><span class="exn">2</span><span class="exq">Write the stage each action belongs to — A: Preparation, B: Containment, C: Eradication, D: Prevention of recurrence.</span></div><p class="ar">اكتب كل إجراء تابع لأنهي مرحلة.</p><div class="src">p.51 — Worked Example (2)</div><table class="cattbl"><tr><th style="width:14%">Letter</th><th>Situation</th></tr><tr><td class="blank"></td><td>Establishing response procedures in advance, in preparation for incidents.</td></tr><tr><td class="blank"></td><td>Disconnecting a malware-infected computer from the network.</td></tr><tr><td class="blank"></td><td>Removing the malware infection.</td></tr><tr><td class="blank"></td><td>Analyzing the cause and taking measures so that the same incident does not occur again.</td></tr></table></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Class work</h2><p class="ar">كمّل مع زميلك.</p><div class="ex"><div class="exhead"><span class="exn">3</span><span class="exq">Answer the following questions.</span></div><p class="ar">جاوب على الأسئلة دي.</p><div class="src">p.52 — Try 1</div><ol class="qs"><li>What is the term for a situation in which actual damage occurs due to an information security problem?<div class="rule tight"></div></li><li>Name the six stages of incident response in order.<div class="rule tight"></div><div class="rule tight"></div></li><li>What are the two factors used to determine the size of a risk?<div class="rule tight"></div></li></ol></div><div class="ex"><div class="exhead"><span class="exn">4</span><span class="exq">Choose the correct option.</span></div><p class="ar">اختار الإجابة الصح.</p><div class="src">p.52 — Try 2</div><ol class="qs"><li>Choose the one that is NOT an appropriate example of a security incident.<span class="opt">A: Data was encrypted by a ransomware infection.</span><span class="opt">B: Customer information was leaked to the outside through unauthorized access.</span><span class="opt">C: A software update was performed to add new features.</span><span class="opt">D: A web service became unavailable due to an attack on the server.</span><div class="rule tight"></div></li><li>Choose the one that most appropriately describes risk assessment.<span class="opt">A: It is enough to address only risks with large impact.</span><span class="opt">B: It is enough to address only risks with high likelihood.</span><span class="opt">C: Risks with both high impact and high likelihood should be addressed first.</span><span class="opt">D: All risks must be addressed simultaneously.</span><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>What to revise</h2><div class="summary"><p>Learn the six stages in order first, with what each one does &mdash; and stage 6 by both its names. Then why containment comes before eradication, and recovery after it; the three types of incident; and risk = impact &times; likelihood, with how to rank risks by it.</p><p class="ar">احفظ المراحل الست بالترتيب وكل مرحلة بتعمل إيه، والمرحلة السادسة باسميها. وبعدين ليه الاحتواء قبل الاستئصال، وأنواع الحوادث التلاتة، والخطر = التأثير × الاحتمالية وإزاي نرتّب بيه.</p></div><div class="summary hw"><p><b>The exam is done in class.</b> Your teacher will show the code to scan during the lesson.</p><p class="ar">الامتحان بيتحل في الحصة. المدرّس هيعرض الكود تمسحوه وقتها.</p></div><h2>My notes</h2><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 7;
+const LECTURE_TITLE = "When something goes wrong";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#4F55B8";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
+  applyAccent();
+  /* The browser names a saved or printed PDF after the title, so every
+     document names itself through data-title on the body element. Without it all
+     of them -- homework, answer key, exam -- saved as "Handout". */
+  const named = (document.body && document.body.getAttribute)
+    ? document.body.getAttribute("data-title") : null;
+  document.title = named || (LECTURE.label + " Handout — " + LECTURE.title + " · PGteach");
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+})();
+</script>
+</body>
+</html>

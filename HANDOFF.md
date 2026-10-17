@@ -502,6 +502,54 @@ essay has one marking point per mark. Writing space is roughly three to four
 lines per mark -- the first render gave a 3-mark answer four lines and left
 the pages half blank, which no gate caught.
 
+## Lectures 6 and 7 -- lessons 2-2 and 2-3, Unit 2 complete
+
+- **Lecture 6** is 2-2, Network Security Design (English book pp. 41-47,
+  Arabic book pp. 38-43). Accent `#B5531C`, title "What if one wall falls?".
+  It has 23 slides and no video: none from a source I could confirm.
+- **Lecture 7** is 2-3, Incident Response and Risk Management (pp. 48-54,
+  Arabic pp. 44-49). Accent `#4F55B8`, title "When something goes wrong".
+  It has 27 slides and Code.org's *The Internet: Cybersecurity & Crime*
+  (AuYNXgO_f3Y; preview it). It closes with Unit 2's three lessons.
+
+Each has a 20-question quiz, a 9-sheet booklet, 16 homework exercises, an
+answer key and student model answers. Every item names its book page or
+ministry item.
+
+**Both are derived from lecture 5, not written by hand.**
+`scripts/tools/derive_slides.py N` builds `build_lectureN_slides.py` from
+lecture 5's builder. It keeps the helpers, lightbox, gate, video, reveal
+and drawing code, and swaps in `scripts/tools/lectureN/{content,slides}.py`
+plus the drawing CSS. `scripts/tools/derive_print.py
+scripts/tools/lectureN/spec.py` does the same for `build_lectureN.py`.
+`scripts/tools/lectureN/exercises.py` writes `exercises.json`, including
+`ANSWERS` and `MODEL`. To change a lecture, edit its sources in
+`scripts/tools/lectureN/` and re-derive. Re-deriving 6 reproduces the
+committed builders byte for byte. `new_shell.py` makes a new lecture's
+folders, slide base and quiz page. `sheet_gate.py` (one A4 page per
+sheet), `mm.py` (sheet heights in mm; about 271mm is the printed limit)
+and `shots.py` (deck contact sheets) are the checks used. They live here
+because the session scratchpad was wiped once, taking them with it.
+
+**What the Arabic book and the ministry add, and the decks teach:**
+- **2-2:** a firewall can also sit between parts of a network or on a host;
+  a VPN uses tunnelling; zero trust checks identity, permissions and context;
+  the perimeter is a term asked for by name.
+- **2-3:** the incident is defined by confidentiality, integrity and
+  availability; stage 6 is also called *lessons learned and improvement*
+  (the deck has a slide on the two names); stages overlap or repeat in
+  practice; high impact with low likelihood counts as medium.
+
+The 2-3 risk-ranking exercise uses the English book's numbers (3x3, 1x3,
+3x2, 1x1). The Arabic book's version is qualitative, with a tie.
+
+**A drawing must not give away a reveal.** The first drawing on the
+risk-ranking slide showed a -> c -> b -> d next to the hidden answers. It is
+now a worked example on a risk that is not in the table.
+
+**Long definitions use `.statement.def`**, a smaller statement. The full
+statement font pushed the VPN slide off the top.
+
 ## Model answers for students (lectures 2-5)
 
 Each lecture has `_teacher/model-answers.html`. These are for the students,

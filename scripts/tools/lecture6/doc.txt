@@ -1,0 +1,19 @@
+Build Lecture 6's deck.
+
+    python scripts/build_lecture6_slides.py
+
+Reads the shell (head, CSS, LECTURE CONFIG, script) from
+scripts/lecture6_slides_base.html and writes lecture6/slides/index.html with
+the slide body below, the lightbox, the exam-code gate and the side drawings
+added. Always starts from the base, never from the published deck.
+
+Content is Lesson 2-2, Network Security Design, the English textbook
+pp. 41-47, and nothing outside the curriculum. Where the Arabic textbook
+(pp. 38-43) and the ministry's assessment book go further, the deck follows
+them: a firewall can also sit between parts of a network or on a host; a VPN
+uses encryption and tunnelling; zero trust checks identity, permissions and
+context; and the perimeter is a term the ministry asks for by name.
+
+Everything but the content is lecture 5's builder, unchanged -- this file was
+derived from it. The Arabic follows the Arabic textbook's lesson 2-2 point by
+point, said in Egyptian Arabic, with the book's own terms kept as they are.

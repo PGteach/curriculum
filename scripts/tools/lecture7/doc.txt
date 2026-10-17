@@ -1,0 +1,21 @@
+Build Lecture 7's deck.
+
+    python scripts/build_lecture7_slides.py
+
+Reads the shell (head, CSS, LECTURE CONFIG, script) from
+scripts/lecture7_slides_base.html and writes lecture7/slides/index.html with
+the slide body below, the lightbox, the exam-code gate and the side drawings
+added. Always starts from the base, never from the published deck.
+
+Content is Lesson 2-3, Incident Response and Risk Management, the English
+textbook pp. 48-54, and nothing outside the curriculum. Where the Arabic
+textbook (pp. 44-49) and the ministry's assessment book go further, the deck
+follows them: the incident defined by confidentiality, integrity and
+availability; stage 6's second name, "lessons learned and improvement";
+stages that overlap or repeat in practice; and high impact with low
+likelihood counted as medium. This lesson closes Unit 2, so the deck ends
+with the unit's three lessons.
+
+Everything but the content is lecture 5's builder, unchanged -- this file was
+derived from it. The Arabic follows the Arabic textbook's lesson 2-3 point by
+point, said in Egyptian Arabic, with the book's own terms kept as they are.
