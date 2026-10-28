@@ -550,7 +550,36 @@ now a worked example on a risk that is not in the table.
 **Long definitions use `.statement.def`**, a smaller statement. The full
 statement font pushed the VPN slide off the top.
 
-## Model answers for students (lectures 2-5)
+## The Chapter 2 exam
+
+The Chapter 2 exam is printed, not online, like Chapter 1. The paper is
+`lecture7/_teacher/chapter2-exam.html` (7 pages) and the marking scheme is
+`chapter2-exam-key.html` (5 pages). It covers Unit 2, lessons 2-1 to 2-3,
+in 70 minutes for 48 marks:
+- **Section A:** 24 MCQ, 8 per lesson, easy to hard. Six of each letter,
+  and no letter three times running.
+- **Section B:** 6 written answers, 2 per lesson, worth 2, 3, 3, 4, 6 and 6
+  marks. Each answer's mark points add up to its marks.
+
+Every item is from the book or the ministry's assessment book and names
+its source; `check()` refuses one that does not.
+
+To rebuild: `python scripts/tools/chapter2_exam_data.py` (the questions, to
+`chapter2-exam.json`), then `python scripts/build_chapter2_exam.py`. The
+builder imports the Chapter 1 exam's own functions from `build_lecture4.py`,
+so the two papers look alike.
+
+Watch for one thing: a correct option that is much longer than the others
+gives itself away. Two of the ministry's correct options were shortened to
+match their distractors.
+
+## Model answers for students (lectures 2-7)
+
+**Published once released.** `lectureN/answers/` is a public copy, made only
+for lectures listed in `scripts/answers-released.json` (2-5 so far), by
+`python scripts/release_answers.py`. Add a lecture once its homework is in,
+then re-run that and `build_dashboard.py`. The dashboard links released
+sets and marks the rest "not released yet".
 
 Each lecture has `_teacher/model-answers.html`. These are for the students,
 not the teacher: full sentences with an Egyptian-Arabic line saying why, and
