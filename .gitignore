@@ -7,3 +7,6 @@ __pycache__/
 
 # teacher source material: textbooks, photos, student results. Never publish.
 data sources/
+
+# the dashboard password; build_dashboard.py reads it. Never commit.
+scripts/.dashboard-password

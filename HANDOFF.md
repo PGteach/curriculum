@@ -581,6 +581,19 @@ for lectures listed in `scripts/answers-released.json` (2-5 so far), by
 then re-run that and `build_dashboard.py`. The dashboard links released
 sets and marks the rest "not released yet".
 
+**The dashboard is locked and is the control panel.** `dashboard/index.html`
+is the page encrypted (AES-GCM, PBKDF2) behind a password lock; the password
+is in `scripts/.dashboard-password` (gitignored, never commit it; change it
+there and rebuild). Once open it reads `answers-released.json` from GitHub
+and shows a switch per lecture's model answers and per chapter exam paper
+(`EXAMS` in `release_answers.py`, list key `"exams"`). With the teacher's
+fine-grained GitHub key (Contents read/write on this repo only, pasted into
+the page once per device, kept in that browser) a switch commits the public
+copy and the list straight to `main`, so it works from a phone. It also opens
+any `_teacher/` key, model answers or exam in a new tab for printing.
+**Because of that, `git pull` before building anything locally**, or
+`release_answers.py` puts back what the dashboard took down.
+
 Each lecture has `_teacher/model-answers.html`. These are for the students,
 not the teacher: full sentences with an Egyptian-Arabic line saying why, and
 no marking points. The open tasks are labelled "One possible answer". They
