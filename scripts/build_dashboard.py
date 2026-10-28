@@ -561,7 +561,15 @@ async function unlock(raw){
   const key = await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]);
   const plain = await crypto.subtle.decrypt({name:"AES-GCM", iv:bytes(IV)}, key, bytes(DATA));
   const html = new TextDecoder().decode(plain);
-  document.open(); document.write(html); document.close();
+  /* swap the whole page for the dashboard; document.write left the lock on
+     screen in some phone browsers. Moved scripts do not run, so remake them. */
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  document.replaceChild(document.adoptNode(doc.documentElement), document.documentElement);
+  document.querySelectorAll("script").forEach(function(old){
+    const s = document.createElement("script");
+    s.textContent = old.textContent;
+    old.replaceWith(s);
+  });
 }
 (async function(){
   let saved = null;
