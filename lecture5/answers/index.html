@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 5 Model Answers — Is this connection safe?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}
+.key .mq-q{font-size:9.8pt;font-weight:600;margin:2.2mm 0 .4mm}.key .mq-a{font-size:10pt;margin:0}.key .ar{font-size:9.5pt}
+.dg{margin:3mm 0 4mm}.dg svg{display:block;width:100%;height:auto}
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}
+.principles .pr{border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:1.5mm;padding:2.5mm 3.5mm;background:#FCFCFA}
+.principles .pr h4{font-size:10.5pt;margin-bottom:1mm}.principles .pr p{font-size:9.5pt;margin:0}
+</style>
+</head>
+<body data-title="Lecture 5 Model Answers — Is this connection safe?">
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">Is this connection safe?</h1><div class="docsub">Model Answers &middot; Lecture 5</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><div class="summary hw"><p>Check your own answers against these. Your words do not have to match &mdash; the idea does.</p><p class="ar">قارن إجاباتك بدول. مش لازم نفس الكلام بالحرف — المهم الفكرة.</p></div><h2>Class work</h2><div class="ex"><div class="exhead"><span class="exn">1</span><span class="exq">Write ✓ if the statement is true, ✗ if it is false.</span></div><div class="key"><p class="mq-q">A. HTTPS communication uses both public-key cryptography and common-key cryptography.</p><p class="mq-a">✓ True. Public-key cryptography is used to share the common key safely, and common-key cryptography is used for the data.</p><p class="ar">صح: المفتاح العام عشان يشاركوا المفتاح بأمان، والتشفير المتماثل للبيانات.</p><p class="mq-q">B. HTTPS communication exchanges all data using public-key cryptography.</p><p class="mq-a">✗ False. Exchanging all the data with public-key cryptography would be slow, so common-key cryptography is used for the data.</p><p class="ar">غلط: المفتاح العام بطيء مع البيانات الكتير، فالبيانات بتتبادل بالتشفير المتماثل.</p><p class="mq-q">C. Multi-factor authentication combines two or more of the three factors of authentication.</p><p class="mq-a">✓ True. This is the definition of multi-factor authentication.</p><p class="ar">صح: ده تعريف المصادقة متعددة العوامل بالظبط.</p><p class="mq-q">D. An example of multi-factor authentication is setting two passwords.</p><p class="mq-a">✗ False. Both passwords are knowledge — the same factor twice. This is two-step authentication, not multi-factor.</p><p class="ar">غلط: كلمتين المرور الاتنين من عامل المعرفة، يعني نفس العامل مرتين.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ex"><div class="exhead"><span class="exn">2</span><span class="exq">Match each need to the most appropriate security technology.</span></div><div class="key"><p class="mq-q">a. Prevent communication content being read by third parties.</p><p class="mq-a">B — Encryption.</p><p class="ar">منع القراية = التشفير.</p><p class="mq-q">b. Verify that data has not been altered during communication.</p><p class="mq-a">C — Digital signature.</p><p class="ar">التأكد إن البيانات متغيرتش = التوقيع الرقمي.</p><p class="mq-q">c. Verify that the communication partner is authentic.</p><p class="mq-a">A — Digital certificate.</p><p class="ar">التأكد إن الطرف التاني حقيقي = الشهادة الرقمية.</p></div></div><div class="ex"><div class="exhead"><span class="exn">3</span><span class="exq">Answer the following questions.</span></div><div class="key"><p class="mq-q">1. Sharing the common key safely</p><p class="mq-a">Public-key cryptography.</p><p class="ar">المتصفح بيقفل المفتاح المشترك بالمفتاح العام بتاع الخادم، ومحدش يفتحه غير المفتاح الخاص.</p><p class="mq-q">2. Data communication after the key is shared</p><p class="mq-a">Common-key cryptography.</p><p class="ar">بعد ما الطرفين معاهم نفس المفتاح، البيانات بتتشفر بيه لأنه سريع.</p><p class="mq-q">3. Why combine them?</p><p class="mq-a">Public-key cryptography can share a key safely but is slow; common-key cryptography exchanges large amounts of data quickly. Using each for what it does best makes the connection both secure and fast.</p><p class="ar">كل واحد بيتعمل اللي هو شاطر فيه: العام للأمان في مشاركة المفتاح، والمتماثل للسرعة في البيانات.</p></div></div><div class="ex"><div class="exhead"><span class="exn">4</span><span class="exq">Answer the following questions.</span></div><div class="key"><p class="mq-q">(1) Which combination of factors?</p><p class="mq-a">a A (password = knowledge, one-time password = possession) · b B (password = knowledge, fingerprint = biometric) · c A (password = knowledge, SMS = possession) · d C (face = biometric, smart card = possession).</p><p class="ar">اسأل نفسك عن كل جزء: حاجة بتعرفها، ولا حاجة معاك، ولا حاجة في جسمك؟</p><p class="mq-q">(2) NOT an appropriate description</p><p class="mq-a">B. Digital signatures detect tampering and impersonation and give non-repudiation; they do not improve communication speed.</p><p class="ar">التوقيع الرقمي ملوش دعوة بالسرعة.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><div class="ex"><div class="exhead"><span class="exn">1</span><span class="exq">Fill in ( a ) to ( c ).</span></div><div class="key"><p class="mq-q">( a )</p><p class="mq-a">digital certificate</p><p class="ar">الخادم بيبعت شهادته الرقمية ومفتاحه العام.</p><p class="mq-q">( b )</p><p class="mq-a">a certificate authority (CA)</p><p class="ar">المتصفح بيتأكد من الخادم عن طريق جهة إصدار الشهادات.</p><p class="mq-q">( c )</p><p class="mq-a">common key</p><p class="ar">المفتاح المشترك اللي كل البيانات بتتشفر بيه بعد كده.</p></div></div><div class="ex"><div class="exhead"><span class="exn">2</span><span class="exq">Answer the following questions.</span></div><div class="key"><p class="mq-q">1. Why common-key rather than public-key for the data?</p><p class="mq-a">Public-key cryptography is slow for large amounts of data, while common-key cryptography exchanges data quickly. The common key itself was already shared safely using public-key cryptography, so using it for the data is both fast and safe.</p><p class="ar">المتماثل سريع، والمفتاح بتاعه اتشارك بأمان قبل كده بالمفتاح العام.</p><p class="mq-q">2. Three steps, in order</p><p class="mq-a">(1) The server sends its digital certificate, and the browser checks it: is it valid, does it lead to a trusted authority, does it match the site&#x27;s name? (2) The two sides agree the common key — the session key — using public-key mechanisms. (3) The data is exchanged, protected with common-key (symmetric) encryption.</p><p class="ar">الشهادة ← مفاتيح الجلسة ← تبادل البيانات بالتشفير المتماثل.</p></div></div><div class="ex"><div class="exhead"><span class="exn">3</span><span class="exq">Explain why HTTPS uses public-key cryptography to share the key but common-key cryptography to exchange the data. Refer to security and speed.</span></div><div class="key"><p class="mq-a">HTTPS needs the same common key on both sides, but sending that key openly would let an eavesdropper copy it. Public-key cryptography solves this: the browser locks the common key with the server&#x27;s public key, and only the server&#x27;s private key can unlock it, so the key is shared safely. However, public-key cryptography is slow, so exchanging all the data with it would make the connection slow. Common-key cryptography is fast, so once the key has been shared, all the data is exchanged with it. This division of roles gives HTTPS both security and speed.</p><p class="ar">الفكرة في ست نقط: لازم مفتاح مشترك ← إرساله مكشوف مش آمن ← المفتاح العام بيشاركه بأمان ← بس العام بطيء ← المتماثل سريع للبيانات ← النتيجة أمان وسرعة.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ex"><div class="exhead"><span class="exn">4</span><span class="exq">Explain why using public-key cryptography for all the data exchanged would be slow, and how TLS solves this problem by using session keys.</span></div><div class="key"><p class="mq-a">Public-key cryptography is slow, so using it for every piece of data would slow the whole connection down. TLS uses public-key mechanisms only during the handshake, to check the server and to agree session keys safely. A session key is a common (symmetric) key for that one connection. After the handshake, all the session data is protected with symmetric encryption using the session key, which is fast and efficient.</p><p class="ar">TLS بيستخدم المفتاح العام في المصافحة بس، وبعد كده مفاتيح الجلسة المتماثلة بتحمي البيانات بسرعة.</p></div></div><div class="ex"><div class="exhead"><span class="exn">5</span><span class="exq">Answer the following questions.</span></div><div class="key"><p class="mq-q">1. The role of the certificate and public-key mechanisms when TLS starts</p><p class="mq-a">The server sends its digital certificate, and the browser checks that it is valid, leads back to a trusted certificate authority and matches the site&#x27;s name — so the browser knows it is talking to the real server. Public-key mechanisms then let the two sides agree session keys safely.</p><p class="ar">الشهادة بتثبت إن الخادم حقيقي، وآليات المفتاح العام بتخلي الطرفين يتفقوا على مفاتيح الجلسة بأمان.</p><p class="mq-q">2. Digital signature compared with digital certificate</p><p class="mq-a">A digital certificate answers: is the other side genuine? It verifies that the communication partner is authentic and stops a fake website. A digital signature answers: was this data altered, and who sent it? It detects tampering and impersonation of the sender, and gives non-repudiation — the sender cannot deny having sent it.</p><p class="ar">الشهادة عن الطرف التاني، والتوقيع عن البيانات نفسها ومين بعتها.</p></div></div><div class="ex"><div class="exhead"><span class="exn">6</span><span class="exq">Compare the three categories of authentication factor. Give one example of each.</span></div><div class="key"><p class="mq-q">Knowledge</p><p class="mq-a">Something the user knows — e.g. a password or a secret question.</p><p class="ar">المعرفة: حاجة بتعرفها.</p><p class="mq-q">Possession</p><p class="mq-a">Something the user has — e.g. a one-time password sent to the phone, an SMS code, or a smart card.</p><p class="ar">الحيازة: حاجة معاك.</p><p class="mq-q">Biometric</p><p class="mq-a">A feature of the user&#x27;s body — e.g. a fingerprint or face recognition.</p><p class="ar">السمات الحيوية: حاجة في جسمك.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ex"><div class="exhead"><span class="exn">7</span><span class="exq">Answer the following questions.</span></div><div class="key"><p class="mq-q">1. What 2FA means, and how a second factor reduces risk</p><p class="mq-a">Two-factor authentication uses two independent factors from two different categories to prove who you are. If the password is leaked, the attacker still needs the second factor — for example a code sent to the owner&#x27;s phone — so knowing the password alone is not enough to log in.</p><p class="ar">لو الباسورد اتسرب، اللي هاجم لسه محتاج العامل التاني اللي مش معاه.</p><p class="mq-q">2. 2FA compared with MFA</p><p class="mq-a">2FA uses exactly two factors, from two different categories. MFA uses two or more independent factors from different categories (knowledge, possession, biometric). So every 2FA is MFA, but not every MFA is 2FA.</p><p class="ar">2FA = اتنين بالظبط، MFA = اتنين أو أكتر — والاتنين من فئات مختلفة.</p></div></div><div class="ex"><div class="exhead"><span class="exn">8</span><span class="exq">Choose the correct option.</span></div><div class="key"><p class="mq-q">1. NOT an appropriate example of MFA</p><p class="mq-a">B — a password and a secret question are both knowledge.</p><p class="ar">الباسورد والسؤال السري الاتنين معرفة.</p><p class="mq-q">2. A possession factor</p><p class="mq-a">B — a one-time password sent to the phone, or a smart card.</p><p class="ar">أ معرفة، وج ود سمات حيوية.</p><p class="mq-q">3. A WRONG example of 2FA</p><p class="mq-a">C — password + a second secret password: both are knowledge.</p><p class="ar">نفس الفئة مرتين مش مصادقة ثنائية.</p></div></div><div class="ex"><div class="exhead"><span class="exn">9</span><span class="exq">If a password is leaked, why can a second factor sent to a phone still keep the account safe?</span></div><div class="key"><p class="mq-a">A password is only one factor: knowledge. The second factor is a different category: possession. The code goes to the owner&#x27;s phone, which the attacker does not have, so even with the leaked password the attacker cannot complete the login.</p><p class="ar">عامل اتكسر، بس العامل التاني (الموبايل) مش مع اللي هاجم.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ex"><div class="exhead"><span class="exn">10</span><span class="exq">For each threat, write the technology mainly used to address it — A: Encryption, B: Digital signature, C: Digital certificate, D: Multi-factor authentication.</span></div><div class="key"><p class="mq-q">a. A password is leaked and unauthorized login occurs.</p><p class="mq-a">D — Multi-factor authentication.</p><p class="ar">الدخول غير المصرح به = المصادقة متعددة العوامل.</p><p class="mq-q">b. Data is altered during communication.</p><p class="mq-a">B — Digital signature.</p><p class="ar">التلاعب = التوقيع الرقمي.</p><p class="mq-q">c. A user is led to a fake website.</p><p class="mq-a">C — Digital certificate.</p><p class="ar">الموقع المزيف = الشهادة الرقمية.</p><p class="mq-q">d. Communication content is intercepted by a third party.</p><p class="mq-a">A — Encryption.</p><p class="ar">التنصت = التشفير.</p></div></div><div class="ex"><div class="exhead"><span class="exn">11</span><span class="exq">Explain briefly how the different security technologies (encryption, certificates, two-factor authentication) are combined when a purchase is completed in an online shop.</span></div><div class="key"><p class="mq-a">When you open the shop, HTTPS begins, and encryption stops third parties from reading what you send. The browser checks the shop&#x27;s digital certificate to confirm it is the genuine shop and not a fake one. When you log in, two-factor authentication — a password plus an SMS code — blocks unauthorized logins. When you send the order, a digital signature can be used so that any tampering is detected. Together they deal with several threats at the same time.</p><p class="ar">التشفير ← الشهادة ← المصادقة الثنائية ← التوقيع: كل خطوة بتقف قصاد تهديد مختلف.</p></div></div><div class="ex"><div class="exhead"><span class="exn">12</span><span class="exq">Discuss why advanced security measures such as TLS and two-factor authentication do not mean that protection is absolute, or that the website&#x27;s content can be fully trusted.</span></div><div class="key"><p class="mq-a">TLS protects the connection: the data cannot be read or changed on the way, and the certificate shows that the server matches the site&#x27;s name. But it says nothing about whether the site itself is honest, so its content is not automatically trustworthy. Two-factor authentication lowers the chance of an unauthorized login, but it does not remove it completely. Each measure reduces risk rather than removing it, which is why services layer several technologies and never assume that any one of them is absolute.</p><p class="ar">القفل بيحمي الاتصال، مش بيضمن إن الموقع نفسه أمين. وكل تقنية بتقلل الخطر، مفيش واحدة بتلغيه.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="ex"><div class="exhead"><span class="exn">13</span><span class="exq">A small online shop wants to secure both customer login and payment. Name two security technologies it should use and say where each one helps, then identify one threat that could still remain.</span></div><div class="key"><p class="mq-a">One possible answer. For customer login, the shop should use multi-factor authentication, such as a password plus an SMS code, so that a leaked password alone cannot open an account. For payment, it should use HTTPS: encryption stops the card details being read on the way, and the digital certificate shows customers they are on the real shop. One threat could still remain: a customer could be tricked into typing their password and code into a fake page, because no technology is absolute.</p><p class="ar">ده مثال لإجابة واحدة صح — أي تقنيتين مناسبتين مع مكانهم وتهديد باقي بيتقبلوا.</p></div></div><div class="ex"><div class="exhead"><span class="exn">14</span><span class="exq">Think as an engineer. A school&#x27;s online portal lets students check grades and pay fees. Password only, or a password plus a one-time password sent to the phone? For a student, the school, and a student with no smartphone, note one benefit and one drawback of a second factor. Then recommend one login method and give two reasons.</span></div><div class="key"><p class="mq-a">One possible answer. A student: a second factor keeps their grades and fee payments safe, but it takes a little longer to log in. The school: it protects student records and payments, but it must support the extra step. A student with no smartphone cannot receive the code, so the school needs another way, such as a code by SMS to a basic phone or a card. Recommendation: a password plus a one-time password, because a leaked password alone can no longer open an account, and the account holds money and private records — with another option for students without a smartphone.</p><p class="ar">مثال لإجابة: لازم فايدة وعيب لكل طرف، وبعدين قرار واحد بسببين.</p></div></div><div class="ex"><div class="exhead"><span class="exn">15</span><span class="exq">Challenge: suggest one extra security measure an online shop could add, and one threat it would still not remove.</span></div><div class="key"><p class="mq-a">One possible answer. Extra measure: a digital signature on each order, so that any change to an order on the way is detected. A threat it would still not remove: a customer whose password and code are stolen by a fake site — the signature protects the order, not the login.</p><p class="ar">أي إجراء مناسب مع تهديد فعلاً هيفضل موجود.</p></div></div><div class="ex"><div class="exhead"><span class="exn">16</span><span class="exq">Discuss: “Secure online communication and services depend on combining encryption and authentication, not on a single technology.” Show the role of each technology in the combination.</span></div><div class="key"><p class="mq-a">Each technology deals with a different threat. Encryption prevents communication content from being read by third parties. A digital certificate verifies that the other side is genuine, so a fake site is caught. A digital signature detects tampering and impersonation of the sender, and gives non-repudiation. Multi-factor authentication prevents unauthorized logins, even when a password leaks. No single technology covers all four threats, so services combine them, and eavesdropping, tampering, impersonation and unauthorized login are all dealt with at the same time.</p><p class="ar">أربع تقنيات لأربع تهديدات — ومفيش واحدة لوحدها بتغطيهم كلهم.</p></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 5;
+const LECTURE_TITLE = "Is this connection safe?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#2D7A4B";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
+  applyAccent();
+  /* The browser names a saved or printed PDF after the title, so every
+     document names itself through data-title on the body element. Without it all
+     of them -- homework, answer key, exam -- saved as "Handout". */
+  const named = (document.body && document.body.getAttribute)
+    ? document.body.getAttribute("data-title") : null;
+  document.title = named || (LECTURE.label + " Handout — " + LECTURE.title + " · PGteach");
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+})();
+</script>
+</body>
+</html>

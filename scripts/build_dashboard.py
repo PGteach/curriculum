@@ -87,18 +87,30 @@ def scan(num: int) -> dict | None:
         info["exercises"] = len(items)
         info["answers"] = len(data.get("ANSWERS", {}))
         info["teacher_key"] = (folder / "_teacher" / "answer-key.html").is_file()
+    # the students' model answers: published only once released (see
+    # scripts/release_answers.py), otherwise held back in _teacher/
+    info["model"] = (folder / "_teacher" / "model-answers.html").is_file()
+    pub = folder / "answers" / "index.html"
+    if pub.is_file():
+        info["pages"]["answers"] = {
+            "url": "%s/lecture%d/answers/" % (SITE, num),
+            "sheets": len(re.findall(r'<section class="sheet', read(pub))),
+            "exercises": 0,
+        }
     return info
 
 
 def card(L: dict) -> str:
     rows = []
     labels = {"slides": "Slides", "quiz": "Exam",
-              "handout": "Booklet", "homework": "Homework"}
-    for name in ("slides", "quiz", "handout", "homework"):
+              "handout": "Booklet", "homework": "Homework", "answers": "Model answers"}
+    for name in ("slides", "quiz", "handout", "homework", "answers"):
         p = L["pages"].get(name)
         if not p:
-            rows.append('<div class="mat none"><span>%s</span><em>not made</em></div>'
-                        % labels[name])
+            why = ("not released yet &mdash; held back until the homework is in"
+                   if name == "answers" and L.get("model") else "not made")
+            rows.append('<div class="mat none"><span>%s</span><em>%s</em></div>'
+                        % (labels[name], why))
             continue
         if name == "slides":
             detail = "%d slides &middot; %d diagrams &middot; %d photos" % (

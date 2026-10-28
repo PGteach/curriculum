@@ -1,0 +1,4 @@
+{
+  "released": [2, 3, 4, 5],
+  "note": "A lecture goes on this list once its homework has been collected. Then run scripts/release_answers.py and scripts/build_dashboard.py."
+}
