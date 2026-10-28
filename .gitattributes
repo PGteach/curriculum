@@ -1,0 +1,2 @@
+# encrypted teacher files (scripts/vault.py): never touch their line endings
+*.enc binary

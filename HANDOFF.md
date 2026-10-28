@@ -581,18 +581,31 @@ for lectures listed in `scripts/answers-released.json` (2-5 so far), by
 then re-run that and `build_dashboard.py`. The dashboard links released
 sets and marks the rest "not released yet".
 
-**The dashboard is locked and is the control panel.** `dashboard/index.html`
-is the page encrypted (AES-GCM, PBKDF2) behind a password lock; the password
-is in `scripts/.dashboard-password` (gitignored, never commit it; change it
-there and rebuild). Once open it reads `answers-released.json` from GitHub
-and shows a switch per lecture's model answers and per chapter exam paper
-(`EXAMS` in `release_answers.py`, list key `"exams"`). With the teacher's
-fine-grained GitHub key (Contents read/write on this repo only, pasted into
-the page once per device, kept in that browser) a switch commits the public
-copy and the list straight to `main`, so it works from a phone. It also opens
-any `_teacher/` key, model answers or exam in a new tab for printing.
-**Because of that, `git pull` before building anything locally**, or
-`release_answers.py` puts back what the dashboard took down.
+**The dashboard is locked and is the control panel.** The repo is public, so
+`lecture*/_teacher/` is **gitignored**: what git holds is
+`dashboard/vault/lectureN/<file>.enc`, each file AES-GCM-encrypted under one
+random key (`scripts/vault.py`). `dashboard/index.html` is encrypted under the
+same key behind a lock screen. `dashboard/lock.json` holds that key wrapped by
+the password (PBKDF2), so changing the password only rewrites lock.json: from
+the dashboard's Password panel, or `python scripts/vault.py password`. This
+machine keeps the key in `scripts/.dashboard-key` (gitignored, never commit);
+if it is lost, the next build asks for the password and recovers it.
+
+- `build_dashboard.py` seals any changed `_teacher/` file into the vault, so
+  the usual build order still ends with it; commit `dashboard/` afterwards.
+- On a fresh clone, `python scripts/vault.py open` restores `_teacher/`.
+- Once open, the page reads `answers-released.json` and shows a switch per
+  lecture's model answers and per chapter exam paper (`EXAMS` in
+  `release_answers.py`, list key `"exams"`). With the teacher's fine-grained
+  GitHub key (Contents read/write on this repo only, pasted into the page
+  once per device, kept in that browser) a switch decrypts the file from the
+  vault and commits the public copy and the list straight to `main`, so it
+  works from a phone. It also opens any teacher file for printing.
+- **`git pull` before building anything locally**: the dashboard commits to
+  `main` (releases, the password), and `release_answers.py` would otherwise
+  put back what it took down.
+- The plaintext `_teacher` files are still in git history before this
+  change; only a history rewrite removes them.
 
 Each lecture has `_teacher/model-answers.html`. These are for the students,
 not the teacher: full sentences with an Egyptian-Arabic line saying why, and

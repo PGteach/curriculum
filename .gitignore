@@ -10,3 +10,8 @@ data sources/
 
 # the dashboard password; build_dashboard.py reads it. Never commit.
 scripts/.dashboard-password
+
+# the vault key, and the teacher files it seals (their encrypted copies are
+# in dashboard/vault/). See scripts/vault.py. Never commit either.
+scripts/.dashboard-key
+lecture*/_teacher/

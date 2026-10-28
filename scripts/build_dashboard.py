@@ -16,12 +16,13 @@ code appears on their slides. Every other browser, including every
 every student's, keeps the default and the code stays covered.
 
 THE PASSWORD
-The published file is the page encrypted (AES-GCM, key from PBKDF2-SHA256)
-inside a small lock screen, so neither the site nor the public repo shows
-what is on it without the password. The password is read from the
-DASHBOARD_PASSWORD environment variable, or else from
-scripts/.dashboard-password, which .gitignore keeps out of the repo. To
-change it, change that file and rebuild.
+The published file is the page encrypted with the vault key (see
+scripts/vault.py) inside a small lock screen; dashboard/lock.json holds
+that key wrapped by the password. So neither the site nor the public repo
+shows what is on it without the password, and the password can be changed
+from the page itself (it rewrites lock.json) or with
+`python scripts/vault.py password`. Building also seals any changed
+_teacher/ file into dashboard/vault/.
 
 WHAT STUDENTS SEE
 Once open, the page reads scripts/answers-released.json from GitHub and
@@ -52,9 +53,8 @@ OUT = ROOT / "dashboard" / "index.html"
 FLAG = "pgteach.examCode"          # shared with the decks
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from release_answers import EXAMS, model_paths  # noqa: E402
+import vault  # noqa: E402
 
-SECRET = ROOT / "scripts" / ".dashboard-password"
-ROUNDS = 310000                    # PBKDF2 iterations; the lock page uses the same
 
 
 def read(p: Path) -> str:
@@ -227,6 +227,7 @@ button.toggle:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 .gh{margin-top:16px;font-size:13.5px}
 .gh summary{cursor:pointer;font-weight:600}
 .gh p{margin-top:8px}
+.pwin{font:inherit;flex:1 1 200px;padding:9px 12px;border:1px solid var(--line);border-radius:8px}
 .gh input{font:inherit;flex:1 1 220px;padding:9px 12px;border:1px solid var(--line);border-radius:8px}
 button.open{font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;border:1px solid var(--line);
   border-radius:6px;padding:4px 10px;background:var(--paper);color:var(--ink);margin:2px 4px 0 0}
@@ -302,6 +303,22 @@ footer a{color:var(--ink-2)}
 </section>
 
 <section class="panel">
+  <h3>Password</h3>
+  <p>Change the dashboard password. Needs the GitHub sign-in above. Devices
+  that remembered the old sign-in stay open until you press
+  <b>Lock this device</b> on them.</p>
+  <p class="ar">غيّر باسورد الداشبورد (محتاج تكون عامل sign in لـ GitHub فوق). الأجهزة اللي كانت فاكرة الدخول هتفضل فاتحة لحد ما تدوس Lock this device عليها.</p>
+  <div class="switchrow">
+    <input class="pwin" type="password" id="pwOld" placeholder="Current password" autocomplete="current-password" aria-label="Current password">
+    <input class="pwin" type="password" id="pwNew" placeholder="New password (8+ characters)" autocomplete="new-password" aria-label="New password">
+    <input class="pwin" type="password" id="pwNew2" placeholder="New password again" autocomplete="new-password" aria-label="New password again">
+    <button class="toggle" id="pwSave" type="button">Change password</button>
+    <button class="toggle" id="lockMe" type="button">Lock this device</button>
+  </div>
+  <p class="note" id="pwMsg"></p>
+</section>
+
+<section class="panel">
   <h3>Chapter exams</h3>
   <p>For you only &mdash; open and print. Releasing a paper to students is above.</p>
   <div class="switchrow">__EXAMBTNS__</div>
@@ -366,7 +383,19 @@ async function getFile(path){
   if (!r.ok) throw new Error("GitHub said " + r.status);
   return r.json();
 }
-const b64 = s => btoa(String.fromCharCode(...new TextEncoder().encode(s)));
+function u8b64(u8){
+  let s = "";
+  for (let i = 0; i < u8.length; i += 32768) s += String.fromCharCode.apply(null, u8.subarray(i, i + 32768));
+  return btoa(s);
+}
+const b64 = s => u8b64(new TextEncoder().encode(s));
+const b64u8 = s => Uint8Array.from(atob(s.split("\\n").join("")), c => c.charCodeAt(0));
+/* lecture7/_teacher/x.html is kept encrypted at dashboard/vault/lecture7/x.html.enc */
+function vaultOf(p){ const parts = p.split("/"); return "dashboard/vault/" + parts[0] + "/" + parts[2] + ".enc"; }
+async function vaultOpen(u8){
+  const key = await crypto.subtle.importKey("raw", window.DASH_KEY, "AES-GCM", false, ["decrypt"]);
+  return new Uint8Array(await crypto.subtle.decrypt({name:"AES-GCM", iv:u8.subarray(0, 12)}, key, u8.subarray(12)));
+}
 const unb64 = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\\n/g, "")), c => c.charCodeAt(0)));
 
 async function put(path, content, sha, message){
@@ -445,9 +474,9 @@ async function flip(it, row, btn){
     const msg = (on ? "Release " : "Withdraw ") + it.label + " (from the dashboard)";
     const dst = await getFile(it.dst);
     if (on) {
-      const src = await getFile(it.src);
+      const src = await getFile(vaultOf(it.src));
       if (!src) throw new Error(it.src + " is not in the repo");
-      await put(it.dst, src.content.replace(/\\n/g, ""), dst && dst.sha, msg);
+      await put(it.dst, u8b64(await vaultOpen(b64u8(src.content))), dst && dst.sha, msg);
     } else if (dst) {
       await remove(it.dst, dst.sha, msg);
     }
@@ -495,6 +524,43 @@ document.getElementById("tokForget").onclick = function(){
 signedIn();
 load();
 
+/* the password only wraps the vault key (dashboard/lock.json), so changing
+   it rewrites that one file; the key and every encrypted file stay as they are */
+document.getElementById("pwSave").onclick = async function(){
+  const msg = document.getElementById("pwMsg");
+  const old = document.getElementById("pwOld").value, a = document.getElementById("pwNew").value,
+        b = document.getElementById("pwNew2").value;
+  if (!token()) { msg.textContent = "Sign in to GitHub above first."; return; }
+  if (a.length < 8) { msg.textContent = "The new password needs 8 characters or more."; return; }
+  if (a !== b) { msg.textContent = "The two new passwords do not match."; return; }
+  msg.textContent = "Changing…";
+  try {
+    const f = await getFile("dashboard/lock.json");
+    const lock = JSON.parse(unb64(f.content));
+    const enc = new TextEncoder();
+    async function kek(pw, salt, rounds){
+      const base = await crypto.subtle.importKey("raw", enc.encode(pw), "PBKDF2", false, ["deriveBits"]);
+      const bits = await crypto.subtle.deriveBits({name:"PBKDF2", hash:"SHA-256", salt: salt, iterations: rounds}, base, 256);
+      return crypto.subtle.importKey("raw", bits, "AES-GCM", false, ["encrypt", "decrypt"]);
+    }
+    let k;
+    try {
+      k = new Uint8Array(await crypto.subtle.decrypt({name:"AES-GCM", iv: b64u8(lock.iv)},
+            await kek(old, b64u8(lock.salt), lock.rounds), b64u8(lock.key)));
+    } catch(e) { throw new Error("the current password is wrong"); }
+    const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+    const wrapped = new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM", iv: iv}, await kek(a, salt, lock.rounds), k));
+    const next = {v: 1, rounds: lock.rounds, salt: u8b64(salt), iv: u8b64(iv), key: u8b64(wrapped)};
+    await put("dashboard/lock.json", b64(JSON.stringify(next, null, 2) + "\\n"), f.sha, "Change the dashboard password (from the dashboard)");
+    ["pwOld", "pwNew", "pwNew2"].forEach(id => document.getElementById(id).value = "");
+    msg.textContent = "Changed. The new password works in about a minute.";
+  } catch(e) { msg.textContent = "Not changed: " + e.message; }
+};
+document.getElementById("lockMe").onclick = function(){
+  try { localStorage.removeItem("pgteach.dashKey2"); } catch(e){}
+  location.reload();
+};
+
 /* teacher files: read from the repo and opened in a new tab, to print.
    The tab is opened first, inside the tap, or phones block it. */
 document.addEventListener("click", async function(ev){
@@ -504,9 +570,9 @@ document.addEventListener("click", async function(ev){
   if (!w) { alert("Allow pop-ups for this page to open teacher files."); return; }
   w.document.write("<p style='font-family:sans-serif;padding:20px'>Opening…</p>");
   try {
-    const r = await gh("contents/" + b.dataset.open + "?ref=main", {headers: {"Accept": "application/vnd.github.raw+json"}});
+    const r = await gh("contents/" + vaultOf(b.dataset.open) + "?ref=main", {headers: {"Accept": "application/vnd.github.raw+json"}});
     if (!r.ok) throw new Error("GitHub said " + r.status);
-    const html = await r.text();
+    const html = new TextDecoder().decode(await vaultOpen(new Uint8Array(await r.arrayBuffer())));
     w.document.open(); w.document.write(html); w.document.close();
   } catch(e) {
     w.document.body.textContent = "Could not open it: " + e.message;
@@ -548,19 +614,33 @@ button{font:inherit;font-weight:600;width:100%;padding:10px;border:0;border-radi
   <div id="err" role="alert"></div>
 </form>
 <script>
-/* The dashboard is encrypted below; only the right password opens it. The
-   remembered key is stored in this browser only, so tick it on your own
-   devices and never on a school computer. */
-const DATA = "__DATA__", SALT = "__SALT__", IV = "__IV__", ROUNDS = __ROUNDS__, KEEP = "pgteach.dashKey";
+/* The dashboard is encrypted below with the vault key (scripts/vault.py).
+   lock.json, next to this page, holds that key wrapped by the password, and
+   is read fresh each time so a changed password works at once. "Remember"
+   keeps the key in this browser only: tick it on your own devices, never on
+   a school computer. */
+const DATA = "__DATA__", KEEP = "pgteach.dashKey2";
 const bytes = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
-async function derive(pw){
+function toB64(u8){
+  let s = "";
+  for (let i = 0; i < u8.length; i += 32768) s += String.fromCharCode.apply(null, u8.subarray(i, i + 32768));
+  return btoa(s);
+}
+async function aesOpen(raw, blob){
+  const key = await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]);
+  return new Uint8Array(await crypto.subtle.decrypt({name:"AES-GCM", iv:blob.subarray(0, 12)}, key, blob.subarray(12)));
+}
+async function keyFromPassword(pw){
+  const lock = await (await fetch("lock.json?t=" + Date.now(), {cache:"no-store"})).json();
   const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveBits"]);
-  return new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2", hash:"SHA-256", salt:bytes(SALT), iterations:ROUNDS}, base, 256));
+  const k = new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2", hash:"SHA-256", salt:bytes(lock.salt), iterations:lock.rounds}, base, 256));
+  const iv = bytes(lock.iv), wrapped = bytes(lock.key), blob = new Uint8Array(12 + wrapped.length);
+  blob.set(iv); blob.set(wrapped, 12);
+  return aesOpen(k, blob);
 }
 async function unlock(raw){
-  const key = await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]);
-  const plain = await crypto.subtle.decrypt({name:"AES-GCM", iv:bytes(IV)}, key, bytes(DATA));
-  const html = new TextDecoder().decode(plain);
+  const html = new TextDecoder().decode(await aesOpen(raw, bytes(DATA)));
+  window.DASH_KEY = raw;           // the page uses it to open the teacher files
   /* swap the whole page for the dashboard; document.write left the lock on
      screen in some phone browsers. Moved scripts do not run, so remake them. */
   const doc = new DOMParser().parseFromString(html, "text/html");
@@ -580,13 +660,13 @@ document.getElementById("f").onsubmit = async function(ev){
   ev.preventDefault();
   const err = document.getElementById("err");
   err.textContent = "Checking…";
-  try {
-    const raw = await derive(document.getElementById("pw").value);
-    if (document.getElementById("keep").checked) {
-      try { localStorage.setItem(KEEP, btoa(String.fromCharCode(...raw))); } catch(e){}
-    }
-    await unlock(raw);
-  } catch(e) { err.textContent = "Wrong password."; }
+  let raw;
+  try { raw = await keyFromPassword(document.getElementById("pw").value); }
+  catch(e) { err.textContent = "Wrong password."; return; }
+  if (document.getElementById("keep").checked) {
+    try { localStorage.setItem(KEEP, toB64(raw)); } catch(e){}
+  }
+  try { await unlock(raw); } catch(e) { err.textContent = "Could not open the dashboard: " + e.message; }
 };
 </script>
 </body>
@@ -594,24 +674,12 @@ document.getElementById("f").onsubmit = async function(ev){
 """
 
 
-def password() -> str:
-    pw = os.environ.get("DASHBOARD_PASSWORD") or (SECRET.read_text(encoding="utf-8").strip()
-                                                 if SECRET.is_file() else "")
-    if len(pw) < 8:
-        raise SystemExit("set a password of 8+ characters in %s (kept out of git) "
-                         "or in DASHBOARD_PASSWORD" % SECRET.relative_to(ROOT).as_posix())
-    return pw
-
-
 def lock(html: str) -> str:
-    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-    import hashlib
-    salt, iv = os.urandom(16), os.urandom(12)
-    key = hashlib.pbkdf2_hmac("sha256", password().encode("utf-8"), salt, ROUNDS, 32)
-    data = AESGCM(key).encrypt(iv, html.encode("utf-8"), None)
-    b64 = lambda b: base64.b64encode(b).decode("ascii")
-    return (LOCK.replace("__DATA__", b64(data)).replace("__SALT__", b64(salt))
-                .replace("__IV__", b64(iv)).replace("__ROUNDS__", str(ROUNDS)))
+    k = vault.key()
+    sealed = vault.seal(k)
+    if sealed:
+        print("sealed %d changed teacher file(s) into dashboard/vault/" % sealed)
+    return LOCK.replace("__DATA__", base64.b64encode(vault.encrypt(k, html.encode("utf-8"))).decode("ascii"))
 
 
 def main() -> None:
