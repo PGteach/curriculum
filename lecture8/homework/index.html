@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lecture 8 Homework — Going through an array — for…of</title>
+<title>Lecture 8 Homework — Loops and decisions — for…of and if</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -183,10 +183,30 @@ ol.qs .rule{margin-top:1.5mm}
   table,.stages,.qrbox,.term{break-inside:avoid}
 }
 @page{size:A4; margin:0}
+
+/* ---------- lecture 8: drawers, trace table, two-column code ---------- */
+.drawers{display:flex;gap:3mm;margin:2mm 0 3mm}
+.drawer{min-width:24mm;text-align:center;border:1.5px solid var(--line);border-radius:2mm;padding:2mm 2mm 1.5mm;
+  font-family:"JetBrains Mono",monospace;font-size:10pt;background:#fff}
+.drawer small{display:block;font-size:8pt;color:var(--soft);margin-top:.8mm}
+table.trace td,table.trace th{text-align:center}
+table.trace td{font-family:"JetBrains Mono",monospace;font-size:10pt;height:8mm}
+.two{display:flex;gap:4mm}.two>div{flex:1;min-width:0}
+.two h4{font-size:10.5pt;margin-bottom:1mm}
+.two .code{font-size:8.6pt}
+.say{font-size:12pt;font-weight:600;margin:2mm 0 3mm}
+
+/* show >= and == as typed: no font ligatures in code */
+.code,.tcode,.mono,.codeline,code,.qcode,.opt,.drawer{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+
+.partband{background:var(--ink);color:#fff;border-radius:2mm;padding:3mm 5mm;margin:0 0 4mm;display:flex;gap:4mm;align-items:baseline}
+.partband b{font-family:"Fraunces",serif;font-size:20pt;color:var(--gold)}
+.partband span{font-size:11pt;font-weight:600}
+table.trace td.t{color:#1F7A34;font-weight:600}table.trace td.f{color:#9C3B2E;font-weight:600}
 .namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.ex>.ar,.ex>.code,.ex>ol,.ex>.rule,.ex>.prints{margin-left:9.5mm}.summary.hw{background:var(--teal-pale)}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm;font-family:"JetBrains Mono",monospace;font-size:9.5pt}ol.qs li{margin-bottom:3mm}
 </style>
 </head>
-<body data-title="Lecture 8 Homework — Going through an array — for…of">
+<body data-title="Lecture 8 Homework — Loops and decisions — for…of and if">
 
 <div id="printbar">
   <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
@@ -194,7 +214,7 @@ ol.qs .rule{margin-top:1.5mm}
 </div>
 <div id="pagesTop"></div>
 
-<section class="sheet"><div class="brand" id="brand">JavaScript — Qureo review (chapter 28)</div><h1 id="docTitle">Going through an array — for…of</h1><div class="docsub">Homework &middot; Lecture 8</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><div class="summary hw"><p>Everything here was taught in the session. Bring this sheet to the next class.</p><p class="ar">كل ده اتشرح في الحصة. هات الورقة المرة الجاية.</p></div><h2>Part 1 &middot; Remember arrays</h2><p class="ar">الجزء الأول — افتكر المصفوفات</p><div class="ex"><div class="exhead"><span class="exn">1</span><span class="exq">Look at the array, then fill in ( a ) to ( c ).</span></div><p class="ar">بص على المصفوفة واملا الفراغات من ( أ ) لـ ( ج ).</p><div class="code"><span class="mono">let colors = ["red", "green", "blue"];</span></div><ol class="blanks"><li><b>( a ) colors[0] is</b><span class="rule"></span></li><li><b>( b ) colors[2] is</b><span class="rule"></span></li><li><b>( c ) colors.length is</b><span class="rule"></span></li></ol></div><div class="ex"><div class="exhead"><span class="exn">2</span><span class="exq">Choose the line that makes an array of three animals.</span></div><p class="ar">اختار السطر اللي بيعمل مصفوفة فيها تلات حيوانات.</p><ol class="qs"><li><span class="opt">A: let pets = "cat", "dog", "fish";</span><span class="opt">B: let pets = ["cat", "dog", "fish"];</span><span class="opt">C: let pets = (cat, dog, fish);</span><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section>
+<section class="sheet"><div class="brand" id="brand">JavaScript — Qureo review (chapters 28–30)</div><h1 id="docTitle">Loops and decisions — for…of and if</h1><div class="docsub">Homework &middot; Lecture 8</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><div class="summary hw"><p>Everything here was taught in the session. Bring this sheet to the next class.</p><p class="ar">كل ده اتشرح في الحصة. هات الورقة المرة الجاية.</p></div><h2>Part 1 &middot; Remember arrays</h2><p class="ar">الجزء الأول — افتكر المصفوفات</p><div class="ex"><div class="exhead"><span class="exn">1</span><span class="exq">Look at the array, then fill in ( a ) to ( c ).</span></div><p class="ar">بص على المصفوفة واملا الفراغات من ( أ ) لـ ( ج ).</p><div class="code"><span class="mono">let colors = ["red", "green", "blue"];</span></div><ol class="blanks"><li><b>( a ) colors[0] is</b><span class="rule"></span></li><li><b>( b ) colors[2] is</b><span class="rule"></span></li><li><b>( c ) colors.length is</b><span class="rule"></span></li></ol></div><div class="ex"><div class="exhead"><span class="exn">2</span><span class="exq">Choose the line that makes an array of three animals.</span></div><p class="ar">اختار السطر اللي بيعمل مصفوفة فيها تلات حيوانات.</p><ol class="qs"><li><span class="opt">A: let pets = "cat", "dog", "fish";</span><span class="opt">B: let pets = ["cat", "dog", "fish"];</span><span class="opt">C: let pets = (cat, dog, fish);</span><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section>
 <section class="sheet"><h2>Part 2 &middot; Read it and trace it</h2><p class="ar">الجزء التاني — اقرا الكود وتتبّعه</p><div class="ex"><div class="exhead"><span class="exn">3</span><span class="exq">Write what this code prints, one line for each value.</span></div><p class="ar">اكتب الكود ده بيطبع إيه، سطر لكل قيمة.</p><div class="code"><span class="mono">let animals = ["lion", "tiger", "bear"];
 
 for (let animal of animals) {
@@ -213,7 +233,41 @@ for (let fruit of fruits) {
 for (let i = 0; i < cities.length; i++) {
   console.log(cities[i]);
 }</span></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="ex"><div class="exhead"><span class="exn">7</span><span class="exq">Write a for…of loop that says hello to every friend: "Hello, Ali", "Hello, Mona", "Hello, Omar".</span></div><p class="ar">اكتب حلقة for…of بتسلّم على كل صاحب: "Hello, Ali" وهكذا.</p><div class="code"><span class="mono">let friends = ["Ali", "Mona", "Omar"];</span></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="ex"><div class="exhead"><span class="exn">8</span><span class="exq">When should you use for…of, and when the normal for with i? Answer in one sentence each.</span></div><p class="ar">إمتى تستخدم for…of، وإمتى for العادية بالعدّاد i؟ جاوب في جملة لكل واحدة.</p><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section>
-<section class="sheet"><h2>Challenge &middot; optional</h2><p class="ar">تحدي — اختياري</p><div class="ex"><div class="exhead"><span class="exn">9</span><span class="exq">Use for…of and a variable called total to add up every number in the array. Your code should print 12.</span></div><p class="ar">استخدم for…of ومتغير اسمه total عشان تجمع كل الأرقام اللي في المصفوفة. الكود لازم يطبع 12.</p><div class="code"><span class="mono">let marks = [2, 4, 6];
+<section class="sheet"><h2>Part 4 &middot; Decisions with if</h2><p class="ar">الجزء الرابع — القرارات بـ if</p><div class="ex"><div class="exhead"><span class="exn">9</span><span class="exq">Write true or false for each one.</span></div><p class="ar">اكتب true أو false قدام كل واحدة.</p><ol class="blanks"><li><b><span class="mono">( a ) 8 &gt; 3</span></b><span class="rule"></span></li><li><b><span class="mono">( b ) 4 &gt;= 4</span></b><span class="rule"></span></li><li><b><span class="mono">( c ) 2 == 5</span></b><span class="rule"></span></li><li><b><span class="mono">( d ) 9 &lt;= 1</span></b><span class="rule"></span></li></ol></div><div class="ex"><div class="exhead"><span class="exn">10</span><span class="exq">What does this print when score is 75? And when score is 40?</span></div><p class="ar">الكود ده بيطبع إيه لما score = 75؟ ولما score = 40؟</p><div class="code"><span class="mono">if (score >= 90) {
+  console.log("Excellent!");
+} else if (score >= 50) {
+  console.log("You passed");
+} else {
+  console.log("Try again");
+}</span></div><ol class="blanks"><li><b>score = 75</b><span class="rule"></span></li><li><b>score = 40</b><span class="rule"></span></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section>
+<section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">11</span><span class="exq">This code prints “You passed” for a score of 95. Rewrite it so that 95 prints “Excellent!”.</span></div><p class="ar">الكود ده بيطبع «You passed» لما الدرجة 95. اكتبه تاني عشان 95 تطبع «Excellent!».</p><div class="code"><span class="mono">if (score >= 50) {
+  console.log("You passed");
+} else if (score >= 90) {
+  console.log("Excellent!");
+}</span></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="ex"><div class="exhead"><span class="exn">12</span><span class="exq">Each pack has 4 pencils. What prints when packs is 2? And when packs is 3?</span></div><p class="ar">كل علبة فيها 4 أقلام. بيطبع إيه لما packs = 2؟ ولما packs = 3؟</p><div class="code"><span class="mono">if (packs * 4 >= 10) {
+  console.log("Enough pencils");
+} else {
+  console.log("Buy more pencils");
+}</span></div><ol class="blanks"><li><b>packs = 2</b><span class="rule"></span></li><li><b>packs = 3</b><span class="rule"></span></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section>
+<section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">13</span><span class="exq">An if inside an if. Fill in the table. If a question is not asked, write “not asked”.</span></div><p class="ar">if جوّه if. املا الجدول. لو سؤال مش بيتسأل اكتب «not asked».</p><div class="code"><span class="mono">if (speed > 60) {
+  if (speed > 100) {
+    console.log("Way too fast!");
+  } else {
+    console.log("Slow down");
+  }
+} else {
+  console.log("Good speed");
+}</span></div><table class="trace"><tr><th>speed</th><th>speed &gt; 60?</th><th>speed &gt; 100?</th><th>It prints</th></tr><tr><td>120</td><td></td><td></td><td></td></tr><tr><td>80</td><td></td><td></td><td></td></tr><tr><td>40</td><td></td><td></td><td></td></tr></table></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section>
+<section class="sheet"><h2>Part 5 &middot; A loop and a decision</h2><p class="ar">الجزء الخامس — حلقة وقرار مع بعض</p><div class="ex"><div class="exhead"><span class="exn">14</span><span class="exq">What does this print?</span></div><p class="ar">الكود ده بيطبع إيه؟</p><div class="code"><span class="mono">let temps = [35, 20, 31];
+
+for (let t of temps) {
+  if (t > 30) {
+    console.log(t + " hot");
+  } else {
+    console.log(t + " cool");
+  }
+}</span></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="ex"><div class="exhead"><span class="exn">15</span><span class="exq">Write a for…of loop that prints only the numbers bigger than 5.</span></div><p class="ar">اكتب حلقة for…of بتطبع الأرقام اللي أكبر من 5 بس.</p><div class="code"><span class="mono">let nums = [2, 8, 5, 10];</span></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section>
+<section class="sheet"><h2>Challenge &middot; optional</h2><p class="ar">تحدي — اختياري</p><div class="ex"><div class="exhead"><span class="exn">16</span><span class="exq">Use for…of and a variable called total to add up every number in the array. Your code should print 12.</span></div><p class="ar">استخدم for…of ومتغير اسمه total عشان تجمع كل الأرقام اللي في المصفوفة. الكود لازم يطبع 12.</p><div class="code"><span class="mono">let marks = [2, 4, 6];
 let total = 0;</span></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><h2>Before you hand this in</h2><div class="summary"><p>Check every answer against the booklet. Bring anything you could not work out to the next session.</p><p class="ar">راجع كل إجابة على الكتيّب. وأي حاجة معرفتش تحلها هاتها معاك المرة الجاية.</p></div><h2>My notes</h2><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section>
 
 <script>
@@ -225,8 +279,8 @@ let total = 0;</span></div><div class="rule tight"></div><div class="rule tight"
    ============================================================ */
 const SITE_BASE     = "https://pgteach.github.io/curriculum";
 const LECTURE_NUM   = 8;
-const LECTURE_TITLE = "Going through an array — for…of";
-const LECTURE_TOPIC = "JavaScript — Qureo review (chapter 28)";
+const LECTURE_TITLE = "Loops and decisions — for…of and if";
+const LECTURE_TOPIC = "JavaScript — Qureo review (chapters 28–30)";
 /* One knob for this lecture's colour: every teal accent on the page follows
    it, so lecture 2 does not have to look identical to lecture 1. The quiz is
    deliberately left on the standard palette, where green and red mean right

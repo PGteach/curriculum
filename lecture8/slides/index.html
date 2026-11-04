@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lecture 8 — Going through an array — for…of · PGteach</title>
+<title>Lecture 8 — Loops and decisions — for…of and if · PGteach</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -408,6 +408,24 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
 .tbtns button:disabled{opacity:.4;cursor:default}
 .big{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(22px,3.6vw,46px);line-height:1.2;margin-top:1rem}
 .big .mono{font-size:.85em}
+
+/* ---------- decision tracer: watch if / else if / else choose ---------- */
+.decider{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(12px,1.8vw,26px);margin-top:1rem;align-items:start}
+@media(max-width:720px){.decider{grid-template-columns:1fr}}
+.tcode .ln.yes{background:rgba(124,227,143,.18);box-shadow:inset 4px 0 0 #7CE38F}
+.tcode .ln.no{background:rgba(255,157,122,.14);box-shadow:inset 4px 0 0 #FF9D7A}
+.tcode .ln.skip{opacity:.35}
+.vals{display:flex;gap:.45rem;flex-wrap:wrap;margin:.35rem 0 .2rem}
+.vals button{font:inherit;font-family:"JetBrains Mono",monospace;font-size:clamp(13px,1.45vw,18px);border-radius:9px;
+  padding:.45em .8em;cursor:pointer;background:#fff;color:var(--ink);border:2px solid var(--line)}
+.vals button.on{border-color:var(--teal);background:var(--teal-pale);color:var(--teal);font-weight:600}
+.verdict{display:inline-block;margin-left:.4em;padding:.05em .55em;border-radius:7px;font-weight:700;font-size:.9em;
+  animation:revealPop .5s cubic-bezier(.2,.8,.3,1.1) both}
+.verdict.t{background:#E3F6E7;color:#1F7A34}.verdict.f{background:#FBE9E4;color:#9C3B2E}
+.part{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(46px,9vw,120px);line-height:1;color:var(--gold)}
+
+/* show >= and == as typed: no font ligatures in code */
+.code,.tcode,.mono,.codeline,code,.qcode,.opt,.drawer{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
 </style>
 </head>
 <body>
@@ -417,10 +435,10 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
 
   <!-- 1 TITLE -->
   <section class="slide dark">
-    <div class="rise eyebrow" id="lectureBadge">JavaScript · Qureo Chapter 28</div>
-    <h1 class="rise">Going through an array — <span class="mono">for…of</span></h1>
-    <p class="rise sub" style="margin-top:1.2rem">Today: one short loop that visits every value in an array, one by one.</p>
-    <p class="rise arline ar">في آخر الحصة هتعرف تطبع كل قيمة في المصفوفة بحلقة واحدة قصيرة ومرتبة.</p>
+    <div class="rise eyebrow" id="lectureBadge">JavaScript · Qureo Chapters 28–30</div>
+    <h1 class="rise">Loops and decisions — <span class="mono">for…of</span> and <span class="mono">if</span></h1>
+    <p class="rise sub" style="margin-top:1.2rem">Part 1: a loop that visits every value in an array. Part 2: making decisions with <span class="mono">if</span> — even an <span class="mono">if</span> inside an <span class="mono">if</span>. Part 3: put them together.</p>
+    <p class="rise arline ar">الجزء الأول: حلقة بتزور كل قيمة في المصفوفة. التاني: إزاي البرنامج ياخد قرار بـ <span class="mono" dir="ltr">if</span>. التالت: نجمعهم مع بعض.</p>
   </section>
 
   <!-- ------------------------------------------------------------------
@@ -579,17 +597,179 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
     <p class="rise arline ar">عايز القيم بس؟ <span class="mono" dir="ltr">for…of</span>. محتاج رقم الدُرج كمان؟ <span class="mono" dir="ltr">for</span> بالعدّاد. جاوب الأول ودوس على الخانة.</p>
   </section>
 
+  <!-- ====================== PART 2 · Conditions (5) ====================== -->
+  <section class="slide dark">
+    <div class="rise part">2</div>
+    <h2 class="rise">Making decisions with <span class="mono">if</span></h2>
+    <p class="rise sub">Qureo chapter 29 &middot; Conditions (5): review, math in conditions, and an <span class="mono">if</span> inside an <span class="mono">if</span>.</p>
+    <p class="rise arline ar">الجزء التاني: البرنامج بياخد قرار بـ <span class="mono" dir="ltr">if</span>.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">11 · The idea</div>
+    <h2 class="rise">A program can choose, like you do</h2>
+    <p class="rise sub">Every morning you decide: <b>if</b> it is raining, take an umbrella. <b>Otherwise</b>, take sunglasses.</p>
+    <div class="rise code"><span class="k">if</span> (weather == <span class="s">"rain"</span>) {
+  <span class="f">console.log</span>(<span class="s">"Take an umbrella"</span>);
+} <span class="k">else</span> {
+  <span class="f">console.log</span>(<span class="s">"Take sunglasses"</span>);
+}</div>
+    <table class="rise">
+      <tr><th>Part</th><th>What it does</th></tr>
+      <tr><td><b class="mono">( … )</b></td><td>the <b>conditional expression</b> &mdash; a question with the answer <b>true</b> or <b>false</b></td></tr>
+      <tr><td><b class="mono">if { }</b></td><td>runs only when the answer is <b>true</b></td></tr>
+      <tr><td><b class="mono">else { }</b></td><td>runs when the answer is <b>false</b></td></tr>
+    </table>
+    <p class="rise arline ar">لو بتمطر خُد شمسية، غير كده خُد نضارة شمس. الشرط سؤال إجابته true أو false. ولاحظ إن «يساوي» بتتكتب <span class="mono" dir="ltr">==</span>.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">12 · Comparison operators</div>
+    <h2 class="rise">The questions you can ask</h2>
+    <table class="rise">
+      <tr><th>Write</th><th>It asks</th><th>Example</th><th>Answer</th></tr>
+      <tr><td><b class="mono">==</b></td><td>is it the same?</td><td class="mono">5 == 5</td><td class="reveal"><span>true</span></td></tr>
+      <tr><td><b class="mono">&gt;</b></td><td>is it bigger?</td><td class="mono">3 &gt; 7</td><td class="reveal"><span>false</span></td></tr>
+      <tr><td><b class="mono">&lt;</b></td><td>is it smaller?</td><td class="mono">3 &lt; 7</td><td class="reveal"><span>true</span></td></tr>
+      <tr><td><b class="mono">&gt;=</b></td><td>bigger <b>or the same</b>?</td><td class="mono">5 &gt;= 5</td><td class="reveal"><span>true</span></td></tr>
+      <tr><td><b class="mono">&lt;=</b></td><td>smaller <b>or the same</b>?</td><td class="mono">6 &lt;= 5</td><td class="reveal"><span>false</span></td></tr>
+    </table>
+    <p class="rise arline ar">جاوب كل سطر في دماغك الأول، وبعدين دوس على الخانة. خلي بالك: <span class="mono" dir="ltr">&gt;=</span> معناها «أكبر أو يساوي».</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">13 · if, else if, else</div>
+    <h2 class="rise">More than two choices</h2>
+    <p class="rise sub">The computer checks from the <b>top down</b> and runs the <b>first</b> branch that is true. Pick a score:</p>
+    <div class="rise decider" data-var="score" data-vals='[95,70,30]'
+         data-tree='{"if":"score >= 90","then":{"say":"Excellent!"},"else":{"elif":true,"if":"score >= 50","then":{"say":"You passed"},"else":{"say":"Try again"}}}'></div>
+    <p class="rise arline ar">الكمبيوتر بيقرا من فوق لتحت (sequential execution)، وأول شرط يطلع true هو اللي بيتنفذ، والباقي بيتساب.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">14 · Math in conditions</div>
+    <h2 class="rise">You can calculate inside the question</h2>
+    <p class="rise sub">A cake needs <b>12 eggs</b>. Each box has <b>6</b>. Do we have enough?</p>
+    <div class="rise decider" data-var="boxes" data-vals='[1,2,3]'
+         data-tree='{"if":"boxes * 6 >= 12","then":{"say":"Enough eggs for the cake"},"else":{"say":"Buy more eggs"}}'></div>
+    <div class="rise answer reveal"><span class="q">boxes = 1: what is boxes * 6, and what prints? Tap &rarr;</span><span class="ans">6, so 6 &gt;= 12 is false &rarr; Buy more eggs</span></div>
+    <p class="rise arline ar">الكمبيوتر بيحسب الأول (<span class="mono" dir="ltr">boxes * 6</span>)، وبعدين بيقارن النتيجة.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">15 · An if inside an if</div>
+    <h2 class="rise">A door behind a door</h2>
+    <p class="rise sub">First question: is it hot? Only if <b>yes</b>, ask a second question: is it <i>very</i> hot? This is called <b>nesting</b>.</p>
+    <div class="rise decider" data-var="temp" data-vals='[45,35,20]'
+         data-tree='{"if":"temp > 30","then":{"if":"temp > 40","then":{"say":"Stay inside!"},"else":{"say":"Wear a hat"}},"else":{"say":"Nice weather"}}'></div>
+    <p class="rise arline ar">الـ if اللي جوّه مش بيتسأل غير لما الشرط اللي برّه يطلع true. جرّب 20: السؤال التاني مش بيتسأل خالص.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">16 · Try it yourself</div>
+    <h2 class="rise">Which ticket?</h2>
+    <div class="rise code"><span class="k">let</span> age = <span class="n">15</span>;
+
+<span class="k">if</span> (age &gt;= <span class="n">12</span>) {
+  <span class="k">if</span> (age &gt;= <span class="n">18</span>) {
+    <span class="f">console.log</span>(<span class="s">"Adult ticket"</span>);
+  } <span class="k">else</span> {
+    <span class="f">console.log</span>(<span class="s">"Teen ticket"</span>);
+  }
+} <span class="k">else</span> {
+  <span class="f">console.log</span>(<span class="s">"Child ticket"</span>);
+}</div>
+    <ul class="rise check">
+      <li class="reveal rv">age = 15 prints&hellip; <span class="ans">&mdash; <b>Teen ticket</b> (15 &gt;= 12 is true, 15 &gt;= 18 is false)</span></li>
+      <li class="reveal rv">age = 8 prints&hellip; <span class="ans">&mdash; <b>Child ticket</b> (8 &gt;= 12 is false, so the inner if is never asked)</span></li>
+      <li class="reveal rv">age = 30 prints&hellip; <span class="ans">&mdash; <b>Adult ticket</b></span></li>
+    </ul>
+    <p class="rise arline ar">جاوب الأول، وبعدين دوس على كل سطر.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">17 · Watch out</div>
+    <h2 class="rise">The order of the questions matters</h2>
+    <div class="rise vs">
+      <div class="pane a">
+        <h3>&#10060; Wrong order</h3>
+        <div class="code" style="font-size:clamp(11px,1.35vw,16px)"><span class="k">if</span> (score &gt;= <span class="n">50</span>) {
+  <span class="f">console.log</span>(<span class="s">"You passed"</span>);
+} <span class="k">else if</span> (score &gt;= <span class="n">90</span>) {
+  <span class="f">console.log</span>(<span class="s">"Excellent!"</span>);
+}</div>
+      </div>
+      <div class="pane b">
+        <h3>&#9989; Right order</h3>
+        <div class="code" style="font-size:clamp(11px,1.35vw,16px)"><span class="k">if</span> (score &gt;= <span class="n">90</span>) {
+  <span class="f">console.log</span>(<span class="s">"Excellent!"</span>);
+} <span class="k">else if</span> (score &gt;= <span class="n">50</span>) {
+  <span class="f">console.log</span>(<span class="s">"You passed"</span>);
+}</div>
+      </div>
+    </div>
+    <ul class="rise check">
+      <li class="reveal rv">With score = 95, what does the wrong order print? <span class="ans">&mdash; <b>You passed</b>: 95 &gt;= 50 is true first, so it stops there and never reaches 90.</span></li>
+    </ul>
+    <p class="rise arline ar">بما إن الكمبيوتر بيوقف عند أول شرط true، حط الشرط الأصعب (الأكبر) الأول.</p>
+  </section>
+
+  <!-- ====================== PART 3 · Review (chapter 30) ====================== -->
+  <section class="slide dark">
+    <div class="rise part">3</div>
+    <h2 class="rise">Put them together</h2>
+    <p class="rise sub">Qureo chapter 30 &middot; Comprehension check: a loop <b>and</b> a decision in the same program.</p>
+    <p class="rise arline ar">الجزء التالت: مراجعة — حلقة وقرار في نفس البرنامج.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">18 · Loop + decision</div>
+    <h2 class="rise">Pass or fail, for every student</h2>
+    <div class="rise code"><span class="k">let</span> marks = [<span class="n">80</span>, <span class="n">40</span>, <span class="n">65</span>];
+
+<span class="k">for</span> (<span class="k">let</span> mark <span class="k">of</span> marks) {
+  <span class="k">if</span> (mark &gt;= <span class="n">50</span>) {
+    <span class="f">console.log</span>(mark + <span class="s">" pass"</span>);
+  } <span class="k">else</span> {
+    <span class="f">console.log</span>(mark + <span class="s">" fail"</span>);
+  }
+}</div>
+    <p class="rise sub">The <span class="mono">for…of</span> takes one mark; the <span class="mono">if</span> decides for <b>that</b> mark. Then the next mark.</p>
+    <div class="rise answer reveal"><span class="q">What prints? Think, then tap &rarr;</span><span class="ans">80 pass / 40 fail / 65 pass</span></div>
+    <p class="rise arline ar">الحلقة بتاخد درجة، والـ if بيقرر لها هي بس، وبعدين الدرجة اللي بعدها.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">19 · Last one</div>
+    <h2 class="rise">Count the big numbers</h2>
+    <div class="rise code"><span class="k">let</span> nums = [<span class="n">3</span>, <span class="n">12</span>, <span class="n">7</span>, <span class="n">20</span>];
+<span class="k">let</span> count = <span class="n">0</span>;
+
+<span class="k">for</span> (<span class="k">let</span> n <span class="k">of</span> nums) {
+  <span class="k">if</span> (n &gt; <span class="n">10</span>) {
+    count = count + <span class="n">1</span>;
+  }
+}
+<span class="f">console.log</span>(count);</div>
+    <ul class="rise check">
+      <li class="reveal rv">Which numbers make <span class="mono">n &gt; 10</span> true? <span class="ans">&mdash; <b>12</b> and <b>20</b></span></li>
+      <li class="reveal rv">What prints at the end? <span class="ans">&mdash; <b>2</b></span></li>
+    </ul>
+    <p class="rise arline ar">كل مرة الشرط يطلع true بنزوّد count واحد.</p>
+  </section>
+
   <!-- 12 SUMMARY -->
   <section class="slide dark">
-    <div class="rise eyebrow">Remember these four</div>
+    <div class="rise eyebrow">Remember these</div>
     <h2 class="rise">What we learned</h2>
     <ul class="rise check">
-      <li class="yes"><span class="mono">for…of</span> goes through an array and gives you <b>each value</b>, one at a time.</li>
-      <li class="yes">Read <span class="mono">for (let fruit of fruits)</span> as &ldquo;for each fruit of fruits&rdquo;.</li>
-      <li class="yes">It runs <b>once for every value</b>, then stops by itself.</li>
-      <li class="yes">The variable is the <b>value</b> &mdash; print it directly, no <span class="mono">[ ]</span>.</li>
+      <li class="yes"><span class="mono">for…of</span> gives you <b>each value</b> of an array, one at a time, then stops.</li>
+      <li class="yes"><span class="mono">if (…)</span> runs only when the condition is <b>true</b>; <span class="mono">else</span> runs when it is false.</li>
+      <li class="yes"><span class="mono">else if</span>: checked <b>top down</b>, the <b>first</b> true branch runs &mdash; put the hardest condition first.</li>
+      <li class="yes">You can do <b>math</b> inside a condition, and put an <span class="mono">if</span> <b>inside</b> an <span class="mono">if</span>.</li>
+      <li class="yes">Loop + <span class="mono">if</span> together: decide for <b>every</b> value.</li>
     </ul>
-    <p class="rise arline ar">بتمشي على المصفوفة وتديك كل قيمة • بتشتغل مرة لكل قيمة • المتغير هو القيمة نفسها.</p>
+    <p class="rise arline ar">الحلقة بتديك القيم • الـ if بياخد قرار • أول شرط true بيتنفذ • ممكن if جوّه if • ونجمعهم مع بعض.</p>
   </section>
 
   <!-- LAST SLIDE: QUIZ QR (keep this one last) -->
@@ -638,8 +818,8 @@ td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; c
    ============================================================ */
 const SITE_BASE     = "https://pgteach.github.io/curriculum";
 const LECTURE_NUM   = 8;
-const LECTURE_TITLE = "Going through an array — for…of";
-const LECTURE_TOPIC = "JavaScript — Qureo review (chapter 28)";
+const LECTURE_TITLE = "Loops and decisions — for…of and if";
+const LECTURE_TOPIC = "JavaScript — Qureo review (chapters 28–30)";
 /* One knob for this lecture's colour: every teal accent on the page follows
    it, so lecture 2 does not have to look identical to lecture 1. The quiz is
    deliberately left on the standard palette, where green and red mean right
@@ -974,6 +1154,121 @@ addEventListener('touchend', e => {
       if(e.target.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) e.stopPropagation();
     });
     reset();
+  });
+})();
+
+
+/* ---- decision tracer ---------------------------------------------------
+   .decider builds the code from data-tree ({if, then, else}; else may be
+   another {elif:true, if, ...}; a leaf is {say}), offers a button per value
+   in data-vals, and steps through which questions are asked and which
+   branch runs. The conditions are this file's own, never user input. */
+(function(){
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function num(s){ return s.replace(/\b(\d+)\b/g, '<span class="n">$1</span>'); }
+
+  document.querySelectorAll('.decider').forEach(function(box){
+    var v = box.getAttribute('data-var');
+    var vals = JSON.parse(box.getAttribute('data-vals'));
+    var tree = JSON.parse(box.getAttribute('data-tree'));
+    var lines = [];
+    function push(ind, h){ lines.push('  '.repeat(ind) + h); return lines.length - 1; }
+    function body(x, ind){
+      if(x.say !== undefined){ x.line = push(ind, '<span class="f">console.log</span>(<span class="s">"' + esc(x.say) + '"</span>);'); }
+      else emit(x, ind);
+    }
+    function emit(n, ind){
+      n.line = push(ind, '<span class="k">if</span> (' + num(esc(n.if)) + ') {');
+      body(n.then, ind + 1);
+      var e = n.else, last = n;
+      while(e && e.elif){
+        e.line = push(ind, '} <span class="k">else if</span> (' + num(esc(e.if)) + ') {');
+        body(e.then, ind + 1);
+        last = e; e = e.else;
+      }
+      /* the else belongs to the last link of an else-if chain */
+      if(e){ last.elseLine = push(ind, '} <span class="k">else</span> {'); body(e, ind + 1); }
+      push(ind, '}');
+    }
+    emit(tree, 0);
+    var test = function(cond, x){ return Function(v, 'return (' + cond + ');')(x); };
+
+    box.innerHTML =
+      '<div><div class="tcode"><span class="ln"><span class="k">let</span> ' + v + ' = <span class="n vv">?</span>;</span><span class="ln"> </span>' +
+        lines.map(function(h){ return '<span class="ln">' + h + '</span>'; }).join('') +
+      '</div><div class="tcons"><span class="lbl">Console &mdash; what prints</span></div></div>' +
+      '<div><div class="tlbl">1 &middot; Choose a value for <span class="mono">' + v + '</span></div><div class="vals">' +
+        vals.map(function(x){ return '<button type="button" data-x="' + x + '">' + v + ' = ' + x + '</button>'; }).join('') +
+      '</div><p class="tstat"><span class="en"></span><span class="ar"></span></p>' +
+      '<div class="tlbl">2 &middot; Run it</div>' +
+      '<div class="tbtns"><button type="button" class="nx">Next step &#9654;</button>' +
+      '<button type="button" class="alt pl">Play all</button></div></div>';
+
+    var L = box.querySelectorAll('.ln'), OFF = 2;
+    var vv = box.querySelector('.vv'), cons = box.querySelector('.tcons');
+    var en = box.querySelector('.tstat .en'), ar = box.querySelector('.tstat .ar');
+    var nx = box.querySelector('.nx'), pl = box.querySelector('.pl');
+    var steps = [], step = 0, timer = null, x = null;
+
+    function say(e, a){ en.innerHTML = e; ar.textContent = a; }
+    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+    function plan(n){
+      var ok = test(n.if, x);
+      steps.push({line: n.line, cond: n.if, ok: ok});
+      if(ok){ run(n.then); return; }
+      var e = n.else;
+      if(e && e.elif){ plan(e); }
+      else if(e){ steps.push({line: n.elseLine, els: true}); run(e); }
+      else steps.push({none: true});
+    }
+    function run(b){ if(b.say !== undefined) steps.push({line: b.line, out: b.say}); else plan(b); }
+
+    function choose(val){
+      stop(); x = val; steps = []; step = 0; plan(tree);
+      box.querySelectorAll('.vals button').forEach(function(b){ b.classList.toggle('on', +b.getAttribute('data-x') === val); });
+      vv.textContent = val;
+      for(var j = 0; j < L.length; j++) L[j].className = 'ln';
+      L[0].classList.add('hot');
+      cons.querySelectorAll('.line').forEach(function(l){ l.remove(); });
+      nx.disabled = false; pl.disabled = false;
+      say(v + ' is now <b>' + val + '</b>. Press Next step.', v + ' دلوقتي = ' + val + '. اضغط Next step.');
+    }
+    function next(){
+      if(x === null || step >= steps.length) return;
+      var s = steps[step++];
+      for(var j = 0; j < L.length; j++) L[j].classList.remove('hot');
+      if(s.cond !== undefined){
+        var shown = esc(s.cond.replace(new RegExp('\\b' + v + '\\b', 'g'), String(x)));
+        L[s.line + OFF].classList.add(s.ok ? 'yes' : 'no');
+        say('Is <span class="mono">' + shown + '</span>? <span class="verdict ' + (s.ok ? 't">true' : 'f">false') + '</span> ' +
+            (s.ok ? '&rarr; go inside these { }.' : '&rarr; skip these { }.'),
+            s.ok ? 'الشرط ده true ← ندخل جوّه.' : 'الشرط ده false ← نعدّيه.');
+      } else if(s.els){
+        L[s.line + OFF].classList.add('yes');
+        say('Nothing above was true, so the <b>else</b> part runs.', 'مفيش شرط فوق طلع true، فالـ else هو اللي بيتنفذ.');
+      } else if(s.out !== undefined){
+        L[s.line + OFF].classList.add('hot');
+        var line = document.createElement('span'); line.className = 'line'; line.textContent = s.out; cons.appendChild(line);
+        say('It prints <b>' + esc(s.out) + '</b>. The other branches are skipped.', 'بيطبع ' + s.out + '، والباقي بيتساب.');
+      } else {
+        say('No condition was true and there is no else, so nothing prints.', 'مفيش شرط true ومفيش else، فمش هيطبع حاجة.');
+      }
+      if(step >= steps.length){ stop(); nx.disabled = true; pl.disabled = true; }
+    }
+
+    box.querySelectorAll('.vals button').forEach(function(b){
+      b.addEventListener('click', function(){ choose(+b.getAttribute('data-x')); });
+    });
+    nx.addEventListener('click', function(){ stop(); next(); });
+    pl.addEventListener('click', function(){
+      if(timer || x === null) return;
+      pl.disabled = true; next(); timer = setInterval(next, 1300);
+    });
+    box.addEventListener('keydown', function(e){
+      if(e.target.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) e.stopPropagation();
+    });
+    nx.disabled = true; pl.disabled = true;
+    say('Choose a value first.', 'اختار قيمة الأول.');
   });
 })();
 

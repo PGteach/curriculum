@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lecture 8 Quiz — Going through an array — for…of · PGteach</title>
+<title>Lecture 8 Quiz — Loops and decisions — for…of and if · PGteach</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
@@ -168,6 +168,9 @@
 
 .awaynote{font-size:clamp(12px,1.35vw,14.5px); color:var(--soft); margin:0 0 .9rem; max-width:52ch}
 .awaynote .ar{display:block; margin-top:.25rem}
+
+/* show >= and == as typed: no font ligatures in code */
+.code,.tcode,.mono,.codeline,code,.qcode,.opt,.drawer{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
 </style>
 </head>
 <body>
@@ -255,7 +258,7 @@
    ============================================================ */
 const SITE_BASE     = "https://pgteach.github.io/curriculum";
 const LECTURE_NUM   = 8;
-const LECTURE_TITLE = "Going through an array — for…of";
+const LECTURE_TITLE = "Loops and decisions — for…of and if";
 
 const LECTURE = {
   num:       LECTURE_NUM,
@@ -275,7 +278,10 @@ const SECTIONS = [
   "Arrays & loops — a reminder",
   "Reading a for…of loop",
   "What does it print?",
-  "Which loop should I use?"
+  "Which loop should I use?",
+  "if, else if, else",
+  "Math in conditions and if inside if",
+  "Review: a loop and a decision together"
 ];
 
 /* One object per question:
@@ -322,6 +328,17 @@ const QUESTIONS = [
   { s:3, d:1, q:"You only want to print every name in a list. Which loop is easier?", o:["for…of", "for with a counter i", "No loop can do it"], k:"jff5376jz5", v:[["counter", "العدّاد"]], why:"Only the values? for…of is shorter: no counter and no .length.", ar:"عايز القيم بس؟ for…of أقصر: من غير عدّاد ولا length." },
   { s:3, d:3, q:"You want to print the place number next to each name (0 Ali, 1 Mona). Which loop do you need?", o:["for with a counter i", "for…of", "Both work the same"], k:"kiykcgo5kv", why:"for…of gives only the values. To get the place number you need the counter i.", ar:"‏for…of بتديك القيم بس. عشان رقم المكان محتاج العدّاد i." },
   { s:3, d:3, q:"Challenge: what is total at the end?", c:"let marks = [2, 4, 6];\nlet total = 0;\nfor (let m of marks) {\n  total = total + m;\n}", o:["12", "6", "3"], k:"o3dl3n5gsp", why:"Each round adds one mark: 0 + 2 = 2, then 6, then 12.", ar:"كل لفة بتزوّد درجة: 0 + 2 = 2، وبعدين 6، وبعدين 12." },
+  { s:4, d:1, q:"In a condition, what does == ask?", o:["Is it the same?", "Is it bigger?", "Make them the same"], k:"34bpzua6b", why:"== compares the two sides: true when they are the same.", ar:"‏== بتقارن الطرفين: true لو هما نفس الحاجة." },
+  { s:4, d:1, q:"Is 5 >= 5 true or false?", o:["true", "false"], k:"210l9j0hto9", why:">= means bigger OR the same. 5 is the same as 5, so it is true.", ar:"‏>= معناها أكبر أو يساوي. 5 بتساوي 5، فهي true." },
+  { s:4, d:2, q:"What prints when score is 70?", c:"let score = 70;\nif (score >= 90) {\n  console.log(\"Excellent!\");\n} else if (score >= 50) {\n  console.log(\"You passed\");\n} else {\n  console.log(\"Try again\");\n}", o:["You passed", "Excellent!", "Try again"], k:"o3a4qdif1s", why:"70 >= 90 is false, 70 >= 50 is true, so the second branch runs.", ar:"‏70 >= 90 غلط، و 70 >= 50 صح، فالفرع التاني هو اللي بيتنفذ." },
+  { s:4, d:2, q:"In an if / else if / else, which branch runs?", o:["The first one whose condition is true, checking from the top down", "The last one that is true", "Every branch that is true"], k:"2fqyp4q3ton", why:"The computer reads from the top down and stops at the first true condition.", ar:"الكمبيوتر بيقرا من فوق لتحت ويقف عند أول شرط true." },
+  { s:4, d:3, q:"The order of these conditions is wrong. With score = 95, what prints?", c:"let score = 95;\nif (score >= 50) {\n  console.log(\"You passed\");\n} else if (score >= 90) {\n  console.log(\"Excellent!\");\n}", o:["You passed", "Excellent!", "Both lines"], k:"o3a4qdif1s", why:"95 >= 50 is already true, so it stops there and never reaches the 90 check.", ar:"‏95 >= 50 صح من الأول، فبيقف هناك وعمره ما يوصل لشرط الـ 90." },
+  { s:5, d:2, q:"Each box has 6 eggs. What prints when boxes is 3?", c:"let boxes = 3;\nif (boxes * 6 >= 12) {\n  console.log(\"Enough eggs for the cake\");\n} else {\n  console.log(\"Buy more eggs\");\n}", o:["Enough eggs for the cake", "Buy more eggs", "18"], k:"1ewirbhib87", why:"3 * 6 is 18, and 18 >= 12 is true.", ar:"‏3 * 6 = 18، و 18 >= 12 صح." },
+  { s:5, d:2, q:"An if inside an if: what prints when temp is 35?", c:"let temp = 35;\nif (temp > 30) {\n  if (temp > 40) {\n    console.log(\"Stay inside!\");\n  } else {\n    console.log(\"Wear a hat\");\n  }\n} else {\n  console.log(\"Nice weather\");\n}", o:["Wear a hat", "Stay inside!", "Nice weather"], k:"1hp05u144hr", why:"35 > 30 is true, so we go inside; 35 > 40 is false, so the inner else runs.", ar:"‏35 > 30 صح فبندخل جوّه، و 35 > 40 غلط فبيتنفذ الـ else اللي جوّه." },
+  { s:5, d:2, q:"When temp is 20, is the inner question (temp > 40) asked at all?", c:"let temp = 20;\nif (temp > 30) {\n  if (temp > 40) {\n    console.log(\"Stay inside!\");\n  } else {\n    console.log(\"Wear a hat\");\n  }\n} else {\n  console.log(\"Nice weather\");\n}", o:["No: temp > 30 is false, so the inner if is skipped", "Yes, every if is always asked", "Yes, but only after the else"], k:"21m17lauj7l", why:"The inner if is inside the outer { }. If the outer condition is false, it is never reached.", ar:"الـ if اللي جوّه موجود جوّه الأقواس بتاعة اللي برّه. لو الشرط اللي برّه غلط عمره ما يوصله." },
+  { s:5, d:3, q:"Which ticket prints when age is 15?", c:"let age = 15;\nif (age >= 12) {\n  if (age >= 18) {\n    console.log(\"Adult ticket\");\n  } else {\n    console.log(\"Teen ticket\");\n  }\n} else {\n  console.log(\"Child ticket\");\n}", o:["Teen ticket", "Adult ticket", "Child ticket"], k:"25703dkyzbf", why:"15 >= 12 is true; then 15 >= 18 is false, so the inner else runs.", ar:"‏15 >= 12 صح؛ وبعدين 15 >= 18 غلط، فالـ else اللي جوّه بيتنفذ." },
+  { s:6, d:2, q:"This loop decides for each mark. What does it print?", c:"let marks = [80, 40, 65];\nfor (let mark of marks) {\n  if (mark >= 50) {\n    console.log(mark + \" pass\");\n  } else {\n    console.log(mark + \" fail\");\n  }\n}", o:["80 pass, then 40 fail, then 65 pass", "80 pass, then 40 pass, then 65 pass", "pass, fail, pass"], k:"2b8srug44c2", why:"The loop takes one mark at a time; the if decides pass or fail for that mark.", ar:"الحلقة بتاخد درجة درجة، والـ if بيقرر ناجح ولا راسب للدرجة دي." },
+  { s:6, d:3, q:"What number is printed at the end?", c:"let nums = [3, 12, 7, 20];\nlet count = 0;\nfor (let n of nums) {\n  if (n > 10) {\n    count = count + 1;\n  }\n}\nconsole.log(count);", o:["2", "4", "0"], k:"1svygh5i0q6", why:"Only 12 and 20 are bigger than 10, so count goes up twice.", ar:"‏12 و 20 بس أكبر من 10، فـ count بيزيد مرتين." },
 ];
 
 /* ---- answer keys ------------------------------------------------------

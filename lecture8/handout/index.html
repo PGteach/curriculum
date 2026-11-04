@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lecture 8 Handout — Going through an array — for…of · PGteach</title>
+<title>Lecture 8 Handout — Loops and decisions — for…of and if · PGteach</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -195,6 +195,14 @@ table.trace td{font-family:"JetBrains Mono",monospace;font-size:10pt;height:8mm}
 .two h4{font-size:10.5pt;margin-bottom:1mm}
 .two .code{font-size:8.6pt}
 .say{font-size:12pt;font-weight:600;margin:2mm 0 3mm}
+
+/* show >= and == as typed: no font ligatures in code */
+.code,.tcode,.mono,.codeline,code,.qcode,.opt,.drawer{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+
+.partband{background:var(--ink);color:#fff;border-radius:2mm;padding:3mm 5mm;margin:0 0 4mm;display:flex;gap:4mm;align-items:baseline}
+.partband b{font-family:"Fraunces",serif;font-size:20pt;color:var(--gold)}
+.partband span{font-size:11pt;font-weight:600}
+table.trace td.t{color:#1F7A34;font-weight:600}table.trace td.f{color:#9C3B2E;font-weight:600}
 </style>
 </head>
 <body>
@@ -206,8 +214,8 @@ table.trace td{font-family:"JetBrains Mono",monospace;font-size:10pt;height:8mm}
 <div id="pagesTop"></div>
 
 <section class="sheet">
-  <div class="brand" id="brand">JavaScript — Qureo review (chapter 28)</div>
-  <h1 id="docTitle">Going through an array — for…of</h1>
+  <div class="brand" id="brand">JavaScript — Qureo review (chapters 28–30)</div>
+  <h1 id="docTitle">Loops and decisions — for…of and if</h1>
   <div class="docsub">Student Booklet</div>
 
   <h2>Introduction · a box of sweets</h2>
@@ -306,8 +314,120 @@ for (let fruit of fruits) {
 </section>
 
 <section class="sheet">
-  <h2>6 · Activity — trace it yourself</h2>
-  <p>Fill in the table, round by round, then write what the console shows.</p>
+  <div class="partband"><b>2</b><span>Making decisions with if &middot; Qureo chapter 29</span></div>
+  <h2>6 · if and else</h2>
+  <p>Every morning you decide: <b>if</b> it is raining, take an umbrella. <b>Otherwise</b>, take sunglasses. A program decides the same way:</p>
+  <div class="code"><span class="mono">if (weather == "rain") {
+  console.log("Take an umbrella");
+} else {
+  console.log("Take sunglasses");
+}</span></div>
+  <table>
+    <tr><th>Part</th><th>What it does</th></tr>
+    <tr><td class="k mono">( … )</td><td>the <b>conditional expression</b>: a question whose answer is <b>true</b> or <b>false</b></td></tr>
+    <tr><td class="k mono">if { }</td><td>runs only when the answer is <b>true</b></td></tr>
+    <tr><td class="k mono">else { }</td><td>runs when the answer is <b>false</b></td></tr>
+  </table>
+  <p class="ar">لو بتمطر خُد شمسية، غير كده خُد نضارة شمس. ولاحظ إن «يساوي» بتتكتب <span class="mono" dir="ltr">==</span> (علامتين).</p>
+
+  <h2>7 · Comparison operators</h2>
+  <table>
+    <tr><th>Write</th><th>It asks</th><th>Example</th><th>Answer</th></tr>
+    <tr><td class="k mono">==</td><td>is it the same?</td><td class="mono">5 == 5</td><td>true</td></tr>
+    <tr><td class="k mono">&gt;</td><td>is it bigger?</td><td class="mono">3 &gt; 7</td><td>false</td></tr>
+    <tr><td class="k mono">&lt;</td><td>is it smaller?</td><td class="mono">3 &lt; 7</td><td>true</td></tr>
+    <tr><td class="k mono">&gt;=</td><td>bigger <b>or the same</b>?</td><td class="mono">5 &gt;= 5</td><td>true</td></tr>
+    <tr><td class="k mono">&lt;=</td><td>smaller <b>or the same</b>?</td><td class="mono">6 &lt;= 5</td><td>false</td></tr>
+  </table>
+  <p class="ar">خلي بالك: <span class="mono" dir="ltr">&gt;=</span> معناها «أكبر أو يساوي»، فـ <span class="mono" dir="ltr">5 &gt;= 5</span> صح.</p>
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+  <h2>8 · More than two choices: if, else if, else</h2>
+  <div class="code"><span class="mono">if (score &gt;= 90) {
+  console.log("Excellent!");
+} else if (score &gt;= 50) {
+  console.log("You passed");
+} else {
+  console.log("Try again");
+}</span></div>
+  <p>The computer reads from the <b>top down</b> (sequential execution) and runs the <b>first</b> branch that is true. The rest are skipped.</p>
+  <table class="trace">
+    <tr><th>score</th><th>score &gt;= 90?</th><th>score &gt;= 50?</th><th>It prints</th></tr>
+    <tr><td>95</td><td class="t">true</td><td>not asked</td><td>Excellent!</td></tr>
+    <tr><td>70</td><td class="f">false</td><td class="t">true</td><td>You passed</td></tr>
+    <tr><td>30</td><td class="f">false</td><td class="f">false</td><td>Try again</td></tr>
+  </table>
+  <p class="ar">أول شرط يطلع true هو اللي بيتنفذ، والباقي بيتساب.</p>
+
+  <div class="term">
+    <h4>Watch out: the order matters</h4>
+    <p>If you write <span class="mono">score &gt;= 50</span> first, then a score of <b>95</b> prints “You passed”:
+    95 &gt;= 50 is already true, so the computer stops there and never checks 90.
+    <b>Put the hardest (biggest) condition first.</b></p>
+    <p class="ar">حط الشرط الأصعب (الأكبر) الأول، لأن الكمبيوتر بيقف عند أول شرط true.</p>
+  </div>
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+  <h2>9 · Math inside a condition</h2>
+  <p>A cake needs 12 eggs, and each box has 6. The computer <b>calculates first</b>, then compares:</p>
+  <div class="code"><span class="mono">if (boxes * 6 &gt;= 12) {
+  console.log("Enough eggs for the cake");
+} else {
+  console.log("Buy more eggs");
+}</span></div>
+  <table class="trace">
+    <tr><th>boxes</th><th>boxes * 6</th><th>… &gt;= 12?</th><th>It prints</th></tr>
+    <tr><td>1</td><td>6</td><td class="f">false</td><td>Buy more eggs</td></tr>
+    <tr><td>2</td><td>12</td><td class="t">true</td><td>Enough eggs for the cake</td></tr>
+  </table>
+
+  <h2>10 · An if inside an if (nesting)</h2>
+  <p>A door behind a door: the inner question is asked <b>only if</b> the outer answer is true.</p>
+  <div class="code"><span class="mono">if (temp &gt; 30) {
+  if (temp &gt; 40) {
+    console.log("Stay inside!");
+  } else {
+    console.log("Wear a hat");
+  }
+} else {
+  console.log("Nice weather");
+}</span></div>
+  <table class="trace">
+    <tr><th>temp</th><th>temp &gt; 30?</th><th>temp &gt; 40?</th><th>It prints</th></tr>
+    <tr><td>45</td><td class="t">true</td><td class="t">true</td><td>Stay inside!</td></tr>
+    <tr><td>35</td><td class="t">true</td><td class="f">false</td><td>Wear a hat</td></tr>
+    <tr><td>20</td><td class="f">false</td><td>not asked</td><td>Nice weather</td></tr>
+  </table>
+  <p class="ar">الـ if اللي جوّه مش بيتسأل غير لما اللي برّه يطلع true.</p>
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+  <div class="partband"><b>3</b><span>Put them together &middot; Qureo chapter 30</span></div>
+  <h2>11 · A loop and a decision</h2>
+  <p>The <span class="mono">for…of</span> takes one value; the <span class="mono">if</span> decides for <b>that</b> value. Then the next one.</p>
+  <div class="code"><span class="mono">let marks = [80, 40, 65];
+
+for (let mark of marks) {
+  if (mark &gt;= 50) {
+    console.log(mark + " pass");
+  } else {
+    console.log(mark + " fail");
+  }
+}</span></div>
+  <table class="trace">
+    <tr><th>Round</th><th>mark is…</th><th>mark &gt;= 50?</th><th>It prints</th></tr>
+    <tr><td>1</td><td>80</td><td class="t">true</td><td>80 pass</td></tr>
+    <tr><td>2</td><td>40</td><td class="f">false</td><td>40 fail</td></tr>
+    <tr><td>3</td><td>65</td><td class="t">true</td><td>65 pass</td></tr>
+  </table>
+  <p class="ar">الحلقة بتاخد درجة درجة، والـ if بيقرر للدرجة دي بس.</p>
+
+  <h2>12 · Activity — trace the loop</h2>
   <div class="code"><span class="mono">let pets = ["cat", "dog", "fish"];
 
 for (let pet of pets) {
@@ -319,14 +439,34 @@ for (let pet of pets) {
     <tr><td>2</td><td></td><td></td></tr>
     <tr><td>3</td><td></td><td></td></tr>
   </table>
-  <p class="ar">املا الجدول لفة لفة، زي ما عملنا مع الفواكه.</p>
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
 
-  <h2>7 · Check your understanding</h2>
+<section class="sheet">
+  <h2>13 · Activity — which ticket?</h2>
+  <div class="code"><span class="mono">if (age &gt;= 12) {
+  if (age &gt;= 18) {
+    console.log("Adult ticket");
+  } else {
+    console.log("Teen ticket");
+  }
+} else {
+  console.log("Child ticket");
+}</span></div>
+  <table class="trace">
+    <tr><th>age</th><th>age &gt;= 12?</th><th>age &gt;= 18?</th><th>It prints</th></tr>
+    <tr><td>8</td><td></td><td></td><td></td></tr>
+    <tr><td>15</td><td></td><td></td><td></td></tr>
+    <tr><td>30</td><td></td><td></td><td></td></tr>
+  </table>
+  <p class="ar">لو الشرط اللي برّه طلع false، اكتب «not asked» في خانة الشرط اللي جوّه.</p>
+
+  <h2>14 · Check your understanding</h2>
   <ol class="qs">
     <li>In <span class="mono">for (let x of names)</span>, which word do you choose yourself?<div class="rule tight"></div></li>
-    <li>An array has 5 values. How many times does the loop run?<div class="rule tight"></div></li>
-    <li>What does this print? <span class="mono">for (let n of [1, 2, 3]) { console.log(n * 2); }</span><div class="rule tight"></div></li>
-    <li>You only want to print the values. Which loop is easier, and why?<div class="rule tight"></div><div class="rule tight"></div></li>
+    <li>An array has 5 values. How many times does a <span class="mono">for…of</span> loop run?<div class="rule tight"></div></li>
+    <li>Is <span class="mono">7 &lt;= 7</span> true or false? Why?<div class="rule tight"></div></li>
+    <li>Why must <span class="mono">score &gt;= 90</span> come before <span class="mono">score &gt;= 50</span>?<div class="rule tight"></div><div class="rule tight"></div></li>
   </ol>
   <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
 </section>
@@ -335,11 +475,11 @@ for (let pet of pets) {
 <section class="sheet">
   <h2>Session Summary</h2>
   <div class="summary">
-    <p>An array holds many values, numbered from 0.</p>
-    <p><span class="mono">for…of</span> walks the array and gives you each <b>value</b> in turn.</p>
-    <p>Read <span class="mono">for (let fruit of fruits)</span> as “for each fruit in fruits”.</p>
-    <p>No counter and no <span class="mono">.length</span> — print the value directly.</p>
-    <p>Need the drawer number too? Use the normal <span class="mono">for</span> with <span class="mono">i</span>.</p>
+    <p><span class="mono">for…of</span> gives you <b>each value</b> of an array, one at a time, then stops.</p>
+    <p><span class="mono">if (…)</span> runs only when the condition is <b>true</b>; <span class="mono">else</span> runs when it is false.</p>
+    <p><span class="mono">else if</span> is checked <b>top down</b>: the <b>first</b> true branch runs — put the hardest condition first.</p>
+    <p>You can do <b>math</b> inside a condition, and put an <span class="mono">if</span> <b>inside</b> an <span class="mono">if</span>.</p>
+    <p>A loop with an <span class="mono">if</span> inside decides for <b>every</b> value.</p>
   </div>
 
   <h2>Test Yourself Online</h2>
@@ -349,7 +489,7 @@ for (let pet of pets) {
       <!-- Written in: a printed sheet has no QUESTIONS to count. Set it
            to whatever the quiz page shows (45s a question, rounded up
            to the nearest 5 minutes). -->
-      <h3>Test yourself · about 10 minutes</h3>
+      <h3>Test yourself · about 20 minutes</h3>
       <p>Scan this code with your phone camera to open the quiz. At the end it tells you,
       section by section, which parts of this session you have understood and which parts
       to read again.</p>
@@ -381,8 +521,8 @@ for (let pet of pets) {
    ============================================================ */
 const SITE_BASE     = "https://pgteach.github.io/curriculum";
 const LECTURE_NUM   = 8;
-const LECTURE_TITLE = "Going through an array — for…of";
-const LECTURE_TOPIC = "JavaScript — Qureo review (chapter 28)";
+const LECTURE_TITLE = "Loops and decisions — for…of and if";
+const LECTURE_TOPIC = "JavaScript — Qureo review (chapters 28–30)";
 /* One knob for this lecture's colour: every teal accent on the page follows
    it, so lecture 2 does not have to look identical to lecture 1. The quiz is
    deliberately left on the standard palette, where green and red mean right
