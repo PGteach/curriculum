@@ -47,6 +47,8 @@
     border:1px solid var(--gold);border-radius:99px;padding:2px 10px;margin-bottom:12px;
   }
   .q{font-size:19px;font-weight:600;line-height:1.4;margin-bottom:18px}
+  .qcode{background:#16233F;color:#E6EDF3;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:15px;line-height:1.6;border-radius:10px;padding:12px 14px;margin:-6px 0 18px;white-space:pre;overflow-x:auto;text-align:left;direction:ltr}
+  .review-card .qcode{font-size:13px;margin:4px 0 8px}
 
   .opt{
     display:block;width:100%;text-align:left;font:inherit;font-size:16px;
@@ -208,6 +210,7 @@
   <div class="count" id="count"></div>
   <div class="section-tag" id="tag"></div>
   <div class="q" id="question"></div>
+    <pre class="qcode" id="qcode" hidden></pre>
   <div class="gloss hide" id="gloss"></div>
   <div id="options"></div>
   <div class="verdict hide" id="verdict"></div>
@@ -305,63 +308,20 @@ const SECTIONS = [
    and it renders only once the answer is locked in. Never put reasoning
    in `v`; that is an answer key printed above the options. */
 const QUESTIONS = [
-  // ---- Section 0 · Arrays & loops reminder ----
-  { s:0, q:"In the array let fruits = [\"apple\", \"banana\", \"mango\"], what is fruits[0]?",
-    o:["\"apple\"","\"banana\"","\"mango\""], k:"hc1qfwt9et",
-    why:"Array drawers are numbered from 0, so fruits[0] is the first value, \"apple\".",
-    ar:"ترقيم المصفوفة بيبدأ من صفر، فـ fruits[0] هي أول قيمة." },
-  { s:0, q:"What does .length tell you about an array?",
-    o:["How many values it has","The first value","The last drawer number"], k:"1uud2siv24x",
-    v:[["length","الطول — عدد العناصر"]],
-    why:".length is the count of values in the array (here, 3).",
-    ar:"‏.length بترجّع عدد القيم اللي في المصفوفة." },
-  { s:0, q:"A normal for loop like for (let i = 0; i < 3; i++) keeps a counter. What is the counter here?",
-    o:["i","3","console.log"], k:"1dxug2oqiq5",
-    v:[["counter","العدّاد"]],
-    why:"i is the counter: it starts at 0 and goes up by 1 each round.",
-    ar:"‏i هو العدّاد: بيبدأ من صفر ويزيد واحد كل لفة." },
-
-  // ---- Section 1 · Reading for…of ----
-  { s:1, q:"In for (let fruit of fruits) { ... }, what is fruit each time round the loop?",
-    o:["One value taken from the array","The drawer number (0, 1, 2)","The whole array"], k:"66w1mqs0b5",
-    why:"for…of hands you the value itself, one at a time — not its number.",
-    ar:"‏for…of بتديك القيمة نفسها، واحدة واحدة، مش رقمها." },
-  { s:1, q:"In for (let x of names), which part is the name you choose yourself?",
-    o:["x","of","names"], k:"luot6uwsnu",
-    why:"The word after let is your own name for each value; of and names are fixed.",
-    ar:"الكلمة اللي بعد let إنت اللي بتختارها؛ of و names ثابتين." },
-  { s:1, q:"How do you read for (let pet of pets) out loud?",
-    o:["\"for each pet of the pets\"","\"for pet equals pets\"","\"for pets of pet\""], k:"b4bkgqwamv",
-    why:"Read it as “for each pet in pets”: take each value from pets in turn.",
-    ar:"اقرأها: «لكل pet جوّه pets» — خُد كل قيمة من pets بالدور." },
-
-  // ---- Section 2 · Tracing the output ----
-  { s:2, q:"let a = [1, 2, 3]; for (let n of a) { console.log(n); } — what prints?",
-    o:["1 then 2 then 3","0 then 1 then 2","1 2 3 on one line as [1,2,3]"], k:"17ntnudplug",
-    why:"Each value is printed on its own, in order: 1, 2, 3.",
-    ar:"بيطبع كل قيمة لوحدها بالترتيب: 1 و 2 و 3." },
-  { s:2, q:"let fruits = [\"apple\",\"banana\"]; for (let f of fruits) { console.log(f); } — what prints first?",
-    o:["apple","banana","0"], k:"1pvfhu0bky0",
-    why:"for…of starts at the first value, so apple prints first.",
-    ar:"‏for…of بتبدأ من أول قيمة، فـ apple بتطبع الأول." },
-  { s:2, q:"How many times does the body run for an array of 4 values?",
-    o:["4 times — once per value","3 times","5 times"], k:"vdeiexnrbp",
-    why:"for…of runs the body once for every value, so 4 values means 4 runs.",
-    ar:"بتشتغل مرة لكل قيمة، يبقى 4 قيم = 4 لفات." },
-  { s:2, q:"let s = [7, 10]; for (let x of s) { console.log(x + \" marks\"); } — what prints?",
-    o:["7 marks then 10 marks","x marks then x marks","17 marks"], k:"1koisptnxe9",
-    why:"Each number is joined to the text: \"7 marks\", then \"10 marks\".",
-    ar:"كل رقم بيتلزق بالكلمة: «7 marks» وبعدها «10 marks»." },
-
-  // ---- Section 3 · Choosing the loop ----
-  { s:3, q:"You just want to print every value in an array. Which loop is simpler?",
-    o:["for…of","the normal for with a counter","neither works"], k:"jff5376jz5",
-    why:"When you only need the values, for…of is shorter and safer — no counter, no .length.",
-    ar:"لو عايز القيم بس، for…of أقصر وأأمن — من غير عدّاد ولا length." },
-  { s:3, q:"Inside for (let fruit of fruits), which line correctly prints the value?",
-    o:["console.log(fruit);","console.log(fruits[fruit]);","console.log(fruits.length);"], k:"eurj5ov8bo",
-    why:"fruit is already the value, so print it directly. fruits[fruit] is the common mistake.",
-    ar:"‏fruit هي القيمة نفسها، فاطبعها على طول. fruits[fruit] هو الغلط الشائع." },
+  { s:0, d:1, q:"What is fruits[0]?", c:"let fruits = [\"apple\", \"banana\", \"mango\"];", o:["\"apple\"", "\"banana\"", "\"mango\""], k:"hc1qfwt9et", why:"Drawer numbers start at 0, so fruits[0] is the first value.", ar:"ترقيم الأدراج بيبدأ من صفر، فـ fruits[0] هي أول قيمة." },
+  { s:0, d:1, q:"What is fruits.length?", c:"let fruits = [\"apple\", \"banana\", \"mango\"];", o:["3", "2", "0"], k:"1ahuxc3yrg9", v:[["length", "الطول — عدد القيم"]], why:".length is how many values the array has: three.", ar:"‏.length هي عدد القيم اللي في المصفوفة: تلاتة." },
+  { s:1, d:1, q:"In this loop, what is fruit each time it runs?", c:"for (let fruit of fruits) {\n  console.log(fruit);\n}", o:["One value from the array", "A drawer number like 0, 1, 2", "The whole array"], k:"1cxcz3fe928", why:"for…of gives you the value itself, one at a time — not its number.", ar:"‏for…of بتديك القيمة نفسها، واحدة واحدة — مش رقمها." },
+  { s:1, d:1, q:"Which word is the name that YOU choose?", c:"for (let x of names) {\n  console.log(x);\n}", o:["x", "of", "names"], k:"luot6uwsnu", why:"The word after let is your own name. of is a keyword, names is the array.", ar:"الكلمة اللي بعد let إنت اللي بتختارها. of كلمة ثابتة، و names هي المصفوفة." },
+  { s:1, d:2, q:"Which line goes through every value in the array pets?", o:["for (let pet of pets)", "for (let pets of pet)", "for (let pet = pets)"], k:"sv5btd5htd", why:"First your name for one value (pet), then of, then the array (pets).", ar:"الأول اسمك للقيمة الواحدة (pet)، وبعدين of، وبعدين المصفوفة (pets)." },
+  { s:2, d:1, q:"What does this print?", c:"let nums = [1, 2, 3];\nfor (let n of nums) {\n  console.log(n);\n}", o:["1, then 2, then 3", "0, then 1, then 2", "[1, 2, 3] once"], k:"1cb1igdscio", why:"Each value is printed on its own line, in order.", ar:"كل قيمة بتتطبع لوحدها، بالترتيب." },
+  { s:2, d:2, q:"Now each number is multiplied by 10. What does this print?", c:"let nums = [1, 2, 3];\nfor (let n of nums) {\n  console.log(n * 10);\n}", o:["10, then 20, then 30", "1, then 2, then 3", "60"], k:"17gqzekevug", why:"Each round n is one number, and it prints that number times 10.", ar:"كل لفة n رقم واحد، وبيطبع الرقم ده مضروب في 10." },
+  { s:2, d:2, q:"Each pet is added to a sentence. What does this print?", c:"let pets = [\"cat\", \"dog\"];\nfor (let pet of pets) {\n  console.log(\"I love my \" + pet);\n}", o:["I love my cat, then I love my dog", "I love my pet, two times", "I love my cat dog"], k:"pfrsiedkt0", why:"Each round, the value of pet is added to the end of the sentence.", ar:"كل لفة قيمة pet بتتلزق في آخر الجملة." },
+  { s:2, d:1, q:"How many times does console.log run?", c:"let colors = [\"red\", \"green\", \"blue\", \"pink\"];\nfor (let c of colors) {\n  console.log(c);\n}", o:["4 times", "3 times", "1 time"], k:"1ibpojhue2s", why:"The loop runs once for every value. There are 4 values.", ar:"الحلقة بتشتغل مرة لكل قيمة. فيه 4 قيم." },
+  { s:2, d:1, q:"What prints FIRST?", c:"let days = [\"Sat\", \"Sun\", \"Mon\"];\nfor (let day of days) {\n  console.log(day);\n}", o:["Sat", "Mon", "0"], k:"eb92mfg5vs", why:"for…of starts with the first value in the array.", ar:"‏for…of بتبدأ بأول قيمة في المصفوفة." },
+  { s:3, d:2, q:"This code has a mistake. Which line fixes it?", c:"for (let fruit of fruits) {\n  console.log(fruits[fruit]);\n}", o:["console.log(fruit);", "console.log(fruits);", "console.log(fruits[0]);"], k:"eurj5ov8bo", v:[["mistake", "غلطة"]], why:"fruit is already the value, so print fruit. fruits[fruit] is the common mistake.", ar:"‏fruit هي القيمة نفسها، فاطبعها على طول. fruits[fruit] هو الغلط المشهور." },
+  { s:3, d:1, q:"You only want to print every name in a list. Which loop is easier?", o:["for…of", "for with a counter i", "No loop can do it"], k:"jff5376jz5", v:[["counter", "العدّاد"]], why:"Only the values? for…of is shorter: no counter and no .length.", ar:"عايز القيم بس؟ for…of أقصر: من غير عدّاد ولا length." },
+  { s:3, d:3, q:"You want to print the place number next to each name (0 Ali, 1 Mona). Which loop do you need?", o:["for with a counter i", "for…of", "Both work the same"], k:"kiykcgo5kv", why:"for…of gives only the values. To get the place number you need the counter i.", ar:"‏for…of بتديك القيم بس. عشان رقم المكان محتاج العدّاد i." },
+  { s:3, d:3, q:"Challenge: what is total at the end?", c:"let marks = [2, 4, 6];\nlet total = 0;\nfor (let m of marks) {\n  total = total + m;\n}", o:["12", "6", "3"], k:"o3dl3n5gsp", why:"Each round adds one mark: 0 + 2 = 2, then 6, then 12.", ar:"كل لفة بتزوّد درجة: 0 + 2 = 2، وبعدين 6، وبعدين 12." },
 ];
 
 /* ---- answer keys ------------------------------------------------------
@@ -537,6 +497,9 @@ function render(){
   $("count").textContent = "Question " + (state.i+1) + " of " + QUESTIONS.length;
   $("tag").textContent = SECTIONS[q.s];
   $("question").textContent = q.q;
+  /* optional code under the question: textContent, never innerHTML */
+  $("qcode").textContent = q.c || "";
+  $("qcode").hidden = !q.c;
   glossary(q);
 
   state.order = shuffle(q.o.map((_, k) => k));
@@ -599,6 +562,7 @@ function choose(idx){
   } else {
     state.wrongQuestions.push({
       question: q.q,
+      code: q.c || "",
       selected: q.o[idx],
       correct: q.o[ansOf(q)],
       why: q.why,
@@ -695,6 +659,7 @@ function finish(){
       const card = document.createElement("div");
       card.className = "review-card";
       card.appendChild(el("h4", "", item.question));
+      if(item.code) card.appendChild(el("pre", "qcode", item.code));
       card.appendChild(ansLine("\u274c", "Your answer:", item.selected, "w-val"));
       card.appendChild(ansLine("\u2705", "Correct answer:", item.correct, "c-val"));
       card.appendChild(el("div", "why-txt", item.why));

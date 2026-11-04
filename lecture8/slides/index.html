@@ -333,6 +333,81 @@ tr:last-child td{border-bottom:0}
 @media print{#zoom{display:none!important}}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- tap to reveal (same pattern as lecture 4) ---------- */
+@keyframes revealPop{
+  0%  {transform:scale(.6); opacity:.2; filter:blur(8px)}
+  55% {transform:scale(1.18); opacity:1; filter:blur(0)}
+  75% {transform:scale(.96)}
+  100%{transform:scale(1)}
+}
+@keyframes revealFlash{0%{background:var(--gold-pale)} 100%{background:transparent}}
+@keyframes revealStamp{
+  0%  {transform:scale(2.4) rotate(-25deg); opacity:0}
+  60% {transform:scale(.9) rotate(4deg); opacity:1}
+  100%{transform:scale(1) rotate(0)}
+}
+@keyframes hintBreathe{0%,100%{opacity:.55} 50%{opacity:.9}}
+td.reveal{cursor:pointer}
+td.reveal span{display:inline-block}
+td.reveal:not(.shown) span{filter:blur(7px); user-select:none; animation:hintBreathe 2.4s ease-in-out infinite}
+td.reveal.shown{animation:revealFlash 1.1s ease-out}
+td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; color:var(--teal); font-weight:600}
+.check li.rv{cursor:pointer}
+.check li.rv::before{content:"?"; color:var(--gold); display:inline-block}
+.check li.rv.shown::before{content:"\2713"; color:var(--teal); animation:revealStamp .5s cubic-bezier(.2,.8,.3,1.2) both}
+.check li.rv .ans{display:inline-block}
+.check li.rv:not(.shown) .ans{filter:blur(7px); user-select:none; animation:hintBreathe 2.4s ease-in-out infinite}
+.check li.rv.shown .ans{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) .12s both}
+/* one answer under an example: "Answer — tap to see" */
+.answer{display:inline-flex;flex-wrap:wrap;gap:.3em .7em;align-items:center;margin-top:.8rem;
+  border:2px dashed var(--gold);border-radius:12px;padding:.55em 1em;cursor:pointer;background:#fff;
+  font-size:clamp(14px,1.6vw,21px)}
+.answer .q{font-weight:600;color:var(--soft)}
+.answer .ans{display:inline-block;font-family:"JetBrains Mono",monospace}
+.answer:not(.shown) .ans{filter:blur(7px);user-select:none;animation:hintBreathe 2.4s ease-in-out infinite}
+.answer.shown{border-style:solid;border-color:var(--teal);animation:revealFlash 1.1s ease-out}
+.answer.shown .ans{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both;color:var(--teal);font-weight:600}
+@media print{td.reveal span,.check li.rv .ans,.answer .ans{filter:none!important;animation:none!important}}
+
+/* ---------- array drawers ---------- */
+.drawers{display:flex;gap:clamp(6px,.9vw,12px);flex-wrap:wrap;margin:.5rem 0}
+.drawer{min-width:4.8em;text-align:center;border:2px solid var(--line);border-radius:10px;background:#fff;
+  padding:.5em .6em .35em;font-family:"JetBrains Mono",monospace;font-size:clamp(13px,1.55vw,20px);
+  transition:transform .3s,border-color .3s,background .3s,opacity .3s}
+.drawer small{display:block;font-size:.68em;color:var(--soft);margin-top:.25em}
+.drawer.now{border-color:var(--gold);background:var(--gold-pale);transform:translateY(-6px) scale(1.07);
+  box-shadow:0 8px 16px rgba(22,35,63,.1)}
+.drawer.done{opacity:.4}
+
+/* ---------- the loop tracer: watch for...of run, one step at a time ---------- */
+.tracer{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(12px,1.8vw,26px);margin-top:1rem;align-items:start}
+@media(max-width:720px){.tracer{grid-template-columns:1fr}}
+.tcode{background:var(--ink);color:#E6EDF3;border-radius:12px;padding:clamp(10px,1.4vw,18px);
+  font-family:"JetBrains Mono",monospace;font-size:clamp(12px,1.45vw,19px);line-height:1.75;overflow-x:auto}
+.tcode .ln{display:block;padding:0 .45em;border-radius:6px;white-space:pre;transition:background .25s,box-shadow .25s}
+.tcode .ln.hot{background:rgba(247,198,107,.2);box-shadow:inset 4px 0 0 #F7C66B}
+.tcode .k{color:#FF9D7A}.tcode .s{color:#8FE3D6}.tcode .n{color:#F7C66B}.tcode .f{color:#9DC7FF}
+.tcons{margin-top:.6rem;background:#0B1324;color:#7CE38F;border-radius:10px;padding:.6em .9em;
+  font-family:"JetBrains Mono",monospace;font-size:clamp(12px,1.45vw,19px);min-height:5.6em}
+.tcons .lbl{display:block;color:#7C8B99;font-size:.72em;margin-bottom:.25em;font-family:inherit}
+.tcons .line{display:block;animation:typeIn .5s steps(16) both}
+@keyframes typeIn{from{clip-path:inset(0 100% 0 0)} to{clip-path:inset(0 0 0 0)}}
+.tlbl{font-size:clamp(12px,1.3vw,16px);font-weight:600;color:var(--soft);margin-bottom:.2rem}
+.tvar{margin-top:.9rem;display:flex;align-items:center;gap:.6em;font-family:"JetBrains Mono",monospace;
+  font-size:clamp(14px,1.75vw,23px)}
+.tvar b{min-width:5.2em;text-align:center;border:2px dashed var(--teal);border-radius:10px;padding:.25em .6em;
+  color:var(--teal);background:var(--teal-pale)}
+.tvar b.pop{animation:revealPop .6s cubic-bezier(.2,.8,.3,1.1) both}
+.tstat{margin-top:.8rem;font-size:clamp(13px,1.5vw,19px);min-height:4.8em;line-height:1.45}
+.tstat .ar{display:block;margin-top:.25em;color:var(--soft)}
+.tbtns{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem}
+.tbtns button{font:inherit;font-size:clamp(13px,1.4vw,17px);font-weight:600;border-radius:9px;padding:.55em 1.05em;
+  cursor:pointer;background:var(--teal);color:#fff;border:1px solid var(--teal)}
+.tbtns button.alt{background:#fff;color:var(--ink);border-color:var(--line)}
+.tbtns button:disabled{opacity:.4;cursor:default}
+.big{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(22px,3.6vw,46px);line-height:1.2;margin-top:1rem}
+.big .mono{font-size:.85em}
 </style>
 </head>
 <body>
@@ -344,7 +419,7 @@ tr:last-child td{border-bottom:0}
   <section class="slide dark">
     <div class="rise eyebrow" id="lectureBadge">JavaScript · Qureo Chapter 28</div>
     <h1 class="rise">Going through an array — <span class="mono">for…of</span></h1>
-    <p class="rise sub" style="margin-top:1.2rem">By the end you can print every value in an array with one short, tidy loop.</p>
+    <p class="rise sub" style="margin-top:1.2rem">Today: one short loop that visits every value in an array, one by one.</p>
     <p class="rise arline ar">في آخر الحصة هتعرف تطبع كل قيمة في المصفوفة بحلقة واحدة قصيرة ومرتبة.</p>
   </section>
 
@@ -361,152 +436,160 @@ tr:last-child td{border-bottom:0}
        .kit/.card (icon row), .fields/.chip (tag cloud), .codeline (code).
        ------------------------------------------------------------------- -->
 
-  <!-- 2 REMINDER: array -->
+  <!-- 2 THE IDEA IN ONE PICTURE -->
   <section class="slide">
-    <div class="rise eyebrow">1 · Remember first</div>
-    <h2 class="rise">An array is a box with many drawers</h2>
-    <p class="rise sub">One name, many values inside, each in its own drawer.</p>
+    <div class="rise eyebrow">1 · The idea</div>
+    <h2 class="rise">Think of a box of sweets</h2>
+    <p class="rise sub">You take out one sweet, eat it, then take the next one &mdash; until the box is empty. <span class="mono">for…of</span> does exactly this with an array.</p>
+    <div class="rise kit">
+      <div class="card"><div class="ico">📦</div><h3>The box</h3><p>is the <b>array</b></p></div>
+      <div class="card"><div class="ico">✋</div><h3>Take one out</h3><p><span class="mono">for…of</span> gives you <b>one value</b></p></div>
+      <div class="card"><div class="ico">😋</div><h3>Eat it</h3><p>the code inside <b>{ }</b> runs</p></div>
+      <div class="card"><div class="ico">🛑</div><h3>Box is empty</h3><p>the loop <b>stops</b></p></div>
+    </div>
+    <p class="rise arline ar">تخيّل علبة حلويات: بتطلّع حتة، تاكلها، وبعدين اللي بعدها، لحد ما العلبة تخلص. <span class="mono" dir="ltr">for…of</span> بتعمل كده بالظبط مع المصفوفة.</p>
+  </section>
+
+  <!-- 3 REMINDER: ARRAY -->
+  <section class="slide">
+    <div class="rise eyebrow">2 · Remember: arrays</div>
+    <h2 class="rise">An array is a row of drawers</h2>
     <div class="rise code"><span class="k">let</span> fruits = [<span class="s">"apple"</span>, <span class="s">"banana"</span>, <span class="s">"mango"</span>];</div>
-    <p class="rise">The drawers are numbered from <b>0</b>: apple is <span class="codeline">fruits[0]</span>, banana is <span class="codeline">fruits[1]</span>, mango is <span class="codeline">fruits[2]</span>.</p>
-    <p class="rise arline ar">المصفوفة اسم واحد جواه كذا قيمة، كل قيمة في درج. الترقيم بيبدأ من صفر: <span class="mono" dir="ltr">fruits[0]</span> هي أول قيمة.</p>
+    <div class="rise drawers">
+      <div class="drawer">"apple"<small>[0]</small></div>
+      <div class="drawer">"banana"<small>[1]</small></div>
+      <div class="drawer">"mango"<small>[2]</small></div>
+    </div>
+    <p class="rise">Each value sits in a drawer. The drawer numbers start at <b>0</b>.</p>
+    <ul class="rise check">
+      <li class="reveal rv">What is <span class="codeline">fruits[1]</span>? <span class="ans">&mdash; <b>"banana"</b> (the second drawer)</span></li>
+      <li class="reveal rv">What is <span class="codeline">fruits.length</span>? <span class="ans">&mdash; <b>3</b> (three values)</span></li>
+    </ul>
+    <p class="rise arline ar">كل قيمة في دُرج، والترقيم بيبدأ من صفر. فكّر الأول، وبعدين دوس على الإجابة عشان تظهر.</p>
   </section>
 
-  <!-- 3 REMINDER: for loop -->
+  <!-- 4 THE OLD WAY -->
   <section class="slide">
-    <div class="rise eyebrow">2 · Remember first</div>
-    <h2 class="rise">A <span class="mono">for</span> loop repeats, and counts as it goes</h2>
-    <div class="rise code"><span class="k">for</span> (<span class="k">let</span> i = <span class="n">0</span>; i &lt; <span class="n">3</span>; i++) {
-  <span class="f">console.log</span>(i);
-}</div>
-    <p class="rise prints">prints <b>0</b>, then <b>1</b>, then <b>2</b></p>
-    <p class="rise">It keeps a counter <span class="codeline">i</span>, checks a condition, and adds 1 each round.</p>
-    <p class="rise arline ar">حلقة <span class="mono" dir="ltr">for</span> بتكرّر، وبتعدّ وهي ماشية: بتمسك عدّاد <span class="mono" dir="ltr">i</span>، وبتزوّده واحد كل لفة.</p>
-  </section>
-
-  <!-- 4 THE PROBLEM -->
-  <section class="slide">
-    <div class="rise eyebrow">3 · The problem</div>
-    <h2 class="rise">Printing every fruit — the long way</h2>
-    <p class="rise sub">To use the counter as a drawer number, you must get three things right.</p>
-    <div class="rise code"><span class="k">let</span> fruits = [<span class="s">"apple"</span>, <span class="s">"banana"</span>, <span class="s">"mango"</span>];
-
-<span class="k">for</span> (<span class="k">let</span> i = <span class="n">0</span>; i &lt; fruits.length; i++) {
+    <div class="rise eyebrow">3 · The old way</div>
+    <h2 class="rise">Printing every fruit with a normal <span class="mono">for</span></h2>
+    <div class="rise code"><span class="k">for</span> (<span class="k">let</span> i = <span class="n">0</span>; i &lt; fruits.length; i++) {
   <span class="f">console.log</span>(fruits[i]);
 }</div>
-    <p class="rise">You wrote <span class="codeline">i</span> four times, and you had to remember <span class="codeline">fruits.length</span> and <span class="codeline">fruits[i]</span>. Easy to get wrong.</p>
-    <p class="rise arline ar">لازم تكتب العدّاد صح، وتفتكر <span class="mono" dir="ltr">.length</span> و <span class="mono" dir="ltr">fruits[i]</span>. سهل تغلط.</p>
+    <p class="rise sub">It works &mdash; but you must get <b>three things</b> right:</p>
+    <div class="rise pipe">
+      <div class="step"><div class="n">1</div><h3>Start at 0</h3><p><span class="mono">let i = 0</span></p></div>
+      <div class="step"><div class="n">2</div><h3>Stop at the end</h3><p><span class="mono">i &lt; fruits.length</span></p></div>
+      <div class="step"><div class="n">3</div><h3>Open the drawer</h3><p><span class="mono">fruits[i]</span></p></div>
+    </div>
+    <p class="rise arline ar">بتشتغل، بس لازم تظبط تلات حاجات: تبدأ من صفر، وتقف في الآخر، وتفتح الدُرج بـ <span class="mono" dir="ltr">fruits[i]</span>. غلطة في أي واحدة = مشكلة.</p>
   </section>
 
   <!-- 5 MEET for...of -->
   <section class="slide dark">
     <div class="rise eyebrow">4 · The easy way</div>
     <h2 class="rise">Meet <span class="mono">for…of</span></h2>
-    <p class="rise sub">It hands you each value, one at a time. No counter, no drawer numbers.</p>
-    <div class="rise code"><span class="k">let</span> fruits = [<span class="s">"apple"</span>, <span class="s">"banana"</span>, <span class="s">"mango"</span>];
-
-<span class="k">for</span> (<span class="k">let</span> fruit <span class="k">of</span> fruits) {
+    <div class="rise code"><span class="k">for</span> (<span class="k">let</span> fruit <span class="k">of</span> fruits) {
   <span class="f">console.log</span>(fruit);
 }</div>
-    <p class="rise prints">prints <b>apple</b>, then <b>banana</b>, then <b>mango</b></p>
-    <p class="rise arline ar">بتديك كل قيمة لوحدها، من غير عدّاد ولا أرقام دُرج. اقرأها: "لكل <span class="mono" dir="ltr">fruit</span> جوّه <span class="mono" dir="ltr">fruits</span>".</p>
+    <p class="rise big">Read it as: &ldquo;for each <span class="mono">fruit</span> of <span class="mono">fruits</span>, print it.&rdquo;</p>
+    <p class="rise sub">No counter. No drawer numbers. It hands you each value, one at a time.</p>
+    <p class="rise arline ar">اقراها: «لكل <span class="mono" dir="ltr">fruit</span> من <span class="mono" dir="ltr">fruits</span>، اطبعها». من غير عدّاد ولا أرقام أدراج.</p>
   </section>
 
-  <!-- 6 SIDE BY SIDE -->
+  <!-- 6 WATCH IT RUN -->
   <section class="slide">
-    <div class="rise eyebrow">5 · Side by side</div>
-    <h2 class="rise">Same result, less to write</h2>
-    <div class="rise vs">
-      <div class="pane a">
-        <h3>Normal <span class="mono">for</span></h3>
-        <div class="code" style="font-size:clamp(11px,1.4vw,17px)"><span class="k">for</span> (<span class="k">let</span> i = <span class="n">0</span>; i &lt; fruits.length; i++) {
-  <span class="f">console.log</span>(fruits[i]);
-}</div>
-        <ul><li>counter <span class="codeline">i</span></li><li>needs <span class="codeline">.length</span></li><li>needs <span class="codeline">fruits[i]</span></li></ul>
-      </div>
-      <div class="pane b">
-        <h3><span class="mono">for…of</span></h3>
-        <div class="code" style="font-size:clamp(11px,1.4vw,17px)"><span class="k">for</span> (<span class="k">let</span> fruit <span class="k">of</span> fruits) {
-  <span class="f">console.log</span>(fruit);
-}</div>
-        <ul><li>no counter</li><li>no <span class="codeline">.length</span></li><li>the value is ready</li></ul>
-      </div>
-    </div>
-    <p class="rise arline ar">نفس النتيجة بالظبط، بس كتابة أقل وغلط أقل.</p>
+    <div class="rise eyebrow">5 · Watch it run</div>
+    <h2 class="rise">Step by step</h2>
+    <div class="rise tracer" data-list="fruits" data-var="fruit" data-print="fruit"
+         data-arr='["apple","banana","mango"]' data-outs='["apple","banana","mango"]'></div>
+    <p class="rise arline ar">دوس <b>Next step</b> وشوف: كل لفة <span class="mono" dir="ltr">fruit</span> بياخد قيمة، وبعدين بتتطبع.</p>
   </section>
 
-  <!-- 7 SYNTAX BREAKDOWN -->
+  <!-- 7 THE THREE WORDS -->
   <section class="slide">
     <div class="rise eyebrow">6 · Read it part by part</div>
-    <h2 class="rise">The three words that matter</h2>
+    <h2 class="rise">Only three words matter</h2>
     <div class="rise code"><span class="k">for</span> (<span class="k">let</span> <span style="color:#F7C66B">fruit</span> <span class="k">of</span> <span style="color:#9DC7FF">fruits</span>) { … }</div>
     <table class="rise">
-      <tr><th>Part</th><th>What it is</th></tr>
-      <tr><td><b class="mono" style="color:#F7C66B">fruit</b></td><td>a name <i>you</i> choose — one value each round</td></tr>
-      <tr><td><b class="mono">of</b></td><td>the keyword that means "take from"</td></tr>
-      <tr><td><b class="mono" style="color:#9DC7FF">fruits</b></td><td>the array you are going through</td></tr>
+      <tr><th>Word</th><th>What it means</th></tr>
+      <tr><td><b class="mono">fruit</b></td><td>a name <b>you</b> choose &mdash; it holds one value each time</td></tr>
+      <tr><td><b class="mono">of</b></td><td>means &ldquo;take from&rdquo;</td></tr>
+      <tr><td><b class="mono">fruits</b></td><td>the array you go through</td></tr>
     </table>
-    <p class="rise arline ar">الاسم اللي بعد <span class="mono" dir="ltr">let</span> إنت اللي بتختاره. وبعد <span class="mono" dir="ltr">of</span> بتحط المصفوفة.</p>
+    <p class="rise sub">Tip: name it the singular of the array: <span class="mono">pets &rarr; pet</span>, <span class="mono">names &rarr; name</span>.</p>
+    <p class="rise arline ar">الاسم اللي بعد <span class="mono" dir="ltr">let</span> إنت اللي بتختاره. نصيحة: سمّيه مفرد اسم المصفوفة.</p>
   </section>
 
-  <!-- 8 ANOTHER EXAMPLE: numbers -->
+  <!-- 8 TRY IT 1: numbers -->
   <section class="slide">
-    <div class="rise eyebrow">7 · One more example</div>
-    <h2 class="rise">It works with numbers too</h2>
-    <div class="rise code"><span class="k">let</span> scores = [<span class="n">7</span>, <span class="n">10</span>, <span class="n">9</span>];
-
-<span class="k">for</span> (<span class="k">let</span> score <span class="k">of</span> scores) {
-  <span class="f">console.log</span>(score + <span class="s">" marks"</span>);
-}</div>
-    <p class="rise prints">prints <b>7 marks</b>, <b>10 marks</b>, <b>9 marks</b></p>
-    <p class="rise arline ar">نفس الفكرة مع الأرقام. كل لفة بياخد رقم واحد من <span class="mono" dir="ltr">scores</span>.</p>
+    <div class="rise eyebrow">7 · Try it yourself</div>
+    <h2 class="rise">What does this print?</h2>
+    <div class="rise answer reveal"><span class="q">Think first, then tap &rarr;</span><span class="ans">2, then 4, then 6</span></div>
+    <div class="rise tracer" data-list="numbers" data-var="n" data-print="n * 2"
+         data-arr='[1,2,3]' data-outs='["2","4","6"]'></div>
+    <p class="rise arline ar">فكّر الأول، دوس على الإجابة، وبعدين شغّل الحلقة خطوة خطوة عشان تتأكد.</p>
   </section>
 
-  <!-- 9 COMMON MISTAKE -->
+  <!-- 9 TRY IT 2: pets -->
   <section class="slide">
-    <div class="rise eyebrow">8 · Watch out</div>
-    <h2 class="rise">A mistake students make</h2>
+    <div class="rise eyebrow">8 · Try it yourself</div>
+    <h2 class="rise">And this one?</h2>
+    <div class="rise answer reveal"><span class="q">Think first, then tap &rarr;</span><span class="ans">I love my cat / I love my dog / I love my fish</span></div>
+    <div class="rise tracer" data-list="pets" data-var="pet" data-print='"I love my " + pet'
+         data-arr='["cat","dog","fish"]' data-outs='["I love my cat","I love my dog","I love my fish"]'></div>
+    <p class="rise arline ar">كل لفة <span class="mono" dir="ltr">pet</span> بيتلزق في آخر الجملة.</p>
+  </section>
+
+  <!-- 10 SPOT THE MISTAKE -->
+  <section class="slide">
+    <div class="rise eyebrow">9 · Spot the mistake</div>
+    <h2 class="rise">One of these is wrong. Which one?</h2>
     <div class="rise vs">
-      <div class="pane b">
-        <h3>✅ Right</h3>
-        <div class="code" style="font-size:clamp(11px,1.4vw,17px)"><span class="k">for</span> (<span class="k">let</span> fruit <span class="k">of</span> fruits) {
-  <span class="f">console.log</span>(fruit);
-}</div>
-        <p>You already have the value.</p>
-      </div>
       <div class="pane a">
-        <h3>❌ Wrong</h3>
+        <h3>Code A</h3>
         <div class="code" style="font-size:clamp(11px,1.4vw,17px)"><span class="k">for</span> (<span class="k">let</span> fruit <span class="k">of</span> fruits) {
   <span class="f">console.log</span>(fruits[fruit]);
 }</div>
-        <p>Here <span class="codeline">fruit</span> is the value, not a number — so <span class="codeline">fruits[fruit]</span> is wrong.</p>
+      </div>
+      <div class="pane b">
+        <h3>Code B</h3>
+        <div class="code" style="font-size:clamp(11px,1.4vw,17px)"><span class="k">for</span> (<span class="k">let</span> fruit <span class="k">of</span> fruits) {
+  <span class="f">console.log</span>(fruit);
+}</div>
       </div>
     </div>
+    <ul class="rise check">
+      <li class="reveal rv">Which one is wrong? <span class="ans">&mdash; <b>Code A</b>.</span></li>
+      <li class="reveal rv">Why? <span class="ans">&mdash; <span class="mono">fruit</span> is already the value (like "apple"), not a drawer number. Just print <span class="mono">fruit</span>.</span></li>
+    </ul>
     <p class="rise arline ar">في <span class="mono" dir="ltr">for…of</span> المتغير هو القيمة نفسها، مش رقم الدُرج. اطبعه على طول.</p>
   </section>
 
-  <!-- 10 WHEN TO USE WHICH -->
+  <!-- 11 WHICH LOOP -->
   <section class="slide">
-    <div class="rise eyebrow">9 · Which one do I use?</div>
-    <h2 class="rise">A simple rule</h2>
-    <div class="rise kit">
-      <div class="card"><div class="ico">📦</div><h3>Just the values?</h3><p>Use <span class="codeline">for…of</span>. Shorter and safer.</p></div>
-      <div class="card"><div class="ico">🔢</div><h3>Need the drawer number?</h3><p>Use the normal <span class="codeline">for</span> with <span class="codeline">i</span>.</p></div>
-    </div>
-    <p class="rise arline ar">عايز القيم بس؟ استخدم <span class="mono" dir="ltr">for…of</span>. محتاج رقم الدُرج كمان؟ استخدم <span class="mono" dir="ltr">for</span> بالعدّاد.</p>
+    <div class="rise eyebrow">10 · Which loop?</div>
+    <h2 class="rise">Choose the loop for each job</h2>
+    <table class="rise">
+      <tr><th>The job</th><th>Use</th></tr>
+      <tr><td>Print every name in a class list</td><td class="reveal"><span>for…of</span></td></tr>
+      <tr><td>Print every mark in a list of marks</td><td class="reveal"><span>for…of</span></td></tr>
+      <tr><td>Print the place number next to each name (0 Ali, 1 Mona…)</td><td class="reveal"><span>for with i</span></td></tr>
+    </table>
+    <p class="rise sub">The rule: <b>only the values?</b> &rarr; <span class="mono">for…of</span>. <b>Need the drawer number too?</b> &rarr; <span class="mono">for</span> with <span class="mono">i</span>.</p>
+    <p class="rise arline ar">عايز القيم بس؟ <span class="mono" dir="ltr">for…of</span>. محتاج رقم الدُرج كمان؟ <span class="mono" dir="ltr">for</span> بالعدّاد. جاوب الأول ودوس على الخانة.</p>
   </section>
 
-  <!-- 11 YOUR TURN -->
+  <!-- 12 SUMMARY -->
   <section class="slide dark">
-    <div class="rise eyebrow">10 · Your turn</div>
-    <h2 class="rise">Try it in your head</h2>
-    <p class="rise sub">What does this print?</p>
-    <div class="rise code"><span class="k">let</span> pets = [<span class="s">"cat"</span>, <span class="s">"dog"</span>, <span class="s">"fish"</span>];
-
-<span class="k">for</span> (<span class="k">let</span> pet <span class="k">of</span> pets) {
-  <span class="f">console.log</span>(<span class="s">"I love my "</span> + pet);
-}</div>
-    <p class="rise">Say the three lines out loud, then open the quiz to check.</p>
-    <p class="rise arline ar">قول التلات سطور بصوت عالي، وبعدين افتح الاختبار وتأكد.</p>
+    <div class="rise eyebrow">Remember these four</div>
+    <h2 class="rise">What we learned</h2>
+    <ul class="rise check">
+      <li class="yes"><span class="mono">for…of</span> goes through an array and gives you <b>each value</b>, one at a time.</li>
+      <li class="yes">Read <span class="mono">for (let fruit of fruits)</span> as &ldquo;for each fruit of fruits&rdquo;.</li>
+      <li class="yes">It runs <b>once for every value</b>, then stops by itself.</li>
+      <li class="yes">The variable is the <b>value</b> &mdash; print it directly, no <span class="mono">[ ]</span>.</li>
+    </ul>
+    <p class="rise arline ar">بتمشي على المصفوفة وتديك كل قيمة • بتشتغل مرة لكل قيمة • المتغير هو القيمة نفسها.</p>
   </section>
 
   <!-- LAST SLIDE: QUIZ QR (keep this one last) -->
@@ -791,6 +874,108 @@ addEventListener('touchend', e => {
   if(Math.abs(dx) > 55) go(dx < 0 ? i+1 : i-1);
   x0 = null;
 }, {passive:true});
+
+
+/* ---- tap to reveal, and the step-by-step loop tracer -------------------
+   .reveal: tap a blurred answer to show it.
+   .tracer: builds the code, the array drawers, the variable and the console
+   from its data- attributes, then runs the loop one step per press.
+   Space/Enter on its buttons must not also turn the slide, so they stop
+   there. */
+(function(){
+  document.querySelectorAll('.reveal').forEach(function(el){
+    el.addEventListener('click', function(){ el.classList.add('shown'); });
+  });
+
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function show(x){ return typeof x === 'string' ? '"' + x + '"' : String(x); }
+
+  document.querySelectorAll('.tracer').forEach(function(box){
+    var arr  = JSON.parse(box.getAttribute('data-arr'));
+    var outs = JSON.parse(box.getAttribute('data-outs'));
+    var list = box.getAttribute('data-list'), v = box.getAttribute('data-var');
+    var expr = box.getAttribute('data-print');
+
+    box.innerHTML =
+      '<div><div class="tcode">' +
+        '<span class="ln"><span class="k">let</span> ' + list + ' = [' + arr.map(function(x){
+          return '<span class="' + (typeof x === 'string' ? 's' : 'n') + '">' + esc(show(x)) + '</span>';
+        }).join(', ') + '];</span>' +
+        '<span class="ln"> </span>' +
+        '<span class="ln"><span class="k">for</span> (<span class="k">let</span> ' + v + ' <span class="k">of</span> ' + list + ') {</span>' +
+        '<span class="ln">  <span class="f">console.log</span>(' + esc(expr) + ');</span>' +
+        '<span class="ln">}</span>' +
+      '</div><div class="tcons"><span class="lbl">Console &mdash; what prints</span></div></div>' +
+      '<div><div class="tlbl">The array <span class="mono">' + list + '</span></div><div class="drawers">' +
+        arr.map(function(x, k){ return '<div class="drawer">' + esc(show(x)) + '<small>[' + k + ']</small></div>'; }).join('') +
+      '</div><div class="tvar"><span>' + v + ' =</span><b>?</b></div>' +
+      '<p class="tstat"><span class="en"></span><span class="ar"></span></p>' +
+      '<div class="tbtns"><button type="button" class="nx">Next step &#9654;</button>' +
+      '<button type="button" class="alt pl">Play all</button>' +
+      '<button type="button" class="alt rs">&#8634; Again</button></div></div>';
+
+    var lines = box.querySelectorAll('.ln'), drawers = box.querySelectorAll('.drawer');
+    var varb = box.querySelector('.tvar b'), cons = box.querySelector('.tcons');
+    var en = box.querySelector('.tstat .en'), ar = box.querySelector('.tstat .ar');
+    var nx = box.querySelector('.nx'), pl = box.querySelector('.pl'), rs = box.querySelector('.rs');
+    var steps = [], step = 0, timer = null;
+    arr.forEach(function(_, k){ steps.push(['take', k]); steps.push(['print', k]); });
+    steps.push(['end']);
+
+    function hot(n){ for(var j = 0; j < lines.length; j++) lines[j].classList.toggle('hot', j === n); }
+    function say(e, a){ en.textContent = e; ar.textContent = a; }
+    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+
+    function reset(){
+      stop(); step = 0; hot(-1);
+      drawers.forEach(function(d){ d.className = 'drawer'; });
+      varb.textContent = '?'; varb.classList.remove('pop');
+      cons.querySelectorAll('.line').forEach(function(l){ l.remove(); });
+      nx.disabled = false; pl.disabled = false;
+      say('Press Next step to run the loop one step at a time.',
+          'اضغط Next step عشان تشغّل الحلقة خطوة خطوة.');
+    }
+
+    function next(){
+      if(step >= steps.length) return;
+      var s = steps[step++], k = s[1];
+      if(s[0] === 'take'){
+        hot(2);
+        drawers.forEach(function(d, j){ d.classList.toggle('now', j === k); d.classList.toggle('done', j < k); });
+        varb.textContent = show(arr[k]);
+        varb.classList.remove('pop'); void varb.offsetWidth; varb.classList.add('pop');
+        say('Round ' + (k + 1) + ': ' + v + ' takes value number ' + (k + 1) + ' from the array, ' + show(arr[k]) + '.',
+            'اللفة ' + (k + 1) + ': ' + v + ' بياخد القيمة رقم ' + (k + 1) + ' من المصفوفة، ' + show(arr[k]) + '.');
+      } else if(s[0] === 'print'){
+        hot(3);
+        var line = document.createElement('span');
+        line.className = 'line'; line.textContent = outs[k];
+        cons.appendChild(line);
+        say('The code inside { } runs, so it prints ' + outs[k] + '.',
+            'الكود اللي جوّه { } بيشتغل، فبيطبع ' + outs[k] + '.');
+      } else {
+        hot(4);
+        drawers.forEach(function(d){ d.classList.remove('now'); d.classList.add('done'); });
+        say('No values left, so the loop stops. It ran ' + arr.length + ' times: once for each value.',
+            'مفيش قيم تاني، فالحلقة وقفت. اشتغلت ' + arr.length + ' مرات: مرة لكل قيمة.');
+      }
+      if(step >= steps.length){ stop(); nx.disabled = true; pl.disabled = true; }
+    }
+
+    nx.addEventListener('click', function(){ stop(); next(); });
+    pl.addEventListener('click', function(){
+      if(timer) return;
+      if(step >= steps.length) reset();
+      pl.disabled = true; next();
+      timer = setInterval(next, 1300);
+    });
+    rs.addEventListener('click', reset);
+    box.addEventListener('keydown', function(e){
+      if(e.target.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) e.stopPropagation();
+    });
+    reset();
+  });
+})();
 
 const start = parseInt(location.hash.slice(1), 10);
 go(Number.isFinite(start) && start > 0 ? start - 1 : 0);

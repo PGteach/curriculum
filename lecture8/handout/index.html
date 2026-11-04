@@ -183,6 +183,18 @@ ol.qs .rule{margin-top:1.5mm}
   table,.stages,.qrbox,.term{break-inside:avoid}
 }
 @page{size:A4; margin:0}
+
+/* ---------- lecture 8: drawers, trace table, two-column code ---------- */
+.drawers{display:flex;gap:3mm;margin:2mm 0 3mm}
+.drawer{min-width:24mm;text-align:center;border:1.5px solid var(--line);border-radius:2mm;padding:2mm 2mm 1.5mm;
+  font-family:"JetBrains Mono",monospace;font-size:10pt;background:#fff}
+.drawer small{display:block;font-size:8pt;color:var(--soft);margin-top:.8mm}
+table.trace td,table.trace th{text-align:center}
+table.trace td{font-family:"JetBrains Mono",monospace;font-size:10pt;height:8mm}
+.two{display:flex;gap:4mm}.two>div{flex:1;min-width:0}
+.two h4{font-size:10.5pt;margin-bottom:1mm}
+.two .code{font-size:8.6pt}
+.say{font-size:12pt;font-weight:600;margin:2mm 0 3mm}
 </style>
 </head>
 <body>
@@ -193,108 +205,129 @@ ol.qs .rule{margin-top:1.5mm}
 </div>
 <div id="pagesTop"></div>
 
-<!-- ============================ PAGE 1 ============================ -->
 <section class="sheet">
   <div class="brand" id="brand">JavaScript — Qureo review (chapter 28)</div>
-
   <h1 id="docTitle">Going through an array — for…of</h1>
   <div class="docsub">Student Booklet</div>
 
-  <h2>Introduction</h2>
-  <p class="lead">You already know two things: an <b>array</b> holds many values, and a
-  <b>for</b> loop repeats. This session joins them with one tidy tool — <span class="mono">for…of</span> —
-  which walks through an array and hands you each value in turn.</p>
-  <p class="ar">إنت عارف حاجتين: المصفوفة بتشيل كذا قيمة، وحلقة <span class="mono" dir="ltr">for</span> بتكرّر.
-  النهاردة بنجمعهم بأداة واحدة مرتبة — <span class="mono" dir="ltr">for…of</span> — بتمشي على المصفوفة وتديك كل قيمة بالدور.</p>
+  <h2>Introduction · a box of sweets</h2>
+  <p class="lead">Imagine a box of sweets. You take out <b>one</b> sweet, eat it, then take the next one —
+  until the box is empty. Today you learn <span class="mono">for…of</span>, a loop that does exactly this
+  with an array: it gives you one value at a time, until there are no values left.</p>
+  <p class="ar">تخيّل علبة حلويات: بتطلّع حتة، تاكلها، وبعدين اللي بعدها، لحد ما العلبة تخلص.
+  النهاردة هتتعلم <span class="mono" dir="ltr">for…of</span> — حلقة بتعمل كده بالظبط مع المصفوفة.</p>
 
-  <h2>1 · Two reminders</h2>
-  <p>An array numbers its drawers from <b>0</b>. A normal <span class="mono">for</span> loop keeps a counter <span class="mono">i</span>.</p>
-  <div class="code"><span class="mono">let fruits = ["apple", "banana", "mango"];
-// fruits[0] = "apple"   fruits[1] = "banana"   fruits[2] = "mango"
-// fruits.length = 3</span></div>
+  <table>
+    <tr><th>The sweets</th><th>In JavaScript</th></tr>
+    <tr><td class="k">📦 The box</td><td>the <b>array</b></td></tr>
+    <tr><td class="k">✋ Take one out</td><td><span class="mono">for…of</span> gives you <b>one value</b></td></tr>
+    <tr><td class="k">😋 Eat it</td><td>the code inside <b>{ }</b> runs</td></tr>
+    <tr><td class="k">🛑 The box is empty</td><td>the loop <b>stops</b> by itself</td></tr>
+  </table>
 
-  <div class="stages">
-    <div class="stage">
-      <div class="n">1</div>
-      <h4>Values</h4>
-      <p>apple, banana, mango — stored under one name</p>
-    </div>
-    <div class="stage">
-      <div class="n">2</div>
-      <h4>Numbered from 0</h4>
-      <p>the first value is <span class="mono">fruits[0]</span></p>
-    </div>
-    <div class="stage">
-      <div class="n">3</div>
-      <h4>Length</h4>
-      <p><span class="mono">.length</span> is how many — here 3</p>
-    </div>
+  <h2>1 · Remember: an array is a row of drawers</h2>
+  <div class="code"><span class="mono">let fruits = ["apple", "banana", "mango"];</span></div>
+  <div class="drawers">
+    <div class="drawer">"apple"<small>[0]</small></div>
+    <div class="drawer">"banana"<small>[1]</small></div>
+    <div class="drawer">"mango"<small>[2]</small></div>
   </div>
-  <p class="ar">المصفوفة بتبدأ الترقيم من صفر، و <span class="mono" dir="ltr">.length</span> هو عدد القيم.</p>
-
+  <p>The drawer numbers start at <b>0</b>: <span class="mono" dir="ltr">fruits[0]</span> is "apple". <span class="mono" dir="ltr">fruits.length</span> is <b>3</b> — the number of values.</p>
+  <p class="ar">كل قيمة في دُرج، والترقيم بيبدأ من صفر. و <span class="mono" dir="ltr">.length</span> هو عدد القيم.</p>
   <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
 </section>
 
-<!-- ============================ CONTENT PAGES ============================ -->
-
-<!-- ------------------------------------------------------------------
-     ONE <section class="sheet"> = ONE PRINTED A4 PAGE.
-
-     Copy this block for each page you need. The footer page numbers are
-     filled in by script, so there is nothing to renumber.
-
-     Reusable blocks: .stages/.stage (numbered row), table (th/td, td.k for
-     the label column), .term (gold rule + heading + text), .fields/.chip
-     (tag row), .write + .rule (write-in line), ol.qs (numbered questions),
-     .summary (highlighted box), p.ar (Arabic line, RTL).
-     ------------------------------------------------------------------- -->
-
 <section class="sheet">
   <h2>2 · The for…of loop</h2>
-  <p>Instead of a counter, <span class="mono">for…of</span> gives you the value directly, one per round:</p>
   <div class="code"><span class="mono">let fruits = ["apple", "banana", "mango"];
 
 for (let fruit of fruits) {
   console.log(fruit);
 }</span></div>
-  <p class="prints">prints &rarr; <b>apple</b>, then <b>banana</b>, then <b>mango</b></p>
+  <p class="say">Read it as: “for each <span class="mono">fruit</span> of <span class="mono">fruits</span>, print it.”</p>
+  <p class="ar">اقراها: «لكل <span class="mono" dir="ltr">fruit</span> من <span class="mono" dir="ltr">fruits</span>، اطبعها».</p>
 
   <table>
-    <tr><th>Part</th><th>What it means</th></tr>
-    <tr><td class="k">fruit</td><td>a name <i>you</i> choose — holds one value each round</td></tr>
-    <tr><td class="k">of</td><td>the keyword meaning “take from”</td></tr>
-    <tr><td class="k">fruits</td><td>the array you are going through</td></tr>
+    <tr><th>Word</th><th>What it means</th></tr>
+    <tr><td class="k mono">fruit</td><td>a name <b>you</b> choose — it holds one value each time</td></tr>
+    <tr><td class="k mono">of</td><td>means “take from”</td></tr>
+    <tr><td class="k mono">fruits</td><td>the array you go through</td></tr>
   </table>
-  <p class="ar">الاسم اللي بعد <span class="mono" dir="ltr">let</span> إنت بتختاره، وبعد <span class="mono" dir="ltr">of</span> بتحط المصفوفة.</p>
+  <p><b>Tip:</b> name it the singular of the array: <span class="mono">pets → pet</span>, <span class="mono">names → name</span>.</p>
+
+  <h2>3 · Step by step: what really happens</h2>
+  <p>The loop runs <b>once for every value</b>. Follow it round by round:</p>
+  <table class="trace">
+    <tr><th>Round</th><th>fruit is…</th><th>It prints</th></tr>
+    <tr><td>1</td><td>"apple"</td><td>apple</td></tr>
+    <tr><td>2</td><td>"banana"</td><td>banana</td></tr>
+    <tr><td>3</td><td>"mango"</td><td>mango</td></tr>
+    <tr><td colspan="3" style="font-family:inherit">No values left → the loop stops</td></tr>
+  </table>
+  <p class="ar">الحلقة بتشتغل مرة لكل قيمة: كل لفة <span class="mono" dir="ltr">fruit</span> بياخد قيمة، وبعدين بتتطبع. ولما القيم تخلص بتقف لوحدها.</p>
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+  <h2>4 · The old way and the easy way</h2>
+  <p>Both print every fruit. The normal <span class="mono">for</span> needs three things right; <span class="mono">for…of</span> needs none of them.</p>
+  <div class="two">
+    <div>
+      <h4>Normal for (with a counter)</h4>
+      <div class="code"><span class="mono">for (let i = 0; i &lt; fruits.length; i++) {
+  console.log(fruits[i]);
+}</span></div>
+      <p>start at 0 · stop at the end · open the drawer <span class="mono">fruits[i]</span></p>
+    </div>
+    <div>
+      <h4>for…of</h4>
+      <div class="code"><span class="mono">for (let fruit of fruits) {
+  console.log(fruit);
+}</span></div>
+      <p>no counter · no <span class="mono">.length</span> · the value is ready</p>
+    </div>
+  </div>
+  <p class="ar">الاتنين بيطبعوا كل الفواكه. بس <span class="mono" dir="ltr">for…of</span> مفيهاش عدّاد ولا <span class="mono" dir="ltr">.length</span> خالص</p>
 
   <div class="term">
-    <h4>The same job, the long way</h4>
-    <p>With a normal <span class="mono">for</span> you must manage the counter yourself:
-    <span class="mono">for (let i = 0; i &lt; fruits.length; i++) { console.log(fruits[i]); }</span>.
-    Use <span class="mono">for…of</span> when you only need the values.</p>
+    <h4>Watch out: the most common mistake</h4>
+    <p>In <span class="mono">for (let fruit of fruits)</span>, <span class="mono">fruit</span> is already the <b>value</b> (like "apple"),
+    not a drawer number. So write <span class="mono">console.log(fruit)</span> — <b>not</b> <span class="mono">console.log(fruits[fruit])</span>.</p>
+    <p class="ar">المتغير هو القيمة نفسها، مش رقم الدُرج. اطبعه على طول.</p>
   </div>
 
-  <h2>3 · Activity — trace it</h2>
-  <p>Write what each line prints:</p>
+  <h2>5 · Which loop should I use?</h2>
+  <table>
+    <tr><th>If you need…</th><th>Use</th></tr>
+    <tr><td>only the values (print every name, every mark)</td><td class="k mono">for…of</td></tr>
+    <tr><td>the drawer number too (0 Ali, 1 Mona…)</td><td class="k mono">for with i</td></tr>
+  </table>
+  <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
+</section>
+
+<section class="sheet">
+  <h2>6 · Activity — trace it yourself</h2>
+  <p>Fill in the table, round by round, then write what the console shows.</p>
   <div class="code"><span class="mono">let pets = ["cat", "dog", "fish"];
 
 for (let pet of pets) {
   console.log("I love my " + pet);
 }</span></div>
-  <div class="write">
-    <div class="label">Output</div>
-    <div class="rule"></div>
-    <div class="rule"></div>
-    <div class="rule"></div>
-  </div>
+  <table class="trace">
+    <tr><th>Round</th><th>pet is…</th><th>It prints</th></tr>
+    <tr><td>1</td><td></td><td></td></tr>
+    <tr><td>2</td><td></td><td></td></tr>
+    <tr><td>3</td><td></td><td></td></tr>
+  </table>
+  <p class="ar">املا الجدول لفة لفة، زي ما عملنا مع الفواكه.</p>
 
-  <h2>4 · Check your understanding</h2>
+  <h2>7 · Check your understanding</h2>
   <ol class="qs">
     <li>In <span class="mono">for (let x of names)</span>, which word do you choose yourself?<div class="rule tight"></div></li>
-    <li>For an array of 5 values, how many times does the loop body run?<div class="rule tight"></div></li>
-    <li>You only want to print the values. Which loop is simpler, and why?<div class="rule tight"></div></li>
+    <li>An array has 5 values. How many times does the loop run?<div class="rule tight"></div></li>
+    <li>What does this print? <span class="mono">for (let n of [1, 2, 3]) { console.log(n * 2); }</span><div class="rule tight"></div></li>
+    <li>You only want to print the values. Which loop is easier, and why?<div class="rule tight"></div><div class="rule tight"></div></li>
   </ol>
-
   <div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div>
 </section>
 
