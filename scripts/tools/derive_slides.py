@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Make build_lectureN_slides.py from lecture 5's builder: keep its proven
 helpers and build block, swap in lecture N's diagrams, drawings and slides.
-    python derive_slides.py N content.py slides.py css.txt doc.txt"""
+    python derive_slides.py N content.py slides.py css.txt doc.txt [script.js]"""
 import io, sys
 N = int(sys.argv[1])
 content = io.open(sys.argv[2], encoding="utf-8").read().strip()
@@ -22,6 +22,17 @@ out = ('# -*- coding: utf-8 -*-\n"""' + doc + '\n"""\n' + head.replace('lecture5
        + content + "\n\n\n" + L5[c1:s0] + slides + "\n\n\n" + L5[s1:])
 out = out.replace("scripts/lecture5_slides_base.html", "scripts/lecture%d_slides_base.html" % N)
 out = out.replace("/* the video: bigger", "/* lecture %d's drawings */\n%s\n\n/* the video: bigger" % (N, css), 1)
+# optional 6th argument: a lecture's own script, added to the page's script
+# just before it starts the deck -- e.g. lecture 9's step-by-step players
+if len(sys.argv) > 6:
+    js = io.open(sys.argv[6], encoding="utf-8").read().strip()
+    assert "</script" not in js and "'''" not in js
+    hook = "out = engage_js(out)\n"
+    assert out.count(hook) == 1
+    out = out.replace(hook, hook + "LECTURE_JS = " + repr(js) + "\n"
+                      "_a = 'const start = parseInt(location.hash'\n"
+                      "assert out.count(_a) == 1\n"
+                      "out = out.replace(_a, LECTURE_JS + chr(10) + chr(10) + _a, 1)\n", 1)
 assert "lecture5" not in out, [l for l in out.split("\n") if "lecture5" in l]
 assert 'DST = "lecture%d/slides/index.html"' % N in out
 io.open("scripts/build_lecture%d_slides.py" % N, "w", encoding="utf-8", newline="\n").write(out)

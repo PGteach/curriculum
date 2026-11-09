@@ -1,0 +1,24 @@
+Build Lecture 9's deck.
+
+    python scripts/build_lecture9_slides.py
+
+Reads the shell (head, CSS, LECTURE CONFIG, script) from
+scripts/lecture9_slides_base.html and writes lecture9/slides/index.html with
+the slide body below, the lightbox, the exam-code gate and the side drawings
+added. Always starts from the base, never from the published deck.
+
+Two parts, as the ministry's plan pairs a book lesson with the Japanese
+platform each week. Part one is Lesson 3-1, The Overall Structure of Web
+Applications, the English textbook pp. 56-61, and nothing outside the
+curriculum. Where the Arabic textbook and the ministry's assessment book go
+further, the deck follows them: the three tiers are a simplified teaching
+model and real structures can differ; some web applications can also be
+installed; which tier sends the request to the database. Part two is Qureo
+chapter 31, Functions (4): a function that adds two values, adds three, and
+compares three, in Qureo's own terms (argument, return value).
+
+Everything but the content is lecture 5's builder, unchanged -- this file was
+derived from it. The Arabic follows the Arabic textbook's lesson 3-1 point by
+point, said in Egyptian Arabic, with the book's own terms kept as they are.
+The two step-by-step players (the request flow and the code tracer) are this
+lecture's own; their script is tools/lecture9/script.js, added to the page's own script.

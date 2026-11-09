@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 9 Homework — What happens when you click?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+.code{font-family:'JetBrains Mono',monospace;font-size:9pt;line-height:1.5;background:#F4F6F8;border:1px solid var(--line);border-radius:2mm;padding:2.5mm 3.5mm;margin:1.5mm 0 2.5mm 9.5mm;white-space:pre;font-variant-ligatures:none}.sheet>.code,.summary .code{margin-left:0}
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}
+.key .mq-q{font-size:9.8pt;font-weight:600;margin:2.2mm 0 .4mm}.key .mq-a{font-size:10pt;margin:0}.key .ar{font-size:9.5pt}
+.dg{margin:3mm 0 4mm}.dg svg{display:block;width:100%;height:auto}
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}
+.principles .pr{border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:1.5mm;padding:2.5mm 3.5mm;background:#FCFCFA}
+.principles .pr h4{font-size:10.5pt;margin-bottom:1mm}.principles .pr p{font-size:9.5pt;margin:0}
+</style>
+</head>
+<body data-title="Lecture 9 Homework — What happens when you click?">
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">What happens when you click?</h1><div class="docsub">Homework &middot; Lecture 9</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><div class="summary hw"><p>Everything here was taught in the session. Bring this sheet to the next class.</p><p class="ar">كل ده اتشرح في الحصة. هات الورقة المرة الجاية.</p></div><h2>Part 1 &middot; Web applications and the three tiers</h2><p class="ar">الجزء الأول — تطبيقات الويب والطبقات التلاتة</p><div class="ex"><div class="exhead"><span class="exn">1</span><span class="exq">Answer the following questions.</span></div><p class="ar">جاوب على الأسئلة دي.</p><div class="src">p.58 — Try 1</div><ol class="qs"><li>What is the term for an application used through a web browser?<div class="rule tight"></div></li><li>What is the term for the screen component that users see directly?<div class="rule tight"></div></li><li>What is the term for the part responsible for server-side processing that users do not see?<div class="rule tight"></div></li><li>What is the term for a system that organizes, stores, and manages data?<div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">2</span><span class="exq">Fill in ( a ) to ( c ).</span></div><p class="ar">املا الفراغات من ( أ ) لـ ( ج ).</p><div class="src">p.60 — Exercise 2</div><p class="passage">A web application is broadly composed of three tiers. The screen component that users see directly is called the ( a ). The part responsible for server-side processing that users do not see is called the ( b ). A system that organizes, stores, and manages data is called the ( c ). In response to user actions, these three tiers cooperate to perform processing.</p><ol class="blanks"><li><b>( a )</b><span class="rule tight"></span></li><li><b>( b )</b><span class="rule tight"></span></li><li><b>( c )</b><span class="rule tight"></span></li></ol></div><div class="ex"><div class="exhead"><span class="exn">3</span><span class="exq">Write the tier each part of a social network (SNS) belongs to — A: Frontend, B: Backend, C: Database.</span></div><p class="ar">اكتب كل جزء من شبكة التواصل الاجتماعي تابع لأنهي طبقة.</p><div class="src">p.60 — Exercise 3(1)</div><table class="cattbl"><tr><th style="width:14%">Letter</th><th>Situation</th></tr><tr><td class="blank"></td><td>Timeline screen</td></tr><tr><td class="blank"></td><td>Processing that determines the audience for a post</td></tr><tr><td class="blank"></td><td>Storage of post data</td></tr><tr><td class="blank"></td><td>Post screen</td></tr><tr><td class="blank"></td><td>Notification processing</td></tr><tr><td class="blank"></td><td>Storage of follow relationships</td></tr></table></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">4</span><span class="exq">Choose the correct option.</span></div><p class="ar">اختار الإجابة الصح.</p><div class="src">p.58 Try 2(1); p.61 Exercise 3(2); Ministry assessments, form A</div><ol class="qs"><li>When searching for a product on an online shopping site, which is responsible for searching through data for products that match the search keywords?<span class="opt">A: Frontend</span><span class="opt">B: Backend</span><span class="opt">C: Database</span><div class="rule tight"></div></li><li>Choose the one that most appropriately describes the three-tier architecture of a web application.<span class="opt">A: The frontend has the role of storing and managing data.</span><span class="opt">B: The backend is the part that users interact with directly on the browser.</span><span class="opt">C: In response to user actions, the frontend, backend, and database cooperate to perform processing.</span><span class="opt">D: The database has the role of displaying screens to users.</span><div class="rule tight"></div></li><li>When you search for a product in an online store, which tier sends the request to the database?<span class="opt">A: The frontend</span><span class="opt">B: The backend</span><span class="opt">C: The database itself</span><span class="opt">D: The browser</span><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">5</span><span class="exq">Choose the correct option.</span></div><p class="ar">اختار الإجابة الصح.</p><div class="src">Ministry assessments, periods 1 and 2 — MCQ</div><ol class="qs"><li>A web application is usually built from:<span class="opt">A: Three tiers</span><span class="opt">B: Two tiers</span><span class="opt">C: One tier</span><span class="opt">D: Several tiers</span><div class="rule tight"></div></li><li>The tier responsible for displaying screens and collecting the user&#x27;s data and actions is:<span class="opt">A: The backend</span><span class="opt">B: The database</span><span class="opt">C: The frontend</span><span class="opt">D: The processing server</span><div class="rule tight"></div></li><li>On a video-sharing site, counting views and choosing recommended videos is done by:<span class="opt">A: The frontend</span><span class="opt">B: The backend</span><span class="opt">C: The database</span><span class="opt">D: The communication network</span><div class="rule tight"></div></li><li>Storing posts, follow relationships and messages on a social network is the job of:<span class="opt">A: The processing server</span><span class="opt">B: The database</span><span class="opt">C: The frontend</span><span class="opt">D: The backend</span><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">6</span><span class="exq">Answer the following questions.</span></div><p class="ar">جاوب على الأسئلة دي.</p><div class="src">Ministry assessments, period 1 — performance tasks; form B — essay 1</div><ol class="qs"><li>Define a web application, and give two examples from your daily life.<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li><li>List the main tiers that a web application is made of.<div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="ex"><div class="exhead"><span class="exn">7</span><span class="exq">Answer the following questions.</span></div><p class="ar">جاوب على الأسئلة دي.</p><div class="src">Ministry assessments, period 1 — home tasks; form C — essay 2</div><ol class="qs"><li>Compare the role of the frontend and the role of the backend in a social network app.<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li><li>What is the role of the database in a social network?<div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 2 &middot; How the tiers cooperate</h2><p class="ar">الجزء التاني — إزاي الطبقات بتتعاون</p><div class="ex"><div class="exhead"><span class="exn">8</span><span class="exq">Explain how the three tiers of a web application cooperate when a user posts a photo on a social media app. Refer to the role of the frontend, backend, and database.</span></div><p class="ar">اشرح إزاي الطبقات التلاتة لتطبيق الويب بتتعاون لما المستخدم ينشر صورة على تطبيق تواصل اجتماعي. أشِر إلى دور الواجهة الأمامية والواجهة الخلفية وقاعدة البيانات.</p><div class="src">p.58 — Exam-style question [6]</div><div class="marks">[6 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">9</span><span class="exq">Trace the steps of a request when a user searches for a product in an online store, through the three tiers, and give the role of each tier.</span></div><p class="ar">تتبّع خطوات طلب المستخدم لما يدوّر على منتج في متجر إلكتروني عبر الطبقات التلاتة، ووضّح دور كل طبقة.</p><div class="src">Ministry assessments, form A — essay 3; p.57 Point 3</div><div class="marks">[4 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="ex"><div class="exhead"><span class="exn">10</span><span class="exq">Discuss the importance of the database tier in e-commerce sites.</span></div><p class="ar">ناقش أهمية طبقة قاعدة البيانات في مواقع التجارة الإلكترونية.</p><div class="src">Ministry assessments, period 2 — performance tasks</div><div class="marks">[4 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">11</span><span class="exq">How does the backend deal with the data coming from the frontend and the data stored in the database in an e-commerce site?</span></div><p class="ar">إزاي الواجهة الخلفية بتتعامل مع البيانات اللي جاية من الواجهة الأمامية والبيانات المتخزنة في قاعدة البيانات في موقع تجارة إلكترونية؟</p><div class="src">Ministry assessments, period 1 — home tasks</div><div class="marks">[4 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 3 &middot; Apply it</h2><p class="ar">الجزء التالت — طبّق</p><div class="ex"><div class="exhead"><span class="exn">12</span><span class="exq">Think as an engineer. A clinic wants a web app where patients book appointments, check which time slots are free, and see their past visits. Say which tier should handle the booking form, checking free slots, and storing past visits, and why. The booking page opens but no free slots appear: which tier is clearly working, and which has probably failed? Recommend whether the clinic should separate its app into three tiers, with two reasons.</span></div><p class="ar">فكّر كمهندس: عيادة عايزة تطبيق ويب للحجز. وزّع المهام التلاتة على الطبقات وليه، وشخّص العطل لما صفحة الحجز تفتح ومفيش مواعيد، وقرّر نفصل الطبقات ولا لأ بسببين.</p><div class="src">p.59 — Think as an Engineer</div><div class="marks">[4 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">13</span><span class="exq">A weather app lets users type a city and see the forecast. Name which tier does each job — taking the city name, looking up the forecast data, and storing past forecasts — and identify one job the frontend cannot do on its own.</span></div><p class="ar">تطبيق طقس بيخليك تكتب اسم مدينة وتشوف التوقعات. سمّي أنهي طبقة بتعمل كل مهمة، وحدد مهمة واحدة الواجهة الأمامية متقدرش تعملها لوحدها.</p><div class="src">p.59 — In a New Context</div><div class="marks">[4 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 4 &middot; On the platform: Functions (4)</h2><p class="ar">الجزء الرابع — على المنصة: الدوال (4)</p><div class="ex"><div class="exhead"><span class="exn">14</span><span class="exq">Read the code, then answer.</span></div><p class="ar">اقرا الكود وبعدين جاوب.</p><div class="src">Qureo chapter 31 — Function that compares three values</div><div class="code">function biggest(a, b, c) {
+  let big = a;
+  if (b &gt; big) {
+    big = b;
+  }
+  if (c &gt; big) {
+    big = c;
+  }
+  return big;
+}
+console.log(biggest(3, 8, 6));</div><ol class="qs"><li>What is the value of big right after let big = a; runs?<div class="rule tight"></div></li><li>Is b &gt; big true or false the first time? Then what is big?<div class="rule tight"></div></li><li>Is c &gt; big true or false? What does the program print?<div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">15</span><span class="exq">Write the code.</span></div><p class="ar">اكتب الكود.</p><div class="src">Qureo chapter 31 — Functions that add and compare three values</div><ol class="qs"><li>Write a function add3(a, b, c) that returns the sum of three values. Then print add3(2, 4, 6).<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li><li>Write a function smallest(a, b, c) that returns the smallest of three values, using if. Then print smallest(7, 2, 5).<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Challenge &middot; optional</h2><p class="ar">تحدي — اختياري</p><div class="ex"><div class="exhead"><span class="exn">16</span><span class="exq">Reflect and challenge.</span></div><p class="ar">فكّر وتحدّى نفسك.</p><div class="src">p.60 — Reflect &amp; Challenge</div><ol class="qs"><li>Reflect: which tier do you think fails most noticeably to a user when something goes wrong, and why?<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li><li>Challenge: name one online service you use and describe what its frontend, backend, and database each do.<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Before you hand this in</h2><div class="summary"><p>Check every answer against the booklet. Bring anything you could not work out to the next session.</p><p class="ar">راجع كل إجابة على الكتيّب. وأي حاجة معرفتش تحلها هاتها معاك المرة الجاية.</p></div><div class="summary hw"><p><b>The exam is done in class.</b> Your teacher will show the code to scan during the lesson.</p><p class="ar">الامتحان بيتحل في الحصة. المدرّس هيعرض الكود تمسحوه وقتها.</p></div><h2>My notes</h2><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 9;
+const LECTURE_TITLE = "What happens when you click?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#7D5A1E";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
+  applyAccent();
+  /* The browser names a saved or printed PDF after the title, so every
+     document names itself through data-title on the body element. Without it all
+     of them -- homework, answer key, exam -- saved as "Handout". */
+  const named = (document.body && document.body.getAttribute)
+    ? document.body.getAttribute("data-title") : null;
+  document.title = named || (LECTURE.label + " Handout — " + LECTURE.title + " · PGteach");
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+})();
+</script>
+</body>
+</html>

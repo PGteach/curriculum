@@ -35,6 +35,11 @@ for a, b in [('T = ROOT / "lecture5" / "_teacher"', 'T = ROOT / "lecture%d" / "_
              ("L5 %", "L%d %%" % N), ("lecture5/", "lecture%d/" % N)]:
     assert a in out, a
     out = out.replace(a, b)
+# optional, per lecture: (old, new) pairs for what lecture 5's code cannot
+# print yet -- e.g. lecture 9's code exercises. Each old must be present.
+for a, b in getattr(S, "PATCHES", []):
+    assert a in out, a
+    out = out.replace(a, b)
 bad = [l for l in out.split("\n") if ("lecture5" in l or "Lecture 5" in l) and "Derived from" not in l]
 assert not bad, bad
 io.open("scripts/build_lecture%d.py" % N, "w", encoding="utf-8", newline="\n").write(out)

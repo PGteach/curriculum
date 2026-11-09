@@ -550,6 +550,47 @@ now a worked example on a risk that is not in the table.
 **Long definitions use `.statement.def`**, a smaller statement. The full
 statement font pushed the VPN slide off the top.
 
+## Lecture 9 -- lesson 3-1 and Qureo chapter 31, Unit 3 begins
+
+- **Lecture 9** is 3-1, The Overall Structure of Web Applications (English
+  book pp. 56-61), plus Qureo chapter 31, Functions (4). Accent `#7D5A1E`,
+  title "What happens when you click?". 31 slides, a 23-question quiz in six
+  sections, an 11-page booklet, 16 homework exercises, an answer key and
+  model answers. Every item names its book page, ministry item or Qureo
+  chapter.
+- **Why a book lesson and a Qureo chapter together:** the ministry's plan for
+  2026/27 gives each week four periods of the book and two of the Japanese
+  platform (Qureo). The plan pairs 3-1 with Qureo 45-46; the class is behind
+  on Qureo, so lecture 9 takes the next chapter after lecture 8 (28-30): 31.
+- **Lecture 8 is the odd one out:** a JavaScript review of Qureo 28-30, made
+  with `new_lecture.py`, not this pipeline, and with no `_teacher/`.
+- **Sources, in Google Drive** (the teacher's folder, owner
+  eissaislam50@gmail.com): `Programming-ArtificialIntelligence-En-EB-part1_copy.pdf`
+  (Units 1-4), `...-En-EB-part2_copy.pdf` (Units 5-7),
+  `...-Ar-EB-part1_copy.pdf`, `...-Ar-EB-Assessments-1_copy.pdf` (the
+  ministry's assessment book; its Arabic extracts reversed, right to left,
+  so reverse each line to read it), and the "Ministry course track" folder:
+  photos of the ministry's week-by-week plan.
+- **What the Arabic book and the ministry add to 3-1:** the three tiers are a
+  simplified teaching model and real applications can differ; some web
+  applications can also be installed; the backend, not the frontend, sends
+  the request to the database (assessment form A).
+- **Built with the lecture 5 pipeline**, from `scripts/tools/lecture9/`.
+  Two optional hooks were added for it; lectures 6 and 7 re-derive
+  unchanged:
+  - `derive_slides.py N ... doc.txt script.js` -- a lecture's own script,
+    added to the page's script before the deck starts. Lecture 9's is the
+    step-by-step players: the request flow (`flow()`) and the code tracer
+    (`tracer()`), both written as data in `content.py`. A separate
+    `<script>` in the slide body does NOT work: `check_lecture.py` and
+    `test_pages.js` read the page's first script as its config.
+  - `PATCHES` in `spec.py`, applied by `derive_print.py` -- lecture 9's lets
+    an exercise carry `code`, printed as a box on the sheet, in the key and
+    in the model answers.
+- **The quiz takes `c:` for code**, shown as a box under the question, as on
+  lecture 8 (`add_code_box` in `build_lecture9_quiz.py`). Question texts must
+  be unique: the harness tells questions apart by their text.
+
 ## The Chapter 2 exam
 
 The Chapter 2 exam is printed, not online, like Chapter 1. The paper is
