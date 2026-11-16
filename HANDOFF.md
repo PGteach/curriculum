@@ -591,6 +591,35 @@ statement font pushed the VPN slide off the top.
   lecture 8 (`add_code_box` in `build_lecture9_quiz.py`). Question texts must
   be unique: the harness tells questions apart by their text.
 
+## Lecture 10 -- lesson 3-2 and Qureo chapters 32-33
+
+- **Lecture 10** is 3-2, Web Application Communication Methods (English
+  book pp. 62-67), plus Qureo chapters 32 (Flowchart) and 33 (the
+  comprehension check on 31-32) -- two chapters, at the teacher's request.
+  Accent `#5E6B1F`, title "How do they talk?". 33 slides, 24 questions, a
+  10-page booklet, 16 homework exercises, key and model answers.
+- **What the Arabic book and the ministry add to 3-2:** HTTPS also protects
+  integrity and authenticates the server; a 500 alone does not say the
+  detailed cause; a "Read the data (JSON)" activity (name a key and its
+  value). The assessment book's 3-2 section is periods 1-3 and forms A-C.
+- **Qureo 32's own lesson text is locked on the platform** (only its
+  description and lesson titles are readable), so the flowchart part teaches
+  the standard symbols -- oval, rectangle, diamond, parallelogram -- and how
+  a diamond becomes `if ... else`. Check it against the platform once the
+  account reaches chapter 32.
+- **A third player, `chart()`**, lights the shapes of a flowchart; each
+  shape is a `<g data-id>`. `flow()` now takes its boxes as an argument
+  (client and server here). The flowcharts are literal SVG in `content.py`
+  (the booklet reads them with `slide_svg()`, and `exercises.py` reads them
+  for the flowchart exercises); a print exercise may carry `svg` as well as
+  `code` (lecture 10's `PATCHES`).
+- **Arabic lines and comparisons.** In a right-to-left line, `12 > 10`
+  shows mirrored, as `12 < 10`. The players (lectures 9 and 10) wrap every
+  run of code in a left-to-right isolate (U+2066 ... U+2069) before showing
+  it; lecture 8's quiz has the isolates written into its Arabic
+  explanations. Any new Arabic text holding `<`, `>` or `=` needs the same:
+  an isolate, or `<span dir="ltr">` in HTML.
+
 ## The Chapter 2 exam
 
 The Chapter 2 exam is printed, not online, like Chapter 1. The paper is

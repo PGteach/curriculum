@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 10 Booklet — How do they talk?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+.code{font-family:'JetBrains Mono',monospace;font-size:9pt;line-height:1.5;background:#F4F6F8;border:1px solid var(--line);border-radius:2mm;padding:2.5mm 3.5mm;margin:1.5mm 0 2.5mm 9.5mm;white-space:pre;font-variant-ligatures:none}.sheet>.code,.summary .code,.fcrow .code{margin-left:0}.fcx svg{width:62mm;height:auto;display:block}.ex .fcx{margin:1mm 0 2mm 9.5mm}.fcrow{display:flex;gap:6mm;align-items:flex-start;margin:2mm 0 3mm}.fcrow>div{flex:1;min-width:0}
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}
+.key .mq-q{font-size:9.8pt;font-weight:600;margin:2.2mm 0 .4mm}.key .mq-a{font-size:10pt;margin:0}.key .ar{font-size:9.5pt}
+.dg{margin:3mm 0 4mm}.dg svg{display:block;width:100%;height:auto}
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}
+.principles .pr{border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:1.5mm;padding:2.5mm 3.5mm;background:#FCFCFA}
+.principles .pr h4{font-size:10.5pt;margin-bottom:1mm}.principles .pr p{font-size:9.5pt;margin:0}
+</style>
+</head>
+<body data-title="Lecture 10 Booklet — How do they talk?">
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">How do they talk?</h1><div class="docsub">Student Booklet &middot; Lecture 10</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><h2>Before we start &middot; lesson 3-1</h2><table><tr><th>Tier</th><th>Its job</th></tr><tr><td class="k">Frontend</td><td>shows and collects</td></tr><tr><td class="k">Backend</td><td>decides and processes</td></tr><tr><td class="k">Database</td><td>stores and retrieves</td></tr></table><p class="ar">في الدرس 3-1 اتعلمت إن الواجهة الأمامية والخلفية بيتعاونوا؛ في الدرس ده هتتعلم إزاي الطلبات والاستجابات بتتنقل بين العميل والخادم.</p><h2>Your device asks, a server answers</h2><p>When you click a link or press &#8220;search&#8221;, your device does not hold the whole website &mdash; it asks a distant computer for it. Your browser is the <b>client</b> that makes the <b>request</b>; a <b>server</b> somewhere answers with a <b>response</b>. This exchange, governed by shared rules called <b>protocols</b>, is how every web application communicates.</p><div class="summary"><p><b>Today&#8217;s question.</b> How do the client and server communicate to make a web application work, and what rules and messages do they use?</p><p class="ar">إزاي العميل والخادم بيتواصلوا عشان يشغّلوا تطبيق الويب، وإيه القواعد والرسائل اللي بيستخدموها؟</p></div><div class="summary hw"><p><b>Explore &middot; in pairs.</b> You open YouTube and search <i>cats</i>. What does your phone send? What comes back? Should your password travel as it is, or locked?</p><p class="ar">اكتبوا إجاباتكم قبل ما تكمّلوا.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 1 &middot; Client and server</h2><div class="dg"><svg viewBox="0 0 900 270" role="img" aria-label="Several clients, a browser, a phone app and a tablet, send requests to one server; the server returns a response to each">
+  <g font-size="15" text-anchor="middle">
+    <rect x="20" y="20" width="200" height="62" rx="12" fill="#fff" stroke="var(--teal)" stroke-width="3"/>
+    <text x="70" y="60" font-size="26">&#128187;</text><text x="140" y="57" font-weight="700" fill="var(--ink)">Web browser</text>
+    <rect x="20" y="104" width="200" height="62" rx="12" fill="#fff" stroke="var(--teal)" stroke-width="3"/>
+    <text x="70" y="144" font-size="26">&#128241;</text><text x="140" y="141" font-weight="700" fill="var(--ink)">Phone app</text>
+    <rect x="20" y="188" width="200" height="62" rx="12" fill="#fff" stroke="var(--teal)" stroke-width="3"/>
+    <text x="70" y="228" font-size="26">&#128421;</text><text x="140" y="225" font-weight="700" fill="var(--ink)">Another program</text>
+    <text x="120" y="12" font-size="14" font-weight="700" fill="var(--teal)">CLIENTS &#8212; request</text>
+    <rect x="660" y="60" width="220" height="150" rx="14" fill="#fff" stroke="var(--gold)" stroke-width="3"/>
+    <text x="770" y="112" font-size="34">&#128452;</text>
+    <text x="770" y="150" font-size="20" font-weight="700" fill="var(--ink)">Server</text>
+    <text x="770" y="174" fill="var(--soft)">processes and responds</text>
+    <line x1="226" y1="44" x2="646" y2="104" stroke="var(--teal)" stroke-width="3"/><polygon points="654,105 641,97 640,112" fill="var(--teal)"/>
+    <line x1="226" y1="135" x2="646" y2="135" stroke="var(--teal)" stroke-width="3"/><polygon points="654,135 642,128 642,142" fill="var(--teal)"/>
+    <line x1="654" y1="166" x2="234" y2="228" stroke="var(--gold)" stroke-width="3"/><polygon points="226,229 239,221 240,236" fill="var(--gold)"/>
+    <text x="440" y="62" font-weight="600" fill="var(--teal)">request (HTTP method: GET / POST)</text>
+    <text x="440" y="236" font-weight="600" fill="var(--gold)">response (status code + data)</text>
+  </g>
+</svg></div><table><tr><th style="width:18%">Term</th><th>Meaning</th></tr><tr><td class="k">Client</td><td>The side that requests data or processing from the server. Web browsers and smartphone apps.</td></tr><tr><td class="k">Server</td><td>The side that receives requests from clients, processes them, and returns responses.</td></tr></table><p class="ar">العميل: برنامج أو جهاز بيبعت طلب لخدمة تانية. الخادم: بيستقبل الطلبات ويعالجها ويرجّع الاستجابات.</p><h2>Part 2 &middot; HTTP and HTTPS</h2><div class="term"><h4>HTTP (HyperText Transfer Protocol)</h4><p>A communication protocol for exchanging data between clients (browsers and apps) and servers.</p><p class="ar">بروتوكول بيستخدم لتبادل الرسائل بين عميل وخادم على الويب.</p></div><div class="term"><h4>HTTPS (HTTP Secure)</h4><p>HTTP with TLS encryption added. The content is encrypted, so the risk of it being read by third parties is reduced. Addresses that begin with https:// use it.</p><p class="ar">استخدام HTTP عبر اتصال TLS آمن: بيحمي سرية الاتصال وسلامته وبيتحقق من الخادم.</p></div><div class="summary hw"><p><b>Pause and think.</b> Why should a login page use HTTPS rather than plain HTTP?</p><p class="ar">ليه صفحة الدخول لازم تستخدم HTTPS؟</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 3 &middot; The request carries an HTTP method</h2><table><tr><th style="width:14%">Method</th><th style="width:30%">Role</th><th>Examples</th></tr><tr><td class="k">GET</td><td>Retrieve data from the server</td><td>Displaying a web page, retrieving search results</td></tr><tr><td class="k">POST</td><td>Send data to the server</td><td>Sending login information, submitting a form</td></tr></table><h2>The response carries a status code</h2><table><tr><th style="width:18%">Status code</th><th>Meaning</th></tr><tr><td class="k">200</td><td>Success &mdash; the request was processed successfully</td></tr><tr><td class="k">404</td><td>Page not found &mdash; the requested address does not exist</td></tr><tr><td class="k">500</td><td>Server error &mdash; a problem occurred on the server side (on its own it does not say the detailed cause)</td></tr></table><h2>One request, one matching response</h2><table><tr><th style="width:8%">Step</th><th style="width:16%">Where</th><th>What happens</th></tr><tr><td>&#9312;</td><td class="k">Client</td><td>You search <i>cats</i>: the browser sends a <b>GET</b> request</td></tr><tr><td>&#9313;</td><td class="k">Server</td><td>Receives the request and processes it</td></tr><tr><td>&#9314;</td><td class="k">Client</td><td>The response arrives: status code <b>200</b> and the results page</td></tr><tr><td>&#9315;</td><td class="k">Client</td><td>You log in: a <b>POST</b> request, over <b>HTTPS</b>, so the password is encrypted</td></tr><tr><td>&#9316;</td><td class="k">Server</td><td>Receives the login data and checks it</td></tr><tr><td>&#9317;</td><td class="k">Client</td><td>Status code <b>200</b>, and your account page comes back</td></tr></table><div class="summary hw"><p><b>Pause and think.</b> If a browser receives status code 404, what should it tell the user &mdash; and whose side had the problem?</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><table><tr><th>True or false?</th><th style="width:30%">Answer</th></tr><tr><td>The client requests data or processing; the server returns the response.</td><td>True</td></tr><tr><td>HTTPS is a communication protocol that adds encryption to HTTP.</td><td>True</td></tr><tr><td>The GET method is for sending data to the server.</td><td><b>False</b> &mdash; POST sends</td></tr><tr><td>Status code 404 indicates that the page is not found.</td><td>True</td></tr></table><h2>Part 4 &middot; API and JSON</h2><div class="term"><h4>API (Application Programming Interface)</h4><p>A system for exchanging data between different pieces of software. In web applications, the frontend often sends requests to the backend through an API and receives data.</p><p class="ar">مجموعة قواعد واضحة بتسمح لبرنامج يطلب بيانات أو وظائف من برنامج تاني.</p></div><div class="term"><h4>JSON (JavaScript Object Notation)</h4><p>A data format that is easy for humans to read and for computers to process. It is made of keys and their values.</p><p class="ar">صيغة نصية شائعة لتمثيل وتبادل البيانات المهيكلة.</p></div><div class="code">{
+  &quot;city&quot;: &quot;Cairo&quot;,
+  &quot;temperature&quot;: 31
+}</div><p>Key <b>&quot;city&quot;</b> has the value <b>&quot;Cairo&quot;</b>; key <b>&quot;temperature&quot;</b> has the value <b>31</b>.</p><table><tr><th>Looks right, but is false</th><th style="width:38%">Why</th></tr><tr><td>Status code 500 means the request was processed successfully.</td><td>500 is a server error; success is 200.</td></tr><tr><td>An API adjusts the appearance of web pages.</td><td>It exchanges data between software.</td></tr><tr><td>JSON encrypts the connection.</td><td>JSON is a data format; HTTPS encrypts.</td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><div class="summary"><p><b>Exam-style question &middot; 6 marks.</b> Explain what happens, step by step, when a browser requests a web page and the server responds. Refer to: client, request, HTTP method, response, status code.</p><p class="ar">اشرح خطوة بخطوة لما المتصفح يطلب صفحة ويب والخادم يستجيب.</p></div><h2>Think as an engineer</h2><div class="summary hw"><p>A school wants a web app where students log in, view their timetable and download a PDF. <b>Choose the method</b> (GET or POST) for loading grade history, submitting the login form, and requesting today&#8217;s schedule from another school system &mdash; is an API involved in the last? <b>Choose the protocol</b> for the login. <b>Decide</b>, with two reasons.</p><p class="ar">تلميح: GET بيجيب ويعرض؛ POST بيبعت بيانات زي الدخول؛ HTTPS بيشفّر عشان الباسورد ميتسرقش.</p></div><h2>In a new context</h2><div class="summary hw"><p>A weather service offers an API that returns today&#8217;s forecast. Which HTTP method would the client use? Why should the service use HTTPS? One advantage of receiving the data as JSON?</p></div><h2>Key takeaway &middot; lesson 3-2</h2><div class="summary"><p>Client requests, server responds &mdash; over HTTP/HTTPS, with a method (GET/POST), a status code, and often an API returning JSON.</p><p class="ar">العميل بيطلب، والخادم بيستجيب — عبر HTTP/HTTPS، بأسلوب (GET/POST)، ورمز حالة، وغالبًا API بترجّع JSON.</p></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 5 &middot; On the platform: Flowchart (Qureo chapter 32)</h2><p>A <b>flowchart</b> draws a program&#8217;s steps in order. Arrows show which step comes next.</p><div class="dg"><svg viewBox="0 0 900 200" role="img" aria-label="The four flowchart symbols: an oval for start and end, a rectangle for a process, a diamond for a decision, a parallelogram for input and output">
+  <g font-size="15" text-anchor="middle">
+    <ellipse cx="110" cy="70" rx="85" ry="34" fill="#fff" stroke="var(--teal)" stroke-width="3"/>
+    <text x="110" y="76" font-weight="700" fill="var(--ink)">Start / End</text>
+    <rect x="245" y="36" width="180" height="68" rx="4" fill="#fff" stroke="var(--teal)" stroke-width="3"/>
+    <text x="335" y="76" font-weight="700" fill="var(--ink)">Process</text>
+    <polygon points="565,22 655,70 565,118 475,70" fill="#fff" stroke="var(--gold)" stroke-width="3"/>
+    <text x="565" y="76" font-weight="700" fill="var(--ink)">Decision</text>
+    <polygon points="725,36 885,36 855,104 695,104" fill="#fff" stroke="var(--teal)" stroke-width="3"/>
+    <text x="790" y="76" font-weight="700" fill="var(--ink)">Input / Output</text>
+    <text x="110" y="150" fill="var(--soft)">where the program</text><text x="110" y="170" fill="var(--soft)">begins and ends</text>
+    <text x="335" y="150" fill="var(--soft)">a step: calculate,</text><text x="335" y="170" fill="var(--soft)">give a value</text>
+    <text x="565" y="150" fill="var(--soft)">a question: Yes / No</text><text x="565" y="170" fill="var(--soft)">&#8594; an if statement</text>
+    <text x="790" y="150" fill="var(--soft)">take in or show</text><text x="790" y="170" fill="var(--soft)">&#8594; console.log</text>
+  </g>
+</svg></div><div class="fcrow"><div class="fcx"><svg class="fc" viewBox="0 0 520 478" role="img" aria-label="Flowchart: start; price = 40; total = price * 3; is total greater than 100? Yes: show Too expensive. No: show Buy it. End">
+  <g font-size="17" text-anchor="middle">
+    <g data-id="start"><ellipse class="shp" cx="200" cy="30" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="36" font-weight="700" fill="var(--ink)">Start</text></g>
+    <line x1="200" y1="54" x2="200" y2="78" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,80 193,68 207,68" fill="var(--ink)"/>
+    <g data-id="p0"><rect class="shp" x="95" y="80" width="210" height="46" rx="4" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="109" font-family="JetBrains Mono,monospace" fill="var(--ink)">price = 40</text></g>
+    <line x1="200" y1="126" x2="200" y2="150" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,152 193,140 207,140" fill="var(--ink)"/>
+    <g data-id="p1"><rect class="shp" x="95" y="152" width="210" height="46" rx="4" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="181" font-family="JetBrains Mono,monospace" fill="var(--ink)">total = price * 3</text></g>
+    <line x1="200" y1="198" x2="200" y2="222" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,224 193,212 207,212" fill="var(--ink)"/>
+    <g data-id="d"><polygon class="shp" points="200,222 310,272 200,322 90,272" fill="#fff" stroke="var(--gold)" stroke-width="3"/><text x="200" y="278" font-family="JetBrains Mono,monospace" fill="var(--ink)">total &gt; 100 ?</text></g>
+    <line x1="310" y1="272" x2="410" y2="272" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="272" x2="410" y2="346" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="410,348 403,336 417,336" fill="var(--ink)"/>
+    <text x="350" y="262" font-weight="700" fill="var(--teal)">Yes</text>
+    <line x1="200" y1="322" x2="200" y2="346" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,348 193,336 207,336" fill="var(--ink)"/>
+    <text x="222" y="342" font-weight="700" fill="#9C3B2E">No</text>
+    <g data-id="yes"><polygon class="shp" points="335,346 505,346 485,392 315,392" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="410" y="375" font-family="JetBrains Mono,monospace" fill="var(--ink)">&quot;Too expensive&quot;</text></g>
+    <g data-id="no"><polygon class="shp" points="125,346 295,346 275,392 105,392" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="375" font-family="JetBrains Mono,monospace" fill="var(--ink)">&quot;Buy it&quot;</text></g>
+    <line x1="200" y1="392" x2="200" y2="444" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="200" y1="444" x2="228" y2="444" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="230,444 218,437 218,451" fill="var(--ink)"/>
+    <line x1="410" y1="392" x2="410" y2="444" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="444" x2="372" y2="444" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="370,444 382,437 382,451" fill="var(--ink)"/>
+    <g data-id="end"><ellipse class="shp" cx="300" cy="444" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="300" y="450" font-weight="700" fill="var(--ink)">End</text></g>
+  </g>
+</svg></div><div><table><tr><th>Step</th><th>Shape</th><th>What happens</th></tr><tr><td>1</td><td>Rectangle</td><td>price = 40</td></tr><tr><td>2</td><td>Rectangle</td><td>total = 40 &times; 3 = 120</td></tr><tr><td>3</td><td>Diamond</td><td>120 &gt; 100? <b>Yes</b></td></tr><tr><td>4</td><td>Parallelogram</td><td>shows &quot;Too expensive&quot;</td></tr></table><div class="code">let price = 40;
+let total = price * 3;
+if (total &gt; 100) {
+  console.log(&quot;Too expensive&quot;);
+} else {
+  console.log(&quot;Buy it&quot;);
+}</div></div></div><p class="ar">كل شكل بيتحول لسطر: المستطيل = let أو حساب، المعين = if، سهم Yes = جوّه if، سهم No = else، متوازي الأضلاع = console.log.</p><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Your turn &middot; write the code</h2><div class="fcrow"><div class="fcx"><svg class="fc" viewBox="0 0 520 406" role="img" aria-label="Flowchart: start; a = 8 and b = 5; is a greater than b? Yes: show a. No: show b. End">
+  <g font-size="17" text-anchor="middle">
+    <g data-id="start"><ellipse class="shp" cx="200" cy="30" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="36" font-weight="700" fill="var(--ink)">Start</text></g>
+    <line x1="200" y1="54" x2="200" y2="78" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,80 193,68 207,68" fill="var(--ink)"/>
+    <g data-id="p0"><rect class="shp" x="95" y="80" width="210" height="46" rx="4" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="109" font-family="JetBrains Mono,monospace" fill="var(--ink)">a = 8, b = 5</text></g>
+    <line x1="200" y1="126" x2="200" y2="150" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,152 193,140 207,140" fill="var(--ink)"/>
+    <g data-id="d"><polygon class="shp" points="200,150 310,200 200,250 90,200" fill="#fff" stroke="var(--gold)" stroke-width="3"/><text x="200" y="206" font-family="JetBrains Mono,monospace" fill="var(--ink)">a &gt; b ?</text></g>
+    <line x1="310" y1="200" x2="410" y2="200" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="200" x2="410" y2="274" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="410,276 403,264 417,264" fill="var(--ink)"/>
+    <text x="350" y="190" font-weight="700" fill="var(--teal)">Yes</text>
+    <line x1="200" y1="250" x2="200" y2="274" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,276 193,264 207,264" fill="var(--ink)"/>
+    <text x="222" y="270" font-weight="700" fill="#9C3B2E">No</text>
+    <g data-id="yes"><polygon class="shp" points="335,274 505,274 485,320 315,320" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="410" y="303" font-family="JetBrains Mono,monospace" fill="var(--ink)">a</text></g>
+    <g data-id="no"><polygon class="shp" points="125,274 295,274 275,320 105,320" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="303" font-family="JetBrains Mono,monospace" fill="var(--ink)">b</text></g>
+    <line x1="200" y1="320" x2="200" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="200" y1="372" x2="228" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="230,372 218,365 218,379" fill="var(--ink)"/>
+    <line x1="410" y1="320" x2="410" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="372" x2="372" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="370,372 382,365 382,379" fill="var(--ink)"/>
+    <g data-id="end"><ellipse class="shp" cx="300" cy="372" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="300" y="378" font-weight="700" fill="var(--ink)">End</text></g>
+  </g>
+</svg></div><div><div class="code">let a = 8;
+let b = 5;
+if (a &gt; b) {
+  console.log(a);
+} else {
+  console.log(b);
+}</div><p>It shows <b>8</b>. If b were 11, it would show <b>11</b>.</p><table><tr><th>Rules of a good flowchart</th></tr><tr><td>One Start and one End, both ovals</td></tr><tr><td>A diamond has two exits: Yes and No</td></tr><tr><td>A calculation goes in a rectangle, not a diamond</td></tr><tr><td>The arrows show the order the steps run in</td></tr></table></div></div><h2>Part 6 &middot; Review of chapters 31-32 (Qureo chapter 33)</h2><div class="fcrow"><div class="fcx"><svg class="fc" viewBox="0 0 520 406" role="img" aria-label="Flowchart: start; total = add3(2, 4, 6); is total greater than 10? Yes: show Big total. No: show Small total. End">
+  <g font-size="17" text-anchor="middle">
+    <g data-id="start"><ellipse class="shp" cx="200" cy="30" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="36" font-weight="700" fill="var(--ink)">Start</text></g>
+    <line x1="200" y1="54" x2="200" y2="78" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,80 193,68 207,68" fill="var(--ink)"/>
+    <g data-id="p0"><rect class="shp" x="75" y="80" width="250" height="46" rx="4" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="109" font-family="JetBrains Mono,monospace" fill="var(--ink)">total = add3(2, 4, 6)</text></g>
+    <line x1="200" y1="126" x2="200" y2="150" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,152 193,140 207,140" fill="var(--ink)"/>
+    <g data-id="d"><polygon class="shp" points="200,150 310,200 200,250 90,200" fill="#fff" stroke="var(--gold)" stroke-width="3"/><text x="200" y="206" font-family="JetBrains Mono,monospace" fill="var(--ink)">total &gt; 10 ?</text></g>
+    <line x1="310" y1="200" x2="410" y2="200" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="200" x2="410" y2="274" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="410,276 403,264 417,264" fill="var(--ink)"/>
+    <text x="350" y="190" font-weight="700" fill="var(--teal)">Yes</text>
+    <line x1="200" y1="250" x2="200" y2="274" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,276 193,264 207,264" fill="var(--ink)"/>
+    <text x="222" y="270" font-weight="700" fill="#9C3B2E">No</text>
+    <g data-id="yes"><polygon class="shp" points="335,274 505,274 485,320 315,320" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="410" y="303" font-family="JetBrains Mono,monospace" fill="var(--ink)">&quot;Big total&quot;</text></g>
+    <g data-id="no"><polygon class="shp" points="125,274 295,274 275,320 105,320" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="303" font-family="JetBrains Mono,monospace" fill="var(--ink)">&quot;Small total&quot;</text></g>
+    <line x1="200" y1="320" x2="200" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="200" y1="372" x2="228" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="230,372 218,365 218,379" fill="var(--ink)"/>
+    <line x1="410" y1="320" x2="410" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="372" x2="372" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="370,372 382,365 382,379" fill="var(--ink)"/>
+    <g data-id="end"><ellipse class="shp" cx="300" cy="372" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="300" y="378" font-weight="700" fill="var(--ink)">End</text></g>
+  </g>
+</svg></div><div><div class="code">function add3(a, b, c) {
+  return a + b + c;
+}</div><p>add3(2, 4, 6) returns <b>12</b>, so total = 12. 12 &gt; 10 is true: it shows <b>&quot;Big total&quot;</b>. With add3(1, 2, 3) the total is 6, so it shows &quot;Small total&quot;.</p></div></div><p class="ar">الدالة بترجّع قيمة، والمخطط بيقرر بيها.</p><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Class work</h2><p class="ar">شغل الحصة — نحل دول سوا.</p><div class="ex"><div class="exhead"><span class="exn">1</span><span class="exq">Write ✓ if the statement is true, ✗ if it is false.</span></div><p class="ar">حط ✓ لو الجملة صح، و ✗ لو غلط.</p><div class="src">p.64-65 — Worked Example (1) A-D</div><table class="tftbl"><tr><th style="width:14%">&#10003; / &#10005;</th><th>Statement</th></tr><tr><td class="blank"></td><td>The client is the side that requests data or processing from the server, and the server is the side that returns the response.</td></tr><tr><td class="blank"></td><td>HTTPS is a communication protocol that adds encryption to HTTP.</td></tr><tr><td class="blank"></td><td>The GET method is for sending data to the server.</td></tr><tr><td class="blank"></td><td>Status code 404 indicates that the page is not found.</td></tr></table></div><div class="ex"><div class="exhead"><span class="exn">2</span><span class="exq">Match each description with the most appropriate term.</span></div><p class="ar">اربط كل وصف بالمصطلح الأنسب.</p><div class="src">p.64-65 — Worked Example (2)</div><table class="matchtbl"><tr><th>Description</th><th style="width:18%">Letter</th></tr><tr><td>A communication protocol for exchanging data between web browsers and servers</td><td class="blank"></td></tr><tr><td>A system for exchanging data between different pieces of software</td><td class="blank"></td></tr><tr><td>A communication protocol that adds encryption to HTTP</td><td class="blank"></td></tr></table><p class="optlead">Choose from:</p><div class="fields"><span class="chip"><b>A</b> HTTP</span><span class="chip"><b>B</b> API</span><span class="chip"><b>C</b> HTTPS</span></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Class work</h2><p class="ar">كمّل مع زميلك.</p><div class="ex"><div class="exhead"><span class="exn">3</span><span class="exq">Write the HTTP method each operation uses — A: GET, B: POST.</span></div><p class="ar">اكتب طريقة طلب HTTP اللي بتستخدمها كل عملية.</p><div class="src">p.67 — Exercise 3(1)</div><table class="cattbl"><tr><th style="width:14%">Letter</th><th>Situation</th></tr><tr><td class="blank"></td><td>Displaying a web page</td></tr><tr><td class="blank"></td><td>Entering an ID and password into a login form and submitting them</td></tr><tr><td class="blank"></td><td>Displaying search results</td></tr><tr><td class="blank"></td><td>Submitting the contents of a contact form</td></tr></table></div><div class="ex"><div class="exhead"><span class="exn">4</span><span class="exq">Match each job in a flowchart with its symbol.</span></div><p class="ar">اربط كل وظيفة في المخطط الانسيابي بالشكل بتاعها.</p><div class="src">Qureo chapter 32 — Flowchart</div><table class="matchtbl"><tr><th>Description</th><th style="width:18%">Letter</th></tr><tr><td>Where the program begins and ends</td><td class="blank"></td></tr><tr><td>A step, such as a calculation</td><td class="blank"></td></tr><tr><td>A question with two exits, Yes and No</td><td class="blank"></td></tr><tr><td>Showing a result, like console.log</td><td class="blank"></td></tr></table><p class="optlead">Choose from:</p><div class="fields"><span class="chip"><b>A</b> Rectangle</span><span class="chip"><b>B</b> Oval</span><span class="chip"><b>C</b> Parallelogram</span><span class="chip"><b>D</b> Diamond</span></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>What to revise</h2><div class="summary"><p>Learn the client and the server first, then HTTP and HTTPS and why HTTPS is safer. Then GET and POST with an example of each, the status codes 200, 404 and 500, and what an API and JSON are. On the platform: the four flowchart symbols, and how a diamond becomes an if ... else.</p><p class="ar">احفظ العميل والخادم، و HTTP و HTTPS وليه HTTPS أأمن، و GET و POST بمثال لكل واحد، ورموز الحالة 200 و 404 و 500، ويعني إيه API و JSON. وعلى المنصة: أشكال المخطط الانسيابي الأربعة، وإزاي المعين بيبقى if ... else.</p></div><div class="summary hw"><p><b>The exam is done in class.</b> Your teacher will show the code to scan during the lesson.</p><p class="ar">الامتحان بيتحل في الحصة. المدرّس هيعرض الكود تمسحوه وقتها.</p></div><h2>My notes</h2><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 10;
+const LECTURE_TITLE = "How do they talk?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#5E6B1F";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
+  applyAccent();
+  /* The browser names a saved or printed PDF after the title, so every
+     document names itself through data-title on the body element. Without it all
+     of them -- homework, answer key, exam -- saved as "Handout". */
+  const named = (document.body && document.body.getAttribute)
+    ? document.body.getAttribute("data-title") : null;
+  document.title = named || (LECTURE.label + " Handout — " + LECTURE.title + " · PGteach");
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+})();
+</script>
+</body>
+</html>

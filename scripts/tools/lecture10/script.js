@@ -1,0 +1,75 @@
+/* ---- the step-by-step players (lectures 9 and 10) ---------------------------------
+   .stepper[data-kind=flow]: lights one tier per step and shows what is
+   passed on. .stepper[data-kind=code]: lights a code line, fills the value
+   boxes and prints to the console; in a flowchart (.chartp) it lights the
+   shape whose data-id is the step's el. Next step, Play all, Again. Space and
+   Enter on the buttons must not also turn the slide, so they stop here. */
+(function(){
+  if(!document.querySelectorAll) return;
+  document.querySelectorAll('.stepper').forEach(function(box){
+    var steps = JSON.parse(box.getAttribute('data-steps'));
+    var kind = box.getAttribute('data-kind');
+    var en = box.querySelector('.tstat .en'), ar = box.querySelector('.tstat .ar');
+    var nx = box.querySelector('.nx'), pl = box.querySelector('.pl'), rs = box.querySelector('.rs');
+    var lines = box.querySelectorAll('.ln'), cons = box.querySelector('.tcons');
+    var tiers = box.querySelectorAll('.tier'), packet = box.querySelector('.packet');
+    var nodes = box.querySelectorAll('[data-id]');
+    var i = 0, timer = null;
+
+    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+    /* In an Arabic (right-to-left) line, '12 > 10' shows mirrored as '12 < 10'.
+       Each run of code is wrapped in a left-to-right isolate (U+2066 ... U+2069)
+       so it reads exactly as typed. */
+    function iso(t){
+      return String(t || '').replace(/[A-Za-z0-9_"'(][A-Za-z0-9_ .,*+\-<>=!"'()\/%]*[A-Za-z0-9_"')]/g, function(m){
+        return /[<>=*+]/.test(m) ? '\u2066' + m + '\u2069' : m;
+      });
+    }
+    function say(e, a){ en.textContent = e || ''; ar.textContent = iso(a); }
+    function reset(){
+      stop(); i = 0;
+      for(var j = 0; j < lines.length; j++) lines[j].classList.remove('hot');
+      for(var t = 0; t < tiers.length; t++) tiers[t].classList.remove('on');
+      for(var q = 0; q < nodes.length; q++) nodes[q].classList.remove('on');
+      if(packet) packet.textContent = '';
+      if(cons) cons.querySelectorAll('.line').forEach(function(l){ l.remove(); });
+      box.querySelectorAll('.box b').forEach(function(b){ b.textContent = '?'; b.classList.remove('pop'); });
+      nx.disabled = false; pl.disabled = false;
+      say('Press Next step to start.', 'اضغط Next step عشان تبدأ.');
+    }
+    function next(){
+      if(i >= steps.length) return;
+      var s = steps[i++];
+      if(kind === 'flow'){
+        for(var t = 0; t < tiers.length; t++) tiers[t].classList.toggle('on', tiers[t].getAttribute('data-t') === s.t);
+        packet.textContent = '';
+        if(s.msg){ var p = document.createElement('span'); p.textContent = s.msg; packet.appendChild(p); }
+      } else {
+        for(var j = 0; j < lines.length; j++) lines[j].classList.toggle('hot', j === s.ln);
+        for(var q = 0; q < nodes.length; q++) nodes[q].classList.toggle('on', nodes[q].getAttribute('data-id') === s.el);
+        if(s.set) Object.keys(s.set).forEach(function(k){
+          var b = box.querySelector('.box[data-k="' + k + '"] b');
+          if(!b) return;
+          b.textContent = s.set[k];
+          b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+        });
+        if(s.out !== undefined){
+          var l = document.createElement('span'); l.className = 'line'; l.textContent = s.out; cons.appendChild(l);
+        }
+      }
+      say(s.en, s.ar);
+      if(i >= steps.length){ stop(); nx.disabled = true; pl.disabled = true; }
+    }
+    nx.addEventListener('click', function(){ stop(); next(); });
+    pl.addEventListener('click', function(){
+      if(timer) return;
+      if(i >= steps.length) reset();
+      pl.disabled = true; next(); timer = setInterval(next, 1500);
+    });
+    rs.addEventListener('click', reset);
+    box.addEventListener('keydown', function(e){
+      if(e.target.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) e.stopPropagation();
+    });
+    reset();
+  });
+})();

@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 10 — How do they talk? · PGteach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#6B7688;
+  --teal:#0E7C7B;
+  --teal-pale:#E6F1F0;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --paper:#FBFAF7;
+  --line:#DFE3E8;
+  --white:#fff;
+  --wrong:#9C3B2E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"Inter",system-ui,sans-serif;
+  background:var(--ink);
+  color:var(--ink);
+  overflow:hidden;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl;
+  unicode-bidi:isolate;
+}
+code,.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- stage ---------- */
+#stage{
+  position:fixed; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  padding:0;
+}
+.slide{
+  position:absolute; inset:0;
+  background:var(--paper);
+  padding:5.5vh 6vw 9vh;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  overflow-y:auto;
+}
+.slide.on{display:flex}
+.slide.dark{background:var(--ink);color:var(--paper)}
+
+/* entrance: one orchestrated reveal per slide */
+.slide.on .rise{animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+.slide.on .rise:nth-child(2){animation-delay:.07s}
+.slide.on .rise:nth-child(3){animation-delay:.14s}
+.slide.on .rise:nth-child(4){animation-delay:.21s}
+.slide.on .rise:nth-child(5){animation-delay:.28s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- type ---------- */
+.eyebrow{
+  font-size:clamp(11px,1.15vw,15px); font-weight:600;
+  color:var(--teal); letter-spacing:.02em; margin-bottom:.9rem;
+}
+.dark .eyebrow{color:var(--gold)}
+h1{
+  font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(30px,5.2vw,68px); line-height:1.06;
+  letter-spacing:-.015em;
+}
+h2{
+  font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(24px,3.5vw,46px); line-height:1.12;
+  letter-spacing:-.01em; margin-bottom:.35em;
+}
+.sub{font-size:clamp(14px,1.5vw,21px);color:var(--soft);line-height:1.5}
+.dark .sub{color:#AAB6CC}
+.arline{
+  font-size:clamp(12px,1.25vw,17px);
+  color:var(--soft); line-height:1.65;
+  border-right:2.5px solid var(--line);
+  padding-right:.75rem; margin-top:.85rem;
+  max-width:62ch; margin-left:auto;
+}
+.dark .arline{color:#9FADC4;border-right-color:#3A4867}
+
+/* ---------- pipeline diagram ---------- */
+.pipe{display:flex;gap:clamp(8px,1.2vw,18px);align-items:stretch;margin:1.4rem 0 .5rem;flex-wrap:wrap}
+.step{
+  flex:1 1 180px; background:var(--white); border:1px solid var(--line);
+  border-radius:14px; padding:clamp(12px,1.5vw,22px); position:relative;
+  box-shadow:0 1px 2px rgba(22,35,63,.04);
+}
+.step .n{
+  width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;
+  display:grid;place-items:center;font-size:14px;font-weight:600;margin-bottom:.65rem;
+}
+.step h3{font-size:clamp(15px,1.6vw,21px);font-weight:600;margin-bottom:.3rem}
+.step p{font-size:clamp(12px,1.25vw,16px);color:var(--soft);line-height:1.5}
+.step .ex{
+  margin-top:.7rem;padding-top:.7rem;border-top:1px dashed var(--line);
+  font-size:clamp(12px,1.25vw,16px);color:var(--ink-2);
+}
+.arrow{align-self:center;color:var(--gold);font-size:26px;font-weight:600}
+@media(max-width:760px){.arrow{display:none}}
+
+/* ---------- generic table ---------- */
+table{width:100%;border-collapse:collapse;margin:1rem 0 .4rem;font-size:clamp(12px,1.35vw,18px)}
+th,td{border-bottom:1px solid var(--line);padding:clamp(7px,.9vw,14px) clamp(8px,1vw,16px);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--teal);font-size:clamp(11px,1.15vw,15px)}
+td b{font-weight:600}
+tr:last-child td{border-bottom:0}
+
+/* ---------- split compare ---------- */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.6vw,24px);margin-top:1.2rem}
+@media(max-width:700px){.vs{grid-template-columns:1fr}}
+.pane{border-radius:14px;padding:clamp(14px,1.7vw,26px)}
+.pane.a{background:var(--teal-pale)}
+.pane.b{background:var(--gold-pale)}
+.pane h3{font-size:clamp(16px,1.9vw,24px);font-weight:600;margin-bottom:.6rem}
+.pane.a h3{color:var(--teal)}
+.pane.b h3{color:#A9762A}
+.pane ul{list-style:none;font-size:clamp(12px,1.35vw,17px);line-height:1.65}
+.pane li{padding-left:1.1rem;position:relative;margin-bottom:.4rem}
+.pane li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.45}
+
+/* ---------- kitchen row ---------- */
+.kit{display:flex;gap:clamp(8px,1.2vw,18px);margin-top:1.2rem;flex-wrap:wrap}
+.kit .card{
+  flex:1 1 200px;background:var(--white);border:1px solid var(--line);
+  border-radius:14px;padding:clamp(12px,1.5vw,22px);text-align:center;
+}
+.kit .ico{font-size:clamp(28px,3.4vw,44px);line-height:1;margin-bottom:.5rem}
+.kit h3{font-size:clamp(14px,1.55vw,20px);font-weight:600;margin-bottom:.25rem}
+.kit .role{font-size:clamp(11px,1.2vw,15px);color:var(--teal);font-weight:600;margin-bottom:.4rem}
+.kit p{font-size:clamp(11.5px,1.2vw,15px);color:var(--soft);line-height:1.5}
+
+/* ---------- fields grid ---------- */
+.fields{display:flex;flex-wrap:wrap;gap:clamp(7px,.9vw,14px);margin-top:1.2rem}
+.chip{
+  background:var(--white);border:1px solid var(--line);border-radius:99px;
+  padding:clamp(8px,.9vw,14px) clamp(14px,1.5vw,24px);
+  font-size:clamp(12px,1.35vw,18px);font-weight:500;
+}
+.chip span{color:var(--soft);font-size:.82em;margin-left:.4em}
+
+/* ---------- code chip ---------- */
+.codeline{
+  display:inline-block;background:var(--ink);color:#8FE3D6;
+  padding:.35em .7em;border-radius:7px;font-size:.92em;
+}
+
+/* ---------- QR panel ---------- */
+.qrwrap{display:flex;gap:clamp(14px,2vw,32px);align-items:center;margin-top:1.4rem;flex-wrap:wrap}
+.qrwrap img{width:clamp(110px,13vw,180px);height:auto;border-radius:10px;background:#fff;padding:9px}
+.qrwrap .txt{flex:1 1 260px}
+
+/* ---------- statement: one line, nothing else ---------- */
+.statement{
+  font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(28px,6vw,80px); line-height:1.05;
+  letter-spacing:-.02em; max-width:20ch;
+}
+.statement em{font-style:normal;color:var(--gold)}
+
+/* ---------- stat row: the numbers are the point ---------- */
+.stats{display:flex;gap:clamp(12px,2.5vw,40px);flex-wrap:wrap;margin:1.4rem 0 .5rem}
+.stat{flex:1 1 170px}
+.stat b{
+  display:block; font-family:"Fraunces",serif; font-weight:600;
+  font-size:clamp(34px,5.5vw,76px); line-height:1;
+  color:var(--teal); letter-spacing:-.02em;
+}
+.dark .stat b{color:var(--gold)}
+.stat span{
+  display:block; margin-top:.4rem; line-height:1.45;
+  font-size:clamp(12px,1.3vw,17px); color:var(--soft);
+}
+
+/* ---------- timeline: a sequence, read downwards ---------- */
+.timeline{position:relative;margin:1.3rem 0 .4rem;padding-left:clamp(26px,3vw,42px)}
+.timeline::before{
+  content:""; position:absolute; left:clamp(10px,1.2vw,16px);
+  top:8px; bottom:8px; width:2px; background:var(--line);
+}
+.tl{position:relative;margin-bottom:clamp(10px,1.5vw,22px)}
+.tl::before{
+  content:""; position:absolute; top:.35em;
+  left:calc(clamp(5px,.7vw,10px) - clamp(26px,3vw,42px));
+  width:12px; height:12px; border-radius:50%;
+  background:var(--teal); box-shadow:0 0 0 4px var(--paper);
+}
+.dark .tl::before{box-shadow:0 0 0 4px var(--ink)}
+.tl h3{font-size:clamp(15px,1.7vw,22px);font-weight:600;margin-bottom:.15rem}
+.tl p{font-size:clamp(12px,1.3vw,17px);color:var(--soft);line-height:1.5}
+
+/* ---------- checklist: do this, not that ---------- */
+.check{list-style:none;margin:1.2rem 0 .4rem;font-size:clamp(13px,1.5vw,20px)}
+.check li{position:relative;padding-left:1.9em;margin-bottom:.55rem;line-height:1.5}
+.check li::before{content:"\2713";position:absolute;left:0;color:var(--teal);font-weight:700}
+.check li.no::before{content:"\2715";color:var(--wrong)}
+
+/* ---------- pull quote ---------- */
+.quote{
+  border-left:4px solid var(--gold);
+  padding-left:clamp(14px,1.8vw,26px);
+  margin:1.3rem 0 .4rem; max-width:34ch;
+}
+.quote p{
+  font-family:"Fraunces",serif; font-weight:400;
+  font-size:clamp(19px,2.8vw,40px); line-height:1.2;
+}
+.quote cite{
+  display:block; margin-top:.7rem; font-style:normal;
+  font-size:clamp(11px,1.2vw,15px); color:var(--soft);
+}
+
+/* ---------- labelled scale: a spectrum, not two boxes ---------- */
+.scale{margin:1.7rem 0 .5rem}
+.scale .bar{height:10px;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--gold))}
+.scale .ends{
+  display:flex; justify-content:space-between; gap:1rem; margin-top:.7rem;
+  font-size:clamp(12px,1.3vw,17px); font-weight:500;
+}
+.scale .ends span:last-child{text-align:right}
+
+/* ---------- chrome ---------- */
+#bar{position:fixed;left:0;top:0;height:3px;background:var(--teal);width:0;transition:width .3s ease;z-index:40}
+#nav{
+  position:fixed;bottom:0;left:0;right:0;height:7vh;min-height:46px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(14px,3vw,40px);
+  background:rgba(251,250,247,.92);backdrop-filter:blur(8px);
+  border-top:1px solid var(--line);z-index:30;
+}
+.slide.dark ~ #nav{}
+#nav .who{font-size:clamp(10px,1.05vw,13px);color:var(--soft);white-space:nowrap;flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+#counter{font-size:clamp(10px,1.05vw,13px);color:var(--soft);font-variant-numeric:tabular-nums;margin-left:.7em}
+.qrwrap a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,150,59,.45)}
+#nav .mid{display:flex;gap:6px;align-items:center}
+#nav .dot{
+  width:8px;height:8px;flex:0 0 auto;
+  padding:0;border:0;border-radius:50%;
+  background:var(--line);cursor:pointer;transition:.2s;
+}
+#nav .dot.on{background:var(--teal);transform:scale(1.45)}
+#nav .dot:hover{background:var(--soft)}
+#nav button{
+  font:inherit;font-size:clamp(11px,1.1vw,14px);font-weight:500;
+  background:none;border:1px solid var(--line);border-radius:7px;
+  padding:.45em .9em;cursor:pointer;color:var(--ink);
+}
+#nav button:hover{border-color:var(--teal);color:var(--teal)}
+#nav button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.hint{position:fixed;bottom:8.5vh;right:clamp(14px,3vw,40px);font-size:11px;color:var(--soft);z-index:30;opacity:.75}
+
+/* ---------- phones ---------- */
+@media(max-width:620px){
+  /* more room at the bottom so text clears the fixed nav bar */
+  .slide{padding:4.5vh 7vw 13vh}
+  #nav{height:auto;min-height:54px;padding:9px clamp(12px,4vw,22px)}
+  /* 8px dots are not a usable tap target, and 12 of them do not
+     fit a phone; the n / total counter covers the same job */
+  #nav .mid{display:none}
+  #counter{margin-left:.45em}
+  /* this sat on top of the Arabic line */
+  .hint{display:none}
+}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.fitbox{width:100%}
+.shot img{cursor:zoom-in}
+.shot img:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+#zoom{
+  position:fixed;inset:0;z-index:99;
+  display:none;align-items:center;justify-content:center;
+  background:rgba(8,12,24,.94);padding:clamp(14px,3vw,44px);
+}
+#zoom.on{display:flex}
+#zoom figure{margin:0;max-width:min(1180px,92vw);text-align:center}
+#zoom img{
+  max-width:100%;max-height:72vh;object-fit:contain;
+  border-radius:10px;background:#fff;
+}
+#zoom .zcap{color:#fff;margin-top:.9rem;font-size:clamp(14px,1.5vw,19px);line-height:1.5}
+#zoom .zcap b{display:block;font-weight:600;font-size:1.06em;margin-bottom:.15rem}
+#zoom .zcap .ar{display:block;color:#C6CCD9;margin-top:.3rem}
+#zoom .znum{color:#8A93A6;font-size:13px;margin-top:.7rem;letter-spacing:.03em}
+#zoom button{
+  position:absolute;background:rgba(255,255,255,.13);color:#fff;
+  border:0;border-radius:99px;cursor:pointer;font:inherit;
+  width:46px;height:46px;font-size:23px;line-height:1;
+}
+#zoom button:hover{background:rgba(255,255,255,.26)}
+#zoom button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+#zoom .zclose{top:18px;right:18px}
+#zoom .zprev{left:18px;top:50%;transform:translateY(-50%)}
+#zoom .znext{right:18px;top:50%;transform:translateY(-50%)}
+@media (max-width:620px){
+  #zoom button{width:40px;height:40px;font-size:20px}
+  #zoom .zprev{left:8px} #zoom .znext{right:8px}
+  #zoom img{max-height:60vh}
+}
+@media print{#zoom{display:none!important}}
+/* ---- side visuals (see VIZ in the builder) ---- */
+.split{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:clamp(28px,4vw,80px); align-items:center}
+.split>.main{min-width:0}
+.viz{max-width:520px; width:100%; justify-self:center; cursor:pointer; -webkit-tap-highlight-color:transparent}
+.viz svg{width:100%; height:auto; display:block; overflow:visible}
+@media(max-width:1000px){.split{display:block} .split>.viz{display:none}}
+p.vcap{margin-top:.8rem; text-align:center; font-size:clamp(13px,1.2vw,17px); color:var(--soft); line-height:1.5}
+p.vcap b{display:block; color:var(--ink); font-weight:600}
+p.vcap span{display:block; font-size:.92em}
+.dark p.vcap{color:#AAB6CC} .dark p.vcap b{color:var(--paper)}
+.viz .lbl{font:600 13px Inter,system-ui,sans-serif; fill:var(--soft)}
+.viz .lbl.mid{text-anchor:middle} .viz .lbl.sm2{font-size:11px}
+.viz .ntext{font:600 15px Inter,system-ui,sans-serif; fill:var(--ink); text-anchor:middle}
+.viz .ntext.sm{font-size:12px; font-weight:500; fill:var(--soft)}
+.dark .viz .ntext{fill:var(--paper)} .dark .viz .ntext.ink{fill:var(--ink)}
+.viz .node rect{fill:var(--white); stroke:var(--line); stroke-width:1.5}
+.dark .viz .node rect{fill:#1F2E4F; stroke:#3A4867}
+.viz .node rect.core,.dark .viz .node rect.core{fill:var(--gold-pale); stroke:var(--gold)}
+.viz .wire{stroke:var(--teal); stroke-width:3; fill:none; stroke-dasharray:6 7}
+.dark .viz .wire{stroke:var(--gold)}
+.viz .tA,.viz .node rect.tA{fill:var(--teal)} .viz .tB,.viz .node rect.tB{fill:var(--gold)}
+.viz .node rect.bar{stroke:none}
+.viz .vk{stroke:var(--teal); stroke-width:3.5; fill:none; stroke-linecap:round; stroke-linejoin:round}
+.viz .vx{stroke:var(--wrong); stroke-width:3.5; fill:none; stroke-linecap:round}
+.viz .qmark{font:700 44px Fraunces,serif; fill:var(--gold); text-anchor:middle}
+.viz .bar{rx:3}
+/* rows, tiles, chips */
+.drow{display:flex; align-items:center; gap:.7rem; background:var(--white); border:1px solid var(--line); border-radius:12px; padding:.75rem 1rem; margin-bottom:.65rem; font-size:clamp(14px,1.3vw,18px)}
+.drow .dico{font-size:1.5em} .drow .dai{background:var(--gold-pale); color:var(--ink); font-weight:700; border-radius:8px; padding:.15rem .5rem; font-size:.85em}
+.drow .darrow{color:var(--teal); font-weight:700} .drow .dt{color:var(--ink)}
+.tiles{display:grid; grid-template-columns:1fr 1fr; gap:.8rem}
+.tile{background:#1F2E4F; border:1px solid #3A4867; border-radius:14px; padding:1rem; text-align:center; color:var(--paper)}
+.tile span{display:block; font-size:2em; line-height:1.2} .tile b{display:block; margin-top:.3rem; font-size:clamp(14px,1.3vw,18px)}
+.tile i{display:block; font-style:normal; color:#AAB6CC; font-size:clamp(12px,1.05vw,15px)}
+.pchip{display:flex; align-items:center; gap:.8rem; background:var(--white); border:1px solid var(--line); border-left:4px solid var(--gold); border-radius:12px; padding:.8rem 1rem; margin-bottom:.6rem; font-weight:600; font-size:clamp(15px,1.4vw,20px); color:var(--ink)}
+.pchip span{font-size:1.3em}
+/* rings */
+.viz .track{fill:none; stroke:#3A4867; stroke-width:12}
+.viz .ring{fill:none; stroke:var(--gold); stroke-width:12; stroke-linecap:round; transform:rotate(-90deg); transform-origin:100px 100px; stroke-dasharray:503; stroke-dashoffset:0}
+.viz .big{font:700 46px Fraunces,serif; fill:var(--paper); text-anchor:middle}
+.viz .small{font:500 15px Inter,system-ui,sans-serif; fill:#AAB6CC; text-anchor:middle}
+.tps{display:flex; justify-content:center; gap:.5rem; margin-top:.9rem}
+.tps span{border:1px solid #3A4867; border-radius:99px; padding:.25rem .8rem; color:var(--paper); font-size:clamp(13px,1.15vw,16px)}
+
+/* motion: only on the slide being shown, so opening the slide plays it */
+@keyframes vIn{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+@keyframes vPop{0%{opacity:0; transform:scale(.3)} 70%{opacity:1; transform:scale(1.25)} 100%{transform:scale(1)}}
+@keyframes vDash{to{stroke-dashoffset:-26}}
+@keyframes vScan{0%{opacity:.85; transform:translateY(0)} 90%{opacity:.85; transform:translateY(190px)} 100%{opacity:0; transform:translateY(190px)}}
+@keyframes vGrowY{from{transform:scaleY(0)} to{transform:scaleY(1)}}
+@keyframes vGrowX{from{transform:scaleX(0)} to{transform:scaleX(1)}}
+@keyframes vBreathe{0%,100%{opacity:.35; transform:scale(.92)} 50%{opacity:1; transform:scale(1.08)}}
+@keyframes vStrike{from{opacity:1; text-decoration-color:transparent} to{opacity:.35}}
+@keyframes vGlow{0%,100%{box-shadow:0 0 0 0 rgba(201,150,59,0)} 50%{box-shadow:0 0 0 6px rgba(201,150,59,.35)}}
+@keyframes vDrop{from{width:88%; background:var(--teal)} to{width:28%; background:var(--wrong)}}
+@keyframes vRing{from{stroke-dashoffset:0} to{stroke-dashoffset:503}}
+@keyframes vRingFill{from{stroke-dashoffset:503} to{stroke-dashoffset:0}}
+@keyframes vHideBox{0%,45%{opacity:1} 100%{opacity:0}}
+@keyframes vShowThen{0%,45%{opacity:1} 60%,100%{opacity:0}}
+@keyframes vLateIn{0%,55%{opacity:0} 100%{opacity:1}}
+.slide.on .viz .wire{animation:vDash 1s linear infinite}
+.slide.on .viz .n1{animation:vIn .45s .2s both} .slide.on .viz .n2{animation:vIn .45s .6s both} .slide.on .viz .n3{animation:vIn .45s 1s both}
+.slide.on .viz .qmark{animation:vBreathe 2.2s 1.4s ease-in-out infinite both; transform-box:fill-box; transform-origin:center}
+.slide.on .viz .vk,.slide.on .viz .vx{animation:vPop .45s cubic-bezier(.2,.8,.3,1.2) both; transform-box:fill-box; transform-origin:center}
+.slide.on .viz .grow{animation:vGrowY .6s cubic-bezier(.2,.8,.3,1) both; transform-box:fill-box; transform-origin:bottom}
+.slide.on .viz .drow,.slide.on .viz .tile,.slide.on .viz .pchip,.slide.on .viz .ustep,.slide.on .viz .tps span{animation:vIn .45s both}
+.slide.on .viz .ring{animation:vRing 60s .4s linear both}
+
+/* lecture 5's drawings */
+.timer{max-width:320px}
+.slide:not(.dark) .timer .big{fill:var(--ink)} .slide:not(.dark) .timer .small{fill:var(--soft)}
+.slide:not(.dark) .timer .track{stroke:var(--line)} .slide:not(.dark) .tps span{border-color:var(--line); color:var(--ink)}
+.shopv .sv{display:grid; grid-template-columns:auto 1fr; column-gap:.8rem; align-items:center; background:var(--white); border:1px solid var(--line); border-radius:12px; padding:.75rem 1rem; margin-bottom:.6rem; font-size:clamp(14px,1.3vw,18px); color:var(--ink)}
+.shopv .sv span{grid-row:span 2; font-size:1.6em} .shopv .sv i{font-style:normal; color:var(--soft); font-size:.85em}
+.shopv .sv3{border-color:var(--wrong); background:#FBF0EE}
+.slide.on .viz .sv{animation:vIn .45s both} .slide.on .viz .sv2{animation-delay:.5s} .slide.on .viz .sv3{animation-delay:1s}
+.viz .bar0{fill:var(--white); stroke:var(--line); stroke-width:2}
+.dark .viz .bar0{fill:#1F2E4F; stroke:#3A4867}
+.viz .url{font:600 19px Inter,system-ui,sans-serif; fill:var(--teal)}
+.dark .viz .url{fill:var(--gold)} .viz .url.host{fill:var(--soft); font-weight:500} .dark .viz .url.host{fill:#AAB6CC}
+.viz .lkbody{fill:var(--gold)} .viz .lkshackle{fill:none; stroke:var(--gold); stroke-width:3}
+.viz .body{fill:var(--gold)} .viz .shackle{fill:none; stroke:var(--gold); stroke-width:14; stroke-linecap:round}
+.viz .hole{fill:var(--ink)}
+.drow small{color:var(--soft); font-size:.85em}
+.msg{position:relative; font:600 clamp(16px,1.6vw,22px) ui-monospace,Consolas,monospace; background:var(--white); border:1px solid var(--line); border-radius:12px; padding:.7rem 1rem; text-align:center; color:var(--ink)}
+.msg.cipher{background:var(--ink); color:var(--gold); border-color:var(--ink)}
+.msg.cipher .c0{position:absolute; left:0; right:0; opacity:0; color:var(--paper)}
+.kk{text-align:center; color:var(--teal); font-weight:600; margin:.45rem 0; font-size:clamp(13px,1.2vw,16px)}
+.kk span{color:var(--soft); font-weight:500}
+.cert{background:var(--white); border:1px solid var(--line); border-top:5px solid var(--teal); border-radius:14px; padding:1rem 1.2rem}
+.certh{font:600 1.15em Fraunces,serif; color:var(--ink)}
+.certn{font-family:ui-monospace,Consolas,monospace; color:var(--soft); margin:.3rem 0 .7rem}
+.ck{display:flex; gap:.6rem; align-items:center; padding:.45rem 0; border-top:1px dashed var(--line); color:var(--ink); font-size:clamp(13px,1.2vw,16px)}
+.ck b{color:var(--teal); display:inline-block}
+.leak>div{border-radius:12px; padding:.75rem 1rem; margin-bottom:.55rem; font-size:clamp(14px,1.3vw,18px)}
+.lk1{background:var(--white); border:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; color:var(--ink)}
+.lk1 em{font-style:normal; font-weight:700; color:var(--wrong); border:2px solid var(--wrong); border-radius:6px; padding:0 .4rem; display:inline-block; transform:rotate(-6deg)}
+.leak .lkarrow{color:var(--soft); text-align:center; padding:.1rem 0}
+.lk2{background:var(--gold-pale); color:var(--ink)}
+.lk3{background:var(--teal-pale); color:var(--teal); font-weight:700; text-align:center}
+.pchip div small{display:block; font-weight:500; color:var(--soft); font-size:.8em}
+.ustep2{display:flex; gap:.8rem; align-items:center; background:var(--white); border:1px solid var(--line); border-radius:12px; padding:.75rem 1rem; margin-bottom:.6rem; color:var(--soft); font-size:clamp(14px,1.3vw,18px)}
+.ustep2 b{color:var(--ink); font-family:Fraunces,serif; font-size:1.2em}
+.ustep2.now{border-color:var(--teal); border-left:5px solid var(--teal); color:var(--ink); background:var(--teal-pale)}
+@keyframes vShackle{0%,30%{transform:translateY(-24px)} 70%{transform:translateY(3px)} 100%{transform:none}}
+.slide.on .viz .shackle{animation:vShackle 1.4s .3s cubic-bezier(.3,.7,.3,1.2) both}
+.slide.on .viz .lockmini{animation:vPop .45s 1.5s both; transform-box:fill-box; transform-origin:center}
+.slide.on .viz .url{animation:vIn .5s 1.7s both}
+.slide.on .viz .msg.plain{animation:vIn .45s .2s both}
+.slide.on .viz .kk{animation:vIn .45s .7s both}
+.slide.on .viz .msg.cipher{animation:vIn .45s 1.1s both}
+.slide.on .viz .msg.cipher .c0{animation:vShowThen 1.4s 1.1s both}
+.slide.on .viz .msg.cipher .c1{animation:vLateIn 1.4s 1.1s both; display:inline-block}
+.slide.on .viz .kk.late{animation-delay:2.5s}
+.slide.on .viz .msg.late2{animation-delay:2.9s}
+.slide.on .viz .ck{animation:vIn .45s both}
+.slide.on .viz .ck b{animation:vPop .45s .3s both}
+.slide.on .viz .lk1{animation:vIn .45s .2s both}
+.slide.on .viz .lk1 em{animation:vPop .45s .8s both}
+.slide.on .viz .lkarrow{animation:vIn .45s 1.2s both}
+.slide.on .viz .lk2{animation:vIn .45s 1.7s both}
+.slide.on .viz .lk3{animation:vPop .5s 2.3s both}
+.slide.on .viz .ustep2{animation:vIn .45s both}
+/* a statement that is true gets a tick when revealed, not the cross */
+.check li.rv.tf-t.shown::before{content:"\2713"; color:var(--teal)}
+
+/* lecture 10's drawings */
+.statement.def{font-size:clamp(18px,2.15vw,30px); line-height:1.28; max-width:46ch}
+/* code cards, as lecture 8; no ligatures, so >= reads as typed */
+.code{display:block; background:var(--ink); color:#E6EDF3; text-align:left; padding:clamp(12px,1.7vw,22px); border-radius:12px; margin:.9rem 0 .4rem; font-family:"JetBrains Mono",monospace; font-size:clamp(13px,1.6vw,21px); line-height:1.6; white-space:pre; overflow-x:auto; max-width:100%}
+.code .k,.tcode .k{color:#FF9D7A} .code .s,.tcode .s{color:#8FE3D6} .code .n,.tcode .n{color:#F7C66B} .code .f,.tcode .f{color:#9DC7FF} .code .c,.tcode .c{color:#7C8B99}
+.code,.tcode,.mono,.codeline,code,.qcode{font-variant-ligatures:none; font-feature-settings:"liga" 0,"calt" 0}
+.codeline{display:inline-block; background:var(--ink); color:#8FE3D6; padding:.25em .6em; border-radius:7px; font-family:"JetBrains Mono",monospace; font-size:.9em}
+.part{font:600 clamp(46px,9vw,120px)/1 Fraunces,serif; color:var(--gold)}
+/* the step-by-step players: the request flow and the code tracer */
+.stepper{display:grid; grid-template-columns:1.15fr 1fr; gap:clamp(12px,1.8vw,26px); margin-top:.9rem; align-items:start}
+@media(max-width:760px){.stepper{grid-template-columns:1fr}}
+.tcode{background:var(--ink); color:#E6EDF3; border-radius:12px; padding:clamp(10px,1.3vw,16px); font-family:"JetBrains Mono",monospace; font-size:clamp(12px,1.4vw,18px); line-height:1.7; overflow-x:auto}
+.tcode .ln{display:block; padding:0 .45em; border-radius:6px; white-space:pre; transition:background .25s,box-shadow .25s}
+.tcode .ln.hot{background:rgba(247,198,107,.2); box-shadow:inset 4px 0 0 #F7C66B}
+.tcons{margin-top:.6rem; background:#0B1324; color:#7CE38F; border-radius:10px; padding:.55em .9em; font-family:"JetBrains Mono",monospace; font-size:clamp(12px,1.4vw,18px); min-height:3.6em}
+.tcons .lbl{display:block; color:#7C8B99; font-size:.72em; margin-bottom:.2em}
+.tcons .line{display:block; animation:typeIn .5s steps(16) both}
+@keyframes typeIn{from{clip-path:inset(0 100% 0 0)} to{clip-path:inset(0 0 0 0)}}
+.tlbl{font-size:clamp(12px,1.25vw,16px); font-weight:600; color:var(--soft); margin-bottom:.3rem}
+.boxes{display:flex; gap:.5rem; flex-wrap:wrap}
+.box{display:flex; align-items:center; gap:.35em; font-family:"JetBrains Mono",monospace; font-size:clamp(13px,1.55vw,20px)}
+.box b{min-width:3.2em; text-align:center; border:2px dashed var(--teal); border-radius:10px; padding:.15em .55em; color:var(--teal); background:var(--teal-pale)}
+.box b.pop{animation:revealPop .6s cubic-bezier(.2,.8,.3,1.1) both}
+.tstat{margin-top:.7rem; font-size:clamp(13px,1.45vw,19px); min-height:4.6em; line-height:1.45; color:var(--ink)}
+.tstat .ar{display:block; margin-top:.25em; color:var(--soft)}
+.tbtns{display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.5rem}
+.tbtns button{font:inherit; font-size:clamp(13px,1.35vw,17px); font-weight:600; border-radius:9px; padding:.5em 1em; cursor:pointer; background:var(--teal); color:#fff; border:1px solid var(--teal)}
+.tbtns button.alt{background:#fff; color:var(--ink); border-color:var(--line)}
+.tbtns button:disabled{opacity:.4; cursor:default}
+/* the three tiers, for the request flow */
+.tiers{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(8px,1.4vw,18px); margin-top:.4rem}
+.tier{position:relative; background:#fff; border:2px solid var(--line); border-radius:14px; padding:.8rem .6rem; text-align:center; transition:border-color .3s,background .3s,transform .3s}
+.tier .ti{font-size:clamp(24px,3vw,40px); line-height:1.1}
+.tier b{display:block; font-size:clamp(14px,1.5vw,20px); margin-top:.2rem}
+.tier small{display:block; color:var(--soft); font-size:clamp(11px,1.1vw,14px)}
+.tier.on{border-color:var(--gold); background:var(--gold-pale); transform:translateY(-6px)}
+.packet{display:block; margin:.7rem auto 0; text-align:center; font-weight:600; font-size:clamp(13px,1.4vw,18px); color:var(--ink); min-height:1.6em}
+.packet span{display:inline-block; background:var(--ink); color:#fff; border-radius:99px; padding:.2em .9em; animation:revealPop .55s cubic-bezier(.2,.8,.3,1.1) both}
+.stepper.flowcol{display:block; max-width:860px}
+@media print{.tbtns{display:none}}/* the flowchart player and the flowcharts */
+.stepper.chartp{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.fcwrap svg,.fcfig svg{width:100%; max-width:440px; height:auto; display:block; margin:0 auto}
+.fcwrap{max-height:62vh}
+.fcwrap svg{max-height:62vh}
+.fc [data-id] .shp{transition:fill .3s,stroke .3s}
+.fc [data-id].on .shp{fill:var(--gold-pale); stroke:var(--gold); stroke-width:5}
+.chartp .tcons{margin-top:.8rem}
+.fcfig{background:#fff; border:1px solid var(--line); border-radius:12px; padding:.6rem}
+.twocol{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:clamp(14px,2vw,30px); align-items:start; margin-top:.6rem}
+@media(max-width:760px){.twocol{grid-template-columns:1fr}}
+.json{display:block; background:var(--ink); color:#E6EDF3; border-radius:12px; padding:clamp(12px,1.6vw,20px); font-family:"JetBrains Mono",monospace; font-size:clamp(14px,1.8vw,24px); line-height:1.6; white-space:pre; margin:.8rem 0 .4rem}
+.json .key{color:#9DC7FF} .json .val{color:#8FE3D6} .json .num{color:#F7C66B}
+@media(max-width:760px){.stepper.chartp{grid-template-columns:1fr} .fcwrap,.fcwrap svg{max-height:none}}
+
+/* the video: bigger on a wide screen, as long as the slide still fits */
+@media(min-width:1001px){.slide .vid{width:min(100%, 960px, calc((100vh - 380px) * 16 / 9))}}
+
+/* ---------- video: a poster until clicked, then the player ---------- */
+.vid{position:relative; width:min(680px,100%); aspect-ratio:16/9; margin:.9rem 0 .3rem;
+  border-radius:12px; overflow:hidden; background:#16233F; cursor:pointer}
+.vid img{width:100%; height:100%; object-fit:cover; display:block; opacity:.82}
+.vid .play{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:clamp(52px,6vw,78px); height:clamp(52px,6vw,78px); border-radius:50%;
+  background:var(--teal); color:#fff; font-size:clamp(20px,2.4vw,32px);
+  display:flex; align-items:center; justify-content:center; box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.vid .vcap{position:absolute; left:0; right:0; bottom:0; padding:.55rem .9rem;
+  background:linear-gradient(transparent,rgba(0,0,0,.78)); color:#fff; font-size:clamp(12px,1.3vw,16px)}
+.vid iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+.vid:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+/* ---------- tap to reveal ---------- */
+/* Hidden: blurred, breathing gently so it reads as "tap me". Revealed: the
+   blur clears as the word pops in with a small overshoot, a gold flash
+   behind it fades, and it settles in the lecture colour -- each on its own
+   tap. The base stylesheet turns every animation off under
+   prefers-reduced-motion. */
+@keyframes revealPop{
+  0%  {transform:scale(.6); opacity:.2; filter:blur(8px)}
+  55% {transform:scale(1.18); opacity:1; filter:blur(0)}
+  75% {transform:scale(.96)}
+  100%{transform:scale(1)}
+}
+@keyframes revealFlash{0%{background:var(--gold-pale)} 100%{background:transparent}}
+@keyframes revealStamp{
+  0%  {transform:scale(2.4) rotate(-25deg); opacity:0}
+  60% {transform:scale(.9) rotate(4deg); opacity:1}
+  100%{transform:scale(1) rotate(0)}
+}
+@keyframes hintBreathe{0%,100%{opacity:.55} 50%{opacity:.9}}
+td.reveal{cursor:pointer}
+td.reveal span{display:inline-block}
+td.reveal:not(.shown) span{filter:blur(7px); user-select:none; animation:hintBreathe 2.4s ease-in-out infinite}
+td.reveal.shown{animation:revealFlash 1.1s ease-out}
+td.reveal.shown span{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) both; color:var(--teal); font-weight:600}
+.check li.rv{cursor:pointer}
+.check li.rv::before{content:"?"; color:var(--gold); display:inline-block}
+.check li.rv.shown::before{content:"\2715"; color:var(--wrong); animation:revealStamp .5s cubic-bezier(.2,.8,.3,1.2) both}
+.check li.rv .ans{display:inline-block}
+.check li.rv:not(.shown) .ans{filter:blur(7px); user-select:none; animation:hintBreathe 2.4s ease-in-out infinite}
+.check li.rv.shown .ans{animation:revealPop .65s cubic-bezier(.2,.8,.3,1.1) .12s both}
+@media print{.vid{display:none} td.reveal span,.check li.rv .ans{filter:none!important;animation:none!important}}
+/* ---------- exam code, covered until the teacher reveals it ---------- */
+.qrgate{position:relative;cursor:pointer}
+.qrgate .qrhide{
+  position:absolute; inset:0; z-index:2;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:.35rem; text-align:center; padding:1rem;
+  background:#16233F; border-radius:12px;
+}
+.qrgate.on .qrhide{display:none}
+.qrgate .qrhide b{font-size:clamp(14px,1.7vw,22px); color:var(--paper)}
+.qrgate .qrhide span{font-size:clamp(11px,1.15vw,15px); color:#A8B2C6; max-width:34ch}
+.qrgate kbd{font:inherit; font-weight:600; background:rgba(255,255,255,.16);
+  border-radius:4px; padding:0 .35em}
+@media print{.qrgate .qrhide{display:none}}
+/* ---------- photo slides ---------- */
+.shots{display:grid; gap:.85rem; margin:1rem 0 .35rem}
+.shots.two{grid-template-columns:repeat(2,1fr)}
+.shots.three{grid-template-columns:repeat(3,1fr)}
+.shots.four{grid-template-columns:repeat(4,1fr)}
+@media (max-width:900px){.shots.three,.shots.four{grid-template-columns:repeat(2,1fr)}}
+.shot{background:var(--white); border:1px solid var(--line); border-radius:10px;
+      overflow:hidden; display:flex; flex-direction:column}
+.shot img{width:100%; height:21vh; object-fit:contain; background:#F1F0EB;
+          display:block; padding:6px; font-size:11px; color:var(--soft)}
+.shot .cap{padding:.5rem .6rem .65rem; font-size:clamp(10.5px,1vw,13.5px);
+           line-height:1.4; color:var(--ink-2)}
+.shot .cap b{display:block; color:var(--ink); font-size:clamp(11.5px,1.12vw,15px);
+             margin-bottom:.18rem}
+.shot .cap .ar{display:block; color:var(--soft); margin-top:.28rem; font-size:.94em}
+.credit{font-size:clamp(9px,.82vw,11.5px); color:var(--soft); margin-top:.15rem}
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+<div id="stage">
+
+  <section class="slide dark">
+    <div class="rise eyebrow" id="lectureBadge">Programming &amp; Artificial Intelligence</div>
+    <h2 class="rise" style="font-size:clamp(34px,6vw,86px);max-width:18ch">How do they talk?</h2>
+    <p class="rise sub" style="max-width:58ch;margin-top:1rem">Your phone does not hold the whole website &#8212; it asks for it. Today: the request, the response, and the rules they follow. On the platform: flowcharts.</p>
+    <p class="rise arline ar">موبايلك مش شايل الموقع كله — هو بيطلبه. النهارده: الطلب، والاستجابة، والقواعد اللي بيمشوا عليها. وعلى المنصة: المخططات الانسيابية.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Before we start &#183; Lesson 3-1</div>
+    <h2 class="rise" style="max-width:24ch">Last time: three tiers</h2>
+    <table class="rise"><tr><th>Tier</th><th>Its job</th></tr><tr><td><b>Frontend</b></td><td>shows and collects</td></tr><tr><td><b>Backend</b></td><td>decides and processes</td></tr><tr><td><b>Database</b></td><td>stores and retrieves</td></tr></table>
+    <p class="rise sub" style="max-width:60ch;margin-top:.9rem">They cooperate by sending messages. Today: <b>how</b> those messages travel &#8212; the request and the response.</p>
+    <p class="rise arline ar">في الدرس 3-1 اتعلمت إن الواجهة الأمامية والواجهة الخلفية بيتعاونوا عشان ينفذوا طلب المستخدم. في الدرس ده هتتعلم إزاي الطلبات والاستجابات بتتنقل بين العميل والخادم.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">This happens every time you click</div>
+    <h2 class="rise" style="max-width:22ch">Your device asks, a server answers</h2>
+    <p class="rise sub" style="max-width:58ch;margin-top:1rem">When you click a link or press &#8220;search&#8221;, your device does not hold the whole website &#8212; it asks a distant computer for it. Your browser is the <b>client</b> that makes the <b>request</b>; a <b>server</b> somewhere answers with a <b>response</b>. Shared rules called <b>protocols</b> govern the exchange.</p>
+    <div class="rise" style="margin-top:1rem;padding:clamp(12px,1.5vw,22px);background:var(--gold-pale);border-radius:12px;max-width:62ch"><p style="font-size:clamp(14px,1.6vw,21px)"><b>Hands up:</b> you see a page that says <b>404</b>. Is the Internet broken, is the server broken &#8212; or something else? Remember your answer.</p></div>
+    <p class="rise arline ar">لما بتدوس على لينك أو بتبدأ بحث، المتصفح غالبًا بيطلب البيانات اللي محتاجها من خدمة على خادم عبر الشبكة. المتصفح هنا عميل (client) بيبعت طلب، والخادم (server) بيرجّع استجابة، وبروتوكولات زي HTTP بتحدد قواعد التبادل ده.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Today&#8217;s question</div>
+    <h2 class="rise" style="max-width:28ch">How do the client and server communicate to make a web application work, and what rules and messages do they use?</h2>
+    <p class="rise arline ar">السؤال الرئيسي: إزاي العميل والخادم بيتواصلوا عشان يشغّلوا تطبيق الويب، وإيه القواعد والرسائل اللي بيستخدموها؟</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Today&#8217;s map</div>
+    <h2 class="rise" style="max-width:26ch">Four parts from the book, two on the platform</h2>
+    <div class="rise kit"><div class="card"><div class="ico">&#128101;</div><div class="role">Part 1</div><h3>Client and server</h3><p>Who asks, who answers</p></div><div class="card"><div class="ico">&#128274;</div><div class="role">Part 2</div><h3>HTTP and HTTPS</h3><p>The rules, and the lock</p></div><div class="card"><div class="ico">&#128232;</div><div class="role">Part 3</div><h3>Requests and responses</h3><p>GET, POST, 200, 404, 500</p></div><div class="card"><div class="ico">&#128279;</div><div class="role">Part 4</div><h3>API and JSON</h3><p>Programs sharing data</p></div><div class="card"><div class="ico">&#128200;</div><div class="role">Qureo 32 &#183; 33</div><h3>Flowcharts</h3><p>Draw a program, then review</p></div></div>
+    <p class="rise arline ar">خريطة المحاضرة: 1 العميل والخادم. 2 HTTP و HTTPS. 3 الطلبات والاستجابات: GET و POST ورموز الحالة. 4 API و JSON. وعلى المنصة: الفصل 32 المخطط الانسيابي، والفصل 33 مراجعة.</p>
+  </section>
+
+  <section class="slide">
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">Explore &#183; in pairs</div>
+      <h2 class="rise" style="max-width:20ch">Before you read on</h2>
+      <p class="rise sub" style="max-width:56ch;margin-top:1rem">You open YouTube on your phone and search <b>cats</b>. With your partner, write down:</p>
+      <ul class="rise check" style="margin-top:.6rem"><li>What does your phone <b>send</b>?</li><li>What comes <b>back</b>?</li><li>When you log in, should your password travel as it is &#8212; or locked?</li></ul>
+      <p class="rise sub" style="margin-top:.8rem;color:var(--soft)">Keep your answers. Part 3 shows the book&#8217;s, step by step.</p>
+    </div>
+    <aside class="rise viz timer"><svg viewBox="0 0 200 200" role="img" aria-label="One minute to think"><circle cx="100" cy="100" r="80" class="track"/><circle cx="100" cy="100" r="80" class="ring"/><text x="100" y="98" class="big">1</text><text x="100" y="126" class="small">minute</text></svg><div class="tps"><span style="animation-delay:.3s">Think</span><span style="animation-delay:.6s">Pair</span><span style="animation-delay:.9s">Share</span></div><p class="vcap"><b>Think alone first, then tell your partner.</b><span dir="rtl">فكّر لوحدك الأول، وبعدين قول لزميلك.</span></p></aside></div>
+    <p class="rise arline ar">مع زميلك: فتحت يوتيوب على الموبايل ودوّرت على cats. موبايلك بيبعت إيه؟ وإيه اللي بيرجع؟ ولما بتسجل دخول، الباسورد يمشي زي ما هو ولا متقفل؟</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Part 1 &#183; Client and server</div>
+    <h2 class="rise">Who asks, who answers</h2>
+    <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 900 270" role="img" aria-label="Several clients, a browser, a phone app and a tablet, send requests to one server; the server returns a response to each">
+  <g font-size="15" text-anchor="middle">
+    <rect x="20" y="20" width="200" height="62" rx="12" fill="#fff" stroke="var(--teal)" stroke-width="3"/>
+    <text x="70" y="60" font-size="26">&#128187;</text><text x="140" y="57" font-weight="700" fill="var(--ink)">Web browser</text>
+    <rect x="20" y="104" width="200" height="62" rx="12" fill="#fff" stroke="var(--teal)" stroke-width="3"/>
+    <text x="70" y="144" font-size="26">&#128241;</text><text x="140" y="141" font-weight="700" fill="var(--ink)">Phone app</text>
+    <rect x="20" y="188" width="200" height="62" rx="12" fill="#fff" stroke="var(--teal)" stroke-width="3"/>
+    <text x="70" y="228" font-size="26">&#128421;</text><text x="140" y="225" font-weight="700" fill="var(--ink)">Another program</text>
+    <text x="120" y="12" font-size="14" font-weight="700" fill="var(--teal)">CLIENTS &#8212; request</text>
+    <rect x="660" y="60" width="220" height="150" rx="14" fill="#fff" stroke="var(--gold)" stroke-width="3"/>
+    <text x="770" y="112" font-size="34">&#128452;</text>
+    <text x="770" y="150" font-size="20" font-weight="700" fill="var(--ink)">Server</text>
+    <text x="770" y="174" fill="var(--soft)">processes and responds</text>
+    <line x1="226" y1="44" x2="646" y2="104" stroke="var(--teal)" stroke-width="3"/><polygon points="654,105 641,97 640,112" fill="var(--teal)"/>
+    <line x1="226" y1="135" x2="646" y2="135" stroke="var(--teal)" stroke-width="3"/><polygon points="654,135 642,128 642,142" fill="var(--teal)"/>
+    <line x1="654" y1="166" x2="234" y2="228" stroke="var(--gold)" stroke-width="3"/><polygon points="226,229 239,221 240,236" fill="var(--gold)"/>
+    <text x="440" y="62" font-weight="600" fill="var(--teal)">request (HTTP method: GET / POST)</text>
+    <text x="440" y="236" font-weight="600" fill="var(--gold)">response (status code + data)</text>
+  </g>
+</svg></div>
+    <table class="rise"><tr><th>Term</th><th>Meaning</th></tr><tr><td><b>Client</b></td><td>The side that requests data or processing from the server. Web browsers and smartphone apps.</td></tr><tr><td><b>Server</b></td><td>The side that receives requests from clients, processes them, and returns responses.</td></tr></table>
+    <p class="rise arline ar">العميل: برنامج أو جهاز بيبعت طلب لخدمة تانية، زي متصفح الويب وتطبيق الموبايل. الخادم: الجانب اللي بيستقبل الطلبات من العملاء، ويعالجها، ويرجّع الاستجابات. وكتير من تطبيقات الويب بتعتمد على إن العميل يبعت طلب والخادم يرجّع استجابة.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">1 &#183; Your turn</div>
+    <h2 class="rise">Client or server?</h2>
+    <table class="rise"><tr><th>Who is it?</th><th>Answer</th></tr><tr><td>Your web browser asking for a page</td><td class="reveal"><span>Client</span></td></tr><tr><td>The computer that receives the request, processes it and sends back the page</td><td class="reveal"><span>Server</span></td></tr><tr><td>A smartphone app asking for today&#8217;s weather</td><td class="reveal"><span>Client</span></td></tr></table>
+    <p class="rise sub" style="max-width:58ch;margin-top:.8rem;color:var(--soft)">The one that <b>asks</b> is the client; the one that <b>answers</b> is the server. Tap to check.</p>
+    <p class="rise arline ar">اللي بيطلب هو العميل، واللي بيرد هو الخادم. فكّر الأول وبعدين دوس.</p>
+  </section>
+
+  <section class="slide">
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">Part 2 &#183; HTTP and HTTPS</div>
+      <h2 class="rise" style="max-width:24ch">A postcard or a sealed envelope</h2>
+      <div class="rise statement def"><em>HTTP</em> (HyperText Transfer Protocol) &#8212; a communication protocol for exchanging data between clients and servers.</div>
+      <div class="rise statement def" style="margin-top:.7rem"><em>HTTPS</em> (HTTP Secure) &#8212; HTTP with <em>TLS encryption</em> added. The content is encrypted, so the risk of it being read by others is reduced.</div>
+      <p class="rise sub" style="max-width:58ch;margin-top:.8rem">Addresses that begin with <span class="codeline">https://</span> use HTTPS. The Arabic book adds: TLS also stops the content being <b>changed</b> on the way, and checks it is the <b>real server</b>.</p>
+    </div>
+    <aside class="rise viz"><div class="drow" style="animation-delay:0.40s"><span class="dico">&#9993;</span><span class="dt"><b>HTTP</b><br><small>a postcard: anyone on the way can read it</small></span><span class="darrow">&#8594;</span><span class="dai">readable</span></div><div class="drow" style="animation-delay:1.00s"><span class="dico">&#128274;</span><span class="dt"><b>HTTPS</b><br><small>a sealed envelope: TLS encrypts it</small></span><span class="darrow">&#8594;</span><span class="dai">encrypted</span></div><p class="vcap"><b>Same message, but only one is sealed.</b><span dir="rtl">نفس الرسالة، بس واحدة بس متقفلة.</span></p></aside></div>
+    <p class="rise arline ar">HTTP: بروتوكول بيستخدم لتبادل الرسائل بين عميل وخادم على الويب. HTTPS: استخدام HTTP عبر اتصال TLS آمن؛ بيحمي سرية الاتصال وسلامته، وبيتحقق من الخادم، فالمتجسس ميقدرش يقرا المحتوى أو يعدّله بسهولة. والمواقع اللي عناوينها بتبدأ بـ https:// بتستخدم HTTPS.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Pause &amp; think</div>
+    <h2 class="rise" style="max-width:24ch">Why should a login page use HTTPS rather than plain HTTP?</h2>
+    <ul class="rise check" style="margin-top:1rem"><li class="reveal rv">Because&#8230; <span class="ans">&#8212; the password is <b>encrypted</b> on the way, so someone listening on the network cannot read it. With plain HTTP it travels as it is.</span></li></ul>
+    <p class="rise arline ar">وقّف وفكّر: ليه صفحة تسجيل الدخول لازم تستخدم HTTPS بدل HTTP العادي؟</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Part 3 &#183; The request: an HTTP method</div>
+    <h2 class="rise">GET or POST?</h2>
+    <p class="rise sub" style="max-width:58ch;margin-top:.4rem">Every request carries an <b>HTTP method</b>: what kind of operation is wanted.</p>
+    <table class="rise"><tr><th>Method</th><th>Role</th><th>Examples</th></tr><tr><td><b>GET</b></td><td>Retrieve data from the server</td><td>Displaying a web page, retrieving search results</td></tr><tr><td><b>POST</b></td><td>Send data to the server</td><td>Sending login information, submitting a form</td></tr></table>
+    <table class="rise" style="margin-top:.8rem"><tr><th>Operation</th><th>Method</th></tr><tr><td>a &#183; Displaying a web page</td><td class="reveal"><span>GET</span></td></tr><tr><td>b &#183; Submitting an ID and password in a login form</td><td class="reveal"><span>POST</span></td></tr><tr><td>c &#183; Displaying search results</td><td class="reveal"><span>GET</span></td></tr><tr><td>d &#183; Submitting a contact form</td><td class="reveal"><span>POST</span></td></tr></table>
+    <p class="rise arline ar">كل طلب فيه طريقة طلب HTTP بتوضح نوع العملية المطلوبة. GET بيستخدم عادةً لطلب مورد أو بيانات من الخادم، زي عرض صفحة أو نتايج بحث. POST بيستخدم عادةً لإرسال بيانات يعالجها الخادم، زي تسجيل الدخول أو إرسال نموذج.</p>
+  </section>
+
+  <section class="slide">
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">3 &#183; The response: a status code</div>
+      <h2 class="rise">Three numbers to know</h2>
+      <p class="rise sub" style="max-width:58ch;margin-top:.4rem">Every response carries a <b>status code</b>: a number that reports the result.</p>
+      <table class="rise"><tr><th>Status code</th><th>Meaning</th></tr><tr><td><b>200</b></td><td>Success &#8212; the request was processed successfully</td></tr><tr><td><b>404</b></td><td>Page not found &#8212; the requested address does not exist</td></tr><tr><td><b>500</b></td><td>Server error &#8212; a problem occurred on the server side</td></tr></table>
+      <p class="rise sub" style="max-width:58ch;margin-top:.8rem;color:var(--soft)">The Arabic book adds: a 500 alone does not say <b>what</b> went wrong &#8212; only that it was on the server.</p>
+    </div>
+    <aside class="rise viz"><div class="tiles"><div class="tile" style="animation-delay:0.30s"><span>&#9989;</span><b>200</b><i>success</i></div><div class="tile" style="animation-delay:0.65s"><span>&#128269;</span><b>404</b><i>not found</i></div><div class="tile" style="animation-delay:1.00s"><span>&#128165;</span><b>500</b><i>server error</i></div></div><p class="vcap"><b>The server's answer, as a number.</b><span dir="rtl">رد الخادم، في شكل رقم.</span></p></aside></div>
+    <p class="rise arline ar">الاستجابة فيها رقم بيوضح نتيجة المعالجة اسمه رمز حالة HTTP. 200: نجاح. 404: المورد المطلوب مش موجود بالعنوان ده. 500: خطأ داخلي في الخادم منعه يكمّل الطلب؛ والرمز لوحده مش بيحدد السبب بالتفصيل.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">3 &#183; One request, one matching response</div>
+    <h2 class="rise" style="max-width:26ch">Watch a page arrive, then a login</h2>
+    <div class="rise stepper flowcol" data-kind="flow" data-steps="[{&quot;t&quot;: &quot;c&quot;, &quot;msg&quot;: &quot;GET  /search?q=cats&quot;, &quot;en&quot;: &quot;① You search &#x27;cats&#x27;. The browser (client) sends a request with the GET method: it wants to retrieve data.&quot;, &quot;ar&quot;: &quot;① بتدوّر على cats. المتصفح (العميل) بيبعت طلب بأسلوب GET: عايز يجيب بيانات.&quot;}, {&quot;t&quot;: &quot;s&quot;, &quot;msg&quot;: &quot;processing…&quot;, &quot;en&quot;: &quot;② The server receives the request and processes it: it finds the results.&quot;, &quot;ar&quot;: &quot;② الخادم بيستقبل الطلب ويعالجه: بيدوّر على النتايج.&quot;}, {&quot;t&quot;: &quot;c&quot;, &quot;msg&quot;: &quot;200 OK  +  the results page&quot;, &quot;en&quot;: &quot;③ The server returns a response with status code 200 (success) and the page. The browser shows it.&quot;, &quot;ar&quot;: &quot;③ الخادم بيرجّع استجابة برمز حالة 200 (نجاح) ومعاها الصفحة، والمتصفح بيعرضها.&quot;}, {&quot;t&quot;: &quot;c&quot;, &quot;msg&quot;: &quot;POST  /login  (HTTPS 🔒)&quot;, &quot;en&quot;: &quot;④ Now you log in. Sending data means POST, and over HTTPS the password travels encrypted.&quot;, &quot;ar&quot;: &quot;④ دلوقتي بتسجل دخول. إرسال بيانات يعني POST، ومع HTTPS الباسورد بيمشي متشفر.&quot;}, {&quot;t&quot;: &quot;s&quot;, &quot;msg&quot;: &quot;checking the password…&quot;, &quot;en&quot;: &quot;⑤ The server receives the login data and checks it.&quot;, &quot;ar&quot;: &quot;⑤ الخادم بيستقبل بيانات الدخول ويتحقق منها.&quot;}, {&quot;t&quot;: &quot;c&quot;, &quot;msg&quot;: &quot;200 OK  +  your account&quot;, &quot;en&quot;: &quot;⑥ Success: status code 200, and your account page comes back.&quot;, &quot;ar&quot;: &quot;⑥ نجاح: رمز حالة 200، وصفحة حسابك بترجع.&quot;}]"><div class="tiers" style="grid-template-columns:repeat(2,1fr)"><div class="tier" data-t="c"><div class="ti">&#128241;</div><b>Client</b><small>your browser</small></div><div class="tier" data-t="s"><div class="ti">&#128452;</div><b>Server</b><small>far away</small></div></div><p class="packet"></p><p class="tstat"><span class="en"></span><span class="ar"></span></p><div class="tbtns"><button type="button" class="nx">Next step &#9654;</button><button type="button" class="alt pl">Play all</button><button type="button" class="alt rs">&#8634; Again</button></div></div>
+    <p class="rise arline ar">طلب HTTP واحد، واستجابة مطابقة واحدة. دوس Next step وتابع.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Pause &amp; think</div>
+    <h2 class="rise" style="max-width:28ch">If a browser receives status code 404, what should it tell the user &#8212; and whose side had the problem?</h2>
+    <ul class="rise check" style="margin-top:1rem"><li class="reveal rv">Tell the user&#8230; <span class="ans">&#8212; &#8220;page not found&#8221;: the address asked for does not exist.</span></li><li class="reveal rv">Whose side? <span class="ans">&#8212; the server is working; the <b>requested address</b> is wrong or the page is gone. A server breakdown would be <b>500</b>.</span></li></ul>
+    <p class="rise arline ar">وقّف وفكّر: لو المتصفح استقبل 404، يقول للمستخدم إيه — وأنهي جانب كان فيه المشكلة؟</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">3 &#183; Your turn &#183; worked example</div>
+    <h2 class="rise">True or false?</h2>
+    <ul class="rise check" style="margin-top:.6rem"><li class="reveal rv tf-t">The client requests data or processing from the server, and the server returns the response. <span class="ans">&#8212; <b>true</b>.</span></li><li class="reveal rv tf-t">HTTPS is a communication protocol that adds encryption to HTTP. <span class="ans">&#8212; <b>true</b>: TLS.</span></li><li class="reveal rv">The GET method is for sending data to the server. <span class="ans">&#8212; <b>false</b>: GET retrieves; POST sends.</span></li><li class="reveal rv tf-t">Status code 404 indicates that the page is not found. <span class="ans">&#8212; <b>true</b>.</span></li></ul>
+    <p class="rise sub" style="margin-top:.7rem;color:var(--soft)">Tap each one to check.</p>
+    <p class="rise arline ar">المثال المحلول: العميل بيطلب والخادم بيرد — صح. HTTPS بيضيف تشفير لـ HTTP — صح. GET لإرسال البيانات — غلط، ده POST. 404 الصفحة مش موجودة — صح.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Part 4 &#183; API (Application Programming Interface)</div>
+    <h2 class="rise">Programs asking programs</h2>
+    <div class="rise statement def"><em>API</em> &#8212; a system for exchanging data between different pieces of software.</div>
+    <p class="rise sub" style="max-width:58ch;margin-top:.8rem">In web applications, the frontend often sends requests to the backend <b>through an API</b> and receives data back. That data is often written in <b>JSON</b> (JavaScript Object Notation): easy for people to read, and for computers to process.</p>
+    <div class="rise json">{
+  <span class="key">"city"</span>: <span class="val">"Cairo"</span>,
+  <span class="key">"temperature"</span>: <span class="num">31</span>
+}</div>
+    <ul class="rise check"><li class="reveal rv">Name one <b>key</b> and its <b>value</b>. <span class="ans">&#8212; key <b>"city"</b>, value <b>"Cairo"</b> (or key "temperature", value 31).</span></li></ul>
+    <p class="rise arline ar">واجهة برمجة التطبيقات (API): مجموعة قواعد واضحة بتسمح لبرنامج يطلب بيانات أو وظائف من برنامج تاني. وممكن ترجّع بيانات بصيغة JSON، وهي صيغة نصية لتمثيل البيانات المهيكلة. اقرا البيانات دي وحدد مفتاح (key) وقيمته (value).</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">4 &#183; Exam-style question</div>
+    <h2 class="rise">Match each description with a term</h2>
+    <table class="rise"><tr><th>Description</th><th>Term</th></tr><tr><td>a &#183; A communication protocol for exchanging data between web browsers and servers</td><td class="reveal"><span>A &#183; HTTP</span></td></tr><tr><td>b &#183; A system for exchanging data between different pieces of software</td><td class="reveal"><span>B &#183; API</span></td></tr><tr><td>c &#183; A communication protocol that adds encryption to HTTP</td><td class="reveal"><span>C &#183; HTTPS</span></td></tr></table>
+    <p class="rise sub" style="max-width:58ch;margin-top:.8rem;color:var(--soft)">Choices: <b>A</b> HTTP &#183; <b>B</b> API &#183; <b>C</b> HTTPS.</p>
+    <p class="rise arline ar">اربط كل وصف بالمصطلح: بروتوكول تبادل البيانات بين المتصفح والخادم = HTTP. تبادل البيانات بين برمجيات مختلفة = API. HTTP مع تشفير = HTTPS.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Exam warning</div>
+    <h2 class="rise">True or false?</h2>
+    <ul class="rise check" style="margin-top:.6rem"><li class="reveal rv">Status code 500 means the request was processed successfully. <span class="ans">&#8212; <b>false</b>: 500 is a server error; success is 200.</span></li><li class="reveal rv">An API is a technology for adjusting the appearance of web pages. <span class="ans">&#8212; <b>false</b>: it exchanges data between software.</span></li><li class="reveal rv">JSON is used to encrypt the connection. <span class="ans">&#8212; <b>false</b>: JSON is a data format; HTTPS encrypts.</span></li><li class="reveal rv tf-t">To send login data, POST is the right method. <span class="ans">&#8212; <b>true</b>.</span></li></ul>
+    <p class="rise arline ar">خلّي بالك: 500 مش نجاح — ده خطأ في الخادم. الـ API مش لشكل الصفحة. JSON صيغة بيانات مش تشفير. وبيانات الدخول بتتبعت بـ POST.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Exam-style question &#183; 6 marks</div>
+    <h2 class="rise" style="max-width:24ch">A browser asks for a web page</h2>
+    <div class="rise vs"><div class="pane a"><h3>Explain, step by step&#8230;</h3><ul><li>what happens when a browser requests a web page and the server responds</li><li>refer to: <b>client</b>, <b>request</b>, <b>HTTP method</b>, <b>response</b>, <b>status code</b></li></ul></div><div class="pane b"><h3>A plan for your answer</h3><ul><li>the client sends a request &#8212; GET, to retrieve</li><li>the server receives and processes it</li><li>the response comes back with a status code: 200, 404 or 500</li></ul></div></div>
+    <p class="rise arline ar">سؤال على نمط الامتحان: اشرح خطوة بخطوة إيه اللي بيحصل لما المتصفح يطلب صفحة ويب والخادم يستجيب. أشِر إلى: العميل، الطلب، طريقة طلب HTTP، الاستجابة، رمز حالة HTTP.</p>
+  </section>
+
+  <section class="slide">
+    <div class="split"><div class="main">
+      <div class="rise eyebrow">Think as an engineer</div>
+      <h2 class="rise" style="max-width:26ch">A school wants a timetable app</h2>
+      <p class="rise sub" style="max-width:58ch;margin-top:.6rem">Students log in, view their timetable, and download a PDF. You plan how the client and server communicate.</p>
+      <ul class="rise check" style="margin-top:.8rem"><li><b>Choose the method.</b> Loading a student&#8217;s grade history, submitting the login form, requesting today&#8217;s schedule from another school system: GET or POST? Is an API involved in the last?</li><li><b>Choose the protocol.</b> Should the login use HTTP or HTTPS? Why?</li><li><b>Decide.</b> Recommend the design, with two reasons. In pairs, agree which action must use POST.</li></ul>
+      <p class="rise sub" style="max-width:60ch;margin-top:.8rem;color:var(--soft)">Stuck? GET retrieves and shows; POST sends data such as a login; HTTPS encrypts so passwords are not intercepted.</p>
+    </div>
+    <aside class="rise viz"><div class="shopv"><div class="sv sv1"><span>&#128218;</span><b>Grade history</b><i>GET or POST?</i></div><div class="sv sv2"><span>&#128272;</span><b>Login form</b><i>GET or POST? HTTP or HTTPS?</i></div><div class="sv sv3"><span>&#127979;</span><b>Another school&#8217;s timetable</b><i>is an API involved?</i></div></div><p class="vcap"><b>Choose a method for each action.</b><span dir="rtl">اختار الأسلوب المناسب لكل إجراء.</span></p></aside></div>
+    <p class="rise arline ar">فكّر كمهندس: مدرسة عايزة تطبيق ويب الطلاب يسجلوا فيه دخول ويشوفوا جدولهم وينزّلوا PDF. اختار GET ولا POST لكل إجراء، واختار HTTP ولا HTTPS للدخول، وقرّر بسببين.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">In a new context</div>
+    <h2 class="rise" style="max-width:26ch">A weather API</h2>
+    <p class="rise sub" style="max-width:56ch;margin-top:.7rem">A weather service offers an API that returns today&#8217;s forecast when a client sends a request.</p>
+    <table class="rise"><tr><th>Question</th><th>Answer</th></tr><tr><td>Which HTTP method retrieves the forecast?</td><td class="reveal"><span>GET</span></td></tr><tr><td>Why should the service use HTTPS?</td><td class="reveal"><span>So the data is encrypted and not changed on the way</span></td></tr><tr><td>One advantage of receiving the data as JSON?</td><td class="reveal"><span>Easy for people to read and for programs to process</span></td></tr></table>
+    <p class="rise arline ar">طبّق اللي اتعلمته: خدمة طقس عندها API بترجّع توقعات النهارده. أنهي طريقة طلب هتستخدم؟ وليه HTTPS؟ وميزة واحدة لـ JSON.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">Key takeaway &middot; lesson 3-2</div>
+    <h2 class="rise" style="max-width:24ch">Ask, answer, by the rules</h2>
+    <p class="rise sub" style="max-width:60ch;margin-bottom:.6rem"><b>Hands up again:</b> that <b>404</b> &#8212; Internet broken, server broken, or something else?</p><div class="rise statement">Client <em>requests</em>, server <em>responds</em> &#8212; over HTTP/HTTPS, with a method (<em>GET/POST</em>), a <em>status code</em>, and often an <em>API</em> returning <em>JSON</em>.</div>
+    <p class="rise arline ar">افتكر: العميل بيطلب، والخادم بيستجيب — عبر HTTP/HTTPS، بأسلوب (GET/POST)، ورمز حالة، وغالبًا واجهة برمجة تطبيقات بترجّع بيانات JSON.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise part">5</div>
+    <h2 class="rise">On the platform: Flowchart</h2>
+    <p class="rise sub" style="max-width:56ch">Qureo chapter 32: plan a program as a drawing first &#8212; then write the code. With if and calculations.</p>
+    <p class="rise arline ar">الجزء الخامس على المنصة: الفصل 32 — المخطط الانسيابي: نرسم البرنامج الأول، وبعدين نكتب الكود.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">5 &#183; The symbols</div>
+    <h2 class="rise">Four shapes, joined by arrows</h2>
+    <div class="rise" style="margin:1.1rem 0 .4rem"><svg viewBox="0 0 900 200" role="img" aria-label="The four flowchart symbols: an oval for start and end, a rectangle for a process, a diamond for a decision, a parallelogram for input and output">
+  <g font-size="15" text-anchor="middle">
+    <ellipse cx="110" cy="70" rx="85" ry="34" fill="#fff" stroke="var(--teal)" stroke-width="3"/>
+    <text x="110" y="76" font-weight="700" fill="var(--ink)">Start / End</text>
+    <rect x="245" y="36" width="180" height="68" rx="4" fill="#fff" stroke="var(--teal)" stroke-width="3"/>
+    <text x="335" y="76" font-weight="700" fill="var(--ink)">Process</text>
+    <polygon points="565,22 655,70 565,118 475,70" fill="#fff" stroke="var(--gold)" stroke-width="3"/>
+    <text x="565" y="76" font-weight="700" fill="var(--ink)">Decision</text>
+    <polygon points="725,36 885,36 855,104 695,104" fill="#fff" stroke="var(--teal)" stroke-width="3"/>
+    <text x="790" y="76" font-weight="700" fill="var(--ink)">Input / Output</text>
+    <text x="110" y="150" fill="var(--soft)">where the program</text><text x="110" y="170" fill="var(--soft)">begins and ends</text>
+    <text x="335" y="150" fill="var(--soft)">a step: calculate,</text><text x="335" y="170" fill="var(--soft)">give a value</text>
+    <text x="565" y="150" fill="var(--soft)">a question: Yes / No</text><text x="565" y="170" fill="var(--soft)">&#8594; an if statement</text>
+    <text x="790" y="150" fill="var(--soft)">take in or show</text><text x="790" y="170" fill="var(--soft)">&#8594; console.log</text>
+  </g>
+</svg></div>
+    <p class="rise sub" style="max-width:60ch;margin-top:.3rem">A <b>flowchart</b> draws a program&#8217;s steps in order. Arrows show which step comes next.</p>
+    <p class="rise arline ar">المخطط الانسيابي بيرسم خطوات البرنامج بالترتيب: البيضاوي للبداية والنهاية، والمستطيل لخطوة معالجة، والمعين لسؤال إجابته نعم أو لا (يعني if)، ومتوازي الأضلاع للإدخال والإخراج (زي console.log). والأسهم بتوضح الخطوة اللي بعدها.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">5 &#183; if + operations</div>
+    <h2 class="rise">Follow the arrows</h2>
+    <div class="rise stepper chartp" data-kind="code" data-steps="[{&quot;el&quot;: &quot;start&quot;, &quot;en&quot;: &quot;Start here.&quot;, &quot;ar&quot;: &quot;نبدأ من هنا.&quot;}, {&quot;el&quot;: &quot;p0&quot;, &quot;set&quot;: {&quot;price&quot;: &quot;40&quot;}, &quot;en&quot;: &quot;A process: price = 40.&quot;, &quot;ar&quot;: &quot;خطوة معالجة: price = 40.&quot;}, {&quot;el&quot;: &quot;p1&quot;, &quot;set&quot;: {&quot;total&quot;: &quot;120&quot;}, &quot;en&quot;: &quot;A process with an operation: total = 40 * 3 = 120.&quot;, &quot;ar&quot;: &quot;خطوة فيها عملية حسابية: total = 40 * 3 = 120.&quot;}, {&quot;el&quot;: &quot;d&quot;, &quot;en&quot;: &quot;A decision: is 120 &gt; 100? Yes.&quot;, &quot;ar&quot;: &quot;سؤال: هل 120 &gt; 100؟ أيوه.&quot;}, {&quot;el&quot;: &quot;yes&quot;, &quot;out&quot;: &quot;Too expensive&quot;, &quot;en&quot;: &quot;Follow the Yes arrow: show \&quot;Too expensive\&quot;.&quot;, &quot;ar&quot;: &quot;نمشي على سهم Yes: نعرض \&quot;Too expensive\&quot;.&quot;}, {&quot;el&quot;: &quot;end&quot;, &quot;en&quot;: &quot;End. The No branch was never used.&quot;, &quot;ar&quot;: &quot;النهاية. فرع No متستخدمش خالص.&quot;}]"><div class="fcwrap"><svg class="fc" viewBox="0 0 520 478" role="img" aria-label="Flowchart: start; price = 40; total = price * 3; is total greater than 100? Yes: show Too expensive. No: show Buy it. End">
+  <g font-size="17" text-anchor="middle">
+    <g data-id="start"><ellipse class="shp" cx="200" cy="30" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="36" font-weight="700" fill="var(--ink)">Start</text></g>
+    <line x1="200" y1="54" x2="200" y2="78" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,80 193,68 207,68" fill="var(--ink)"/>
+    <g data-id="p0"><rect class="shp" x="95" y="80" width="210" height="46" rx="4" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="109" font-family="JetBrains Mono,monospace" fill="var(--ink)">price = 40</text></g>
+    <line x1="200" y1="126" x2="200" y2="150" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,152 193,140 207,140" fill="var(--ink)"/>
+    <g data-id="p1"><rect class="shp" x="95" y="152" width="210" height="46" rx="4" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="181" font-family="JetBrains Mono,monospace" fill="var(--ink)">total = price * 3</text></g>
+    <line x1="200" y1="198" x2="200" y2="222" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,224 193,212 207,212" fill="var(--ink)"/>
+    <g data-id="d"><polygon class="shp" points="200,222 310,272 200,322 90,272" fill="#fff" stroke="var(--gold)" stroke-width="3"/><text x="200" y="278" font-family="JetBrains Mono,monospace" fill="var(--ink)">total &gt; 100 ?</text></g>
+    <line x1="310" y1="272" x2="410" y2="272" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="272" x2="410" y2="346" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="410,348 403,336 417,336" fill="var(--ink)"/>
+    <text x="350" y="262" font-weight="700" fill="var(--teal)">Yes</text>
+    <line x1="200" y1="322" x2="200" y2="346" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,348 193,336 207,336" fill="var(--ink)"/>
+    <text x="222" y="342" font-weight="700" fill="#9C3B2E">No</text>
+    <g data-id="yes"><polygon class="shp" points="335,346 505,346 485,392 315,392" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="410" y="375" font-family="JetBrains Mono,monospace" fill="var(--ink)">&quot;Too expensive&quot;</text></g>
+    <g data-id="no"><polygon class="shp" points="125,346 295,346 275,392 105,392" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="375" font-family="JetBrains Mono,monospace" fill="var(--ink)">&quot;Buy it&quot;</text></g>
+    <line x1="200" y1="392" x2="200" y2="444" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="200" y1="444" x2="228" y2="444" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="230,444 218,437 218,451" fill="var(--ink)"/>
+    <line x1="410" y1="392" x2="410" y2="444" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="444" x2="372" y2="444" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="370,444 382,437 382,451" fill="var(--ink)"/>
+    <g data-id="end"><ellipse class="shp" cx="300" cy="444" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="300" y="450" font-weight="700" fill="var(--ink)">End</text></g>
+  </g>
+</svg></div><div><div class="tlbl">The values</div><div class="boxes"><div class="box" data-k="price"><span>price =</span><b>?</b></div><div class="box" data-k="total"><span>total =</span><b>?</b></div></div><div class="tcons"><span class="lbl">Output &#8212; what is shown</span></div><p class="tstat"><span class="en"></span><span class="ar"></span></p><div class="tbtns"><button type="button" class="nx">Next step &#9654;</button><button type="button" class="alt pl">Play all</button><button type="button" class="alt rs">&#8634; Again</button></div></div></div>
+    <p class="rise arline ar">دوس Next step وامشي مع الأسهم: المستطيل بيحسب، والمعين بيسأل، وبنمشي في فرع واحد بس.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">5 &#183; From the drawing to the code</div>
+    <h2 class="rise">Every shape becomes a line</h2>
+    <div class="rise twocol"><div class="fcfig"><svg class="fc" viewBox="0 0 520 478" role="img" aria-label="Flowchart: start; price = 40; total = price * 3; is total greater than 100? Yes: show Too expensive. No: show Buy it. End">
+  <g font-size="17" text-anchor="middle">
+    <g data-id="start"><ellipse class="shp" cx="200" cy="30" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="36" font-weight="700" fill="var(--ink)">Start</text></g>
+    <line x1="200" y1="54" x2="200" y2="78" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,80 193,68 207,68" fill="var(--ink)"/>
+    <g data-id="p0"><rect class="shp" x="95" y="80" width="210" height="46" rx="4" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="109" font-family="JetBrains Mono,monospace" fill="var(--ink)">price = 40</text></g>
+    <line x1="200" y1="126" x2="200" y2="150" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,152 193,140 207,140" fill="var(--ink)"/>
+    <g data-id="p1"><rect class="shp" x="95" y="152" width="210" height="46" rx="4" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="181" font-family="JetBrains Mono,monospace" fill="var(--ink)">total = price * 3</text></g>
+    <line x1="200" y1="198" x2="200" y2="222" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,224 193,212 207,212" fill="var(--ink)"/>
+    <g data-id="d"><polygon class="shp" points="200,222 310,272 200,322 90,272" fill="#fff" stroke="var(--gold)" stroke-width="3"/><text x="200" y="278" font-family="JetBrains Mono,monospace" fill="var(--ink)">total &gt; 100 ?</text></g>
+    <line x1="310" y1="272" x2="410" y2="272" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="272" x2="410" y2="346" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="410,348 403,336 417,336" fill="var(--ink)"/>
+    <text x="350" y="262" font-weight="700" fill="var(--teal)">Yes</text>
+    <line x1="200" y1="322" x2="200" y2="346" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,348 193,336 207,336" fill="var(--ink)"/>
+    <text x="222" y="342" font-weight="700" fill="#9C3B2E">No</text>
+    <g data-id="yes"><polygon class="shp" points="335,346 505,346 485,392 315,392" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="410" y="375" font-family="JetBrains Mono,monospace" fill="var(--ink)">&quot;Too expensive&quot;</text></g>
+    <g data-id="no"><polygon class="shp" points="125,346 295,346 275,392 105,392" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="375" font-family="JetBrains Mono,monospace" fill="var(--ink)">&quot;Buy it&quot;</text></g>
+    <line x1="200" y1="392" x2="200" y2="444" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="200" y1="444" x2="228" y2="444" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="230,444 218,437 218,451" fill="var(--ink)"/>
+    <line x1="410" y1="392" x2="410" y2="444" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="444" x2="372" y2="444" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="370,444 382,437 382,451" fill="var(--ink)"/>
+    <g data-id="end"><ellipse class="shp" cx="300" cy="444" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="300" y="450" font-weight="700" fill="var(--ink)">End</text></g>
+  </g>
+</svg></div><div><div class="code" style="font-size:clamp(12px,1.45vw,19px)"><span class="k">let</span> price = <span class="n">40</span>;
+<span class="k">let</span> total = price * <span class="n">3</span>;
+
+<span class="k">if</span> (total > <span class="n">100</span>) {
+  <span class="f">console.log</span>(<span class="s">"Too expensive"</span>);
+} <span class="k">else</span> {
+  <span class="f">console.log</span>(<span class="s">"Buy it"</span>);
+}</div><table><tr><th>Shape</th><th>In the code</th></tr><tr><td>Rectangle (process)</td><td class="reveal"><span>let &#8230; = &#8230;; a calculation</span></td></tr><tr><td>Diamond (decision)</td><td class="reveal"><span>if ( &#8230; )</span></td></tr><tr><td>Yes / No arrows</td><td class="reveal"><span>the if { } and the else { }</span></td></tr><tr><td>Parallelogram (output)</td><td class="reveal"><span>console.log( &#8230; )</span></td></tr></table></div></div>
+    <p class="rise arline ar">كل شكل بيتحول لسطر: المستطيل = let أو عملية حسابية، المعين = if، سهم Yes = جوّه if، سهم No = else، ومتوازي الأضلاع = console.log.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">5 &#183; Your turn</div>
+    <h2 class="rise" style="max-width:24ch">Write the code for this flowchart</h2>
+    <div class="rise twocol"><div class="fcfig"><svg class="fc" viewBox="0 0 520 406" role="img" aria-label="Flowchart: start; a = 8 and b = 5; is a greater than b? Yes: show a. No: show b. End">
+  <g font-size="17" text-anchor="middle">
+    <g data-id="start"><ellipse class="shp" cx="200" cy="30" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="36" font-weight="700" fill="var(--ink)">Start</text></g>
+    <line x1="200" y1="54" x2="200" y2="78" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,80 193,68 207,68" fill="var(--ink)"/>
+    <g data-id="p0"><rect class="shp" x="95" y="80" width="210" height="46" rx="4" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="109" font-family="JetBrains Mono,monospace" fill="var(--ink)">a = 8, b = 5</text></g>
+    <line x1="200" y1="126" x2="200" y2="150" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,152 193,140 207,140" fill="var(--ink)"/>
+    <g data-id="d"><polygon class="shp" points="200,150 310,200 200,250 90,200" fill="#fff" stroke="var(--gold)" stroke-width="3"/><text x="200" y="206" font-family="JetBrains Mono,monospace" fill="var(--ink)">a &gt; b ?</text></g>
+    <line x1="310" y1="200" x2="410" y2="200" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="200" x2="410" y2="274" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="410,276 403,264 417,264" fill="var(--ink)"/>
+    <text x="350" y="190" font-weight="700" fill="var(--teal)">Yes</text>
+    <line x1="200" y1="250" x2="200" y2="274" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,276 193,264 207,264" fill="var(--ink)"/>
+    <text x="222" y="270" font-weight="700" fill="#9C3B2E">No</text>
+    <g data-id="yes"><polygon class="shp" points="335,274 505,274 485,320 315,320" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="410" y="303" font-family="JetBrains Mono,monospace" fill="var(--ink)">a</text></g>
+    <g data-id="no"><polygon class="shp" points="125,274 295,274 275,320 105,320" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="303" font-family="JetBrains Mono,monospace" fill="var(--ink)">b</text></g>
+    <line x1="200" y1="320" x2="200" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="200" y1="372" x2="228" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="230,372 218,365 218,379" fill="var(--ink)"/>
+    <line x1="410" y1="320" x2="410" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="372" x2="372" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="370,372 382,365 382,379" fill="var(--ink)"/>
+    <g data-id="end"><ellipse class="shp" cx="300" cy="372" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="300" y="378" font-weight="700" fill="var(--ink)">End</text></g>
+  </g>
+</svg></div><div><ul class="check"><li class="reveal rv">What does it show? <span class="ans">&#8212; <b>8</b>: 8 &gt; 5 is true, so the Yes branch shows a.</span></li><li class="reveal rv">The code: <span class="ans"><span class="mono" style="white-space:pre;display:block;font-size:.92em">let a = 8;
+let b = 5;
+if (a &gt; b) {
+  console.log(a);
+} else {
+  console.log(b);
+}</span></span></li><li class="reveal rv">What would it show if b were 11? <span class="ans">&#8212; <b>11</b>: 8 &gt; 11 is false, so the No branch.</span></li></ul></div></div>
+    <p class="rise arline ar">اكتب الكود للمخطط ده. فكّر الأول، وبعدين دوس على كل سطر. ده نفس فكرة مقارنة القيم في المحاضرة 9.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">5 &#183; Watch out</div>
+    <h2 class="rise" style="max-width:24ch">Rules of a good flowchart</h2>
+    <ul class="rise check" style="margin-top:.6rem"><li class="reveal rv">A diamond has only one way out. <span class="ans">&#8212; <b>false</b>: two, labelled <b>Yes</b> and <b>No</b>.</span></li><li class="reveal rv tf-t">A flowchart begins at Start and finishes at End. <span class="ans">&#8212; <b>true</b>: ovals.</span></li><li class="reveal rv">A calculation such as total = price * 3 goes in a diamond. <span class="ans">&#8212; <b>false</b>: a calculation is a process, a rectangle.</span></li><li class="reveal rv tf-t">The arrows show the order the steps run in. <span class="ans">&#8212; <b>true</b>.</span></li></ul>
+    <p class="rise arline ar">خلّي بالك: المعين ليه مخرجين Yes و No. بنبدأ بـ Start ونخلص بـ End. الحساب في مستطيل مش معين. والأسهم بتوضح الترتيب.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise part">6</div>
+    <h2 class="rise">Comprehension check: chapters 31 and 32</h2>
+    <p class="rise sub" style="max-width:56ch">Qureo chapter 33 reviews functions and flowcharts. Today, together: a function inside a flowchart.</p>
+    <p class="rise arline ar">الجزء السادس: الفصل 33 — مراجعة الفصلين 31 و 32: الدوال والمخطط الانسيابي، مع بعض.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">6 &#183; A function in a flowchart</div>
+    <h2 class="rise">add3, then decide</h2>
+    <div class="rise code" style="font-size:clamp(12px,1.4vw,18px)"><span class="k">function</span> <span class="f">add3</span>(a, b, c) {
+  <span class="k">return</span> a + b + c;
+}</div>
+    <div class="rise stepper chartp" data-kind="code" data-steps="[{&quot;el&quot;: &quot;start&quot;, &quot;en&quot;: &quot;Start.&quot;, &quot;ar&quot;: &quot;البداية.&quot;}, {&quot;el&quot;: &quot;p0&quot;, &quot;set&quot;: {&quot;total&quot;: &quot;12&quot;}, &quot;en&quot;: &quot;A process that calls a function: add3(2, 4, 6) returns 12, so total = 12.&quot;, &quot;ar&quot;: &quot;خطوة بتنادي دالة: add3(2, 4, 6) بترجّع 12، يعني total = 12.&quot;}, {&quot;el&quot;: &quot;d&quot;, &quot;en&quot;: &quot;A decision: is 12 &gt; 10? Yes.&quot;, &quot;ar&quot;: &quot;سؤال: هل 12 &gt; 10؟ أيوه.&quot;}, {&quot;el&quot;: &quot;yes&quot;, &quot;out&quot;: &quot;Big total&quot;, &quot;en&quot;: &quot;Yes branch: show \&quot;Big total\&quot;.&quot;, &quot;ar&quot;: &quot;فرع Yes: نعرض \&quot;Big total\&quot;.&quot;}, {&quot;el&quot;: &quot;end&quot;, &quot;en&quot;: &quot;End.&quot;, &quot;ar&quot;: &quot;النهاية.&quot;}]"><div class="fcwrap"><svg class="fc" viewBox="0 0 520 406" role="img" aria-label="Flowchart: start; total = add3(2, 4, 6); is total greater than 10? Yes: show Big total. No: show Small total. End">
+  <g font-size="17" text-anchor="middle">
+    <g data-id="start"><ellipse class="shp" cx="200" cy="30" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="36" font-weight="700" fill="var(--ink)">Start</text></g>
+    <line x1="200" y1="54" x2="200" y2="78" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,80 193,68 207,68" fill="var(--ink)"/>
+    <g data-id="p0"><rect class="shp" x="75" y="80" width="250" height="46" rx="4" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="109" font-family="JetBrains Mono,monospace" fill="var(--ink)">total = add3(2, 4, 6)</text></g>
+    <line x1="200" y1="126" x2="200" y2="150" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,152 193,140 207,140" fill="var(--ink)"/>
+    <g data-id="d"><polygon class="shp" points="200,150 310,200 200,250 90,200" fill="#fff" stroke="var(--gold)" stroke-width="3"/><text x="200" y="206" font-family="JetBrains Mono,monospace" fill="var(--ink)">total &gt; 10 ?</text></g>
+    <line x1="310" y1="200" x2="410" y2="200" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="200" x2="410" y2="274" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="410,276 403,264 417,264" fill="var(--ink)"/>
+    <text x="350" y="190" font-weight="700" fill="var(--teal)">Yes</text>
+    <line x1="200" y1="250" x2="200" y2="274" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="200,276 193,264 207,264" fill="var(--ink)"/>
+    <text x="222" y="270" font-weight="700" fill="#9C3B2E">No</text>
+    <g data-id="yes"><polygon class="shp" points="335,274 505,274 485,320 315,320" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="410" y="303" font-family="JetBrains Mono,monospace" fill="var(--ink)">&quot;Big total&quot;</text></g>
+    <g data-id="no"><polygon class="shp" points="125,274 295,274 275,320 105,320" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="200" y="303" font-family="JetBrains Mono,monospace" fill="var(--ink)">&quot;Small total&quot;</text></g>
+    <line x1="200" y1="320" x2="200" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="200" y1="372" x2="228" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="230,372 218,365 218,379" fill="var(--ink)"/>
+    <line x1="410" y1="320" x2="410" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <line x1="410" y1="372" x2="372" y2="372" stroke="var(--ink)" stroke-width="2.5"/>
+    <polygon points="370,372 382,365 382,379" fill="var(--ink)"/>
+    <g data-id="end"><ellipse class="shp" cx="300" cy="372" rx="70" ry="24" fill="#fff" stroke="var(--teal)" stroke-width="3"/><text x="300" y="378" font-weight="700" fill="var(--ink)">End</text></g>
+  </g>
+</svg></div><div><div class="tlbl">The values</div><div class="boxes"><div class="box" data-k="total"><span>total =</span><b>?</b></div></div><div class="tcons"><span class="lbl">Output &#8212; what is shown</span></div><p class="tstat"><span class="en"></span><span class="ar"></span></p><div class="tbtns"><button type="button" class="nx">Next step &#9654;</button><button type="button" class="alt pl">Play all</button><button type="button" class="alt rs">&#8634; Again</button></div></div></div>
+    <p class="rise arline ar">الدالة بترجّع قيمة، والمخطط بيقرر بيها. دوس Next step.</p>
+  </section>
+
+  <section class="slide">
+    <div class="rise eyebrow">6 &#183; Review &#183; your turn</div>
+    <h2 class="rise">Functions and flowcharts</h2>
+    <ul class="rise check" style="margin-top:.6rem"><li class="reveal rv">add3(1, 1, 1) returns&#8230; <span class="ans">&#8212; <b>3</b>.</span></li><li class="reveal rv">In the flowchart above, with add3(1, 2, 3), what is shown? <span class="ans">&#8212; <b>Small total</b>: 6 &gt; 10 is false.</span></li><li class="reveal rv">Which shape would hold <span class="mono">if (total &gt; 10)</span>? <span class="ans">&#8212; the <b>diamond</b>.</span></li><li class="reveal rv">A function without <span class="mono">return</span> gives back&#8230; <span class="ans">&#8212; <b>undefined</b>.</span></li></ul>
+    <p class="rise arline ar">مراجعة: فكّر في كل سطر الأول، وبعدين دوس عليه.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Remember these</div>
+    <h2 class="rise">What we learned</h2>
+    <ul class="rise check"><li>The <b>client</b> requests, the <b>server</b> responds.</li><li><b>HTTP</b> carries the messages; <b>HTTPS</b> adds TLS encryption.</li><li><b>GET</b> retrieves, <b>POST</b> sends. Status codes: <b>200</b> success, <b>404</b> not found, <b>500</b> server error.</li><li>An <b>API</b> lets programs exchange data, often as <b>JSON</b>.</li><li>A <b>flowchart</b>: oval start/end, rectangle process, diamond decision (if), parallelogram output.</li></ul>
+    <p class="rise arline ar">العميل بيطلب والخادم بيرد • HTTP بينقل و HTTPS بيشفّر • GET بيجيب و POST بيبعت • 200 و 404 و 500 • API و JSON • والمخطط الانسيابي: بيضاوي، مستطيل، معين، متوازي أضلاع.</p>
+  </section>
+
+  <section class="slide dark">
+    <div class="rise eyebrow">Before you go</div>
+    <h2 class="rise">Exam &#8212; Lecture 10</h2>
+    <div class="rise qrwrap qrgate" id="qrgate" role="button" tabindex="0" aria-label="Reveal the exam code"><div class="qrhide"><b>Exam code hidden</b><span>The code appears when your teacher reveals it &#8212; press <kbd>E</kbd></span><span class="ar">الكود بيظهر لما المدرّس يعرضه &#8212; اضغط E</span></div><img id="qr" alt="QR code linking to the Lecture 10 quiz" width="250" height="250"><div class="txt"><p class="sub">It covers lesson 3-2 and Qureo chapters 32 and 33. At the end it shows you, section by section, which parts to read again.</p><p class="sub mono" style="margin-top:.7rem;font-size:clamp(12px,1.3vw,17px)"><a id="quizLink" href="../quiz/"></a></p></div></div>
+    <p class="rise arline ar">امتحان على الدرس 3-2 والفصلين 32 و 33 على المنصة. في الآخر هيوضحلك انت ضعيف في أنهي جزء بالظبط.</p>
+  </section>
+</div>
+
+<div id="zoom" role="dialog" aria-modal="true" aria-label="Photo" aria-hidden="true">
+  <button class="zclose" type="button" aria-label="Close">&#215;</button>
+  <button class="zprev" type="button" aria-label="Previous photo">&#8249;</button>
+  <button class="znext" type="button" aria-label="Next photo">&#8250;</button>
+  <figure>
+    <img id="zimg" alt="">
+    <figcaption class="zcap" id="zcap"></figcaption>
+    <div class="znum" id="znum"></div>
+  </figure>
+</div>
+
+<div id="nav">
+  <div class="who">Mr. Eissa Islam<span id="counter"></span></div>
+  <div class="mid" id="dots"></div>
+  <div style="display:flex;gap:8px">
+    <button type="button" id="prev" aria-label="Previous slide">←</button>
+    <button type="button" id="next" aria-label="Next slide">→</button>
+  </div>
+</div>
+<div class="hint">← → or swipe</div>
+
+<script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code, the quiz link and the slide count all derive
+   from it, so there is nothing else to keep in sync.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 10;
+const LECTURE_TITLE = "How do they talk?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#5E6B1F";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+const slides = Array.from(document.querySelectorAll('.slide'));
+const dotsBox = document.getElementById('dots');
+let i = 0;
+
+slides.forEach((_, k) => {
+  const d = document.createElement('button');
+  d.type = 'button';
+  d.className = 'dot';
+  d.setAttribute('aria-label', 'Go to slide ' + (k+1));
+  d.onclick = () => go(k);
+  dotsBox.appendChild(d);
+});
+const dots = Array.from(dotsBox.children);
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+/* ---- stamp lecture identity + build the QR code ---- */
+(function(){
+  applyAccent();
+  document.title = LECTURE.label + " \u2014 " + LECTURE.title + " \u00b7 PGteach";
+
+  const badge = document.getElementById('lectureBadge');
+  if(badge) badge.textContent = LECTURE.label + " \u00b7 " + LECTURE_TOPIC;
+
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+  }
+
+  /* Relative href keeps the deck working from disk and on Pages alike;
+     the absolute URL is what students read out and type by hand. */
+  const link = document.getElementById('quizLink');
+  if(link) link.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+})();
+
+/* ---- fit a slide that is taller than the screen ---------------------
+   Slides are written into a fixed frame, so a dense one runs off the bottom.
+   On a projector nobody scrolls: the last line is simply gone. Seven slides
+   in lecture 2 were losing 32-90px that way.
+
+   Shrinking the figures was tried first and measured: it did not clear it,
+   and one of the seven has no figure at all. The volume of content is the
+   problem, so the content is what gets scaled.
+
+   The floor matters more than the fit. Below about 0.72 the type stops being
+   readable from the back of a room, so a slide that dense is left to scroll
+   and the checker's overflow report is the place to fix it — by splitting the
+   slide, not by shrinking it further.
+   ------------------------------------------------------------------- */
+const FIT_FLOOR = 0.72;
+
+function fitbox(s){
+  let box = s.firstElementChild;
+  if(!box || !box.classList.contains('fitbox')){
+    box = document.createElement('div');
+    box.className = 'fitbox';
+    while(s.firstChild) box.appendChild(s.firstChild);
+    s.appendChild(box);
+  }
+  return box;
+}
+
+function fit(s){
+  if(!s) return 1;
+  const box = fitbox(s);
+  box.style.transform = '';           /* measure unscaled */
+  box.style.height = '';
+  const cs = getComputedStyle(s);
+  const avail = s.clientHeight
+              - parseFloat(cs.paddingTop || 0)
+              - parseFloat(cs.paddingBottom || 0);
+  const nat = box.scrollHeight;
+  if(!avail || nat <= avail + 1) return 1;
+
+  const k = Math.max(avail / nat, FIT_FLOOR);
+  box.style.transformOrigin = 'top center';
+  box.style.transform = 'scale(' + k + ')';
+  box.style.height = (nat * k) + 'px';
+  return k;
+}
+
+/* Anything that changes how tall the content is has to re-measure. */
+function refit(){ fit(slides[i]); }
+addEventListener('resize', refit);
+addEventListener('orientationchange', refit);
+
+/* images arrive after first paint and change the height under us */
+Array.from(document.images).forEach(function(img){
+  if(!img.complete) img.addEventListener('load', refit);
+});
+
+function go(n){
+  i = Math.max(0, Math.min(slides.length - 1, n));
+  slides.forEach((s,k) => s.classList.toggle('on', k === i));
+  dots.forEach((d,k) => d.classList.toggle('on', k === i));
+  document.getElementById('bar').style.width = ((i+1)/slides.length*100) + '%';
+  document.getElementById('counter').textContent = ' \u00b7 ' + (i+1) + ' / ' + slides.length;
+  fit(slides[i]);
+  document.body.style.background = slides[i].classList.contains('dark') ? '#16233F' : '#FBFAF7';
+  location.hash = i + 1;
+}
+
+document.getElementById('next').onclick = () => go(i+1);
+document.getElementById('prev').onclick = () => go(i-1);
+
+/* ---- photo lightbox ------------------------------------------------
+   Thumbnails are ~15vh; the files are full resolution. Clicking one opens
+   it at size with its caption, and the arrows walk the photos on that
+   slide only.
+
+   Declared above the navigation handlers deliberately: they read `zoom`,
+   and a const declared below them would be in the temporal dead zone. */
+const zoom = document.getElementById('zoom');
+const zimg = document.getElementById('zimg');
+const zcap = document.getElementById('zcap');
+const znum = document.getElementById('znum');
+const zprev = zoom.querySelector('.zprev');
+const znext = zoom.querySelector('.znext');
+let zshots = [], zi = 0, zfrom = null;
+
+function zoomOpen(){ return zoom.classList.contains('on'); }
+
+function zshow(n){
+  if(!zshots.length) return;
+  zi = (n + zshots.length) % zshots.length;
+  const fig = zshots[zi];
+  const img = fig.querySelector('img');
+  /* currentSrc is what the browser actually fetched */
+  zimg.src = img.currentSrc || img.src;
+  zimg.alt = img.alt || '';
+  const cap = fig.querySelector('figcaption');
+  /* our own caption markup, carrying <b> and the Arabic line */
+  zcap.innerHTML = cap ? cap.innerHTML : '';
+  const many = zshots.length > 1;
+  znum.textContent = many ? (zi + 1) + ' / ' + zshots.length : '';
+  zprev.hidden = !many;
+  znext.hidden = !many;
+}
+
+function zopen(fig){
+  const grid = fig.closest('.shots');
+  zshots = grid ? Array.from(grid.querySelectorAll('figure.shot')) : [fig];
+  zfrom = fig.querySelector('img');
+  zshow(zshots.indexOf(fig));
+  zoom.classList.add('on');
+  zoom.setAttribute('aria-hidden', 'false');
+  zoom.querySelector('.zclose').focus();
+}
+
+function zclose(){
+  if(!zoomOpen()) return;
+  zoom.classList.remove('on');
+  zoom.setAttribute('aria-hidden', 'true');
+  zimg.removeAttribute('src');          // stop holding the decoded bitmap
+  if(zfrom) zfrom.focus();
+  zfrom = null;
+}
+
+document.querySelectorAll('.shot img').forEach(img => {
+  img.tabIndex = 0;                     // reachable without a mouse
+  img.addEventListener('click', () => zopen(img.closest('figure')));
+  img.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault(); zopen(img.closest('figure'));
+    }
+  });
+});
+
+zoom.addEventListener('click', e => {
+  /* the backdrop closes; the picture and its caption do not */
+  if(e.target === zoom || e.target.tagName === 'FIGURE') zclose();
+});
+zoom.querySelector('.zclose').onclick = zclose;
+zprev.onclick = () => zshow(zi - 1);
+znext.onclick = () => zshow(zi + 1);
+
+addEventListener('keydown', e => {
+  if(!zoomOpen()) return;
+  if(e.key === 'Escape'){    e.preventDefault(); zclose(); }
+  if(e.key === 'ArrowRight'){ e.preventDefault(); zshow(zi + 1); }
+  if(e.key === 'ArrowLeft'){  e.preventDefault(); zshow(zi - 1); }
+});
+
+document.getElementById('next').onclick = () => go(i+1);
+document.getElementById('prev').onclick = () => go(i-1);
+
+addEventListener('keydown', e => {
+  if(zoomOpen()) return;          /* the lightbox owns the keys while open */
+  if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); go(i+1); }
+  if(e.key === 'ArrowLeft'  || e.key === 'PageUp'){ e.preventDefault(); go(i-1); }
+  if(e.key === 'Home') go(0);
+  if(e.key === 'End')  go(slides.length-1);
+});
+
+let x0 = null;
+addEventListener('touchstart', e => {
+  if(zoomOpen()) return;          /* a swipe over the photo is not a swipe past it */
+  x0 = e.changedTouches[0].clientX;
+}, {passive:true});
+addEventListener('touchend', e => {
+  if(zoomOpen() || x0 === null) return;
+  const dx = e.changedTouches[0].clientX - x0;
+  if(Math.abs(dx) > 55) go(dx < 0 ? i+1 : i-1);
+  x0 = null;
+}, {passive:true});
+
+/* ---- exam code stays covered until the teacher reveals it ----------------
+   The deck is published, so a student can open it at home. Hiding the code
+   behind a deliberate action keeps the exam something taken in the lesson.
+   Not security -- the quiz URL is guessable -- but it stops the easy path. */
+(function(){
+  const gate = document.getElementById('qrgate');
+  if(!gate) return;
+  /* Take the generated src off the image and hold it here, so the code is
+     never fetched or drawn until it is asked for. A cover alone is not
+     enough: a partly transparent panel still leaves a scannable code. */
+  /* The code is still generated from LECTURE.quizUrl on load -- the repo's
+     harness checks that, and it is what stops a stale QR shipping. It is the
+     VIEW that is gated: an opaque panel sits over it until revealed.
+
+     Worth being straight about what this is: the quiz address is guessable
+     from the slides address, so this stops the code being handed to a class
+     in advance, not a student who goes looking. */
+  const link = document.getElementById('quizLink');
+  const href = link ? link.textContent : '';
+  if(link) link.textContent = '';
+  function reveal(){
+    gate.classList.add('on');
+    if(link && href) link.textContent = href;
+  }
+  /* the dashboard sets this, and it is served from the same origin, so the
+     teacher's own browser can have the code already showing. Storage throws
+     in a private window, so the deck must work without it. */
+  try {
+    if(localStorage.getItem('pgteach.examCode') === 'shown') reveal();
+  } catch(e){}
+
+  gate.addEventListener('click', reveal);
+  gate.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); reveal(); }
+  });
+  addEventListener('keydown', function(e){
+    if(zoomOpen && zoomOpen()) return;
+    if(e.key === 'e' || e.key === 'E') reveal();
+  });
+})();
+
+/* ---- videos and tap-to-reveal ------------------------------------------
+   A video is a poster until clicked, so a slow school connection does not
+   stall the deck; leaving the slide puts the poster back, which stops it.
+   Enter/space on a focused poster plays it without also turning the slide. */
+(function(){
+  if(!document.querySelectorAll) return;
+  function play(el){
+    if(el.getAttribute('data-on')) return;
+    el.setAttribute('data-on', '1');
+    el.setAttribute('data-poster', el.innerHTML);
+    el.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' +
+      el.getAttribute('data-yt') + '?autoplay=1&rel=0" title="' +
+      (el.getAttribute('aria-label') || 'video') +
+      '" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+  }
+  function stopAll(){
+    document.querySelectorAll('.vid[data-on]').forEach(function(el){
+      el.innerHTML = el.getAttribute('data-poster');
+      el.removeAttribute('data-on');
+    });
+  }
+  document.querySelectorAll('.vid').forEach(function(el){
+    el.addEventListener('click', function(){ play(el); });
+    el.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); e.stopPropagation(); play(el); }
+    });
+  });
+  addEventListener('hashchange', stopAll);
+  document.querySelectorAll('.reveal').forEach(function(el){
+    el.addEventListener('click', function(){ el.classList.add('shown'); });
+  });
+  /* tapping a drawing plays it again: a fresh copy restarts every animation */
+  function replay(){
+    var el = this;
+    if(!el.cloneNode || !el.parentNode) return;
+    var copy = el.cloneNode(true);
+    el.parentNode.replaceChild(copy, el);
+    copy.addEventListener('click', replay);
+  }
+  document.querySelectorAll('.viz').forEach(function(el){ el.addEventListener('click', replay); });
+})();
+
+/* ---- the step-by-step players (lectures 9 and 10) ---------------------------------
+   .stepper[data-kind=flow]: lights one tier per step and shows what is
+   passed on. .stepper[data-kind=code]: lights a code line, fills the value
+   boxes and prints to the console; in a flowchart (.chartp) it lights the
+   shape whose data-id is the step's el. Next step, Play all, Again. Space and
+   Enter on the buttons must not also turn the slide, so they stop here. */
+(function(){
+  if(!document.querySelectorAll) return;
+  document.querySelectorAll('.stepper').forEach(function(box){
+    var steps = JSON.parse(box.getAttribute('data-steps'));
+    var kind = box.getAttribute('data-kind');
+    var en = box.querySelector('.tstat .en'), ar = box.querySelector('.tstat .ar');
+    var nx = box.querySelector('.nx'), pl = box.querySelector('.pl'), rs = box.querySelector('.rs');
+    var lines = box.querySelectorAll('.ln'), cons = box.querySelector('.tcons');
+    var tiers = box.querySelectorAll('.tier'), packet = box.querySelector('.packet');
+    var nodes = box.querySelectorAll('[data-id]');
+    var i = 0, timer = null;
+
+    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+    /* In an Arabic (right-to-left) line, '12 > 10' shows mirrored as '12 < 10'.
+       Each run of code is wrapped in a left-to-right isolate (U+2066 ... U+2069)
+       so it reads exactly as typed. */
+    function iso(t){
+      return String(t || '').replace(/[A-Za-z0-9_"'(][A-Za-z0-9_ .,*+\-<>=!"'()\/%]*[A-Za-z0-9_"')]/g, function(m){
+        return /[<>=*+]/.test(m) ? '\u2066' + m + '\u2069' : m;
+      });
+    }
+    function say(e, a){ en.textContent = e || ''; ar.textContent = iso(a); }
+    function reset(){
+      stop(); i = 0;
+      for(var j = 0; j < lines.length; j++) lines[j].classList.remove('hot');
+      for(var t = 0; t < tiers.length; t++) tiers[t].classList.remove('on');
+      for(var q = 0; q < nodes.length; q++) nodes[q].classList.remove('on');
+      if(packet) packet.textContent = '';
+      if(cons) cons.querySelectorAll('.line').forEach(function(l){ l.remove(); });
+      box.querySelectorAll('.box b').forEach(function(b){ b.textContent = '?'; b.classList.remove('pop'); });
+      nx.disabled = false; pl.disabled = false;
+      say('Press Next step to start.', 'اضغط Next step عشان تبدأ.');
+    }
+    function next(){
+      if(i >= steps.length) return;
+      var s = steps[i++];
+      if(kind === 'flow'){
+        for(var t = 0; t < tiers.length; t++) tiers[t].classList.toggle('on', tiers[t].getAttribute('data-t') === s.t);
+        packet.textContent = '';
+        if(s.msg){ var p = document.createElement('span'); p.textContent = s.msg; packet.appendChild(p); }
+      } else {
+        for(var j = 0; j < lines.length; j++) lines[j].classList.toggle('hot', j === s.ln);
+        for(var q = 0; q < nodes.length; q++) nodes[q].classList.toggle('on', nodes[q].getAttribute('data-id') === s.el);
+        if(s.set) Object.keys(s.set).forEach(function(k){
+          var b = box.querySelector('.box[data-k="' + k + '"] b');
+          if(!b) return;
+          b.textContent = s.set[k];
+          b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+        });
+        if(s.out !== undefined){
+          var l = document.createElement('span'); l.className = 'line'; l.textContent = s.out; cons.appendChild(l);
+        }
+      }
+      say(s.en, s.ar);
+      if(i >= steps.length){ stop(); nx.disabled = true; pl.disabled = true; }
+    }
+    nx.addEventListener('click', function(){ stop(); next(); });
+    pl.addEventListener('click', function(){
+      if(timer) return;
+      if(i >= steps.length) reset();
+      pl.disabled = true; next(); timer = setInterval(next, 1500);
+    });
+    rs.addEventListener('click', reset);
+    box.addEventListener('keydown', function(e){
+      if(e.target.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) e.stopPropagation();
+    });
+    reset();
+  });
+})();
+
+const start = parseInt(location.hash.slice(1), 10);
+go(Number.isFinite(start) && start > 0 ? start - 1 : 0);
+</script>
+</body>
+</html>

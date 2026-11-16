@@ -1,0 +1,27 @@
+Build Lecture 10's deck.
+
+    python scripts/build_lecture10_slides.py
+
+Reads the shell (head, CSS, LECTURE CONFIG, script) from
+scripts/lecture10_slides_base.html and writes lecture10/slides/index.html with
+the slide body below, the lightbox, the exam-code gate and the side drawings
+added. Always starts from the base, never from the published deck.
+
+Two parts, as the ministry's plan pairs a book lesson with the Japanese
+platform each week. Part one is Lesson 3-2, Web Application Communication
+Methods, the English textbook pp. 62-67, and nothing outside the curriculum.
+Where the Arabic textbook and the ministry's assessment book go further, the
+deck follows them: HTTPS also protects integrity and authenticates the
+server; a 500 does not say the detailed cause; reading a key and a value in
+JSON. Part two is Qureo chapters 32 and 33: Flowchart, and the comprehension
+check on chapters 31-32. Qureo's own lesson text for these chapters is locked
+on the platform, so the flowchart part teaches the standard symbols and how a
+flowchart becomes an if statement, from the chapter's description and lesson
+titles ("if + Operations", "Flowchart (1)", "Flowchart (2)").
+
+Everything but the content is lecture 5's builder, unchanged -- this file was
+derived from it. The Arabic follows the Arabic textbook's lesson 3-2 point by
+point, said in Egyptian Arabic, with the book's own terms kept as they are.
+The step-by-step players (the request flow and the flowchart player) are
+this lecture's own; their script is tools/lecture10/script.js, added to the
+page's own script.

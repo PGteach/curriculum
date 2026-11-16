@@ -15,7 +15,15 @@
     var i = 0, timer = null;
 
     function stop(){ if(timer){ clearInterval(timer); timer = null; } }
-    function say(e, a){ en.textContent = e || ''; ar.textContent = a || ''; }
+    /* In an Arabic (right-to-left) line, '12 > 10' shows mirrored as '12 < 10'.
+       Each run of code is wrapped in a left-to-right isolate (U+2066 ... U+2069)
+       so it reads exactly as typed. */
+    function iso(t){
+      return String(t || '').replace(/[A-Za-z0-9_"'(][A-Za-z0-9_ .,*+\-<>=!"'()\/%]*[A-Za-z0-9_"')]/g, function(m){
+        return /[<>=*+]/.test(m) ? '\u2066' + m + '\u2069' : m;
+      });
+    }
+    function say(e, a){ en.textContent = e || ''; ar.textContent = iso(a); }
     function reset(){
       stop(); i = 0;
       for(var j = 0; j < lines.length; j++) lines[j].classList.remove('hot');
