@@ -633,7 +633,7 @@ statement font pushed the VPN slide off the top.
   guarantee a higher ranking, and accessibility needs other practices too;
   React is a JavaScript library, Next.js a framework built on React.
 - **Live demos** (`tools/lecture11/script.js`): the same page as HTML only,
-  + CSS, + JavaScript (the counter counts only with JavaScript on); one
+  then with CSS, then with JavaScript (the counter counts only then); one
   layout at phone, tablet and PC width; and an editor whose preview is an
   `<iframe sandbox="">`, so nothing a student types can run a script. Keys
   and swipes inside a demo are stopped there, or typing a space would turn
@@ -645,6 +645,37 @@ statement font pushed the VPN slide off the top.
   reaches chapter 34.
 - **Arabic lines that show a tag** use `<span class='mono' dir='ltr'>&lt;tag&gt;</span>`:
   a bare `<header>` inside the text would be parsed as an element.
+
+## Lectures 12 and 13 -- the Chapter 1 and Chapter 2 revisions
+
+- **Lecture 12** revises Chapter 1 (Unit 1, lessons 1-1 to 1-4), title
+  "Ready for Chapter 1?", accent `#8A2B2B`. **Lecture 13** revises Chapter 2
+  (Unit 2, lessons 2-1 to 2-3), "Ready for Chapter 2?", `#36454F`. Each
+  chapter on its own, at the teacher's request.
+- **Nothing in them is new.** `tools/lectureN/data.py` holds, per lesson,
+  the book's key takeaway, its key terms (English and Arabic), four exam
+  traps and the lesson's exam-style question; `POINTS` at its foot are that
+  question's marking points, copied from the teaching lecture's answer key.
+  The deck, the booklet and the flashcards all read this one file.
+- **The quizzes** (`build_lecture12_quiz.py`, `build_lecture13_quiz.py`)
+  take their questions from the quiz builders of lectures 3-4 and 5-7,
+  unchanged, regrouped by lesson (8 a lesson for Chapter 1, 10 for
+  Chapter 2), with a fixed easy/medium/hard mix. Lecture 2's quiz is not
+  used: its answers are only fingerprints, and lecture 3 already covers 1-1.
+- **The exercises** (`tools/lectureN/exercises.py`) are picked, with their
+  answers and model answers, from the teaching lectures' `exercises.json`
+  -- so those `_teacher/` files must be present (`python scripts/vault.py
+  open`) to rebuild. Types `sort` and `order` (lectures 2-3) are avoided:
+  lecture 5's print code does not render them.
+- **The diagrams** are the teaching lectures' own, copied into
+  `content.py` as literals (the booklet reads them with `slide_svg()`);
+  lesson 1-1's timeline is new, because lecture 2's deck was hand-made.
+- **Flashcards** (`tools/lecture12/script.js`, the same file in 13): term on
+  the front, the meaning in English and Arabic on the back; "Not yet" sends
+  a card to the back of the pile.
+- **The booklet is three pages a lesson** -- takeaway, picture and traps;
+  the key terms; the exam question with room to plan and its points. Two
+  pages a lesson overflowed A4.
 
 ## The Chapter 2 exam
 

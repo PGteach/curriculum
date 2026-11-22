@@ -1,0 +1,28 @@
+.statement.def{font-size:clamp(18px,2.15vw,30px); line-height:1.28; max-width:46ch}
+/* code cards, as lecture 8; no ligatures, so >= reads as typed */
+.code{display:block; background:var(--ink); color:#E6EDF3; text-align:left; padding:clamp(12px,1.7vw,22px); border-radius:12px; margin:.9rem 0 .4rem; font-family:"JetBrains Mono",monospace; font-size:clamp(13px,1.6vw,21px); line-height:1.6; white-space:pre; overflow-x:auto; max-width:100%}
+.code .k,.tcode .k{color:#FF9D7A} .code .s,.tcode .s{color:#8FE3D6} .code .n,.tcode .n{color:#F7C66B} .code .f,.tcode .f{color:#9DC7FF} .code .c,.tcode .c{color:#7C8B99}
+.code,.tcode,.mono,.codeline,code,.qcode{font-variant-ligatures:none; font-feature-settings:"liga" 0,"calt" 0}
+.codeline{display:inline-block; background:var(--ink); color:#8FE3D6; padding:.25em .6em; border-radius:7px; font-family:"JetBrains Mono",monospace; font-size:.9em}
+.part{font:600 clamp(40px,8vw,110px)/1 Fraunces,serif; color:var(--gold)}
+.remember{font-family:Fraunces,serif; font-weight:600; font-size:clamp(19px,2.4vw,32px); line-height:1.3; max-width:44ch; margin-top:1rem}
+.remember em{font-style:normal; color:var(--gold)}
+.tbtns{display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.6rem}
+.tbtns button{font:inherit; font-size:clamp(13px,1.35vw,17px); font-weight:600; border-radius:9px; padding:.5em 1em; cursor:pointer; background:var(--teal); color:#fff; border:1px solid var(--teal)}
+.tbtns button.alt{background:#fff; color:var(--ink); border-color:var(--line)}
+.tbtns button:disabled{opacity:.4; cursor:default}
+/* flashcards */
+.fcards{margin-top:.8rem; max-width:760px}
+.fcard{position:relative; min-height:clamp(150px,24vh,230px); border-radius:16px; cursor:pointer; background:#fff; border:2px solid var(--line); box-shadow:0 10px 24px rgba(22,35,63,.08); display:flex; align-items:center; justify-content:center; text-align:center; padding:1rem 1.4rem; transition:transform .35s, border-color .3s}
+.fcard:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+.fcard .ff{font:600 clamp(24px,3.6vw,46px)/1.15 Fraunces,serif; color:var(--ink)}
+.fcard .fb{display:none; font-size:clamp(15px,1.9vw,24px); line-height:1.45; color:var(--ink)}
+.fcard .fb .ar{display:block; margin-top:.5rem; color:var(--soft); font-size:.88em}
+.fcard.flipped{border-color:var(--teal); background:var(--teal-pale); transform:rotateX(6deg)}
+.fcard.flipped .ff{display:none} .fcard.flipped .fb{display:block}
+.fcard.done{border-color:var(--gold); background:var(--gold-pale)}
+.fprog{margin-top:.6rem; color:var(--soft); font-size:clamp(13px,1.4vw,17px)}
+/* the answer plan for an exam question: one reveal per marking point */
+.plan li{margin-bottom:.45rem}
+.mark{display:inline-block; background:var(--gold); color:#fff; font-weight:700; border-radius:99px; padding:.05em .6em; font-size:.85em; margin-left:.3em}
+@media print{.tbtns{display:none}}
