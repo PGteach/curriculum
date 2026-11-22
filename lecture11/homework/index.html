@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 11 Homework — What is a web page made of?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+.code{font-family:'JetBrains Mono',monospace;font-size:9pt;line-height:1.5;background:#F4F6F8;border:1px solid var(--line);border-radius:2mm;padding:2.5mm 3.5mm;margin:1.5mm 0 2.5mm 9.5mm;white-space:pre;font-variant-ligatures:none}.sheet>.code,.summary .code,.fcrow .code{margin-left:0}.fcrow{display:flex;gap:6mm;align-items:flex-start;margin:2mm 0 3mm}.fcrow>div{flex:1;min-width:0}.key li,.key .mq-a{white-space:pre-line}
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}
+.key .mq-q{font-size:9.8pt;font-weight:600;margin:2.2mm 0 .4mm}.key .mq-a{font-size:10pt;margin:0}.key .ar{font-size:9.5pt}
+.dg{margin:3mm 0 4mm}.dg svg{display:block;width:100%;height:auto}
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}
+.principles .pr{border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:1.5mm;padding:2.5mm 3.5mm;background:#FCFCFA}
+.principles .pr h4{font-size:10.5pt;margin-bottom:1mm}.principles .pr p{font-size:9.5pt;margin:0}
+</style>
+</head>
+<body data-title="Lecture 11 Homework — What is a web page made of?">
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">What is a web page made of?</h1><div class="docsub">Homework &middot; Lecture 11</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><div class="summary hw"><p>Everything here was taught in the session. Bring this sheet to the next class.</p><p class="ar">كل ده اتشرح في الحصة. هات الورقة المرة الجاية.</p></div><h2>Part 1 &middot; HTML, CSS, JavaScript and semantic HTML</h2><p class="ar">الجزء الأول — HTML و CSS و JavaScript و HTML الدلالي</p><div class="ex"><div class="exhead"><span class="exn">1</span><span class="exq">Answer the following questions.</span></div><p class="ar">جاوب على الأسئلة دي.</p><div class="src">p.72 — Try 1</div><ol class="qs"><li>What is the four-letter abbreviation for the technology that defines the structure (skeleton) of a web page?<div class="rule tight"></div></li><li>What is the three-letter abbreviation for the technology that specifies the appearance of a web page (colors, layout, size, etc.)?<div class="rule tight"></div></li><li>What is the term for the technology that adds behavior and interactivity to a web page?<div class="rule tight"></div></li><li>What is the term for the design concept in which the layout is automatically adjusted according to different screen sizes?<div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">2</span><span class="exq">Fill in ( a ) to ( d ).</span></div><p class="ar">املا الفراغات من ( أ ) لـ ( د ).</p><div class="src">p.74 — Exercise 2</div><p class="passage">Web pages are mainly composed of three technologies: ( a ), which defines the structure of the page; ( b ), which specifies the appearance; and ( c ), which adds behavior and interactivity. The concept of adjusting the layout according to different screen sizes such as PCs, smartphones, and tablets is called ( d ).</p><ol class="blanks"><li><b>( a )</b><span class="rule tight"></span></li><li><b>( b )</b><span class="rule tight"></span></li><li><b>( c )</b><span class="rule tight"></span></li><li><b>( d )</b><span class="rule tight"></span></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">3</span><span class="exq">Choose the correct option.</span></div><p class="ar">اختار الإجابة الصح.</p><div class="src">p.72 Try 2(1)-(2); p.74 Exercise 3(2)</div><ol class="qs"><li>Choose the one that is NOT an appropriate benefit of using semantic HTML.<span class="opt">A: Screen reader software can correctly understand the structure of the page.</span><span class="opt">B: Search engines can more easily understand the content of a web page.</span><span class="opt">C: The display speed of a web page necessarily becomes faster.</span><span class="opt">D: Information becomes easier to convey to users with visual impairments.</span><div class="rule tight"></div></li><li>Choose the one that most appropriately describes a framework.<span class="opt">A: A language for defining the structure of a web page</span><span class="opt">B: A structure for making web application development more efficient</span><span class="opt">C: A technology for encrypting data and sending it safely</span><span class="opt">D: A design concept for supporting different screen sizes</span><div class="rule tight"></div></li><li>Choose the most appropriate reason responsive design is needed.<span class="opt">A: To improve the display speed of websites</span><span class="opt">B: Because websites are accessed from various devices such as PCs, smartphones, and tablets</span><span class="opt">C: To raise rankings in search engines</span><span class="opt">D: To add behavior to web pages</span><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">4</span><span class="exq">Choose the correct option.</span></div><p class="ar">اختار الإجابة الصح.</p><div class="src">Ministry assessments, periods 1-2 — MCQ</div><ol class="qs"><li>HTML is responsible for:<span class="opt">A: The visual appearance</span><span class="opt">B: The basic structure of the page</span><span class="opt">C: The interactive behavior</span><span class="opt">D: Improving performance</span><div class="rule tight"></div></li><li>JavaScript adds:<span class="opt">A: Headings and paragraphs</span><span class="opt">B: Colors and fonts</span><span class="opt">C: Interactive behavior</span><span class="opt">D: Semantic elements</span><div class="rule tight"></div></li><li>CSS is used for:<span class="opt">A: Building the structure</span><span class="opt">B: Adding interaction</span><span class="opt">C: Formatting the appearance</span><span class="opt">D: Managing databases</span><div class="rule tight"></div></li><li>The Next.js framework is built on:<span class="opt">A: Vue</span><span class="opt">B: React</span><span class="opt">C: CSS</span><span class="opt">D: HTML</span><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">5</span><span class="exq">Choose the correct option.</span></div><p class="ar">اختار الإجابة الصح.</p><div class="src">Ministry assessments, period 1 and form C — MCQ</div><ol class="qs"><li>All of these are semantic HTML elements EXCEPT:<span class="opt">A: &lt;header&gt;</span><span class="opt">B: &lt;E-mail&gt;</span><span class="opt">C: &lt;main&gt;</span><span class="opt">D: &lt;footer&gt;</span><div class="rule tight"></div></li><li>The &lt;footer&gt; element is used for:<span class="opt">A: Showing the main content</span><span class="opt">B: Showing the footer at the bottom of the page</span><span class="opt">C: Showing the main title</span><span class="opt">D: Navigating between the parts of the site</span><div class="rule tight"></div></li><li>Which JavaScript framework lets you build applications step by step, from small features?<span class="opt">A: React</span><span class="opt">B: Vue</span><span class="opt">C: Next.js</span><span class="opt">D: HTML</span><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">6</span><span class="exq">Answer the following questions.</span></div><p class="ar">جاوب على الأسئلة دي.</p><div class="src">Ministry assessments, period 1 — performance tasks</div><ol class="qs"><li>Explain the role of each of HTML, CSS and JavaScript in building a web page.<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li><li>Why is semantic HTML important when building web pages?<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="ex"><div class="exhead"><span class="exn">7</span><span class="exq">Answer the following questions.</span></div><p class="ar">جاوب على الأسئلة دي.</p><div class="src">Ministry assessments, period 2 — performance tasks; period 1 — home tasks</div><ol class="qs"><li>Give an example of a semantic HTML element and write its function.<div class="rule tight"></div><div class="rule tight"></div></li><li>How does responsive design help improve the user experience?<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li><li>What is the benefit of using a framework in frontend development?<div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 2 &middot; Explain it</h2><p class="ar">الجزء التاني — اشرح</p><div class="ex"><div class="exhead"><span class="exn">8</span><span class="exq">Explain how HTML, CSS, and JavaScript each contribute to a library page that lists books, is styled, and filters the results as the user types. Refer to: structure, appearance, behavior.</span></div><p class="ar">اشرح إزاي HTML و CSS و JavaScript بيساهموا في صفحة مكتبة بتعرض قائمة كتب، ومتنسّقة، وبتصفّي النتايج وانت بتكتب. راجع: البنية، المظهر، السلوك.</p><div class="src">p.71 — Exam-style question [6]</div><div class="marks">[6 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">9</span><span class="exq">How does JavaScript add interactivity to a web page? Give a practical example.</span></div><p class="ar">إزاي JavaScript بيضيف التفاعلية لصفحة الويب؟ اذكر مثال عملي.</p><div class="src">Ministry assessments, form C — essay 1</div><div class="marks">[4 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="ex"><div class="exhead"><span class="exn">10</span><span class="exq">Explain the concept of &quot;mobile-first&quot; in responsive design, and why it is used.</span></div><p class="ar">اشرح مفهوم «الأولوية للجوال» في التصميم المتجاوب، وليه بيستخدم.</p><div class="src">Ministry assessments, form B — essay 3; period 2 — home tasks</div><div class="marks">[4 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">11</span><span class="exq">Name two common libraries or frameworks for web development, and explain the characteristics of each.</span></div><p class="ar">اذكر اتنين من المكتبات وأطر العمل الشائعة لتطوير الويب، ووضّح خصائص كل واحد.</p><div class="src">Ministry assessments, form B — essay 4; p.70 Point 4(3)</div><div class="marks">[4 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 3 &middot; Apply it</h2><p class="ar">الجزء التالت — طبّق</p><div class="ex"><div class="exhead"><span class="exn">12</span><span class="exq">Think as an engineer. A student club wants a simple web page that lists its events, is styled in the club&#x27;s colors, and has a button showing how many people have signed up. Say which technology does each of the three features, and why. Name one responsive-design change for phones and one semantic-HTML choice for a screen reader. Recommend whether the club should separate HTML, CSS and JavaScript, with two reasons.</span></div><p class="ar">فكّر كمهندس: نادي طلابي عايز صفحة بسيطة. حدد التقنية لكل ميزة وليه، واقترح تغيير للموبايل واختيار دلالي لقارئ الشاشة، وقرّر نفصل التلاتة ولا لأ بسببين.</p><div class="src">p.72-73 — Think as an Engineer</div><div class="marks">[4 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">13</span><span class="exq">A news site must look good on phones and be found easily by search engines. Name one responsive-design choice and one semantic-HTML choice it should make, and say what each one improves.</span></div><p class="ar">موقع أخبار لازم يبان كويس على الموبايل ويتلاقي بسهولة في محركات البحث. اذكر اختيار من التصميم المتجاوب واختيار من HTML الدلالي، وكل واحد بيحسّن إيه.</p><div class="src">p.73 — In a New Context</div><div class="marks">[4 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Part 4 &middot; On the platform: HTML (2) and CSS (2)</h2><p class="ar">الجزء الرابع — على المنصة: HTML (2) و CSS (2)</p><div class="ex"><div class="exhead"><span class="exn">14</span><span class="exq">Write the HTML.</span></div><p class="ar">اكتب الـ HTML.</p><div class="src">Qureo chapter 34 — Specifying Ranges; Input fields &amp; button display</div><ol class="qs"><li>Write HTML for: a &lt;div&gt; that holds a heading &quot;Robot day&quot; and a paragraph &quot;Thursday, 2 pm&quot;, where the word Thursday is marked with a &lt;span&gt;.<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li><li>Under it, write a text box with the hint &quot;Your name&quot; and a button that says &quot;Join&quot;.<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">15</span><span class="exq">Write the CSS.</span></div><p class="ar">اكتب الـ CSS.</p><div class="src">Qureo chapter 35 — Button Decoration; Adding Borders</div><ol class="qs"><li>Write CSS for every button: a blue background, white text, 10px of space inside, round corners (20px), and a 2px solid black border.<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">16</span><span class="exq">Read the code, then describe the result.</span></div><p class="ar">اقرا الكود وبعدين اوصف النتيجة.</p><div class="src">Qureo chapter 36 — review of chapters 34-35</div><div class="code">&lt;div class=&quot;card&quot;&gt;
+  &lt;h2&gt;Science Club&lt;/h2&gt;
+  &lt;p&gt;Join us on &lt;span class=&quot;hot&quot;&gt;Thursday&lt;/span&gt;!&lt;/p&gt;
+  &lt;input type=&quot;text&quot; placeholder=&quot;Your name&quot;&gt;
+  &lt;button&gt;Sign up&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+  .card {
+    border: 3px solid purple;
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .hot {
+    color: red;
+  }
+&lt;/style&gt;</div><ol class="qs"><li>What does the card&#x27;s border look like?<div class="rule tight"></div></li><li>Which word is red, and why only that word?<div class="rule tight"></div><div class="rule tight"></div></li><li>Does pressing the button do anything? Why or why not?<div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Challenge &middot; optional</h2><p class="ar">تحدي — اختياري</p><div class="ex"><div class="exhead"><span class="exn">17</span><span class="exq">Reflect and challenge.</span></div><p class="ar">فكّر وتحدّى نفسك.</p><div class="src">p.73 — Reflect &amp; Challenge</div><ol class="qs"><li>Reflect: of structure, style, and behavior, which do you notice most when a web page is badly made, and why?<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li><li>Challenge: name one website you use and describe one thing HTML, CSS, and JavaScript each do on it.<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">18</span><span class="exq">Challenge: build a small page.</span></div><p class="ar">تحدي: ابني صفحة صغيرة.</p><div class="src">Qureo chapter 36; p.70 Point 2 — semantic HTML</div><ol class="qs"><li>Write a page for your class with a &lt;header&gt;, a &lt;main&gt; holding one card (a &lt;div&gt; with a heading, an input and a button), and a &lt;footer&gt;. Then write CSS that gives the card a border and the button a colour of your choice.<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Before you hand this in</h2><div class="summary"><p>Check every answer against the booklet. Bring anything you could not work out to the next session.</p><p class="ar">راجع كل إجابة على الكتيّب. وأي حاجة معرفتش تحلها هاتها معاك المرة الجاية.</p></div><div class="summary hw"><p><b>The exam is done in class.</b> Your teacher will show the code to scan during the lesson.</p><p class="ar">الامتحان بيتحل في الحصة. المدرّس هيعرض الكود تمسحوه وقتها.</p></div><h2>My notes</h2><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 11;
+const LECTURE_TITLE = "What is a web page made of?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#7A3B69";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   "Lecture " + LECTURE_NUM,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/lecture" + LECTURE_NUM + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
+  applyAccent();
+  /* The browser names a saved or printed PDF after the title, so every
+     document names itself through data-title on the body element. Without it all
+     of them -- homework, answer key, exam -- saved as "Handout". */
+  const named = (document.body && document.body.getAttribute)
+    ? document.body.getAttribute("data-title") : null;
+  document.title = named || (LECTURE.label + " Handout — " + LECTURE.title + " · PGteach");
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+})();
+</script>
+</body>
+</html>

@@ -620,6 +620,32 @@ statement font pushed the VPN slide off the top.
   explanations. Any new Arabic text holding `<`, `>` or `=` needs the same:
   an isolate, or `<span dir="ltr">` in HTML.
 
+## Lecture 11 -- lesson 3-3 and Qureo chapters 34-36, Unit 3 complete
+
+- **Lecture 11** is 3-3, Fundamentals of Frontend Technology (English book
+  pp. 68-74), plus Qureo 34 HTML (2), 35 CSS (2) and 36 (review of 34-35).
+  Made longer at the teacher's request ("it ends fast"): 44 slides, a
+  31-question quiz, a 15-page booklet, **six** class exercises (the
+  `IN_CLASS` patch in its spec) and 18 homework exercises. Accent `#7A3B69`,
+  title "What is a web page made of?". It closes Unit 3.
+- **What the Arabic book and the ministry add to 3-3:** a page need not use
+  all three technologies; semantic HTML helps search engines but does not
+  guarantee a higher ranking, and accessibility needs other practices too;
+  React is a JavaScript library, Next.js a framework built on React.
+- **Live demos** (`tools/lecture11/script.js`): the same page as HTML only,
+  + CSS, + JavaScript (the counter counts only with JavaScript on); one
+  layout at phone, tablet and PC width; and an editor whose preview is an
+  `<iframe sandbox="">`, so nothing a student types can run a script. Keys
+  and swipes inside a demo are stopped there, or typing a space would turn
+  the slide.
+- **Qureo 34-36's own text is locked on the platform**, and the earlier
+  scrape (chapters 1-19) was in a scratchpad that has since been cleared.
+  The deck teaches what the lesson titles name, in Qureo's CSS words
+  (selector, property, value). Check against the platform when the account
+  reaches chapter 34.
+- **Arabic lines that show a tag** use `<span class='mono' dir='ltr'>&lt;tag&gt;</span>`:
+  a bare `<header>` inside the text would be parsed as an element.
+
 ## The Chapter 2 exam
 
 The Chapter 2 exam is printed, not online, like Chapter 1. The paper is
