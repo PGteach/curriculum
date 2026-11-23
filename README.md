@@ -17,6 +17,14 @@ https://pgteach.github.io/curriculum/lectureN/quiz
 https://pgteach.github.io/curriculum/lectureN/handout
 ```
 
+A chapter's revision is kept apart from the lectures, at its own address
+(`revision/chapterN/`, the same four pages). See HANDOFF.md, *Chapter revisions*.
+
+```
+https://pgteach.github.io/curriculum/revision/chapter1/slides
+https://pgteach.github.io/curriculum/revision/chapter2/slides
+```
+
 ## Structure
 
 ```

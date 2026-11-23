@@ -2,7 +2,7 @@
 /**
  * Behavioural tests for every lecture.
  *
- *     node scripts/test_pages.js        # all lectures
+ *     node scripts/test_pages.js        # all lectures and revisions
  *     node scripts/test_pages.js 2      # just lecture 2
  *
  * check_lecture.py reads the pages. This one RUNS them: it stubs enough of a
@@ -204,15 +204,15 @@ function countSlides(html) {
 /* slides                                                              */
 /* ------------------------------------------------------------------ */
 
-function testSlides(num, file) {
-  const tag = "L" + num + " slides";
+function testSlides(u, file) {
+  const tag = u.tag + " slides";
   const { html, js } = scriptOf(file);
   const total = countSlides(html);
   check(total >= 2, tag + ": only " + total + " slide(s)");
 
   const p = runPage(js, { slideCount: total, expose: ["fit", "FIT_FLOOR"] });
 
-  const want = SITE_BASE + "/lecture" + num + "/quiz";
+  const want = SITE_BASE + "/" + u.rel + "/quiz";
   const qr = p.byId("qr");
   check(qr.src.includes("create-qr-code"), tag + ": no QR generated");
   const data = decodeURIComponent((qr.src.split("data=")[1] || ""));
@@ -283,8 +283,8 @@ function testSlides(num, file) {
 /* quiz                                                                */
 /* ------------------------------------------------------------------ */
 
-function testQuiz(num, file) {
-  const tag = "L" + num + " quiz";
+function testQuiz(u, file) {
+  const tag = u.tag + " quiz";
   const { html, js } = scriptOf(file);
   const p = runPage(js, {
     expose: ["QUESTIONS", "SECTIONS", "state", "LECTURE", "RESULTS_URL",
@@ -425,7 +425,7 @@ function testQuiz(num, file) {
   return { tag, p, Q, S, st, shown, picked, expScore, wrongAt };
 }
 
-async function checkSubmission(ctx, num) {
+async function checkSubmission(ctx, u) {
   if (!ctx) return;
   const { tag, p, Q, S, shown, picked, expScore, wrongAt } = ctx;
   await new Promise((r) => setImmediate(r));   // sendResult awaits the card
@@ -445,7 +445,7 @@ async function checkSubmission(ctx, num) {
   Object.keys(d).forEach((k) =>
     check(want.includes(k), tag + ": payload has an unexpected key " + k));
 
-  check(d.lecture === "Lecture " + num, tag + ": payload.lecture is " + d.lecture);
+  check(d.lecture === u.label, tag + ": payload.lecture is " + d.lecture);
   check(d.name === "Ali Hassan Mohamed", tag + ": payload.name is " + d.name);
   check(d.phone === "01001234567", tag + ": payload.phone is " + d.phone);
   check(d["class"] === "Sunday 5pm", tag + ": payload.class is " + d["class"]);
@@ -473,8 +473,8 @@ async function checkSubmission(ctx, num) {
 
 }
 
-function testShuffle(num, file) {
-  const tag = "L" + num + " quiz";
+function testShuffle(u, file) {
+  const tag = u.tag + " quiz";
   const { js } = scriptOf(file);
   const p = runPage(js, {
     expose: ["QUESTIONS", "currentQ", "render", "state", "ansOf"] });
@@ -536,8 +536,8 @@ async function attempt(file, opts) {
   return p;
 }
 
-async function testDelivery(num, file) {
-  const tag = "L" + num + " delivery";
+async function testDelivery(u, file) {
+  const tag = u.tag + " delivery";
   const QKEY = "pgteach:unsent";
 
   /* 1. the happy path confirms, and clears the queue */
@@ -610,7 +610,7 @@ async function testDelivery(num, file) {
         tag + ": beaconed a submission that was already confirmed");
 
   /* 8. something left over from a previous visit goes out on load */
-  const old = { id: "s-old-1", lecture: "Lecture " + num, name: "Older Attempt",
+  const old = { id: "s-old-1", lecture: u.label, name: "Older Attempt",
                 phone: "01000000000", date: "2026-09-01", score: 1, total: 1,
                 weak: "none", sections: "x: 1/1", wrongQuestions: [], image: "" };
   const { js } = scriptOf(file);
@@ -626,30 +626,37 @@ async function testDelivery(num, file) {
 
 async function main() {
   const only = process.argv[2];
-  const lectures = fs.readdirSync(ROOT)
-    .filter((d) => /^lecture\d+$/.test(d) &&
-                   fs.statSync(path.join(ROOT, d)).isDirectory())
-    .map((d) => parseInt(d.replace("lecture", ""), 10))
-    .filter((n) => !only || String(n) === only)
-    .sort((a, b) => a - b);
+  /* lectureN/ and revision/chapterN/ -- the same pages; a revision builds
+     its quiz link and recorded label from PAGE_PATH and PAGE_LABEL (see
+     scripts/units.py) */
+  const lec = fs.readdirSync(ROOT)
+    .filter((d) => /^lecture\d+$/.test(d) && fs.statSync(path.join(ROOT, d)).isDirectory())
+    .map((d) => parseInt(d.replace("lecture", ""), 10)).sort((a, b) => a - b)
+    .map((n) => ({ num: n, rel: "lecture" + n, label: "Lecture " + n, tag: "L" + n, arg: String(n) }));
+  const revDir = path.join(ROOT, "revision");
+  const rev = (fs.existsSync(revDir) ? fs.readdirSync(revDir) : [])
+    .filter((d) => /^chapter\d+$/.test(d) && fs.statSync(path.join(revDir, d)).isDirectory())
+    .map((d) => parseInt(d.replace("chapter", ""), 10)).sort((a, b) => a - b)
+    .map((n) => ({ num: n, rel: "revision/chapter" + n, label: "Chapter " + n + " Revision", tag: "R" + n, arg: "r" + n }));
+  const lectures = lec.concat(rev).filter((u) => !only || u.arg === String(only).toLowerCase());
 
   if (!lectures.length) {
     console.error("No lecture folders found" + (only ? " for " + only : ""));
     process.exit(1);
   }
 
-  for (const num of lectures) {
-    const dir = path.join(ROOT, "lecture" + num);
+  for (const u of lectures) {
+    const dir = path.join(ROOT, u.rel);
     const slides = path.join(dir, "slides", "index.html");
     const quiz = path.join(dir, "quiz", "index.html");
-    if (fs.existsSync(slides)) testSlides(num, slides);
+    if (fs.existsSync(slides)) testSlides(u, slides);
     if (fs.existsSync(quiz)) {
-      const ctx = testQuiz(num, quiz);
-      await checkSubmission(ctx, num);
-      testShuffle(num, quiz);
-      await testDelivery(num, quiz);
+      const ctx = testQuiz(u, quiz);
+      await checkSubmission(ctx, u);
+      testShuffle(u, quiz);
+      await testDelivery(u, quiz);
     }
-    console.log("  lecture" + num + " exercised");
+    console.log("  " + u.rel + " exercised");
   }
 
   console.log("");
@@ -658,8 +665,10 @@ async function main() {
     fails.forEach((f) => console.log("  x " + f));
     process.exit(1);
   }
+  const nrev = lectures.filter((u) => u.rel.startsWith("revision/")).length;
   console.log("All " + checks + " behavioural checks passed across " +
-              lectures.length + " lecture(s).");
+              (lectures.length - nrev) + " lecture(s)" +
+              (nrev ? " and " + nrev + " revision(s)." : "."));
 }
 
 main().catch((e) => {

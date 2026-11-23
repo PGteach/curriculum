@@ -4,6 +4,7 @@
 
     python scripts/protect_answers.py          # every lecture
     python scripts/protect_answers.py 2        # just lecture 2
+    python scripts/protect_answers.py r1       # just the Chapter 1 revision
 
 Write questions the easy way, with `a: 1` for "the second option is right".
 Run this before publishing and each `a: N` becomes `k: "<fingerprint>"`, so
@@ -167,37 +168,36 @@ def process(path: Path) -> tuple[int, list[str]]:
 
 
 def main() -> None:
+    import units                       # lectureN/ and revision/chapterN/
     args = sys.argv[1:]
     unlocking = "--unlock" in args
     args = [a for a in args if a != "--unlock"]
-    if args and not args[0].isdigit():
+    if args and not units.find(args[0]):
         sys.exit(__doc__)
 
-    nums = ([int(args[0])] if args else
-            sorted(int(p.name[7:]) for p in ROOT.glob("lecture*")
-                   if p.is_dir() and p.name[7:].isdigit()))
-    if not nums:
+    todo = [units.find(args[0])] if args else units.all_units()
+    if not todo:
         sys.exit("No lecture folders found.")
 
     bad = 0
-    for num in nums:
-        path = ROOT / ("lecture%d" % num) / "quiz" / "index.html"
+    for u in todo:
+        path = u.dir / "quiz" / "index.html"
         if not path.is_file():
-            print("Lecture %d — no quiz page, skipped" % num)
+            print("%s — no quiz page, skipped" % u.label)
             continue
         n, problems = (unlock(path) if unlocking else process(path))
         if problems:
             bad += 1
-            print("Lecture %d — NOT changed:" % num)
+            print("%s — NOT changed:" % u.label)
             for p in problems:
                 print("  FAIL  %s" % p)
         elif n:
-            print("Lecture %d — %s %d answer(s)"
-                  % (num, "unlocked" if unlocking else "fingerprinted", n))
+            print("%s — %s %d answer(s)"
+                  % (u.label, "unlocked" if unlocking else "fingerprinted", n))
         elif unlocking:
-            print("Lecture %d — nothing fingerprinted to unlock" % num)
+            print("%s — nothing fingerprinted to unlock" % u.label)
         else:
-            print("Lecture %d — already fingerprinted, nothing to do" % num)
+            print("%s — already fingerprinted, nothing to do" % u.label)
 
     if bad:
         sys.exit("%d lecture(s) could not be converted." % bad)

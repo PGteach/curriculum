@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 2 Revision Booklet — Ready for Chapter 2?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+.tdar{font-size:9pt;color:var(--soft);margin-top:.6mm}
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}
+.key .mq-q{font-size:9.8pt;font-weight:600;margin:2.2mm 0 .4mm}.key .mq-a{font-size:10pt;margin:0}.key .ar{font-size:9.5pt}
+.dg{margin:3mm 0 4mm}.dg svg{display:block;width:100%;height:auto}
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}
+.principles .pr{border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:1.5mm;padding:2.5mm 3.5mm;background:#FCFCFA}
+.principles .pr h4{font-size:10.5pt;margin-bottom:1mm}.principles .pr p{font-size:9.5pt;margin:0}
+</style>
+</head>
+<body data-title="Chapter 2 Revision Booklet — Ready for Chapter 2?">
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">Ready for Chapter 2?</h1><div class="docsub">Revision Booklet &middot; Chapter 2 Revision</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><h2>How to use this booklet</h2><p>Three pages for each lesson. Decide each trap true or false before you read the answer; cover the meaning of each key term and say it before you look; and plan the exam question before you read its points.</p><p class="ar">تلات صفحات لكل درس. غطّي عمود المعاني وقول التعريف قبل ما تبص، وقرّر صح ولا غلط قبل ما تقرا الإجابة، وخطّط سؤال الامتحان قبل ما تقرا النقط.</p><h2>The unit at a glance</h2><table><tr><th style="width:12%">Lesson</th><th>Remember</th></tr><tr><td class="k">2-1</td><td><b>Cryptographic Technologies and Authentication.</b> HTTPS uses public-key cryptography to share a key safely and common-key cryptography to move data quickly. Services stay safe by layering encryption, certificates, signatures, and multi-factor authentication.</td></tr><tr><td class="k">2-2</td><td><b>Network Security Design.</b> Layer your defenses — firewall, VPN, DMZ, endpoints — and verify every access (zero trust). One breach is then far less likely to expose the whole network.</td></tr><tr><td class="k">2-3</td><td><b>Incident Response and Risk Management.</b> Follow the six stages in order (prepare → detect → contain → eradicate → recover → prevent), and prioritize risks by impact × likelihood.</td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>2-1 &middot; Cryptographic Technologies and Authentication</h2><div class="summary"><p><b>Remember.</b> HTTPS uses public-key cryptography to share a key safely and common-key cryptography to move data quickly. Services stay safe by layering encryption, certificates, signatures, and multi-factor authentication.</p><p class="ar">HTTPS بيستخدم تشفير المفتاح العام عشان يشارك المفتاح بأمان، وتشفير المفتاح المشترك عشان ينقل البيانات بسرعة. والخدمات بتفضل آمنة بالتشفير والشهادات والتوقيعات والمصادقة متعددة العوامل مع بعض.</p></div><div class="dg"><svg viewBox="0 0 900 300" role="img" aria-label="Common-key cryptography uses one key to lock and unlock; public-key cryptography locks with a public key and unlocks with a different private key">
+  <rect x="20" y="16" width="420" height="268" rx="12" fill="var(--teal)" opacity=".08" stroke="var(--teal)" stroke-width="2"/>
+  <text x="230" y="48" text-anchor="middle" font-size="19" font-weight="700" fill="var(--ink)">Common-key cryptography</text>
+  <text x="230" y="72" text-anchor="middle" font-size="14" fill="var(--soft)">also called symmetric-key</text>
+  <g transform="translate(70,98)">
+    <circle cx="22" cy="22" r="16" fill="none" stroke="var(--teal)" stroke-width="6"/>
+    <rect x="36" y="18" width="70" height="9" rx="3" fill="var(--teal)"/>
+    <rect x="88" y="27" width="8" height="13" fill="var(--teal)"/><rect x="100" y="27" width="6" height="9" fill="var(--teal)"/>
+  </g>
+  <text x="190" y="122" font-size="16" fill="var(--ink)">one key</text>
+  <text x="190" y="144" font-size="16" fill="var(--ink)">locks <tspan font-weight="700">and</tspan> unlocks</text>
+  <line x1="40" y1="176" x2="420" y2="176" stroke="var(--line)" stroke-width="1.5"/>
+  <text x="44" y="206" font-size="16" fill="var(--ink)"><tspan font-weight="700" fill="var(--teal)">+</tspan> fast &#8212; exchanges data quickly</text>
+  <text x="44" y="238" font-size="16" fill="var(--ink)"><tspan font-weight="700" fill="#9C3B2E">&#8722;</tspan> both sides need the same key:</text>
+  <text x="64" y="262" font-size="16" fill="var(--ink)">how do you share it safely?</text>
+
+  <rect x="460" y="16" width="420" height="268" rx="12" fill="var(--gold)" opacity=".10" stroke="var(--gold)" stroke-width="2"/>
+  <text x="670" y="48" text-anchor="middle" font-size="19" font-weight="700" fill="var(--ink)">Public-key cryptography</text>
+  <text x="670" y="72" text-anchor="middle" font-size="14" fill="var(--soft)">a pair of linked keys</text>
+  <g transform="translate(490,90)">
+    <circle cx="18" cy="18" r="13" fill="none" stroke="var(--gold)" stroke-width="5"/>
+    <rect x="29" y="15" width="54" height="7" rx="3" fill="var(--gold)"/>
+    <rect x="70" y="22" width="6" height="10" fill="var(--gold)"/>
+  </g>
+  <text x="590" y="113" font-size="16" fill="var(--ink)"><tspan font-weight="700">public key</tspan> locks</text>
+  <g transform="translate(490,132)">
+    <circle cx="18" cy="18" r="13" fill="none" stroke="var(--ink)" stroke-width="5"/>
+    <rect x="29" y="15" width="54" height="7" rx="3" fill="var(--ink)"/>
+    <rect x="70" y="22" width="6" height="10" fill="var(--ink)"/>
+  </g>
+  <text x="590" y="155" font-size="16" fill="var(--ink)"><tspan font-weight="700">private key</tspan> unlocks</text>
+  <line x1="480" y1="176" x2="860" y2="176" stroke="var(--line)" stroke-width="1.5"/>
+  <text x="484" y="206" font-size="16" fill="var(--ink)"><tspan font-weight="700" fill="var(--teal)">+</tspan> the public key can be given to anyone</text>
+  <text x="484" y="230" font-size="16" fill="var(--ink)"><tspan font-weight="700" fill="var(--teal)">+</tspan> shares a key safely</text>
+  <text x="484" y="262" font-size="16" fill="var(--ink)"><tspan font-weight="700" fill="#9C3B2E">&#8722;</tspan> slow for large amounts of data</text>
+</svg></div><h2>Exam traps</h2><table><tr><th>Statement</th><th style="width:12%">T / F</th><th style="width:34%">Why</th></tr><tr><td>HTTPS exchanges all of its data using public-key cryptography.</td><td><b>False</b></td><td>Public-key only shares the key; common-key moves the data.</td></tr><tr><td>Setting two passwords is multi-factor authentication.</td><td><b>False</b></td><td>Both are knowledge: one factor twice.</td></tr><tr><td>A digital certificate verifies that the communication partner is genuine.</td><td><b>True</b></td><td>That is its job.</td></tr><tr><td>A digital signature keeps the content from being read by third parties.</td><td><b>False</b></td><td>That is encryption; a signature detects tampering.</td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>2-1 &middot; Key terms</h2><p>Cover the right-hand column and say each meaning before you look.</p><table><tr><th style="width:27%">Key term</th><th>Meaning</th></tr><tr><td class="k">Common-key cryptography</td><td>the same key locks and unlocks; fast, so it exchanges the data<div class="ar tdar">تشفير المفتاح المشترك: مفتاح واحد للقفل والفتح، وسريع</div></td></tr><tr><td class="k">Public-key cryptography</td><td>a public key locks, only the private key unlocks; slow, so it shares the key safely<div class="ar tdar">تشفير المفتاح العام: العام بيقفل والخاص بس بيفتح</div></td></tr><tr><td class="k">HTTPS</td><td>HTTP with SSL/TLS encryption; uses both kinds of cryptography<div class="ar tdar">HTTPS: HTTP مع تشفير TLS</div></td></tr><tr><td class="k">Encryption</td><td>keeps communication content from being read by third parties<div class="ar tdar">التشفير: محدش يقرا المحتوى</div></td></tr><tr><td class="k">Digital signature</td><td>detects tampering and impersonation, and gives non-repudiation<div class="ar tdar">التوقيع الرقمي: يكشف التلاعب وانتحال الشخصية</div></td></tr><tr><td class="k">Non-repudiation</td><td>the sender cannot deny afterward having sent the data<div class="ar tdar">عدم الإنكار: المرسِل ميقدرش ينكر</div></td></tr><tr><td class="k">Digital certificate</td><td>verifies that the communication partner (the site) is genuine<div class="ar tdar">الشهادة الرقمية: الموقع حقيقي</div></td></tr><tr><td class="k">Multi-factor authentication</td><td>combining two or more of the three factors: knowledge, possession, biometric<div class="ar tdar">المصادقة متعددة العوامل: عاملين أو أكتر من التلاتة</div></td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>2-1 &middot; Exam-style question &middot; 6 marks</h2><p><b>Explain why HTTPS uses public-key cryptography to share the key and common-key cryptography to exchange the data.</b></p><p class="src">p.37 — Exam-style question [6]</p><div class="summary hw"><p><b>Plan first.</b> Write your points here, then check them against the marking points below. Each point is about one mark.</p></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><h2>The marking points</h2><ol class="qs"><li>Both sides need the same common key, and sharing it openly is not safe</li><li>Public-key cryptography shares the key safely — public key locks, private key unlocks</li><li>Public-key cryptography is slow for large amounts of data</li><li>Common-key cryptography exchanges large amounts of data quickly</li><li>So public-key is used only to share the key, common-key for the data</li><li>Result: security and speed together</li></ol><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>2-2 &middot; Network Security Design</h2><div class="summary"><p><b>Remember.</b> Layer your defenses — firewall, VPN, DMZ, endpoints — and verify every access (zero trust). One breach is then far less likely to expose the whole network.</p><p class="ar">اعمل حمايتك طبقات — جدار حماية، VPN، منطقة معزولة، والأجهزة الطرفية — واتحقق من كل وصول (انعدام الثقة). كده اختراق واحد صعب يكشف الشبكة كلها.</p></div><div class="dg"><svg viewBox="0 0 900 290" role="img" aria-label="Defense in depth: four layers, from network entry to endpoints, each with its own measure">
+  <g font-size="16">
+    <rect x="10" y="10" width="880" height="62" rx="10" fill="var(--gold)" opacity=".16" stroke="var(--gold)" stroke-width="2"/>
+    <text x="30" y="48" font-weight="700" fill="var(--ink)">Layer 1 &#183; Network entry</text>
+    <text x="400" y="48" fill="var(--ink)">block unauthorized communication with a <tspan font-weight="700">firewall</tspan></text>
+    <rect x="10" y="80" width="880" height="62" rx="10" fill="var(--teal)" opacity=".10" stroke="var(--teal)" stroke-width="2"/>
+    <text x="30" y="118" font-weight="700" fill="var(--ink)">Layer 2 &#183; Communication path</text>
+    <text x="400" y="118" fill="var(--ink)">encrypt communication with a <tspan font-weight="700">VPN</tspan></text>
+    <rect x="10" y="150" width="880" height="62" rx="10" fill="var(--gold)" opacity=".16" stroke="var(--gold)" stroke-width="2"/>
+    <text x="30" y="188" font-weight="700" fill="var(--ink)">Layer 3 &#183; Server placement</text>
+    <text x="400" y="188" fill="var(--ink)">separate public-facing servers with a <tspan font-weight="700">DMZ</tspan></text>
+    <rect x="10" y="220" width="880" height="62" rx="10" fill="var(--teal)" opacity=".10" stroke="var(--teal)" stroke-width="2"/>
+    <text x="30" y="258" font-weight="700" fill="var(--ink)">Layer 4 &#183; Endpoints</text>
+    <text x="400" y="258" fill="var(--ink)"><tspan font-weight="700">antivirus</tspan> software, and keep the OS updated</text>
+  </g>
+</svg></div><h2>Exam traps</h2><table><tr><th>Statement</th><th style="width:12%">T / F</th><th style="width:34%">Why</th></tr><tr><td>A VPN automatically deletes files infected with viruses.</td><td><b>False</b></td><td>That is antivirus software on the endpoints.</td></tr><tr><td>A DMZ is mainly there to make communication faster.</td><td><b>False</b></td><td>It stops an attack on a public server reaching the internal network.</td></tr><tr><td>Under zero trust, access from inside the network needs no checking.</td><td><b>False</b></td><td>Every access is verified, inside or outside.</td></tr><tr><td>In defense in depth, if one measure is breached the next can still protect the system.</td><td><b>True</b></td><td>That is the whole point.</td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>2-2 &middot; Key terms</h2><p>Cover the right-hand column and say each meaning before you look.</p><table><tr><th style="width:27%">Key term</th><th>Meaning</th></tr><tr><td class="k">Firewall</td><td>allows or denies communication at a network's entry/exit point, based on rules set in advance<div class="ar tdar">جدار الحماية: يسمح أو يمنع حسب قواعد</div></td></tr><tr><td class="k">VPN</td><td>an encrypted virtual private line over the Internet; for remote work and connecting offices<div class="ar tdar">الشبكة الافتراضية الخاصة: خط خاص متشفر</div></td></tr><tr><td class="k">DMZ</td><td>a zone for public-facing servers, separated from the internal network<div class="ar tdar">المنطقة المعزولة: سيرفرات الجمهور بعيد عن الشبكة الداخلية</div></td></tr><tr><td class="k">Defense in depth</td><td>layering several measures, so if one is breached the next still protects<div class="ar tdar">الدفاع في العمق: حماية في طبقات</div></td></tr><tr><td class="k">Zero trust</td><td>trust no communication; verify every access, inside or outside<div class="ar tdar">انعدام الثقة: اتحقق من كل وصول</div></td></tr><tr><td class="k">Perimeter</td><td>the old "inside is safe, outside is dangerous" boundary that cloud and remote work have blurred<div class="ar tdar">المحيط: الحد القديم اللي السحابة والشغل عن بُعد غيّروه</div></td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>2-2 &middot; Exam-style question &middot; 6 marks</h2><p><b>Explain why layering several security measures (defense in depth) protects an organization better than relying on a firewall alone. Refer to what happens if one measure is breached.</b></p><p class="src">p.45 — Exam-style question [6]</p><div class="summary hw"><p><b>Plan first.</b> Write your points here, then check them against the marking points below. Each point is about one mark.</p></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><h2>The marking points</h2><ol class="qs"><li>A firewall alone is one barrier</li><li>If that one barrier is breached, everything inside is exposed</li><li>Defense in depth layers several measures</li><li>Names at least two layers or measures, e.g. VPN, DMZ, endpoints</li><li>If one is breached, the next still protects the system</li><li>Conclusion: one breach is much less likely to expose the whole network</li></ol><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>2-3 &middot; Incident Response and Risk Management</h2><div class="summary"><p><b>Remember.</b> Follow the six stages in order (prepare → detect → contain → eradicate → recover → prevent), and prioritize risks by impact × likelihood.</p><p class="ar">امشي على المراحل الست بالترتيب (تحضير ← اكتشاف ← احتواء ← استئصال ← استعادة ← منع التكرار)، ورتّب المخاطر بالتأثير × الاحتمالية.</p></div><div class="dg"><svg viewBox="0 0 900 230" role="img" aria-label="The six stages of incident response in order: preparation, detection, containment, eradication, recovery, prevention of recurrence">
+  <g font-size="15" text-anchor="middle">
+    <line x1="80" y1="70" x2="820" y2="70" stroke="var(--line)" stroke-width="4"/>
+    <polygon points="832,70 818,62 818,78" fill="var(--line)"/>
+    <circle cx="80" cy="70" r="30" fill="var(--teal)"/><text x="80" y="77" font-size="20" font-weight="700" fill="#fff">1</text>
+    <circle cx="228" cy="70" r="30" fill="var(--teal)"/><text x="228" y="77" font-size="20" font-weight="700" fill="#fff">2</text>
+    <circle cx="376" cy="70" r="30" fill="var(--gold)"/><text x="376" y="77" font-size="20" font-weight="700" fill="#fff">3</text>
+    <circle cx="524" cy="70" r="30" fill="var(--gold)"/><text x="524" y="77" font-size="20" font-weight="700" fill="#fff">4</text>
+    <circle cx="672" cy="70" r="30" fill="var(--teal)"/><text x="672" y="77" font-size="20" font-weight="700" fill="#fff">5</text>
+    <circle cx="820" cy="70" r="30" fill="var(--teal)"/><text x="820" y="77" font-size="20" font-weight="700" fill="#fff">6</text>
+    <text x="80" y="128" font-weight="700" fill="var(--ink)">Preparation</text>
+    <text x="80" y="150" fill="var(--soft)">plan in advance</text>
+    <text x="228" y="128" font-weight="700" fill="var(--ink)">Detection</text>
+    <text x="228" y="150" fill="var(--soft)">find and confirm</text>
+    <text x="376" y="128" font-weight="700" fill="var(--ink)">Containment</text>
+    <text x="376" y="150" fill="var(--soft)">stop it spreading</text>
+    <text x="524" y="128" font-weight="700" fill="var(--ink)">Eradication</text>
+    <text x="524" y="150" fill="var(--soft)">remove the cause</text>
+    <text x="672" y="128" font-weight="700" fill="var(--ink)">Recovery</text>
+    <text x="672" y="150" fill="var(--soft)">back to normal</text>
+    <text x="820" y="128" font-weight="700" fill="var(--ink)">Prevention of</text>
+    <text x="820" y="148" font-weight="700" fill="var(--ink)">recurrence</text>
+    <text x="820" y="170" fill="var(--soft)">so it never returns</text>
+    <rect x="320" y="190" width="260" height="30" rx="8" fill="var(--gold)" opacity=".2"/>
+    <text x="450" y="211" font-weight="600" fill="var(--ink)">contain first, then eradicate</text>
+  </g>
+</svg></div><h2>Exam traps</h2><table><tr><th>Statement</th><th style="width:12%">T / F</th><th style="width:34%">Why</th></tr><tr><td>Detection → Eradication → Containment → Recovery is the right order.</td><td><b>False</b></td><td>Containment comes before eradication.</td></tr><tr><td>The size of a risk can be judged by impact alone.</td><td><b>False</b></td><td>Risk = impact × likelihood.</td></tr><tr><td>All risks must be addressed at the same time.</td><td><b>False</b></td><td>Set priorities: the biggest first.</td></tr><tr><td>A software update that adds features is a security incident.</td><td><b>False</b></td><td>Nothing was damaged.</td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>2-3 &middot; Key terms</h2><p>Cover the right-hand column and say each meaning before you look.</p><table><tr><th style="width:27%">Key term</th><th>Meaning</th></tr><tr><td class="k">Security incident</td><td>a situation in which actual damage occurs due to an information security problem<div class="ar tdar">الحادث الأمني: ضرر حقيقي بسبب مشكلة أمن معلومات</div></td></tr><tr><td class="k">Containment</td><td>limits the spread of damage, e.g. disconnecting an infected computer<div class="ar tdar">الاحتواء: نوقف انتشار الضرر</div></td></tr><tr><td class="k">Eradication</td><td>removes the cause, e.g. the malware<div class="ar tdar">الاستئصال: نشيل السبب</div></td></tr><tr><td class="k">Recovery</td><td>returns systems and services to normal, e.g. from a clean backup<div class="ar tdar">الاستعادة: نرجّع الأنظمة لطبيعتها</div></td></tr><tr><td class="k">Prevention of recurrence</td><td>stage 6, also called lessons learned and improvement: analyze the cause so it does not happen again<div class="ar tdar">منع التكرار = الدروس المستفادة والتحسين</div></td></tr><tr><td class="k">Risk</td><td>the possibility of a problem occurring in the future, and its impact<div class="ar tdar">الخطر: احتمال حدوث مشكلة وحجم أثرها</div></td></tr><tr><td class="k">Impact</td><td>how much damage occurs if the risk happens<div class="ar tdar">التأثير: حجم الضرر</div></td></tr><tr><td class="k">Likelihood</td><td>how probable it is that the risk happens<div class="ar tdar">الاحتمالية: مدى احتمال حدوثه</div></td></tr></table><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>2-3 &middot; Exam-style question &middot; 6 marks</h2><p><b>Explain why the six stages of incident response must be carried out in order, using recovery and eradication as an example. Refer to what happens if the cause is not removed.</b></p><p class="src">p.51 — Exam-style question [6]</p><div class="summary hw"><p><b>Plan first.</b> Write your points here, then check them against the marking points below. Each point is about one mark.</p></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><h2>The marking points</h2><ol class="qs"><li>Containment first stops the damage spreading</li><li>Eradication removes the cause, e.g. the malware</li><li>Recovery returns systems to normal only after that</li><li>If recovery comes before eradication, the cause is still there</li><li>So the same incident can happen again</li><li>Conclusion: order keeps damage small / may need to step back</li></ol><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Class work</h2><p class="ar">شغل الحصة — نحل دول سوا.</p><div class="ex"><div class="exhead"><span class="exn">1</span><span class="exq">Match each need to the most appropriate security technology.</span></div><p class="ar">وصّل كل احتياج بأنسب تقنية أمان.</p><div class="src">Lesson 2-1 · p.36 — Worked Example (2)</div><table class="matchtbl"><tr><th>Description</th><th style="width:18%">Letter</th></tr><tr><td>I want to prevent communication content from being read by third parties.</td><td class="blank"></td></tr><tr><td>I want to verify that data has not been altered during communication.</td><td class="blank"></td></tr><tr><td>I want to verify that the communication partner is authentic.</td><td class="blank"></td></tr></table><p class="optlead">Choose from:</p><div class="fields"><span class="chip"><b>A</b> Digital certificate</span><span class="chip"><b>B</b> Encryption</span><span class="chip"><b>C</b> Digital signature</span></div></div><div class="ex"><div class="exhead"><span class="exn">2</span><span class="exq">For each threat, write the technology mainly used to address it — A: Encryption, B: Digital signature, C: Digital certificate, D: Multi-factor authentication.</span></div><p class="ar">لكل تهديد، اكتب التقنية اللي بتعالجه أساسًا.</p><div class="src">Lesson 2-1 · p.40 — Exercise 3 (1)</div><table class="cattbl"><tr><th style="width:14%">Letter</th><th>Situation</th></tr><tr><td class="blank"></td><td>A password is leaked and unauthorized login occurs.</td></tr><tr><td class="blank"></td><td>Data is altered during communication.</td></tr><tr><td class="blank"></td><td>A user is led to a fake website.</td></tr><tr><td class="blank"></td><td>Communication content is intercepted by a third party.</td></tr></table></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Class work</h2><p class="ar">كمّل مع زميلك.</p><div class="ex"><div class="exhead"><span class="exn">3</span><span class="exq">Match each description to the most appropriate term.</span></div><p class="ar">وصّل كل وصف بأنسب مصطلح.</p><div class="src">Lesson 2-2 · p.44 — Worked Example (2)</div><table class="matchtbl"><tr><th>Description</th><th style="width:18%">Letter</th></tr><tr><td>A technology that creates an encrypted virtual private line over the Internet for safe connection from a remote location</td><td class="blank"></td></tr><tr><td>An area where servers exposed to the outside are placed separately from the internal network</td><td class="blank"></td></tr><tr><td>A system that allows or denies communication based on rules set in advance</td><td class="blank"></td></tr></table><p class="optlead">Choose from:</p><div class="fields"><span class="chip"><b>A</b> Firewall</span><span class="chip"><b>B</b> VPN</span><span class="chip"><b>C</b> DMZ</span></div></div><div class="ex"><div class="exhead"><span class="exn">4</span><span class="exq">Write the stage each action belongs to — A: Preparation, B: Containment, C: Eradication, D: Prevention of recurrence.</span></div><p class="ar">اكتب كل إجراء تابع لأنهي مرحلة.</p><div class="src">Lesson 2-3 · p.51 — Worked Example (2)</div><table class="cattbl"><tr><th style="width:14%">Letter</th><th>Situation</th></tr><tr><td class="blank"></td><td>Establishing response procedures in advance, in preparation for incidents.</td></tr><tr><td class="blank"></td><td>Disconnecting a malware-infected computer from the network.</td></tr><tr><td class="blank"></td><td>Removing the malware infection.</td></tr><tr><td class="blank"></td><td>Analyzing the cause and taking measures so that the same incident does not occur again.</td></tr></table></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>What to revise</h2><div class="summary"><p>Go lesson by lesson: the key takeaway, then every key term word for word, then the exam traps. 2-1: which key does what in HTTPS, the four technologies and the threat each stops, the three factors; 2-2: the five terms and the four layers; 2-3: the six stages in order and risk = impact &times; likelihood.</p><p class="ar">راجع درس درس: الفكرة الأساسية، وبعدين كل مصطلح بالنص، وبعدين فخاخ الامتحان.</p></div><div class="summary hw"><p><b>The exam is done in class.</b> Your teacher will show the code to scan during the lesson.</p><p class="ar">الامتحان بيتحل في الحصة. المدرّس هيعرض الكود تمسحوه وقتها.</p></div><h2>My notes</h2><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 2;
+const PAGE_PATH     = "revision/chapter2";   /* a revision, not a lecture */
+const PAGE_LABEL    = "Chapter 2 Revision";
+const LECTURE_TITLE = "Ready for Chapter 2?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#36454F";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   PAGE_LABEL,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/" + PAGE_PATH + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
+  applyAccent();
+  /* The browser names a saved or printed PDF after the title, so every
+     document names itself through data-title on the body element. Without it all
+     of them -- homework, answer key, exam -- saved as "Handout". */
+  const named = (document.body && document.body.getAttribute)
+    ? document.body.getAttribute("data-title") : null;
+  document.title = named || (LECTURE.label + " Handout — " + LECTURE.title + " · PGteach");
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+})();
+</script>
+</body>
+</html>

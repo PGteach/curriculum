@@ -86,16 +86,23 @@ def key():
 
 
 def vault_path(src):
-    """lecture7/_teacher/x.html -> dashboard/vault/lecture7/x.html.enc (no
+    """lecture7/_teacher/x.html -> dashboard/vault/lecture7/x.html.enc, and
+    revision/chapter1/_teacher/x.html -> dashboard/vault/revision/chapter1/
+    x.html.enc: the folder that holds _teacher, without the _teacher (no
     underscore folder: Jekyll would not serve it)"""
     rel = src.relative_to(ROOT)
-    return VAULT / rel.parts[0] / (rel.name + ".enc")
+    return VAULT.joinpath(*rel.parts[:rel.parts.index("_teacher")]) / (rel.name + ".enc")
+
+
+# the teacher folders: lectureN/_teacher and revision/chapterN/_teacher
+TEACHER_GLOBS = ("lecture*/_teacher/*", "revision/chapter*/_teacher/*")
+VAULT_GLOBS = ("lecture*/*.enc", "revision/chapter*/*.enc")
 
 
 def seal(k=None):
     k = k or key()
     changed = 0
-    for src in sorted(ROOT.glob("lecture*/_teacher/*")):
+    for src in sorted(p for g in TEACHER_GLOBS for p in ROOT.glob(g)):
         if not src.is_file():
             continue
         dst, data = vault_path(src), src.read_bytes()
@@ -114,8 +121,8 @@ def seal(k=None):
 def unseal(k=None):
     k = k or key()
     restored = 0
-    for enc in sorted(VAULT.glob("lecture*/*.enc")):
-        src = ROOT / enc.parent.name / "_teacher" / enc.name[:-4]
+    for enc in sorted(p for g in VAULT_GLOBS for p in VAULT.glob(g)):
+        src = ROOT / enc.parent.relative_to(VAULT) / "_teacher" / enc.name[:-4]
         if not src.is_file():
             src.parent.mkdir(parents=True, exist_ok=True)
             src.write_bytes(decrypt(k, enc.read_bytes()))

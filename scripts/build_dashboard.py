@@ -54,6 +54,7 @@ FLAG = "pgteach.examCode"          # shared with the decks
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from release_answers import EXAMS, model_paths  # noqa: E402
 import vault  # noqa: E402
+import units  # noqa: E402  -- lectureN/ and revision/chapterN/
 
 
 
@@ -69,8 +70,9 @@ def const(js: str, name: str):
     return m.group(1) if m else None
 
 
-def scan(num: int) -> dict | None:
-    folder = ROOT / ("lecture%d" % num)
+def scan(u) -> dict | None:
+    num = u.num
+    folder = u.dir
     if not folder.is_dir():
         return None
     slides = read(folder / "slides" / "index.html")
@@ -80,6 +82,9 @@ def scan(num: int) -> dict | None:
 
     info = {
         "num": num,
+        "rel": u.rel,
+        "label": u.label,
+        "revision": u.revision,
         "title": const(slides, "LECTURE_TITLE") or "Lecture %d" % num,
         "topic": const(slides, "LECTURE_TOPIC") or "",
         "accent": const(slides, "LECTURE_ACCENT") or "#0E7C7B",
@@ -102,7 +107,7 @@ def scan(num: int) -> dict | None:
         if p.is_file():
             html = read(p)
             info["pages"][name] = {
-                "url": "%s/lecture%d/%s/" % (SITE, num, name),
+                "url": "%s/%s/%s/" % (SITE, u.rel, name),
                 "sheets": len(re.findall(r'<section class="sheet', html)),
                 "exercises": len(re.findall(r'class="ex"', html)),
             }
@@ -116,7 +121,10 @@ def scan(num: int) -> dict | None:
         info["teacher_key"] = (folder / "_teacher" / "answer-key.html").is_file()
     # the students' model answers: published only once released (see
     # scripts/release_answers.py), otherwise held back in _teacher/
-    info["model"] = (folder / "_teacher" / "model-answers.html").is_file()
+    # releasing model answers to students is per lecture number, so a
+    # revision's are only opened and printed from here, never released
+    info["model_file"] = (folder / "_teacher" / "model-answers.html").is_file()
+    info["model"] = info["model_file"] and not u.revision
     pub = folder / "answers" / "index.html"
     if pub.is_file():
         info["pages"]["answers"] = {
@@ -162,19 +170,19 @@ def card(L: dict) -> str:
 
     teacher = ""
     if L.get("teacher_key"):
-        opens = [("Answer key", "lecture%d/_teacher/answer-key.html" % L["num"])]
-        if L.get("model"):
-            opens.append(("Model answers", model_paths(L["num"])[0]))
+        opens = [("Answer key", "%s/_teacher/answer-key.html" % L["rel"])]
+        if L.get("model_file"):
+            opens.append(("Model answers", "%s/_teacher/model-answers.html" % L["rel"]))
         teacher = ('<p class="teacher">For you only, %d exercises: %s</p>'
                    % (L.get("exercises", 0), " ".join(
                        '<button class="open" type="button" data-open="%s">%s</button>' % (path, t)
                        for t, path in opens)))
 
     return ('<article class="card" style="--accent:%s">'
-            '<header><span class="num">Lecture %d</span>'
+            '<header><span class="num">%s</span>'
             '<h2>%s</h2><p class="topic">%s</p></header>'
             '<div class="mats">%s</div>%s</article>'
-            % (L["accent"], L["num"], esc(L["title"]), esc(L["topic"]),
+            % (L["accent"], esc(L["label"]), esc(L["title"]), esc(L["topic"]),
                "".join(rows), teacher))
 
 
@@ -233,6 +241,8 @@ button.open{font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;border:
   border-radius:6px;padding:4px 10px;background:var(--paper);color:var(--ink);margin:2px 4px 0 0}
 button.open:hover{border-color:var(--ink-2)}
 .cards{display:grid;gap:18px}
+.revh{font-family:"Fraunces",serif;font-size:clamp(22px,3vw,30px);margin:42px 0 4px}
+.revp{color:var(--soft);margin-bottom:16px}
 @media(min-width:760px){.cards{grid-template-columns:1fr 1fr}}
 .card{background:var(--white);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:18px 20px 16px}
 .card .num{font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--accent)}
@@ -327,6 +337,7 @@ footer a{color:var(--ink-2)}
 <div class="cards">
 __CARDS__
 </div>
+__REVISIONS__
 
 <footer>
   <p>Results arrive in the Google Sheet the quiz posts to. Rebuild this page with
@@ -390,8 +401,9 @@ function u8b64(u8){
 }
 const b64 = s => u8b64(new TextEncoder().encode(s));
 const b64u8 = s => Uint8Array.from(atob(s.split("\\n").join("")), c => c.charCodeAt(0));
-/* lecture7/_teacher/x.html is kept encrypted at dashboard/vault/lecture7/x.html.enc */
-function vaultOf(p){ const parts = p.split("/"); return "dashboard/vault/" + parts[0] + "/" + parts[2] + ".enc"; }
+/* lecture7/_teacher/x.html is kept encrypted at dashboard/vault/lecture7/x.html.enc,
+   revision/chapter1/_teacher/x.html at dashboard/vault/revision/chapter1/x.html.enc */
+function vaultOf(p){ const i = p.indexOf("/_teacher/"); return "dashboard/vault/" + p.slice(0, i) + "/" + p.slice(i + 10) + ".enc"; }
 async function vaultOpen(u8){
   const key = await crypto.subtle.importKey("raw", window.DASH_KEY, "AES-GCM", false, ["decrypt"]);
   return new Uint8Array(await crypto.subtle.decrypt({name:"AES-GCM", iv:u8.subarray(0, 12)}, key, u8.subarray(12)));
@@ -683,7 +695,8 @@ def lock(html: str) -> str:
 
 
 def main() -> None:
-    lectures = [L for L in (scan(n) for n in range(1, 30)) if L]
+    lectures = [L for L in (scan(u) for u in units.lectures()) if L]
+    revisions = [L for L in (scan(u) for u in units.revisions()) if L]
     if not lectures:
         raise SystemExit("no lectures found")
     items = [{"kind": "released", "n": L["num"], "label": "Lecture %d model answers" % L["num"],
@@ -695,7 +708,11 @@ def main() -> None:
         '<button class="open" type="button" data-open="%s">Chapter %d %s</button>' % (path, ch, what)
         for ch, (src, _) in sorted(EXAMS.items()) if (ROOT / src).is_file()
         for what, path in (("exam", src), ("marking scheme", src.replace("-exam.html", "-exam-key.html"))))
+    revs = ('<h2 class="revh">Chapter revisions</h2><p class="revp">Kept apart from the lectures: '
+            'one revision per chapter, at its own address.</p><div class="cards">\n'
+            + "\n".join(card(L) for L in revisions) + '\n</div>') if revisions else ""
     html = (PAGE.replace("__CARDS__", "\n".join(card(L) for L in lectures))
+                .replace("__REVISIONS__", revs)
                 .replace("__EXAMBTNS__", exams)
                 .replace("__ITEMS__", json.dumps(items))
                 .replace("__REPO__", "PGteach/curriculum")
@@ -708,9 +725,9 @@ def main() -> None:
     with io.open(OUT, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(html)
     print("%s  (%d lecture(s))" % (OUT.relative_to(ROOT).as_posix(), len(lectures)))
-    for L in lectures:
-        print("  Lecture %d  %-28s %2d slides  %2d questions  %s"
-              % (L["num"], L["title"][:28], L["slides"], L["questions"],
+    for L in lectures + revisions:
+        print("  %-19s %-28s %2d slides  %2d questions  %s"
+              % (L["label"], L["title"][:28], L["slides"], L["questions"],
                  ", ".join(sorted(L["pages"]))))
 
 

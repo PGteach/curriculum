@@ -15,3 +15,4 @@ scripts/.dashboard-password
 # in dashboard/vault/). See scripts/vault.py. Never commit either.
 scripts/.dashboard-key
 lecture*/_teacher/
+revision/*/_teacher/

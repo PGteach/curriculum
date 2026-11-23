@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 1 Revision Homework — Ready for Chapter 1?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233F;
+  --ink-2:#31405F;
+  --soft:#5B6472;
+  --teal:#0E7C7B;
+  --teal-pale:#EFF6F5;
+  --gold:#C9963B;
+  --gold-pale:#FAF1DF;
+  --line:#D8DDE4;
+  --rule:#C3CAD4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);
+  background:#8A9099;
+  line-height:1.5;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.ar{
+  font-family:"IBM Plex Sans Arabic","Inter",sans-serif;
+  direction:rtl; unicode-bidi:isolate;
+  font-size:10.5pt; line-height:1.85; color:var(--ink-2);
+}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---------- one A4 page per .sheet ---------- */
+.sheet{
+  width:210mm; min-height:297mm;
+  padding:16mm 15mm 12mm;
+  background:#fff;
+  margin:0 auto 8mm;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.sheet > .foot{margin-top:auto}
+.foot{
+  border-top:1px solid var(--line);
+  padding-top:3mm; margin-top:6mm;
+  display:flex; justify-content:space-between;
+  font-size:8.5pt; color:var(--soft);
+}
+
+/* ---------- type ---------- */
+.brand{
+  font-size:8.5pt; font-weight:600; color:var(--teal);
+  letter-spacing:.04em; text-transform:uppercase;
+  border-bottom:2px solid var(--ink); padding-bottom:2.5mm; margin-bottom:6mm;
+}
+h1{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:23pt; line-height:1.15; letter-spacing:-.01em; margin-bottom:2mm;
+}
+.docsub{font-size:11pt; color:var(--soft); margin-bottom:7mm}
+h2{
+  font-family:"Fraunces",Georgia,serif; font-weight:600;
+  font-size:14pt; margin:7mm 0 3mm;
+  padding-bottom:1.5mm; border-bottom:1px solid var(--line);
+}
+.sheet > h2:first-of-type{margin-top:0}
+h3{font-size:11pt; font-weight:600; margin:5mm 0 1.5mm}
+p{font-size:10.5pt; margin-bottom:2.5mm}
+p.lead{font-size:11pt; color:var(--ink-2)}
+b,strong{font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{display:flex; gap:4mm; margin:4mm 0 3mm}
+.stage{
+  flex:1; border:1px solid var(--line); border-radius:2mm;
+  padding:4mm; background:#FCFCFA;
+}
+.stage .n{
+  width:7mm; height:7mm; border-radius:50%;
+  background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9pt; font-weight:600; margin-bottom:2.5mm;
+}
+.stage h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.stage p{font-size:9.5pt; color:var(--soft); margin:0}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.5pt}
+th,td{border:1px solid var(--line); padding:2.2mm 2.6mm; text-align:left; vertical-align:top}
+th{background:var(--teal-pale); color:var(--teal); font-weight:600; font-size:9pt}
+td.k{width:30%; font-weight:600}
+
+/* ---------- term list ---------- */
+.term{
+  border-left:3px solid var(--gold); padding:0 0 0 4mm; margin-bottom:4mm;
+}
+.term h4{font-size:11pt; font-weight:600; margin-bottom:1mm}
+.term p{font-size:10pt; margin-bottom:1.5mm}
+
+/* ---------- fields ---------- */
+.fields{display:flex; flex-wrap:wrap; gap:2.5mm; margin:4mm 0}
+.chip{
+  border:1px solid var(--line); border-radius:20mm;
+  padding:2mm 5mm; font-size:10pt; font-weight:500; background:#FCFCFA;
+}
+
+/* ---------- write-in areas ---------- */
+.write{margin:3mm 0 5mm}
+.write .label{font-size:10pt; font-weight:600; margin-bottom:1.5mm}
+.rule{border-bottom:1px solid var(--rule); height:8mm}
+.rule.tight{height:7mm}
+ol.qs{margin:3mm 0 0 6mm; font-size:10.5pt}
+ol.qs li{margin-bottom:2mm}
+ol.qs .rule{margin-top:1.5mm}
+
+/* ---------- summary + QR ---------- */
+.summary{
+  background:var(--gold-pale); border-radius:2mm;
+  padding:5mm; margin-bottom:5mm;
+}
+.summary p{font-size:10.5pt; margin-bottom:2mm}
+.qrbox{
+  display:flex; gap:6mm; align-items:flex-start;
+  border:1px solid var(--line); border-radius:2mm;
+  padding:5mm; background:#FCFCFA;
+}
+.qrbox img{width:34mm; height:34mm; background:#fff}
+.qrbox .txt{flex:1}
+.qrbox h3{margin-top:0}
+.qrurl{
+  font-family:"JetBrains Mono",monospace; font-size:9.5pt;
+  color:var(--teal); font-weight:600; word-break:break-all; margin-top:2mm;
+}
+#qrWarn{
+  display:none; margin-top:2mm; padding:2mm 3mm;
+  background:#FBF0EE; border-left:3px solid #9C3B2E;
+  font-size:9pt; color:#9C3B2E; font-weight:600;
+}
+
+/* ---------- screen-only helper ---------- */
+#printbar{
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:var(--ink); color:#fff;
+  padding:8px 16px; font-size:13px;
+  display:flex; align-items:center; justify-content:center; gap:14px;
+}
+#printbar button{
+  font:inherit; font-weight:600; cursor:pointer;
+  background:var(--gold); color:#1c1200; border:0;
+  border-radius:6px; padding:6px 14px;
+}
+#pagesTop{height:44px}
+
+@media print{
+  body{background:#fff}
+  #printbar,#pagesTop{display:none}
+  .sheet{
+    margin:0; box-shadow:none; width:auto;
+    /* keep full page height in print too, or margin-top:auto has nothing to
+       push the footer against and it rides up under the last paragraph.
+       296 not 297: a hair of slack stops rounding spilling a blank page. */
+    min-height:296mm;
+    /* the page margin is 0 so Chrome cannot print its own header and
+       footer; the sheet pads itself instead */
+    padding:16mm 15mm 12mm; page-break-after:always;
+  }
+  .sheet:last-child{page-break-after:auto}
+  h2,h3{break-after:avoid}
+  table,.stages,.qrbox,.term{break-inside:avoid}
+}
+@page{size:A4; margin:0}
+
+.tdar{font-size:9pt;color:var(--soft);margin-top:.6mm}
+.namebox{display:flex;gap:5mm;margin:0 0 6mm}.namebox>div{flex:1;display:flex;align-items:flex-end;gap:2mm}.namebox span{font-size:9pt;color:var(--soft);font-weight:600}.namebox i{flex:1;border-bottom:1px solid var(--rule);height:6mm}.ex{margin:0 0 5mm;break-inside:avoid}.exhead{display:flex;gap:3mm;align-items:baseline;margin-bottom:1.5mm}.exn{flex:0 0 auto;width:6.5mm;height:6.5mm;border-radius:50%;background:var(--teal);color:#fff;font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center}.exq{font-size:10.5pt;font-weight:600}.src{font-size:8pt;color:var(--soft);font-style:italic;margin:0 0 1.5mm 9.5mm}.passage{font-size:10pt;line-height:1.8;background:#FCFCFA;border:1px solid var(--line);padding:3mm}.marks{font-size:9pt;font-weight:600;color:var(--gold);margin:2mm 0}.key{margin-left:9.5mm;font-size:10pt}.teacherwarn{background:#FBF0EE;border-left:3px solid #9C3B2E;padding:3mm}.summary.hw{background:var(--teal-pale)}.keygroup{font-size:9.5pt;color:var(--soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:5mm 0 2mm}.key ul{margin-left:4mm}.key li{margin-bottom:1mm}.key .note{font-size:9.5pt;color:var(--soft);font-style:italic;margin-top:1.5mm}ol.blanks{list-style:none;margin:3mm 0 0}ol.blanks li{display:flex;align-items:flex-end;gap:3mm;margin-bottom:4.5mm}ol.blanks li b{flex:0 0 auto;font-size:10.5pt}ol.blanks .rule{flex:1;height:6mm;border-bottom:1px solid var(--rule)}.opt{display:block;margin:1.2mm 0 0 4mm}.srcinline{font-size:8pt;color:var(--soft);font-style:italic;margin-left:2mm}ol.qs li{margin-bottom:3mm}.optlead{font-size:10pt;font-weight:600;margin:2.5mm 0 1.5mm}.fields{display:flex;flex-wrap:wrap;gap:2.5mm;margin:0 0 2mm}.chip{border:1px solid var(--line);border-radius:20mm;padding:1.5mm 4mm;font-size:10pt;background:#FCFCFA}
+.key .mq-q{font-size:9.8pt;font-weight:600;margin:2.2mm 0 .4mm}.key .mq-a{font-size:10pt;margin:0}.key .ar{font-size:9.5pt}
+.dg{margin:3mm 0 4mm}.dg svg{display:block;width:100%;height:auto}
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}
+.principles .pr{border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:1.5mm;padding:2.5mm 3.5mm;background:#FCFCFA}
+.principles .pr h4{font-size:10.5pt;margin-bottom:1mm}.principles .pr p{font-size:9.5pt;margin:0}
+</style>
+</head>
+<body data-title="Chapter 1 Revision Homework — Ready for Chapter 1?">
+
+<div id="printbar">
+  <span>Print or save as PDF — A4, margins already set. If your browser still adds a date or a file path, switch off &ldquo;Headers and footers&rdquo; in the print dialog.</span>
+  <button type="button" id="printBtn">Print this sheet</button>
+</div>
+<div id="pagesTop"></div><section class="sheet"><div class="brand" id="brand">Programming &amp; Artificial Intelligence</div><h1 id="docTitle">Ready for Chapter 1?</h1><div class="docsub">Homework &middot; Chapter 1 Revision</div><div class="namebox"><div><span>Name</span><i></i></div><div><span>Class</span><i></i></div><div><span>Date</span><i></i></div></div><div class="summary hw"><p>Everything here was taught in the session. Bring this sheet to the next class.</p><p class="ar">كل ده اتشرح في الحصة. هات الورقة المرة الجاية.</p></div><h2>Lesson 1-1 &middot; Development of IT and social transformation</h2><p class="ar">الدرس 1-1 — تطور تكنولوجيا المعلومات والتحول الاجتماعي</p><div class="ex"><div class="exhead"><span class="exn">1</span><span class="exq">Fill in the blanks (a) to (c).</span></div><p class="ar">أكمل الفراغات (أ) إلى (ج).</p><div class="src">Lesson 1-1 · p.12 — Exercise 2, question 1 (textbook wording)</div><p class="passage">Computers were invented in the 1940s and were initially used mainly for military and scientific computation. Later, in the 1970s and 1980s, ( a ) became widespread, allowing individuals to use computers. In the 1990s, ( b ) was commercialized, advancing the globalization of information. In the 2000s, ( c ) emerged, leading to the explosive spread of mobile Internet.</p><ol class="blanks"><li><b>( a )</b><span class="rule tight"></span></li><li><b>( b )</b><span class="rule tight"></span></li><li><b>( c )</b><span class="rule tight"></span></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">2</span><span class="exq">Write ✓ if the statement is true or ✗ if it is false.</span></div><p class="ar">اكتب ✓ لو الجملة صح أو ✗ لو غلط.</p><div class="src">Lesson 1-1 · p.9 — Worked Example (2) A–D; p.10 — Try 2(2) C</div><table class="tftbl"><tr><th style="width:14%">&#10003; / &#10005;</th><th>Statement</th></tr><tr><td class="blank"></td><td>Moore&#x27;s Law is the empirical observation that the number of transistors on an integrated circuit doubles approximately every two years.</td></tr><tr><td class="blank"></td><td>Moore&#x27;s Law has been said to be approaching a physical limit in recent years.</td></tr><tr><td class="blank"></td><td>SNS is highly effective at spreading information rapidly.</td></tr><tr><td class="blank"></td><td>E-commerce refers to purchasing goods at physical stores using cash.</td></tr><tr><td class="blank"></td><td>VR is a technology that dramatically improves the processing speed of a computer.</td></tr></table></div><div class="ex"><div class="exhead"><span class="exn">3</span><span class="exq">In autonomous driving, why is it necessary to process data instantly on the vehicle side using edge computing, rather than sending the data to the cloud for judgment? Explain your answer.</span></div><p class="ar">في القيادة الذاتية، ليه لازم البيانات تتعالج فورًا على العربية نفسها بالحوسبة الطرفية بدل ما تتبعت للسحابة؟ اشرح إجابتك.</p><div class="src">Lesson 1-1 · p.8 — Pause &amp; Think prompt (textbook wording)</div><ol class="qs"><li><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">4</span><span class="exq">Analyse how the spread of cloud computing (from the 2010s onward) has changed the way information technology is used. In your answer, refer to: large-scale data analysis, AI, and &quot;IT as a service&quot;.</span></div><p class="ar">حلّل إزاي انتشار الحوسبة السحابية (من العقد الثاني فأكثر) غيّر طريقة استخدام تكنولوجيا المعلومات. أشر في إجابتك إلى: تحليل البيانات على نطاق واسع، الذكاء الاصطناعي، و&quot;تكنولوجيا المعلومات كخدمة&quot;.</p><div class="src">Lesson 1-1 · p.10 — Exam-style question, [6] marks, textbook wording</div><div class="marks">[6 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Lesson 1-2 &middot; How AI works</h2><p class="ar">الدرس 1-2 — كيف يعمل الذكاء الاصطناعي</p><div class="ex"><div class="exhead"><span class="exn">5</span><span class="exq">Fill in ( a ) to ( d ) with the four layers, broadest first.</span></div><p class="ar">كمّل ( أ ) لـ ( د ) بالأربع طبقات، الأوسع الأول.</p><div class="src">Lesson 1-2 · p.13–14 — hierarchy</div><p class="passage">( a ) is the broad field. Inside it is ( b ), which learns patterns from data. Inside that is ( c ), which uses neural networks. Built on top of it is ( d ), which makes new text and images.</p><ol class="blanks"><li><b>( a )</b><span class="rule tight"></span></li><li><b>( b )</b><span class="rule tight"></span></li><li><b>( c )</b><span class="rule tight"></span></li><li><b>( d )</b><span class="rule tight"></span></li></ol></div><div class="ex"><div class="exhead"><span class="exn">6</span><span class="exq">Answer with the correct term for each.</span></div><p class="ar">اكتب المصطلح الصح لكل واحدة.</p><div class="src">Lesson 1-2 · p.16 — Try 1, questions 1-4</div><ol class="qs"><li>The general term, given as a two-letter abbreviation, for technologies that reproduce or perform intelligent human behaviour on a computer.<div class="rule tight"></div></li><li>The learning technology that makes AI work by learning patterns from data to make predictions and judgments.<div class="rule tight"></div></li><li>The advanced technology within machine learning that uses neural networks.<div class="rule tight"></div></li><li>The AI technology that uses deep learning to generate new data.<div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">7</span><span class="exq">Choose the correct option in each.</span></div><p class="ar">اختر الإجابة الصح في كل واحدة.</p><div class="src">Lesson 1-2 · p.16 — Try 2, questions (1) and (2)</div><ol class="qs"><li>(1) Which shows the correct relationship? <span class="opt">A: AI &gt; Deep Learning &gt; Machine Learning &gt; Generative AI  </span><span class="opt">B: Machine Learning &gt; AI &gt; Generative AI &gt; Deep Learning  </span><span class="opt">C: AI &gt; Machine Learning &gt; Deep Learning &gt; Generative AI  </span><span class="opt">D: Generative AI &gt; Deep Learning &gt; Machine Learning &gt; AI</span><div class="rule tight"></div></li><li>(2) Which is NOT an appropriate example of generative AI? <span class="opt">A: ChatGPT  </span><span class="opt">B: Image generation AI  </span><span class="opt">C: Spam filter  </span><span class="opt">D: Audio generation AI</span><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">8</span><span class="exq">Analyse the relationship between AI, machine learning, deep learning and generative AI. Use nested categories and give one example of each.</span></div><p class="ar">حلّل علاقة AI وmachine learning وdeep learning وgenerative AI كطبقات جوه بعض، وادّي مثال لكل واحد.</p><div class="src">Lesson 1-2 · p.16 — Exam-style question</div><div class="marks">[6 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Lesson 1-3 &middot; AI in daily life and industry</h2><p class="ar">الدرس 1-3 — الذكاء الاصطناعي في الحياة اليومية والصناعة</p><div class="ex"><div class="exhead"><span class="exn">9</span><span class="exq">Answer with the correct term or industry.</span></div><p class="ar">اكتب المصطلح أو المجال الصح.</p><div class="src">Lesson 1-3 · p.22 — Try 1, questions 1-4</div><ol class="qs"><li>The system that predicts preferences from past behaviour data and displays recommendations.<div class="rule tight"></div></li><li>The AI technology that recognises a voice, understands commands and carries them out.<div class="rule tight"></div></li><li>The industry in which image-diagnosis AIs are used.<div class="rule tight"></div></li><li>In manufacturing, the system that predicts product failures in advance.<div class="rule tight"></div></li></ol></div><div class="ex"><div class="exhead"><span class="exn">10</span><span class="exq">Choose the correct option in each.</span></div><p class="ar">اختر الإجابة الصح في كل واحدة.</p><div class="src">Lesson 1-3 · p.23 — Try 2, questions (1) and (2)</div><ol class="qs"><li>(1) Which does NOT belong to “what requires caution when using AI”? <span class="opt">A: Ethical judgments  </span><span class="opt">B: Finding and classifying patterns  </span><span class="opt">C: Judgments involving personal information  </span><span class="opt">D: Final decision-making</span><div class="rule tight"></div></li><li>(2) Match each to its industry (A Healthcare, B Agriculture, C Manufacturing, D Logistics):  a optimising delivery routes   b detecting diseases from X-ray images   c detecting pests and diseases   d automating product quality inspection<div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">11</span><span class="exq">Unit review · lesson 1-3 · Cautions when using AI.</span></div><p class="ar">مراجعة الوحدة — درس 1-3: احتياطات استخدام الـ AI.</p><div class="src">Lesson 1-3 · Ministry assessments, lesson 1-3, home tasks (period 2), MCQ 2; weekly model C, essay 3</div><ol class="qs"><li>What is meant by the black-box problem in AI?<span class="opt">A: The AI generates incorrect information that seems convincing.</span><span class="opt">B: It is unclear how the AI reached its judgment or decision.</span><span class="opt">C: Copyrighted works are used as training data.</span><span class="opt">D: The training data is insufficient or does not represent reality.</span><div class="rule tight"></div></li><li>Explain the black-box problem, and the rights issues that arise when copyrighted works are used as training data.<div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">12</span><span class="exq">Analyse why AI is well suited to some tasks but requires caution in others. Refer to what AI is good at (finding patterns, recognition, prediction) and to what needs caution (ethical judgments, privacy, final decision-making).</span></div><p class="ar">حلّل ليه الـ AI مناسب لمهام معينة ومحتاج حذر في غيرها. أشر لللي هو شاطر فيه (إيجاد الأنماط، التعرّف، التنبؤ) ولللي محتاج حذر (الأحكام الأخلاقية، الخصوصية، القرار النهائي).</p><div class="src">Lesson 1-3 · p.22 — Exam-style question</div><div class="marks">[6 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Lesson 1-4 &middot; Ethical issues with AI</h2><p class="ar">الدرس 1-4 — القضايا الأخلاقية للذكاء الاصطناعي</p><div class="ex"><div class="exhead"><span class="exn">13</span><span class="exq">Answer the following questions.</span></div><p class="ar">جاوب على الأسئلة دي.</p><div class="src">Lesson 1-4 · p.30 — Try 1</div><ol class="qs"><li>What is the term for the phenomenon in which bias arises in AI judgments due to bias in the training data?<div class="rule tight"></div></li><li>What is the term for the technology that makes it possible for humans to understand why an AI made a particular judgment? Give its three-letter abbreviation too.<div class="rule tight"></div></li><li>Which principle of AI ethics requires not unjustly discriminating against any particular person or group?<div class="rule tight"></div></li><li>Which principle of AI ethics requires handling personal information appropriately?<div class="rule tight"></div></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">14</span><span class="exq">Fill in ( a ) to ( c ).</span></div><p class="ar">املا الفراغات من ( أ ) لـ ( ج ).</p><div class="src">Lesson 1-4 · p.31–32 — Exercise 2</div><p class="passage">As AI technology spreads widely in society, attention has been drawn to various ethical issues. For example, there is the issue of ( a ), in which bias arises in AI judgments due to bias in the training data. For the black-box problem, where it is unclear why an AI made a particular judgment, a technology called ( b ) is being researched. Furthermore, when an AI makes an incorrect judgment, ( c ) is questioned, but no clear standard has yet been established among developers, users and operators.</p><ol class="blanks"><li><b>( a )</b><span class="rule tight"></span></li><li><b>( b )</b><span class="rule tight"></span></li><li><b>( c )</b><span class="rule tight"></span></li></ol></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">15</span><span class="exq">Complete the table: what each principle means, and one situation where it applies.</span></div><p class="ar">كمّل الجدول: معنى كل مبدأ، وموقف واحد يتطبق فيه.</p><div class="src">Lesson 1-4 · p.28 — basic principles of AI ethics</div><table><tr><th>Principle</th><th>What it means</th><th>One situation</th></tr><tr><td>Fairness</td><td></td><td></td></tr><tr><td>Transparency</td><td></td><td></td></tr><tr><td>Privacy protection</td><td></td><td></td></tr><tr><td>Accountability</td><td></td><td></td></tr></table></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Homework</h2><p class="ar">كمّل بهدوء وراجع الكتيّب لو احتجت.</p><div class="ex"><div class="exhead"><span class="exn">16</span><span class="exq">Analyze how algorithmic bias can arise in an AI system, and how it can be reduced. In your answer, refer to the cause of bias (biased or insufficient training data) and to how the principles of fairness and transparency help address it.</span></div><p class="ar">حلّل إزاي التحيز الخوارزمي ممكن يحصل في نظام ذكاء اصطناعي، وإزاي نقلله. في إجابتك: اتكلم عن سبب التحيز (بيانات تدريب متحيزة أو مش كفاية)، وإزاي مبدأ العدالة ومبدأ الشفافية بيساعدوا في علاجه.</p><div class="src">Lesson 1-4 · p.30 — Exam-style question [6]</div><div class="marks">[6 marks]</div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div><div class="rule tight"></div></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><section class="sheet"><h2>Before you hand this in</h2><div class="summary"><p>Check every answer against the booklet. Bring anything you could not work out to the next session.</p><p class="ar">راجع كل إجابة على الكتيّب. وأي حاجة معرفتش تحلها هاتها معاك المرة الجاية.</p></div><div class="summary hw"><p><b>The exam is done in class.</b> Your teacher will show the code to scan during the lesson.</p><p class="ar">الامتحان بيتحل في الحصة. المدرّس هيعرض الكود تمسحوه وقتها.</p></div><h2>My notes</h2><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="foot"><span>Prepared by: Mr. Eissa Islam</span><span class="pageno"></span></div></section><script>
+/* ============================================================
+   LECTURE CONFIG
+   This is the only block scripts/new_lecture.py rewrites.
+   The QR code and the printed URL both come from it, so a
+   reprinted handout can never point at a stale link.
+   ============================================================ */
+const SITE_BASE     = "https://pgteach.github.io/curriculum";
+const LECTURE_NUM   = 1;
+const PAGE_PATH     = "revision/chapter1";   /* a revision, not a lecture */
+const PAGE_LABEL    = "Chapter 1 Revision";
+const LECTURE_TITLE = "Ready for Chapter 1?";
+const LECTURE_TOPIC = "Programming & Artificial Intelligence";
+/* One knob for this lecture's colour: every teal accent on the page follows
+   it, so lecture 2 does not have to look identical to lecture 1. The quiz is
+   deliberately left on the standard palette, where green and red mean right
+   and wrong and must not drift. */
+const LECTURE_ACCENT = "#8A2B2B";
+
+const LECTURE = {
+  num:     LECTURE_NUM,
+  label:   PAGE_LABEL,
+  title:   LECTURE_TITLE,
+  quizUrl: SITE_BASE + "/" + PAGE_PATH + "/quiz"
+};
+
+
+/* a very light version of the accent, for panel backgrounds */
+function tint(hex, amount){
+  const h = String(hex).replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const n = parseInt(full, 16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix((n >> 16) & 255) + "," + mix((n >> 8) & 255) + "," + mix(n & 255) + ")";
+}
+
+function applyAccent(){
+  const root = document.documentElement.style;
+  root.setProperty('--teal', LECTURE_ACCENT);
+  root.setProperty('--teal-pale', tint(LECTURE_ACCENT, 0.90));
+}
+
+(function(){
+  /* Printing must never depend on anything below this line working. Bound
+     first and unconditionally, because binding it last is exactly what
+     broke it: a getElementById() further down returned null on a page
+     that has no QR panel (the teacher's answer key does not), the .textContent
+     on it threw, and the IIFE stopped three lines before ever reaching the
+     print button -- with no error the user could see, the button just did
+     nothing. */
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = () => window.print();
+
+  applyAccent();
+  /* The browser names a saved or printed PDF after the title, so every
+     document names itself through data-title on the body element. Without it all
+     of them -- homework, answer key, exam -- saved as "Handout". */
+  const named = (document.body && document.body.getAttribute)
+    ? document.body.getAttribute("data-title") : null;
+  document.title = named || (LECTURE.label + " Handout — " + LECTURE.title + " · PGteach");
+
+  const brand = document.getElementById('brand');
+  if(brand) brand.textContent = LECTURE.label + " · " + LECTURE_TOPIC;
+
+  const docTitle = document.getElementById('docTitle');
+  if(docTitle) docTitle.textContent = LECTURE.title;
+
+  /* Not every page that shares this script prints a QR -- the teacher's
+     answer key has none, on purpose, so this whole block is skipped
+     rather than assumed present. */
+  const quizUrlEl = document.getElementById('quizUrl');
+  if(quizUrlEl) quizUrlEl.textContent = LECTURE.quizUrl.replace(/^https?:\/\//, '');
+
+  /* A printed sheet is unfixable once it is on paper, so the QR is built
+     from the config and its loading is checked before you print. */
+  const qr = document.getElementById('qr');
+  if(qr){
+    qr.alt = "QR code linking to the " + LECTURE.label + " quiz";
+    qr.onerror = () => {
+      const warn = document.getElementById('qrWarn');
+      if(warn) warn.style.display = 'block';
+    };
+    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data="
+           + encodeURIComponent(LECTURE.quizUrl);
+  }
+
+  /* Page numbers are counted, not typed, so adding or removing a sheet
+     needs no renumbering. */
+  const sheets = document.querySelectorAll('.sheet');
+  sheets.forEach((sheet, k) => {
+    const slot = sheet.querySelector('.pageno');
+    if(slot) slot.textContent = "Page " + (k + 1) + " / " + sheets.length;
+  });
+})();
+</script>
+</body>
+</html>

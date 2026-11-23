@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 """Check a lecture before you publish it.
 
-    python scripts/check_lecture.py          # every lecture
+    python scripts/check_lecture.py          # every lecture and revision
     python scripts/check_lecture.py 2        # just lecture 2
+    python scripts/check_lecture.py r1       # just the Chapter 1 revision
 
 Catches the mistakes that are easy to make and hard to see: template text left
 in place, a QR pointing at the wrong lecture, an answer index off the end of
@@ -22,6 +23,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from protect_answers import fingerprint          # noqa: E402
+import units                                     # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE_BASE = "https://pgteach.github.io/curriculum"
@@ -147,7 +149,7 @@ def quiz_data(js: str, rep: Report) -> dict | None:
         Path(tmp).unlink(missing_ok=True)
 
 
-def check_common(name: str, html: str, num: int, rep: Report,
+def check_common(name: str, html: str, u, rep: Report,
                  titles: dict, accents: dict) -> None:
     label = name
 
@@ -167,9 +169,15 @@ def check_common(name: str, html: str, num: int, rep: Report,
     node_check(js, label, rep)
 
     got_num = const_of(js, "LECTURE_NUM")
-    rep.want(got_num == str(num),
-             "%s: LECTURE_NUM is %s but the folder is lecture%d"
-             % (label, got_num, num))
+    rep.want(got_num == str(u.num),
+             "%s: LECTURE_NUM is %s but the folder is %s"
+             % (label, got_num, u.rel))
+    # a revision builds its links, QR and recorded label from these two
+    if u.revision:
+        rep.want(const_of(js, "PAGE_PATH") == u.rel,
+                 "%s: PAGE_PATH is %r but the folder is %s" % (label, const_of(js, "PAGE_PATH"), u.rel))
+        rep.want(const_of(js, "PAGE_LABEL") == u.label,
+                 "%s: PAGE_LABEL is %r, not %r" % (label, const_of(js, "PAGE_LABEL"), u.label))
 
     title = const_of(js, "LECTURE_TITLE")
     rep.want(bool(title and title.strip()), "%s: LECTURE_TITLE is empty" % label)
@@ -505,9 +513,9 @@ def check_handout(html: str, rep: Report) -> None:
     check_print_button(html, js_of(html), rep)
 
 
-def check_lecture(num: int) -> Report:
+def check_lecture(u) -> Report:
     rep = Report()
-    folder = ROOT / ("lecture%d" % num)
+    folder = u.dir
     titles: dict = {}
     accents: dict = {}
 
@@ -518,7 +526,7 @@ def check_lecture(num: int) -> Report:
                 rep.fail("%s: missing (%s)" % (name, path.relative_to(ROOT)))
             continue
         html = read(path)
-        check_common(name, html, num, rep, titles, accents)
+        check_common(name, html, u, rep, titles, accents)
         if name == "slides":
             check_slides(html, rep)
             check_lightbox(html, js_of(html), rep)
@@ -560,21 +568,17 @@ def check_lecture(num: int) -> Report:
 
 def main() -> None:
     args = sys.argv[1:]
-    if args and not args[0].isdigit():
+    if args and not units.find(args[0]):
         sys.exit(__doc__)
 
-    if args:
-        nums = [int(args[0])]
-    else:
-        nums = sorted(int(p.name[7:]) for p in ROOT.glob("lecture*")
-                      if p.is_dir() and p.name[7:].isdigit())
-    if not nums:
+    todo = [units.find(args[0])] if args else units.all_units()
+    if not todo:
         sys.exit("No lecture folders found in %s" % ROOT)
 
     bad = 0
-    for num in nums:
-        rep = check_lecture(num)
-        head = "Lecture %d" % num
+    for u in todo:
+        rep = check_lecture(u)
+        head = u.label
         if rep.problems:
             bad += 1
             print("%s — %d problem(s), %d check(s) run"
